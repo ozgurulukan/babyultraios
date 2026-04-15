@@ -1,0 +1,23 @@
+## macOS
+.DS_Store
+
+## Xcode
+DerivedData/
+build/
+*.xcuserstate
+*.xcuserdata/
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+## SwiftPM
+.build/
+
+## CocoaPods / Carthage (if used)
+Pods/
+Carthage/Build/
+
+## Firebase (contains project credentials)
+**/GoogleService-Info.plist
