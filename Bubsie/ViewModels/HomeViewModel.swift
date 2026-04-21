@@ -159,4 +159,9 @@ final class HomeViewModel: ObservableObject {
         guard let tid = button.templateId else { return nil }
         return photoTemplates.first { $0.id == tid }
     }
+
+    func templateForSlider(_ item: SliderItem) -> TemplateItem? {
+        guard let templateId = item.templateId else { return nil }
+        return (photoTemplates + videoTemplates).first { $0.id == templateId }
+    }
 }

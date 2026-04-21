@@ -112,14 +112,30 @@ struct HomeView: View {
                             .frame(width: geo.size.width, height: 280)
                     } else {
                         ForEach(homeVM.sliderItems) { item in
-                            HeroSliderCard(item: item)
-                                .frame(width: geo.size.width, height: 280)
+                            Button {
+                                handleSliderTap(item)
+                            } label: {
+                                HeroSliderCard(item: item)
+                                    .frame(width: geo.size.width, height: 280)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                 }
             }
         }
         .frame(height: 280)
+    }
+
+    private func handleSliderTap(_ item: SliderItem) {
+        guard let template = homeVM.templateForSlider(item) else { return }
+
+        if entitlementManager.hasPro || displayCredits >= template.creditCost {
+            selectedTemplate = template
+            showTransform = true
+        } else {
+            isPremiumShow = true
+        }
     }
 
     private var mediaModeSelector: some View {
