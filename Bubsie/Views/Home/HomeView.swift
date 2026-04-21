@@ -373,6 +373,23 @@ private struct HeroSliderCard: View {
                     .frame(width: 376 * 0.86, height: 240)
             }
 
+            // Frame overlay (PNG)
+            if let frameURL = item.frameUrl.flatMap(URL.init) {
+                AsyncImage(url: frameURL) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    default:
+                        EmptyView()
+                    }
+                }
+                .frame(width: 376 * 0.86, height: 240)
+                .clipped()
+                .allowsHitTesting(false)
+            }
+
             // Alt karartma gradient'i
             LinearGradient(
                 colors:[.clear, .black.opacity(0.55)],
