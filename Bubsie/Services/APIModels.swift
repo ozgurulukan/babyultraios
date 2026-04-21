@@ -131,6 +131,8 @@ struct TemplateItem: Decodable, Identifiable {
     let creditCost: Int
     let isActive: Bool
     let isFeatured: Bool
+    let isPopular: Bool
+    let isViral: Bool
     let isPremium: Bool
     let sortOrder: Int
 
@@ -155,6 +157,8 @@ struct TemplateItem: Decodable, Identifiable {
         case creditCost = "credit_cost"
         case isActive = "is_active"
         case isFeatured = "is_featured"
+        case isPopular = "is_popular"
+        case isViral = "is_viral"
         case isPremium = "is_premium"
         case sortOrder = "sort_order"
     }

@@ -18,6 +18,10 @@ final class HomeViewModel: ObservableObject {
     @Published var debugInfo: String = ""
     @Published var selectedMode: Int = 1
 
+    private var currentTemplates: [TemplateItem] {
+        selectedMode == 0 ? videoTemplates : photoTemplates
+    }
+
     func loadData() async {
         guard !isLoading else { return }
         isLoading = true
@@ -46,9 +50,10 @@ final class HomeViewModel: ObservableObject {
         }
 
         do {
-            let t = try await BubsieAPI.shared.getTemplates()
-            photoTemplates = t.filter { $0.actionType != "video" }
-            videoTemplates = t.filter { $0.actionType == "video" }
+            async let photosTask = BubsieAPI.shared.getTemplates(type: "photo")
+            async let videosTask = BubsieAPI.shared.getTemplates(type: "video")
+            photoTemplates = try await photosTask
+            videoTemplates = try await videosTask
             didLoadAnySection = true
         } catch APIError.rateLimited(let secs) {
             rateLimitWait = max(rateLimitWait ?? 0, secs)
@@ -112,25 +117,36 @@ final class HomeViewModel: ObservableObject {
     func selectCategory(_ id: String?) {
         selectedCategoryID = id
         selectedFilter = nil
-        applyFilterForMode(selectedMode)
+        applyFilter()
     }
 
     func selectFilter(_ filter: String?) {
         selectedFilter = filter
         selectedCategoryID = nil
-        applyFilterForMode(selectedMode)
+        applyFilter()
+    }
+
+    func switchMode(_ mode: Int) {
+        guard selectedMode != mode || selectedCategoryID != nil || selectedFilter != nil else { return }
+        selectedMode = mode
+        selectedCategoryID = nil
+        selectedFilter = nil
+        applyFilter()
     }
 
     func applyFilterForMode(_ mode: Int) {
         selectedMode = mode
-        let allTemplates = mode == 0 ? videoTemplates : photoTemplates
+        applyFilter()
+    }
 
+    private func applyFilter() {
+        let allTemplates = currentTemplates
         if let filter = selectedFilter {
             switch filter {
             case "popular":
-                filteredTemplates = Array(allTemplates.filter { $0.isFeatured }.prefix(10))
+                filteredTemplates = allTemplates.filter { $0.isPopular }
             case "trending":
-                filteredTemplates = Array(allTemplates.prefix(10))
+                filteredTemplates = allTemplates.filter { $0.isViral }
             default:
                 filteredTemplates = allTemplates
             }
@@ -139,10 +155,6 @@ final class HomeViewModel: ObservableObject {
         } else {
             filteredTemplates = allTemplates.filter { !($0.hideFromAll ?? false) }
         }
-    }
-
-    private func applyFilter() {
-        applyFilterForMode(selectedMode)
     }
 
     func canAfford(_ template: TemplateItem, credits: Int) -> Bool {

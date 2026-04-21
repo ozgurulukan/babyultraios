@@ -129,8 +129,20 @@ struct HomeView: View {
 
     private func handleSliderTap(_ item: SliderItem) {
         guard let template = homeVM.templateForSlider(item) else { return }
+        handleTemplateTap(template)
+    }
 
-        if entitlementManager.hasPro || displayCredits >= template.creditCost {
+    private var hasProAccess: Bool {
+        entitlementManager.hasPro || (auth.currentUser?.isPro == true)
+    }
+
+    private func handleTemplateTap(_ template: TemplateItem) {
+        if template.isPremium && !hasProAccess {
+            isPremiumShow = true
+            return
+        }
+
+        if hasProAccess || displayCredits >= template.creditCost {
             selectedTemplate = template
             showTransform = true
         } else {
@@ -141,10 +153,7 @@ struct HomeView: View {
     private var mediaModeSelector: some View {
         HStack(spacing: 12) {
             Button {
-                homeVM.selectedMode = 1
-                homeVM.selectCategory(nil)
-                homeVM.selectFilter(nil)
-                homeVM.applyFilterForMode(1)
+                homeVM.switchMode(1)
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "photo")
@@ -174,10 +183,7 @@ struct HomeView: View {
             .buttonStyle(.plain)
 
             Button {
-                 homeVM.selectedMode = 0
-                 homeVM.selectCategory(nil)
-                 homeVM.selectFilter(nil)
-                 homeVM.applyFilterForMode(0)
+                 homeVM.switchMode(0)
              } label: {
                  HStack(spacing: 8) {
                      Image(systemName: "video")
@@ -214,7 +220,6 @@ struct HomeView: View {
             HStack(spacing: 10) {
                 modeChip(title: "All", icon: nil, isSelected: homeVM.selectedCategoryID == nil && homeVM.selectedFilter == nil) {
                     homeVM.selectCategory(nil)
-                    homeVM.selectFilter(nil)
                 }
 
                 modeChip(title: "Popular", icon: "flame.fill", selectedColor: .blue, isSelected: homeVM.selectedFilter == "popular") {
@@ -223,20 +228,6 @@ struct HomeView: View {
 
                 modeChip(title: "Viral", icon: "chart.line.uptrend.xyaxis", selectedColor: .red, isSelected: homeVM.selectedFilter == "trending") {
                     homeVM.selectFilter("trending")
-                }
-
-                if homeVM.selectedMode == 1 {
-                    ForEach(homeVM.photoCategories) { category in
-                        modeChip(title: category.name, icon: nil, isSelected: homeVM.selectedCategoryID == category.id) {
-                            homeVM.selectCategory(category.id)
-                        }
-                    }
-                } else {
-                    ForEach(homeVM.videoCategories) { category in
-                        modeChip(title: category.name, icon: nil, isSelected: homeVM.selectedCategoryID == category.id) {
-                            homeVM.selectCategory(category.id)
-                        }
-                    }
                 }
             }
             .padding(.horizontal, HomePalette.edgePadding)
@@ -278,12 +269,7 @@ struct HomeView: View {
             HStack(spacing: HomePalette.gridGap) {
                 ForEach(templates) { template in
                     HomeTemplateCard(template: template, categoryName: homeVM.categoryName(for: template)) {
-                        if entitlementManager.hasPro || displayCredits >= template.creditCost {
-                            selectedTemplate = template
-                            showTransform = true
-                        } else {
-                            isPremiumShow = true
-                        }
+                        handleTemplateTap(template)
                     }
                     .frame(width: 170)
                 }
@@ -310,12 +296,7 @@ struct HomeView: View {
                             HStack(spacing: HomePalette.gridGap) {
                                 ForEach(catTemplates) { template in
                                     HomeTemplateCard(template: template, categoryName: homeVM.categoryName(for: template)) {
-                                        if entitlementManager.hasPro || displayCredits >= template.creditCost {
-                                            selectedTemplate = template
-                                            showTransform = true
-                                        } else {
-                                            isPremiumShow = true
-                                        }
+                                        handleTemplateTap(template)
                                     }
                                     .frame(width: 170)
                                 }

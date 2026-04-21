@@ -423,6 +423,8 @@ private struct AspectRatioButton: View {
         creditCost: 1,
         isActive: true,
         isFeatured: true,
+        isPopular: true,
+        isViral: false,
         isPremium: false,
         sortOrder: 0
     ))

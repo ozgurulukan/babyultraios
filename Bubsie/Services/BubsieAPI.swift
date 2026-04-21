@@ -21,6 +21,13 @@ struct BubsieAPI {
         return data
     }
 
+    func activatePro() async throws {
+        let response: APIResponse<EmptyData> = try await client.post("/api/v1/me/pro", body: EmptyRequest())
+        guard response.success else {
+            throw APIError.serverError(response.error ?? "Failed to activate pro")
+        }
+    }
+
     // MARK: - Categories
     func getCategories(type: String? = nil) async throws -> [CategoryItem] {
         var path = "/api/v1/categories?app_id=\(appID)&lang=\(lang)"
@@ -30,10 +37,13 @@ struct BubsieAPI {
     }
 
     // MARK: - Templates
-    func getTemplates(categoryID: Int? = nil, featured: Bool? = nil, actionType: String? = nil, includeHidden: Bool = false) async throws -> [TemplateItem] {
+    func getTemplates(categoryID: Int? = nil, featured: Bool? = nil, popular: Bool? = nil, viral: Bool? = nil, type: String? = nil, actionType: String? = nil, includeHidden: Bool = false) async throws -> [TemplateItem] {
         var path = "/api/v1/templates?app_id=\(appID)&lang=\(lang)"
         if let id = categoryID { path += "&category_id=\(id)" }
         if let f = featured { path += "&featured=\(f)" }
+        if let p = popular { path += "&popular=\(p)" }
+        if let v = viral { path += "&viral=\(v)" }
+        if let t = type { path += "&type=\(t)" }
         if let at = actionType { path += "&action_type=\(at)" }
         if includeHidden { path += "&include_hidden=true" }
         let response: APIResponse<TemplatesResponse> = try await client.get(path)
@@ -165,3 +175,4 @@ struct BubsieAPI {
 }
 
 private struct EmptyData: Decodable {}
+private struct EmptyRequest: Encodable {}

@@ -88,9 +88,17 @@ extension SubscriptionsManager {
             }
         }
         let purchasedIDs = purchased
+        let hasActiveSubscription = !purchasedIDs.isEmpty
         await MainActor.run {
             self.purchasedProductIDs = purchasedIDs
-            self.entitlementManager?.hasPro = !purchasedIDs.isEmpty
+            self.entitlementManager?.hasPro = hasActiveSubscription
+        }
+
+        let shouldSyncPro = await MainActor.run {
+            hasActiveSubscription && (AuthManager.shared.currentUser?.isPro != true)
+        }
+        if shouldSyncPro {
+            await syncProStatusToBackend()
         }
     }
     
@@ -99,6 +107,15 @@ extension SubscriptionsManager {
             try await AppStore.sync()
         } catch {
             print(error)
+        }
+    }
+
+    private func syncProStatusToBackend() async {
+        do {
+            try await BubsieAPI.shared.activatePro()
+            await AuthManager.shared.fetchProfile()
+        } catch {
+            print("Failed to sync pro status with backend: \(error)")
         }
     }
 }
