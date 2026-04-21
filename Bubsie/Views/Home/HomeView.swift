@@ -131,8 +131,10 @@ struct HomeView: View {
                 homeVM.applyFilterForMode(1)
             } label: {
                 HStack(spacing: 8) {
-                    Image(systemName: "photo")
-                        .font(.system(size: 18, weight: .medium))
+                    Image("photoicon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
                     Text("PHOTO")
                         .font(.system(size: 15, weight: .semibold))
                 }
@@ -164,8 +166,10 @@ struct HomeView: View {
                  homeVM.applyFilterForMode(0)
              } label: {
                  HStack(spacing: 8) {
-                     Image(systemName: "video")
-                         .font(.system(size: 18, weight: .medium))
+                     Image("videoicon")
+                         .resizable()
+                         .scaledToFit()
+                         .frame(width: 22, height: 22)
                      Text("VIDEO")
                          .font(.system(size: 15, weight: .semibold))
                  }
