@@ -40,7 +40,7 @@ struct HomeView: View {
                         Image("logo")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 44, height: 44)
+                            .frame(width: 54, height: 54)
                             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                         
                         ProfileStyleHeader(
@@ -80,7 +80,7 @@ struct HomeView: View {
                         templatesContent
                         Color.clear.frame(height: 120)
                     }
-                    .padding(.top, 8)
+                    .padding(.top, -8)
                     .padding(.bottom, 8)
                 }
             }
