@@ -62,20 +62,9 @@ final class HomeViewModel: ObservableObject {
         }
 
         do {
-            let s = try await BubsieAPI.shared.getSlider()
+            let sliderType = selectedMode == 0 ? "video" : "photo"
+            let s = try await BubsieAPI.shared.getSlider(type: sliderType)
             sliderItems = s
-            didLoadAnySection = true
-        } catch APIError.rateLimited(let secs) {
-            rateLimitWait = max(rateLimitWait ?? 0, secs)
-        } catch {
-            if firstErrorMessage == nil {
-                firstErrorMessage = error.localizedDescription
-            }
-        }
-
-        do {
-            let b = try await BubsieAPI.shared.getQuickButtons(type: "photo")
-            quickButtons = b
             didLoadAnySection = true
         } catch APIError.rateLimited(let secs) {
             rateLimitWait = max(rateLimitWait ?? 0, secs)
@@ -109,6 +98,15 @@ final class HomeViewModel: ObservableObject {
     func refresh() async {
         hasLoaded = false
         await loadData()
+    }
+
+    func loadSlider() async {
+        do {
+            let sliderType = selectedMode == 0 ? "video" : "photo"
+            sliderItems = try await BubsieAPI.shared.getSlider(type: sliderType)
+        } catch {
+            debugInfo = "Slider load failed: \(error.localizedDescription)"
+        }
     }
 
     func selectCategory(_ id: String?) {

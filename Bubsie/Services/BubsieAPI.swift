@@ -41,8 +41,9 @@ struct BubsieAPI {
     }
 
     // MARK: - Slider
-    func getSlider() async throws -> [SliderItem] {
-        let path = "/api/v1/slider?app_id=\(appID)&lang=\(lang)"
+    func getSlider(type: String? = nil) async throws -> [SliderItem] {
+        var path = "/api/v1/slider?app_id=\(appID)&lang=\(lang)"
+        if let t = type { path += "&type=\(t)" }
         let response: APIResponse<SliderResponse> = try await client.get(path)
         return response.data?.slider ?? []
     }
