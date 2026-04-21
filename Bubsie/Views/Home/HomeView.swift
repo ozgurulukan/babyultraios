@@ -380,23 +380,23 @@ private struct HomeTemplateCard: View {
     let categoryName: String?
     let action: () -> Void
     private let cardHeight: CGFloat = 250
-    private let mediaHeight: CGFloat = 180
 
     var body: some View {
         Button(action: action) {
-            VStack(alignment: .leading, spacing: 0) {
-                ZStack {
-                    Color.black
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+            ZStack {
+                mediaPreview
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .clipped()
 
-                    mediaPreview
-                        .aspectRatio(contentMode: .fill)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: mediaHeight)
-                .clipped()
-                .overlay(alignment: .top) {
+                LinearGradient(
+                    colors: [.clear, .black.opacity(0.35)],
+                    startPoint: .init(x: 0.5, y: 0.5),
+                    endPoint: .bottom
+                )
+                .allowsHitTesting(false)
+
+                VStack {
                     HStack {
                         if template.isPremium {
                             Text("PRO")
@@ -423,33 +423,28 @@ private struct HomeTemplateCard: View {
                         .clipShape(Capsule())
                     }
                     .padding(10)
-                }
 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(template.name)
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundStyle(Color(hex: "2D2320"))
-                        .lineLimit(1)
-                    Text(categoryName ?? kindText(for: template.actionType))
-                        .font(.system(size: 11))
-                        .foregroundStyle(Color(hex: "6F625D"))
-                        .lineLimit(1)
+                    Spacer()
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(template.name)
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundStyle(.white)
+                            .lineLimit(1)
+                        Text(categoryName ?? kindText(for: template.actionType))
+                            .font(.system(size: 11))
+                            .foregroundStyle(.white.opacity(0.82))
+                            .lineLimit(1)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 10)
+                    .background(
+                        .ultraThinMaterial.opacity(0.4)
+                    )
                 }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 10)
-                .frame(maxWidth: .infinity, minHeight: cardHeight - mediaHeight, maxHeight: cardHeight - mediaHeight, alignment: .topLeading)
             }
-            .frame(maxWidth: .infinity, minHeight: cardHeight, maxHeight: cardHeight, alignment: .topLeading)
-            .overlay(alignment: .bottom) {
-                LinearGradient(
-                    colors: [.clear, Color.white.opacity(0.28)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .frame(height: 110)
-                .blur(radius: 14)
-                .allowsHitTesting(false)
-            }
+            .frame(maxWidth: .infinity, minHeight: cardHeight, maxHeight: cardHeight)
             .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         }
