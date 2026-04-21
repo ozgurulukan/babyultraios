@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A5071632F9838010012C7EF /* Icon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 5A5071622F9838010012C7EF /* Icon.icon */; };
 		5A60040B2F95B6920057469C /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE0002SPMDEP /* FirebaseCore */; };
 		5A60040C2F95B6920057469C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE0003SPMDEP /* FirebaseAuth */; };
 		5A60040D2F95B6920057469C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE0004SPMDEP /* FirebaseMessaging */; };
-		5A60040F2F95B6C10057469C /* Icon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 5A60040E2F95B6C10057469C /* Icon.icon */; };
 		5A6004102F95F0010057469C /* VariableBlur in Frameworks */ = {isa = PBXBuildFile; productRef = 5A6004112F95F0010057469C /* VariableBlur */; };
 		773870312C489A7500477E83 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773870302C489A7500477E83 /* SubscriptionManager.swift */; };
 		773870332C489AB300477E83 /* EntitlementManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773870322C489AB300477E83 /* EntitlementManager.swift */; };
@@ -62,7 +62,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5A60040E2F95B6C10057469C /* Icon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Icon.icon; sourceTree = "<group>"; };
+		5A5071622F9838010012C7EF /* Icon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Icon.icon; sourceTree = "<group>"; };
 		6A6A19C9E87ED4525D9D2FCB /* TransformView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TransformView.swift; sourceTree = "<group>"; };
 		773870302C489A7500477E83 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		773870322C489AB300477E83 /* EntitlementManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementManager.swift; sourceTree = "<group>"; };
@@ -227,6 +227,7 @@
 			children = (
 				77CE35FC2C1464160096007C /* Bubsie */,
 				77CE35FB2C1464160096007C /* Products */,
+				5A5071622F9838010012C7EF /* Icon.icon */,
 			);
 			sourceTree = "<group>";
 		};
@@ -253,7 +254,6 @@
 				77CE360B2C1464A70096007C /* Views */,
 				77CE36012C1464170096007C /* Assets.xcassets */,
 				77CE36032C1464170096007C /* Preview Content */,
-				5A60040E2F95B6C10057469C /* Icon.icon */,
 			);
 			path = Bubsie;
 			sourceTree = "<group>";
@@ -447,7 +447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77FF32F92C4759B300F42477 /* ProductList.plist in Resources */,
-				5A60040F2F95B6C10057469C /* Icon.icon in Resources */,
+				5A5071632F9838010012C7EF /* Icon.icon in Resources */,
 				776B8D122C45840B000CE25E /* Localizable.strings in Resources */,
 				77CE36052C1464170096007C /* Preview Assets.xcassets in Resources */,
 				77810DCE2C26EFFB005ECE87 /* cleanup.mp4 in Resources */,
