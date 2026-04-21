@@ -38,11 +38,11 @@ struct HomeView: View {
 
     var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
 
-    private var featuredSliderItems: [SliderItem] {
+    private var featuredSliderItems:[SliderItem] {
         homeVM.sliderItems
     }
 
-    private var shownTemplates: [TemplateItem] {
+    private var shownTemplates:[TemplateItem] {
         if homeVM.selectedCategoryID != nil || homeVM.selectedFilter != nil {
             return homeVM.filteredTemplates
         }
@@ -60,7 +60,6 @@ struct HomeView: View {
                     tintOpacityTop: 0.58,
                     tintOpacityMiddle: 0.36
                 ) {
-                    // Logo ve Header metinlerini yan yana getiren HStack
                     HStack(alignment: .center, spacing: 20) {
                         Image("logo")
                             .resizable()
@@ -197,7 +196,7 @@ struct HomeView: View {
         let templates = shownTemplates
 
         return LazyVGrid(
-            columns: [
+            columns:[
                 GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: HomePalette.gridGap, alignment: .top),
                 GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: HomePalette.gridGap, alignment: .top)
             ],
@@ -279,7 +278,7 @@ private struct HeroSliderCard: View {
                         image.resizable().scaledToFill()
                     default:
                         LinearGradient(
-                            colors: [Color(hex: "D9CBC4"), Color(hex: "B5A69E")],
+                            colors:[Color(hex: "D9CBC4"), Color(hex: "B5A69E")],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -289,7 +288,7 @@ private struct HeroSliderCard: View {
                 .clipped()
             } else {
                 LinearGradient(
-                    colors: [Color(hex: "D9CBC4"), Color(hex: "B5A69E")],
+                    colors:[Color(hex: "D9CBC4"), Color(hex: "B5A69E")],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -297,7 +296,7 @@ private struct HeroSliderCard: View {
             }
 
             LinearGradient(
-                colors: [.clear, .black.opacity(0.45)],
+                colors:[.clear, .black.opacity(0.45)],
                 startPoint: .center,
                 endPoint: .bottom
             )
@@ -345,7 +344,7 @@ private struct HeroSliderPlaceholderCard: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             LinearGradient(
-                colors: [Color(hex: "D8C8C0"), Color(hex: "9E8A7F")],
+                colors:[Color(hex: "D8C8C0"), Color(hex: "9E8A7F")],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -384,20 +383,27 @@ private struct HomeTemplateCard: View {
     var body: some View {
         Button(action: action) {
             ZStack {
+                // Arka plan rengi
                 Color.black
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                mediaPreview
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                // MEDYA KATI (Resim veya Video)
+                // Color.clear.overlay kullanarak medyanın orijinal boyutunun ZStack'i ve dolayısıyla Grid'i esnetmesini tamamen ENGELLİYORUZ.
+                Color.clear
+                    .overlay(
+                        mediaPreview
+                    )
+                    .clipped() // Overlay içindeki medyanın Color.clear (ve kartın) dışına taşmasını engeller.
 
+                // Alt Kısım Karartması (Yazıların okunabilmesi için)
                 LinearGradient(
-                    colors: [.clear, .black.opacity(0.45)],
+                    colors:[.clear, .black.opacity(0.45)],
                     startPoint: .init(x: 0.5, y: 0.55),
                     endPoint: .bottom
                 )
                 .allowsHitTesting(false)
 
+                // Üzerindeki Yazılar ve Bilgiler
                 VStack {
                     HStack {
                         if template.isPremium {
@@ -446,6 +452,7 @@ private struct HomeTemplateCard: View {
                     )
                 }
             }
+            // Kart yüksekliğini minHeight ve maxHeight ile tamamen sabitleyip farklı boyutlara kaymasını engelliyoruz
             .frame(maxWidth: .infinity, minHeight: cardHeight, maxHeight: cardHeight)
             .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
@@ -459,24 +466,19 @@ private struct HomeTemplateCard: View {
     private var mediaPreview: some View {
         if shouldShowVideo, let previewURL {
             LoopingTemplateVideoView(url: previewURL)
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         } else if let previewURL {
             AsyncImage(url: previewURL) { phase in
                 switch phase {
                 case .success(let image):
                     image
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        .scaledToFill() // Görüntüyü kartın sınırlarına kadar tam sığdırır (fill yapar)
                 default:
                     placeholder
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
         } else {
             placeholder
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 
@@ -487,18 +489,18 @@ private struct HomeTemplateCard: View {
     private var shouldShowVideo: Bool {
         if template.actionType == "video" { return true }
 
-        let videoHints = [template.afterMediaType, template.beforeMediaType].compactMap { $0?.lowercased() }
+        let videoHints  = [template.afterMediaType, template.beforeMediaType].compactMap { $0?.lowercased() }
         if videoHints.contains(where: { $0.contains("video") }) { return true }
 
         if let ext = previewURL?.pathExtension.lowercased() {
-            return ["mp4", "mov", "m4v", "webm"].contains(ext)
+            return["mp4", "mov", "m4v", "webm"].contains(ext)
         }
         return false
     }
 
     private var placeholder: some View {
         LinearGradient(
-            colors: [Color(hex: "2A1F1A"), Color(hex: "49382F")],
+            colors:[Color(hex: "2A1F1A"), Color(hex: "49382F")],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -543,7 +545,10 @@ private final class LoopingTemplatePlayerView: UIView {
         player.isMuted = true
         player.actionAtItemEnd = .none
         playerLayer.player = player
-        playerLayer.videoGravity = .resizeAspect
+        
+        // Videonun boşluksuz olarak kartı tam kaplaması için resizeAspectFill
+        playerLayer.videoGravity = .resizeAspectFill
+        
         layer.addSublayer(playerLayer)
     }
 
