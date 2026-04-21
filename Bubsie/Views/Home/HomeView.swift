@@ -366,11 +366,24 @@ private struct HeroSliderCard: View {
                         gradientBackground
                     }
                 }
-                .frame(width: 376 * 0.86, height: 240)
                 .clipped()
             } else {
                 gradientBackground
-                    .frame(width: 376 * 0.86, height: 240)
+            }
+
+            // Frame overlay (PNG)
+            if let frameURL = item.frameUrl.flatMap(URL.init) {
+                AsyncImage(url: frameURL) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    default:
+                        EmptyView()
+                    }
+                }
+                .allowsHitTesting(false)
             }
 
             // Alt karartma gradient'i
@@ -379,7 +392,6 @@ private struct HeroSliderCard: View {
                 startPoint: .center,
                 endPoint: .bottom
             )
-            .frame(width: 376 * 0.86, height: 240)
 
             HStack(alignment: .bottom) {
                 VStack(alignment: .leading, spacing: 8) {
@@ -420,7 +432,7 @@ private struct HeroSliderCard: View {
             }
             .padding(18)
         }
-        .frame(width: 376 * 0.86, height: 240)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 36, style: .continuous)
@@ -445,14 +457,12 @@ private struct HeroSliderPlaceholderCard: View {
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-            .frame(width: 376 * 0.86, height: 240)
 
             LinearGradient(
                 colors:[.clear, .black.opacity(0.45)],
                 startPoint: .center,
                 endPoint: .bottom
             )
-            .frame(width: 376 * 0.86, height: 240)
 
             VStack(alignment: .leading, spacing: 8) {
                 Text("NEW")
@@ -469,7 +479,7 @@ private struct HeroSliderPlaceholderCard: View {
             }
             .padding(18)
         }
-        .frame(width: 376 * 0.86, height: 240)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 36, style: .continuous)
