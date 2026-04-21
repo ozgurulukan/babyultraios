@@ -220,7 +220,7 @@ private struct GenerationHistoryCard: View {
             ZStack {
                 media
                     .frame(maxWidth: .infinity)
-                    .frame(height: 226)
+                    .aspectRatio(1, contentMode: .fit)
                     .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
                     .overlay {
@@ -258,10 +258,6 @@ private struct GenerationHistoryCard: View {
 
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(title)
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundStyle(Color(hex: "1E1C10"))
-                        .lineLimit(1)
                     Text(isSuccess ? "Generated \(relativeDate(item.createdAt))" : "Generating now")
                         .font(.system(size: 13))
                         .foregroundStyle(Color(hex: "55433E"))
