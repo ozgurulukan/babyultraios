@@ -438,9 +438,18 @@ private struct HomeTemplateCard: View {
                 .padding(.horizontal, 12)
                 .padding(.vertical, 10)
                 .frame(maxWidth: .infinity, minHeight: cardHeight - mediaHeight, maxHeight: cardHeight - mediaHeight, alignment: .topLeading)
-                .background(HomePalette.tile)
             }
             .frame(maxWidth: .infinity, minHeight: cardHeight, maxHeight: cardHeight, alignment: .topLeading)
+            .overlay(alignment: .bottom) {
+                LinearGradient(
+                    colors: [.clear, Color.white.opacity(0.28)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .frame(height: 110)
+                .blur(radius: 14)
+                .allowsHitTesting(false)
+            }
             .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         }
