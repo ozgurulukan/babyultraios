@@ -109,17 +109,17 @@ struct HomeView: View {
                 HStack(spacing: 0) {
                     if homeVM.sliderItems.isEmpty {
                         HeroSliderPlaceholderCard()
-                            .frame(width: geo.size.width)
+                            .frame(width: geo.size.width, height: 280)
                     } else {
                         ForEach(homeVM.sliderItems) { item in
                             HeroSliderCard(item: item)
-                                .frame(width: geo.size.width)
+                                .frame(width: geo.size.width, height: 280)
                         }
                     }
                 }
             }
         }
-        .frame(height: 240)
+        .frame(height: 280)
     }
 
     private var mediaModeSelector: some View {
@@ -158,17 +158,17 @@ struct HomeView: View {
             .buttonStyle(.plain)
 
             Button {
-                homeVM.selectedMode = 0
-                homeVM.selectCategory(nil)
-                homeVM.selectFilter(nil)
-                homeVM.applyFilterForMode(0)
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: "video")
-                        .font(.system(size: 18, weight: .medium))
-                    Text("VIDEO")
-                        .font(.system(size: 15, weight: .semibold))
-                }
+                 homeVM.selectedMode = 0
+                 homeVM.selectCategory(nil)
+                 homeVM.selectFilter(nil)
+                 homeVM.applyFilterForMode(0)
+             } label: {
+                 HStack(spacing: 8) {
+                     Image(systemName: "video")
+                         .font(.system(size: 18, weight: .medium))
+                     Text("VIDEO")
+                         .font(.system(size: 15, weight: .semibold))
+                 }
                 .foregroundStyle(homeVM.selectedMode == 0 ? .white : HomePalette.text)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 18)
@@ -460,42 +460,45 @@ private struct HeroSliderCard: View {
 
 private struct HeroSliderPlaceholderCard: View {
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            LinearGradient(
-                colors:[Color(hex: "D8C8C0"), Color(hex: "9E8A7F")],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .frame(width: 376 * 0.86, height: 240)
+        ZStack {
+            // Kart içeriği — yuvarlak köşeli ve kırpılmış
+            ZStack(alignment: .bottomLeading) {
+                LinearGradient(
+                    colors:[Color(hex: "D8C8C0"), Color(hex: "9E8A7F")],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .frame(width: 376 * 0.86, height: 240)
 
-            LinearGradient(
-                colors:[.clear, .black.opacity(0.45)],
-                startPoint: .center,
-                endPoint: .bottom
-            )
-            .frame(width: 376 * 0.86, height: 240)
+                LinearGradient(
+                    colors:[.clear, .black.opacity(0.45)],
+                    startPoint: .center,
+                    endPoint: .bottom
+                )
+                .frame(width: 376 * 0.86, height: 240)
 
-            VStack(alignment: .leading, spacing: 8) {
-                Text("NEW")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 11)
-                    .padding(.vertical, 5)
-                    .background(Color(hex: "B27A62").opacity(0.95))
-                    .clipShape(Capsule())
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("NEW")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 11)
+                        .padding(.vertical, 5)
+                        .background(Color(hex: "B27A62").opacity(0.95))
+                        .clipShape(Capsule())
 
-                Text("Loading...")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundStyle(.white)
+                    Text("Loading...")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+                .padding(18)
             }
-            .padding(18)
+            .frame(width: 376 * 0.86, height: 240)
+            .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 36, style: .continuous)
+                    .stroke(Color.white.opacity(0.45), lineWidth: 1)
+            )
         }
-        .frame(width: 376 * 0.86, height: 240)
-        .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 36, style: .continuous)
-                .stroke(Color.white.opacity(0.45), lineWidth: 1)
-        )
     }
 }
 
