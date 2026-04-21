@@ -60,9 +60,6 @@ struct Splash: View {
                 // On warm launches token may already be restored before onChange is attached.
                 continueIfReady()
 
-                if auth.idToken == nil && !auth.isAuthenticating {
-                    auth.startListening()
-                }
             }
             .navigationDestination(isPresented: $isContinue) {
                 if UserDefaults.standard.bool(forKey: "hasSeenOnboarding") {

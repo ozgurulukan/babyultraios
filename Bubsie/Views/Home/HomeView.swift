@@ -1,4 +1,6 @@
 import SwiftUI
+import AVFoundation
+import AVKit
 
 private struct HomeQuickAction: Identifiable {
     let id = UUID()
@@ -21,6 +23,8 @@ private enum HomePalette {
     static let text = Color(hex: "3F2D28")
     static let subtleText = Color(hex: "796B64")
     static let accent = Color(hex: "A66A54")
+    static let gridGap: CGFloat = 12
+    static let edgePadding: CGFloat = 16
 }
 
 struct HomeView: View {
@@ -35,7 +39,7 @@ struct HomeView: View {
     var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
 
     private var featuredSliderItems: [SliderItem] {
-        Array(homeVM.sliderItems.prefix(8))
+        homeVM.sliderItems
     }
 
     private var shownTemplates: [TemplateItem] {
@@ -56,16 +60,25 @@ struct HomeView: View {
                     tintOpacityTop: 0.58,
                     tintOpacityMiddle: 0.36
                 ) {
-                    ProfileStyleHeader(
-                        title: "Bubsie",
-                        subtitle: "Discover your magical AI creations."
-                    )
+                    // Logo ve Header metinlerini yan yana getiren HStack
+                    HStack(alignment: .center, spacing: 20) {
+                        Image("logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 44, height: 44)
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        
+                        ProfileStyleHeader(
+                            title: "Bubsie",
+                            subtitle: "Discover your magical AI creations."
+                        )
+                    }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 24)
                     .padding(.top, 8)
                     .padding(.bottom, 12)
                 } content: {
-                    VStack(spacing: 22) {
+                    VStack(spacing: HomePalette.gridGap) {
                         heroSection
                         quickActionsSection
                         modeSegment
@@ -89,7 +102,7 @@ struct HomeView: View {
 
     private var heroSection: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 14) {
+            HStack(spacing: HomePalette.gridGap) {
                 if featuredSliderItems.isEmpty {
                     HeroSliderPlaceholderCard()
                 } else {
@@ -98,12 +111,12 @@ struct HomeView: View {
                     }
                 }
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, HomePalette.edgePadding)
         }
     }
 
     private var quickActionsSection: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: HomePalette.gridGap) {
             ForEach(homeQuickActions) { action in
                 Button {
                     openTemplate(for: action.actionTypes)
@@ -128,7 +141,7 @@ struct HomeView: View {
                 .buttonStyle(.plain)
             }
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, HomePalette.edgePadding)
     }
 
     private var modeSegment: some View {
@@ -157,13 +170,13 @@ struct HomeView: View {
                 homeVM.applyFilterForMode(0)
             }
 
-            modeChip(title: "Concepts", isSelected: homeVM.selectedFilter == "trending") {
+            modeChip(title: "Trend", isSelected: homeVM.selectedFilter == "trending") {
                 homeVM.selectedMode = 1
                 homeVM.selectFilter("trending")
                 homeVM.applyFilterForMode(1)
             }
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, HomePalette.edgePadding)
     }
 
     private func modeChip(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
@@ -181,11 +194,17 @@ struct HomeView: View {
     }
 
     private var templatesGrid: some View {
-        let templates = Array(shownTemplates.prefix(8))
+        let templates = shownTemplates
 
-        return LazyVGrid(columns: [GridItem(.flexible(), spacing: 14), GridItem(.flexible(), spacing: 14)], spacing: 14) {
+        return LazyVGrid(
+            columns: [
+                GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: HomePalette.gridGap, alignment: .top),
+                GridItem(.flexible(minimum: 0, maximum: .infinity), spacing: HomePalette.gridGap, alignment: .top)
+            ],
+            spacing: HomePalette.gridGap
+        ) {
             ForEach(templates) { template in
-                HomeTemplateCard(template: template) {
+                HomeTemplateCard(template: template, categoryName: homeVM.categoryName(for: template)) {
                     if entitlementManager.hasPro || displayCredits >= template.creditCost {
                         selectedTemplate = template
                         showTransform = true
@@ -195,7 +214,7 @@ struct HomeView: View {
                 }
             }
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, HomePalette.edgePadding)
     }
 
     private func openTemplate(for actionTypes: [String]) {
@@ -358,34 +377,26 @@ private struct HeroSliderPlaceholderCard: View {
 
 private struct HomeTemplateCard: View {
     let template: TemplateItem
+    let categoryName: String?
     let action: () -> Void
+    private let cardHeight: CGFloat = 250
+    private let mediaHeight: CGFloat = 180
 
     var body: some View {
         Button(action: action) {
             VStack(alignment: .leading, spacing: 0) {
-                ZStack(alignment: .top) {
-                    if let afterURL = template.afterMediaUrl.flatMap(URL.init) {
-                        AsyncImage(url: afterURL) { phase in
-                            switch phase {
-                            case .success(let image):
-                                image.resizable().scaledToFill()
-                            default:
-                                placeholder
-                            }
-                        }
-                        .frame(height: 200)
-                        .clipped()
-                    } else {
-                        placeholder.frame(height: 200)
-                    }
+                ZStack {
+                    Color.black
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                    if template.beforeMediaUrl != nil {
-                        Rectangle()
-                            .fill(Color.white.opacity(0.5))
-                            .frame(width: 2)
-                            .padding(.vertical, 8)
-                    }
-
+                    mediaPreview
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: mediaHeight)
+                .clipped()
+                .overlay(alignment: .top) {
                     HStack {
                         if template.isPremium {
                             Text("PRO")
@@ -412,43 +423,69 @@ private struct HomeTemplateCard: View {
                         .clipShape(Capsule())
                     }
                     .padding(10)
-
-                    if template.beforeMediaUrl != nil {
-                        HStack {
-                            Text("BEFORE")
-                            Spacer()
-                            Text("AFTER")
-                        }
-                        .font(.system(size: 10 * 0.95, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 4)
-                        .background(Color.black.opacity(0.35))
-                        .clipShape(Capsule())
-                        .padding(.top, 170)
-                    }
                 }
 
-                VStack(alignment: .leading, spacing: 3) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(template.name)
-                        .font(.system(size: 34 * 0.6, weight: .semibold))
+                        .font(.system(size: 14, weight: .bold))
                         .foregroundStyle(Color(hex: "2D2320"))
                         .lineLimit(1)
-                    Text(kindText(for: template.actionType))
-                        .font(.system(size: 14 * 0.95, weight: .medium))
+                    Text(categoryName ?? kindText(for: template.actionType))
+                        .font(.system(size: 11))
                         .foregroundStyle(Color(hex: "6F625D"))
                         .lineLimit(1)
                 }
-                .padding(14)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
+                .frame(maxWidth: .infinity, minHeight: cardHeight - mediaHeight, maxHeight: cardHeight - mediaHeight, alignment: .topLeading)
+                .background(HomePalette.tile)
             }
-            .background(HomePalette.tile)
-            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 22, style: .continuous)
-                    .stroke(Color(hex: "E8D9D1"), lineWidth: 1)
-            )
+            .frame(maxWidth: .infinity, minHeight: cardHeight, maxHeight: cardHeight, alignment: .topLeading)
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         }
         .buttonStyle(.plain)
+        .frame(maxWidth: .infinity)
+        .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+    }
+
+    @ViewBuilder
+    private var mediaPreview: some View {
+        if shouldShowVideo, let previewURL {
+            LoopingTemplateVideoView(url: previewURL)
+                .aspectRatio(contentMode: .fill)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        } else if let previewURL {
+            AsyncImage(url: previewURL) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                default:
+                    placeholder
+                }
+            }
+        } else {
+            placeholder
+        }
+    }
+
+    private var previewURL: URL? {
+        template.afterMediaUrl.flatMap(URL.init) ?? template.beforeMediaUrl.flatMap(URL.init)
+    }
+
+    private var shouldShowVideo: Bool {
+        if template.actionType == "video" { return true }
+
+        let videoHints = [template.afterMediaType, template.beforeMediaType].compactMap { $0?.lowercased() }
+        if videoHints.contains(where: { $0.contains("video") }) { return true }
+
+        if let ext = previewURL?.pathExtension.lowercased() {
+            return ["mp4", "mov", "m4v", "webm"].contains(ext)
+        }
+        return false
     }
 
     private var placeholder: some View {
@@ -470,6 +507,53 @@ private struct HomeTemplateCard: View {
         default:
             return "AI Template"
         }
+    }
+}
+
+private struct LoopingTemplateVideoView: UIViewRepresentable {
+    let url: URL
+
+    func makeUIView(context: Context) -> LoopingTemplatePlayerView {
+        let view = LoopingTemplatePlayerView()
+        view.setVideoURL(url)
+        return view
+    }
+
+    func updateUIView(_ uiView: LoopingTemplatePlayerView, context: Context) {
+        uiView.setVideoURL(url)
+    }
+}
+
+private final class LoopingTemplatePlayerView: UIView {
+    private let player = AVQueuePlayer()
+    private let playerLayer = AVPlayerLayer()
+    private var looper: AVPlayerLooper?
+    private var currentURL: URL?
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        player.isMuted = true
+        player.actionAtItemEnd = .none
+        playerLayer.player = player
+        playerLayer.videoGravity = .resizeAspectFill
+        layer.addSublayer(playerLayer)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func setVideoURL(_ url: URL) {
+        guard currentURL != url else { return }
+        currentURL = url
+        player.removeAllItems()
+        looper = AVPlayerLooper(player: player, templateItem: AVPlayerItem(url: url))
+        player.play()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer.frame = bounds
     }
 }
 

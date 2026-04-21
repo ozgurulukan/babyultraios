@@ -47,15 +47,7 @@ final class HomeViewModel: ObservableObject {
 
         do {
             let t = try await BubsieAPI.shared.getTemplates()
-            // Match templates to photo categories by rawID (not stableID)
-            photoTemplates = t.filter { template in
-                guard let catId = template.categoryId else { return true }
-                return photoCategories.contains { $0.rawID == catId } || catId == 0
-            }
-            // Fallback: if category filtering yields nothing (or no categories exist), show all non-video templates
-            if photoTemplates.isEmpty {
-                photoTemplates = t.filter { $0.actionType != "video" }
-            }
+            photoTemplates = t.filter { $0.actionType != "video" }
             videoTemplates = t.filter { $0.actionType == "video" }
             didLoadAnySection = true
         } catch APIError.rateLimited(let secs) {
@@ -157,6 +149,12 @@ final class HomeViewModel: ObservableObject {
 
     func canAfford(_ template: TemplateItem, credits: Int) -> Bool {
         credits >= template.creditCost
+    }
+
+    func categoryName(for template: TemplateItem) -> String? {
+        guard let catId = template.categoryId else { return nil }
+        let allCategories = photoCategories + videoCategories
+        return allCategories.first(where: { $0.rawID == catId })?.name
     }
 
     func templateForQuickButton(_ button: QuickButtonItem) -> TemplateItem? {
