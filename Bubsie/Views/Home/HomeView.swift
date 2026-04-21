@@ -384,14 +384,16 @@ private struct HomeTemplateCard: View {
     var body: some View {
         Button(action: action) {
             ZStack {
-                mediaPreview
-                    .aspectRatio(contentMode: .fill)
+                Color.black
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .clipped()
+
+                mediaPreview
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 LinearGradient(
-                    colors: [.clear, .black.opacity(0.35)],
-                    startPoint: .init(x: 0.5, y: 0.5),
+                    colors: [.clear, .black.opacity(0.45)],
+                    startPoint: .init(x: 0.5, y: 0.55),
                     endPoint: .bottom
                 )
                 .allowsHitTesting(false)
@@ -457,7 +459,7 @@ private struct HomeTemplateCard: View {
     private var mediaPreview: some View {
         if shouldShowVideo, let previewURL {
             LoopingTemplateVideoView(url: previewURL)
-                .aspectRatio(contentMode: .fill)
+                .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         } else if let previewURL {
             AsyncImage(url: previewURL) { phase in
@@ -465,14 +467,16 @@ private struct HomeTemplateCard: View {
                 case .success(let image):
                     image
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 default:
                     placeholder
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
         } else {
             placeholder
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 
@@ -539,7 +543,7 @@ private final class LoopingTemplatePlayerView: UIView {
         player.isMuted = true
         player.actionAtItemEnd = .none
         playerLayer.player = player
-        playerLayer.videoGravity = .resizeAspectFill
+        playerLayer.videoGravity = .resizeAspect
         layer.addSublayer(playerLayer)
     }
 
