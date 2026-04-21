@@ -56,4 +56,13 @@ final class GenerationsViewModel: ObservableObject {
     var successItems: [HistoryItem] {
         history.filter { $0.status == "success" }
     }
+
+    func deleteHistoryItem(id: Int) async {
+        do {
+            try await BubsieAPI.shared.deleteHistoryItem(id: id)
+            history.removeAll { $0.id == id }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
 }

@@ -28,48 +28,44 @@ struct TransformView: View {
     var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                bgColor.ignoresSafeArea()
+        ZStack {
+            bgColor.ignoresSafeArea()
+            backgroundGlows
 
-                backgroundGlows
+            VStack(spacing: 0) {
+                topBar
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
 
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        topBar
-                            .padding(.horizontal, 24)
-                            .padding(.top, 16)
+                VStack(spacing: 24) {
+                    headerSection
+                        .padding(.top, 24)
 
-                        VStack(spacing: 24) {
-                            headerSection
-                                .padding(.top, 32)
+                    photoUploadSection
+                        .padding(.horizontal, 24)
 
-                            photoUploadSection
-                                .padding(.horizontal, 24)
+                    aspectRatioSection
+                        .padding(.horizontal, 24)
 
-                            aspectRatioSection
-                                .padding(.horizontal, 24)
-
-                            Spacer(minLength: 40)
-                        }
-                    }
+                    Spacer(minLength: 0)
                 }
-
-                bottomCTA
-                    .frame(maxHeight: .infinity, alignment: .bottom)
             }
-            .navigationBarHidden(true)
-            .sheet(isPresented: $showImagePicker) {
-                ImagePicker(image: $selectedImage)
-            }
-            .navigationDestination(isPresented: $isProcessing) {
-                if let img = selectedImage {
-                    ProcessingImage(
-                        image: img,
-                        template: template,
-                        aspectRatio: selectedAspectRatio
-                    )
-                }
+        }
+        .navigationBarBackButtonHidden(true)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            bottomCTA
+        }
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(image: $selectedImage)
+        }
+        .navigationDestination(isPresented: $isProcessing) {
+            if let img = selectedImage {
+                ProcessingImage(
+                    image: img,
+                    template: template,
+                    aspectRatio: selectedAspectRatio,
+                    onBackToTemplates: { dismiss() }
+                )
             }
         }
         .preferredColorScheme(.light)
@@ -77,25 +73,11 @@ struct TransformView: View {
 
     // MARK: Background Glows
     private var backgroundGlows: some View {
-        ZStack {
-            Circle()
-                .fill(Color(hex: "FFE0A8").opacity(0.50))
-                .frame(width: 273, height: 273)
-                .blur(radius: 50)
-                .offset(x: -100, y: -300)
-
-            Circle()
-                .fill(Color(hex: "FFDBD1").opacity(0.40))
-                .frame(width: 234, height: 234)
-                .blur(radius: 50)
-                .offset(x: 120, y: 50)
-
-            Circle()
-                .fill(Color(hex: "FFDBD1").opacity(0.50))
-                .frame(width: 312, height: 312)
-                .blur(radius: 50)
-                .offset(x: 50, y: 400)
-        }
+        LinearGradient(
+            colors: [Color(hex: "FFF8F6"), Color(hex: "F7ECE7")],
+            startPoint: .top,
+            endPoint: .bottom
+        )
         .ignoresSafeArea()
         .allowsHitTesting(false)
     }
@@ -106,8 +88,15 @@ struct TransformView: View {
             Button { dismiss() } label: {
                 Image(systemName: "arrow.left")
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(accentBrown)
+                    .foregroundStyle(Color(hex: "f9f5f2"))
                     .frame(width: 40, height: 40)
+                    .background(
+                        Circle()
+                            .fill(.ultraThinMaterial)
+                            .overlay(Circle().fill(Color.black.opacity(0.18)))
+                    )
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white.opacity(0.4), lineWidth: 1))
             }
             .buttonStyle(.plain)
 
@@ -121,28 +110,21 @@ struct TransformView: View {
             Spacer()
 
             HStack(spacing: 6) {
-                Image(systemName: "star.fill")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(Color(hex: "97462E"))
-                Text("\(displayCredits) Credits")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundStyle(Color(hex: "97462E"))
-                    .tracking(-0.3)
+                Image(systemName: "circle.lefthalf.filled")
+                    .font(.system(size: 13, weight: .bold))
+                Text("\(displayCredits)")
+                    .font(.system(size: 14, weight: .bold))
             }
+            .foregroundStyle(Color(hex: "f9f5f2"))
             .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .background(Color(hex: "FAF3E0").opacity(0.60))
+            .padding(.vertical, 8)
+            .background(
+                Capsule()
+                    .fill(.ultraThinMaterial)
+                    .overlay(Color.black.opacity(0.18))
+            )
             .clipShape(Capsule())
-            .overlay(Capsule().stroke(Color.white.opacity(0.60), lineWidth: 1))
-            .background(.ultraThinMaterial.opacity(0.3))
-
-            Button {} label: {
-                Image(systemName: "sparkles")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(accentBrown)
-                    .frame(width: 40, height: 40)
-            }
-            .buttonStyle(.plain)
+            .overlay(Capsule().stroke(Color.white.opacity(0.4), lineWidth: 1))
         }
     }
 
@@ -198,7 +180,7 @@ struct TransformView: View {
                         startPoint: .top,
                         endPoint: .bottom
                     )
-                    .frame(height: 120)
+                    .frame(height: 92)
                     Spacer()
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 40))
@@ -208,7 +190,7 @@ struct TransformView: View {
                         .resizable()
                         .scaledToFill()
                         .frame(maxWidth: .infinity)
-                        .frame(height: 420)
+                        .frame(height: 340)
                         .clipShape(RoundedRectangle(cornerRadius: 40))
                 } else {
                     // Placeholder content
@@ -236,10 +218,10 @@ struct TransformView: View {
                             .font(.system(size: 14, weight: .medium))
                             .foregroundStyle(secondaryText)
                     }
-                    .padding(.vertical, 80)
+                    .padding(.vertical, 56)
                 }
             }
-            .frame(height: 420)
+            .frame(height: 340)
         }
         .buttonStyle(.plain)
     }

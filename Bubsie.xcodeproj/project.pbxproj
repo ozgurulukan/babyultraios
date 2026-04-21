@@ -10,8 +10,8 @@
 		5A60040B2F95B6920057469C /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE0002SPMDEP /* FirebaseCore */; };
 		5A60040C2F95B6920057469C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE0003SPMDEP /* FirebaseAuth */; };
 		5A60040D2F95B6920057469C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE0004SPMDEP /* FirebaseMessaging */; };
-		5A6004102F95F0010057469C /* VariableBlur in Frameworks */ = {isa = PBXBuildFile; productRef = 5A6004112F95F0010057469C /* VariableBlur */; };
 		5A60040F2F95B6C10057469C /* Icon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 5A60040E2F95B6C10057469C /* Icon.icon */; };
+		5A6004102F95F0010057469C /* VariableBlur in Frameworks */ = {isa = PBXBuildFile; productRef = 5A6004112F95F0010057469C /* VariableBlur */; };
 		773870312C489A7500477E83 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773870302C489A7500477E83 /* SubscriptionManager.swift */; };
 		773870332C489AB300477E83 /* EntitlementManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773870322C489AB300477E83 /* EntitlementManager.swift */; };
 		7738703B2C48A60700477E83 /* CoinCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7738703A2C48A60700477E83 /* CoinCounter.swift */; };
@@ -652,7 +652,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Bubsie;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need access of photo's library to store processed images";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -686,7 +686,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Bubsie;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need access of photo's library to store processed images";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -732,6 +732,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5A6004122F95F0010057469C /* XCRemoteSwiftPackageReference "VariableBlur" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nikstar/VariableBlur";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -764,17 +772,14 @@
 				minimumVersion = 11.0.0;
 			};
 		};
-		5A6004122F95F0010057469C /* XCRemoteSwiftPackageReference "VariableBlur" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nikstar/VariableBlur";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5A6004112F95F0010057469C /* VariableBlur */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A6004122F95F0010057469C /* XCRemoteSwiftPackageReference "VariableBlur" */;
+			productName = VariableBlur;
+		};
 		77CABFF42C27D92A00FBED06 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire" */;
@@ -804,11 +809,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
-		};
-		5A6004112F95F0010057469C /* VariableBlur */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5A6004122F95F0010057469C /* XCRemoteSwiftPackageReference "VariableBlur" */;
-			productName = VariableBlur;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -408,13 +408,40 @@ private struct HeroSliderCard: View {
                         .frame(width: cardWidth, height: cardHeight)
                 }
 
-                // Alt karartma gradient'i
+                // Header benzeri blur/tint alt katmanı
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .opacity(0.18)
+                    .overlay(Color(hex: "2F1E18").opacity(0.34))
+                    .frame(width: cardWidth, height: cardHeight)
+                    .mask(
+                        LinearGradient(
+                            stops: [
+                                .init(color: .clear, location: 0.46),
+                                .init(color: .black, location: 0.82),
+                                .init(color: .black, location: 1)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                )
                 LinearGradient(
-                    colors:[.clear, .black.opacity(0.55)],
-                    startPoint: .center,
-                    endPoint: .bottom
+                    colors: [Color(hex: "4A2E25").opacity(0.50), Color(hex: "4A2E25").opacity(0.28), .clear],
+                    startPoint: .bottom,
+                    endPoint: .top
                 )
                 .frame(width: cardWidth, height: cardHeight)
+                .mask(
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0.5),
+                            .init(color: .black, location: 0.88),
+                            .init(color: .black, location: 1)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
 
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 8) {
@@ -539,11 +566,38 @@ private struct HomeTemplateCard: View {
                     )
                     .clipped() // Overlay içindeki medyanın Color.clear (ve kartın) dışına taşmasını engeller.
 
-                // Alt Kısım Karartması (Yazıların okunabilmesi için)
+                // Header benzeri blur/tint alt katmanı
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .opacity(0.16)
+                    .overlay(Color(hex: "2F1E18").opacity(0.32))
+                    .mask(
+                        LinearGradient(
+                            stops: [
+                                .init(color: .clear, location: 0.56),
+                                .init(color: .black, location: 0.86),
+                                .init(color: .black, location: 1)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .allowsHitTesting(false)
                 LinearGradient(
-                    colors:[.clear, .black.opacity(0.45)],
-                    startPoint: .init(x: 0.5, y: 0.55),
-                    endPoint: .bottom
+                    colors: [Color(hex: "4A2E25").opacity(0.46), Color(hex: "4A2E25").opacity(0.26), .clear],
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
+                .mask(
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0.58),
+                            .init(color: .black, location: 0.9),
+                            .init(color: .black, location: 1)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
                 )
                 .allowsHitTesting(false)
 
@@ -591,9 +645,6 @@ private struct HomeTemplateCard: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 10)
-                    .background(
-                        .ultraThinMaterial.opacity(0.4)
-                    )
                 }
             }
             // Kart yüksekliğini minHeight ve maxHeight ile tamamen sabitleyip farklı boyutlara kaymasını engelliyoruz

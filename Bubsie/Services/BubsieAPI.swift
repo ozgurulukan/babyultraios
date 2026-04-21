@@ -72,6 +72,21 @@ struct BubsieAPI {
         return response.data?.history ?? []
     }
 
+    func deleteHistoryItem(id: Int) async throws {
+        do {
+            let response: APIResponse<EmptyData> = try await client.delete("/api/v1/history/\(id)")
+            guard response.success else {
+                throw APIError.serverError(response.error ?? "Failed to delete history item")
+            }
+        } catch {
+            // Fallback for environments where DELETE may be blocked by proxy/CDN rules
+            let response: APIResponse<EmptyData> = try await client.post("/api/v1/history/\(id)/delete", body: EmptyRequest())
+            guard response.success else {
+                throw APIError.serverError(response.error ?? "Failed to delete history item")
+            }
+        }
+    }
+
     // MARK: - Onboarding
     func getOnboarding() async throws -> [OnboardingMedia] {
         let path = "/api/v1/onboarding?app_id=\(appID)&lang=\(lang)"

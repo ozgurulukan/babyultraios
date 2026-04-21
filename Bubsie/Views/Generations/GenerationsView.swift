@@ -3,12 +3,14 @@ import SwiftUI
 struct GenerationsView: View {
     @StateObject private var viewModel = GenerationsViewModel()
     @State private var selectedFilter = 0
+    @State private var selectedResult: HistoryResultRoute?
+    @State private var pendingDeleteItem: HistoryItem?
     private let filters = ["All", "Success", "Processing"]
 
     private var filteredItems: [HistoryItem] {
         switch selectedFilter {
         case 1: return viewModel.history.filter { $0.status == "success" }
-        case 2: return viewModel.history.filter { $0.status != "success" }
+        case 2: return viewModel.history.filter { isProcessingStatus($0.status) }
         default: return viewModel.history
         }
     }
@@ -33,36 +35,70 @@ struct GenerationsView: View {
                     .padding(.top, 8)
                     .padding(.bottom, 12)
                 } content: {
-                    if viewModel.isLoading && viewModel.history.isEmpty {
-                        loadingState
-                    } else if filteredItems.isEmpty {
-                        emptyState
-                    } else {
-                        mainContent
+                    VStack(alignment: .leading, spacing: 20) {
+                        filterBar
+
+                        if viewModel.isLoading && viewModel.history.isEmpty {
+                            loadingState
+                        } else if filteredItems.isEmpty {
+                            emptyState
+                        } else {
+                            cardsContent
+                        }
+
+                        Color.clear.frame(height: 120)
                     }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 8)
                 }
                 .environment(\.colorScheme, .light)
             }
-            .task {
-                await viewModel.loadHistory()
-            }
+            .task { await viewModel.loadHistory() }
             .refreshable { await viewModel.refresh() }
+            .navigationDestination(item: $selectedResult) { route in
+                ResultView(resultURL: route.url, actionType: route.actionType)
+            }
+            .alert("Delete generation?", isPresented: .constant(pendingDeleteItem != nil)) {
+                Button("Delete", role: .destructive) {
+                    if let item = pendingDeleteItem {
+                        Task { await viewModel.deleteHistoryItem(id: item.id) }
+                    }
+                    pendingDeleteItem = nil
+                }
+                Button("Cancel", role: .cancel) { pendingDeleteItem = nil }
+            } message: {
+                Text("This will permanently remove it from your account.")
+            }
+            .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
+                Button("OK") { viewModel.errorMessage = nil }
+            } message: {
+                Text(viewModel.errorMessage ?? "")
+            }
         }
     }
 
-    private var mainContent: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            filterBar
-
-            VStack(spacing: 20) {
-                ForEach(filteredItems) { item in
-                    GenerationHistoryCard(item: item)
-                        .onAppear {
-                            if item.id == filteredItems.last?.id {
-                                Task { await viewModel.loadMore() }
-                            }
+    private var cardsContent: some View {
+        VStack(spacing: 14) {
+            ForEach(filteredItems) { item in
+                GenerationHistoryCard(item: item)
+                    .contentShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+                    .onTapGesture {
+                        if let route = historyRoute(for: item) {
+                            selectedResult = route
                         }
-                }
+                    }
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            pendingDeleteItem = item
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
+                    .onAppear {
+                        if item.id == filteredItems.last?.id {
+                            Task { await viewModel.loadMore() }
+                        }
+                    }
             }
 
             if viewModel.isLoadingMore {
@@ -72,11 +108,7 @@ struct GenerationsView: View {
                     Spacer()
                 }
             }
-
-            Color.clear.frame(height: 120)
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 8)
     }
 
     private var loadingState: some View {
@@ -85,26 +117,24 @@ struct GenerationsView: View {
             Text("Loading generations…")
                 .foregroundStyle(Color(hex: "55433E"))
         }
-        .frame(maxWidth: .infinity, minHeight: 320)
-        .padding(.horizontal, 24)
+        .frame(maxWidth: .infinity, minHeight: 280)
     }
 
     private var emptyState: some View {
         VStack(spacing: 12) {
-            Image(systemName: "photo.stack.fill")
+            Image(systemName: selectedFilter == 2 ? "clock.badge.xmark.fill" : "photo.stack.fill")
                 .font(.system(size: 42))
                 .foregroundStyle(Color(hex: "97462E").opacity(0.8))
-            Text("No Generations Yet")
+            Text(selectedFilter == 2 ? "No Processing Generations" : "No Generations Yet")
                 .font(.system(size: 22, weight: .bold))
                 .foregroundStyle(Color(hex: "1E1C10"))
-            Text("Create your first AI transformation and it will appear here.")
+            Text(selectedFilter == 2 ? "There are no generations in queue right now." : "Create your first AI transformation and it will appear here.")
                 .font(.system(size: 15))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color(hex: "55433E"))
                 .padding(.horizontal, 26)
         }
-        .frame(maxWidth: .infinity, minHeight: 320)
-        .padding(.horizontal, 24)
+        .frame(maxWidth: .infinity, minHeight: 280)
     }
 
     private var filterBar: some View {
@@ -140,6 +170,19 @@ struct GenerationsView: View {
             .padding(.bottom, 8)
         }
     }
+
+    private func isProcessingStatus(_ status: String) -> Bool {
+        let normalized = status.lowercased()
+        return normalized == "processing" || normalized == "pending" || normalized == "queued" || normalized == "running"
+    }
+
+    private func historyRoute(for item: HistoryItem) -> HistoryResultRoute? {
+        guard let url = item.resultUrl ?? item.imageUrl, !url.isEmpty else { return nil }
+        let ext = URL(string: url)?.pathExtension.lowercased() ?? ""
+        let videoExts = ["mp4", "mov", "m4v", "webm"]
+        let actionType = videoExts.contains(ext) ? "video" : "image"
+        return HistoryResultRoute(id: item.id, url: url, actionType: actionType)
+    }
 }
 
 private struct GenerationHistoryCard: View {
@@ -149,19 +192,49 @@ private struct GenerationHistoryCard: View {
     private var displayURL: String? { item.resultUrl ?? item.imageUrl }
     private var title: String {
         if let prompt = item.prompt?.trimmingCharacters(in: .whitespacesAndNewlines), !prompt.isEmpty {
-            return String(prompt.prefix(26))
+            if let explicit = prompt
+                .components(separatedBy: .newlines)
+                .first(where: { $0.lowercased().contains("template:") })?
+                .components(separatedBy: ":")
+                .dropFirst()
+                .joined(separator: ":")
+                .trimmingCharacters(in: .whitespacesAndNewlines),
+               !explicit.isEmpty {
+                return explicit
+            }
+
+            let firstLine = prompt.components(separatedBy: .newlines).first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            if !firstLine.isEmpty && firstLine.lowercased() != "visual composition & style" {
+                return String(firstLine.prefix(32))
+            }
+        }
+
+        if let model = item.model, !model.isEmpty {
+            return model
         }
         return item.provider.capitalized
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 10) {
             ZStack {
                 media
-                    .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 226)
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
                     .overlay {
+                        RoundedRectangle(cornerRadius: 28, style: .continuous)
+                            .fill(
+                                LinearGradient(
+                                    colors: [.clear, Color(hex: "6E4639").opacity(0.34)],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+
                         if !isSuccess {
-                            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                            RoundedRectangle(cornerRadius: 28, style: .continuous)
                                 .fill(Color(hex: "E9E2D0").opacity(0.35))
                         }
                     }
@@ -170,22 +243,37 @@ private struct GenerationHistoryCard: View {
                     VStack(spacing: 8) {
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 64, height: 64)
+                            .frame(width: 58, height: 58)
                             .overlay(
                                 Image(systemName: "sparkles")
-                                    .font(.system(size: 28, weight: .bold))
+                                    .font(.system(size: 24, weight: .bold))
                                     .foregroundStyle(Color(hex: "97462E"))
                             )
-                        Text("Weaving magic...")
-                            .font(.system(size: 20, weight: .semibold))
+                        Text("Processing...")
+                            .font(.system(size: 17, weight: .semibold))
                             .foregroundStyle(Color(hex: "1E1C10"))
-                        Text("Estimating 2 mins left")
-                            .font(.system(size: 14))
-                            .foregroundStyle(Color(hex: "55433E"))
                     }
                 }
             }
-            .frame(height: 360)
+
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .lineLimit(1)
+                    Text(isSuccess ? "Generated \(relativeDate(item.createdAt))" : "Generating now")
+                        .font(.system(size: 13))
+                        .foregroundStyle(Color(hex: "55433E"))
+                }
+                Spacer()
+                Text(isSuccess ? "Success" : "Processing")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(isSuccess ? Color(hex: "245A22") : Color(hex: "6F4600"))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Capsule().fill(isSuccess ? Color(hex: "DFF4DE") : Color(hex: "FEB246")))
+            }
 
             if !isSuccess {
                 GeometryReader { geo in
@@ -205,29 +293,19 @@ private struct GenerationHistoryCard: View {
                 }
                 .frame(height: 8)
             }
-
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(title)
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundStyle(Color(hex: "1E1C10"))
-                        .lineLimit(1)
-                    Text(isSuccess ? "Generated \(relativeDate(item.createdAt))" : "Generating now")
-                        .font(.system(size: 14))
-                        .foregroundStyle(Color(hex: "55433E"))
-                }
-                Spacer()
-                Text(isSuccess ? "Success" : "Processing")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundStyle(isSuccess ? Color(hex: "245A22") : Color(hex: "6F4600"))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .background(Capsule().fill(isSuccess ? Color(hex: "DFF4DE") : Color(hex: "FEB246")))
-            }
         }
-        .padding(16)
-        .background(RoundedRectangle(cornerRadius: 40, style: .continuous).fill(.white))
-        .shadow(color: .black.opacity(0.06), radius: 14, y: 8)
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .fill(.ultraThinMaterial)
+                .overlay(Color.white.opacity(0.32))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .stroke(Color.white.opacity(0.62), lineWidth: 1)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        .shadow(color: .black.opacity(0.05), radius: 10, y: 6)
     }
 
     private var media: some View {
@@ -267,6 +345,12 @@ private struct GenerationHistoryCard: View {
         rel.unitsStyle = .full
         return rel.localizedString(for: date, relativeTo: Date())
     }
+}
+
+private struct HistoryResultRoute: Identifiable, Hashable {
+    let id: Int
+    let url: String
+    let actionType: String
 }
 
 #Preview {

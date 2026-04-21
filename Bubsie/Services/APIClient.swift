@@ -31,7 +31,7 @@ final class APIClient {
             req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         req.setValue(installSeed, forHTTPHeaderField: "X-Install-Seed")
-        logger.info("GET \(path) | token=\(self.currentToken != nil ? "YES" : "NO") | seed=\(self.installSeed.prefix(8))")
+        logger.info("\(method) \(path) | token=\(self.currentToken != nil ? "YES" : "NO") | seed=\(self.installSeed.prefix(8))")
         return req
     }
 

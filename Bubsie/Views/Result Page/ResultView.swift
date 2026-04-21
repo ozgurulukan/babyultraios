@@ -1,5 +1,6 @@
 import SwiftUI
 import Photos
+import AVKit
 
 // MARK: - Result Screen (Warm Edition)
 struct ResultView: View {
@@ -13,7 +14,7 @@ struct ResultView: View {
     @State private var savedAlert = false
     @State private var showToast = false
     @State private var showShareSheet = false
-    @State private var shareImage: UIImage?
+    @State private var shareItems: [Any] = []
     @State private var backgroundImage: Color = .clear
 
     // Design colors
@@ -27,6 +28,20 @@ struct ResultView: View {
     private let darkText = Color(hex: "221A18")
 
     var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
+    private var resultExtension: String {
+        URL(string: resultURL)?.pathExtension.lowercased() ?? ""
+    }
+    private var isVideoResult: Bool {
+        let videoExts = ["mp4", "mov", "m4v", "webm"]
+        return actionType == "video" || videoExts.contains(resultExtension)
+    }
+    private var isSupportedResultFormat: Bool {
+        let supported = ["jpg", "jpeg", "png", "mp4"]
+        return supported.contains(resultExtension) || (actionType == "video" && resultExtension.isEmpty)
+    }
+    private var mediaHeight: CGFloat {
+        min(max(UIScreen.main.bounds.height * 0.42, 280), 340)
+    }
 
     var body: some View {
         ZStack {
@@ -52,8 +67,8 @@ struct ResultView: View {
 
                     actionButtons
                         .padding(.horizontal, 24)
-                        .padding(.top, 32)
-                        .padding(.bottom, 120)
+                        .padding(.top, 24)
+                        .padding(.bottom, 88)
                 }
             }
 
@@ -64,8 +79,8 @@ struct ResultView: View {
         }
         .preferredColorScheme(.light)
         .sheet(isPresented: $showShareSheet) {
-            if let img = shareImage {
-                ActivityView(activityItems: [img])
+            if !shareItems.isEmpty {
+                ActivityView(activityItems: shareItems)
             }
         }
     }
@@ -98,67 +113,28 @@ struct ResultView: View {
     // MARK: Top Bar
     private var topBar: some View {
         HStack {
-            // User avatar
-            ZStack {
-                Circle()
-                    .fill(Color.white.opacity(0.60))
+            Button { dismiss() } label: {
+                Image(systemName: "arrow.left")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(Color(hex: "f9f5f2"))
                     .frame(width: 40, height: 40)
-                    .overlay(Circle().stroke(Color.white.opacity(0.50), lineWidth: 1))
-
-                if let photoURL = auth.currentUser?.photo, let url = URL(string: photoURL) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFill()
-                        default:
-                            Image(systemName: "person.crop.circle.fill")
-                                .font(.system(size: 20))
-                                .foregroundStyle(accentBrown)
-                        }
-                    }
-                    .frame(width: 36, height: 36)
+                    .background(
+                        Circle()
+                            .fill(.ultraThinMaterial)
+                            .overlay(Circle().fill(Color.black.opacity(0.18)))
+                    )
                     .clipShape(Circle())
-                } else {
-                    Image(systemName: "person.crop.circle.fill")
-                        .font(.system(size: 20))
-                        .foregroundStyle(accentBrown)
-                }
-            }
-
-            Spacer()
-
-            Text("Bubsie")
-                .font(.system(size: 24, weight: .heavy))
-                .foregroundStyle(accentBrown)
-                .tracking(-1.2)
-
-            Spacer()
-
-            HStack(spacing: 6) {
-                Image(systemName: "star.fill")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(Color(hex: "97462E"))
-                Text("\(displayCredits) CREDITS")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundStyle(Color(hex: "97462E"))
-                    .tracking(-0.3)
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .background(Color.white.opacity(0.50))
-            .clipShape(Capsule())
-            .overlay(Capsule().stroke(Color.white.opacity(0.60), lineWidth: 1))
-            .background(.ultraThinMaterial.opacity(0.3))
-
-            Button {} label: {
-                Image(systemName: "sparkles")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(accentBrown)
-                    .frame(width: 40, height: 40)
+                    .overlay(Circle().stroke(Color.white.opacity(0.4), lineWidth: 1))
             }
             .buttonStyle(.plain)
+
+            Text("Bubsie")
+                .font(.system(size: 22, weight: .heavy))
+                .foregroundStyle(accentBrown)
+                .tracking(-0.8)
+                .padding(.leading, 10)
+
+            Spacer()
         }
     }
 
@@ -180,31 +156,49 @@ struct ResultView: View {
 
             // Glassmorphism card
             VStack(spacing: 0) {
-                AsyncImage(url: URL(string: resultURL)) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    case .failure:
+                Group {
+                    if !isSupportedResultFormat {
                         VStack(spacing: 12) {
                             Image(systemName: "exclamationmark.triangle")
                                 .font(.system(size: 32))
                                 .foregroundStyle(secondaryText)
-                            Text("Failed to load")
-                                .font(.system(size: 14, weight: .medium))
+                            Text("Unsupported format. Supported: jpg, jpeg, png, mp4")
+                                .font(.system(size: 13, weight: .medium))
                                 .foregroundStyle(secondaryText)
+                                .multilineTextAlignment(.center)
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(Color.white.opacity(0.20))
-                    default:
-                        ProgressView()
-                            .tint(accentBrown)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.white.opacity(0.20))
+                    } else if isVideoResult, let videoURL = URL(string: resultURL) {
+                        VideoPlayer(player: AVPlayer(url: videoURL))
+                    } else {
+                        AsyncImage(url: URL(string: resultURL)) { phase in
+                            switch phase {
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            case .failure:
+                                VStack(spacing: 12) {
+                                    Image(systemName: "exclamationmark.triangle")
+                                        .font(.system(size: 32))
+                                        .foregroundStyle(secondaryText)
+                                    Text("Failed to load")
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundStyle(secondaryText)
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(Color.white.opacity(0.20))
+                            default:
+                                ProgressView()
+                                    .tint(accentBrown)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .background(Color.white.opacity(0.20))
+                            }
+                        }
                     }
                 }
-                .frame(height: 400)
+                .frame(height: mediaHeight)
                 .clipShape(RoundedRectangle(cornerRadius: 32))
                 .overlay(
                     RoundedRectangle(cornerRadius: 32)
@@ -230,7 +224,6 @@ struct ResultView: View {
                         .stroke(Color.white.opacity(0.80), lineWidth: 1)
                 )
                 .clipShape(Capsule())
-                .background(.ultraThinMaterial.opacity(0.3))
                 .shadow(color: Color(hex: "8E4C3A").opacity(0.20), radius: 24, x: 0, y: 8)
                 .offset(y: -20)
             }
@@ -241,9 +234,8 @@ struct ResultView: View {
                     .stroke(Color.white.opacity(0.60), lineWidth: 1)
             )
             .clipShape(RoundedRectangle(cornerRadius: 40))
-            .shadow(color: Color(hex: "8E4C3A").opacity(0.15), radius: 64, x: 0, y: 32)
+            .shadow(color: Color(hex: "8E4C3A").opacity(0.12), radius: 28, x: 0, y: 12)
         }
-        .rotationEffect(.degrees(-1))
     }
 
     // MARK: Background Picker (for remove_bg)
@@ -316,6 +308,30 @@ struct ResultView: View {
             }
             .buttonStyle(.plain)
 
+            Button {
+                dismiss()
+            } label: {
+                VStack(spacing: 12) {
+                    Image(systemName: "arrow.counterclockwise")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundStyle(darkText)
+
+                    Text("Back to Templates")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(darkText)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 24)
+                .background(Color.white.opacity(0.40))
+                .overlay(
+                    Capsule()
+                        .stroke(Color.white.opacity(0.50), lineWidth: 1)
+                )
+                .clipShape(Capsule())
+                .shadow(color: Color(hex: "8E4C3A").opacity(0.08), radius: 24, x: 0, y: 8)
+            }
+            .buttonStyle(.plain)
+
             // Share to Social
             Button {
                 prepareShare()
@@ -332,31 +348,6 @@ struct ResultView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 24)
                 .background(Color(hex: "FFDF8E").opacity(0.40))
-                .overlay(
-                    Capsule()
-                        .stroke(Color.white.opacity(0.50), lineWidth: 1)
-                )
-                .clipShape(Capsule())
-                .shadow(color: Color(hex: "8E4C3A").opacity(0.08), radius: 24, x: 0, y: 8)
-            }
-            .buttonStyle(.plain)
-
-            // Try Another Concept
-            Button {
-                dismiss()
-            } label: {
-                VStack(spacing: 12) {
-                    Image(systemName: "arrow.counterclockwise")
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundStyle(darkText)
-
-                    Text("Try Another Concept")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundStyle(darkText)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 24)
-                .background(Color.white.opacity(0.40))
                 .overlay(
                     Capsule()
                         .stroke(Color.white.opacity(0.50), lineWidth: 1)
@@ -403,12 +394,18 @@ struct ResultView: View {
         Task {
             do {
                 let (data, _) = try await URLSession.shared.data(from: url)
-                guard let image = UIImage(data: data) else { return }
-
-                // Apply background tint if needed
-                let finalImage = applyBackgroundIfNeeded(to: image)
-
-                UIImageWriteToSavedPhotosAlbum(finalImage, nil, nil, nil)
+                if isVideoResult {
+                    let ext = resultExtension.isEmpty ? "mp4" : resultExtension
+                    let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("bubsie-result-\(UUID().uuidString).\(ext)")
+                    try data.write(to: tempURL, options: .atomic)
+                    try await PHPhotoLibrary.shared().performChanges {
+                        PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: tempURL)
+                    }
+                } else {
+                    guard let image = UIImage(data: data) else { return }
+                    let finalImage = applyBackgroundIfNeeded(to: image)
+                    UIImageWriteToSavedPhotosAlbum(finalImage, nil, nil, nil)
+                }
 
                 await MainActor.run {
                     withAnimation(.spring(response: 0.4)) {
@@ -429,13 +426,22 @@ struct ResultView: View {
     private func prepareShare() {
         guard let url = URL(string: resultURL) else { return }
         Task {
+            if isVideoResult {
+                await MainActor.run {
+                    shareItems = [url]
+                    showShareSheet = true
+                }
+                return
+            }
+
             do {
                 let (data, _) = try await URLSession.shared.data(from: url)
-                guard let image = UIImage(data: data) else { return }
-                let finalImage = applyBackgroundIfNeeded(to: image)
-                await MainActor.run {
-                    shareImage = finalImage
-                    showShareSheet = true
+                if let image = UIImage(data: data) {
+                    let finalImage = applyBackgroundIfNeeded(to: image)
+                    await MainActor.run {
+                        shareItems = [finalImage]
+                        showShareSheet = true
+                    }
                 }
             } catch {
                 print("Share error: \(error)")
