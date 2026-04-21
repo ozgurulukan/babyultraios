@@ -351,99 +351,95 @@ private struct HeroSliderCard: View {
     let item: SliderItem
 
     var body: some View {
-        GeometryReader { geo in
-            ZStack(alignment: .bottomLeading) {
-                // Frame URL — kartın arka tarafında (en alt katman)
-                if let frameURL = item.frameUrl.flatMap(URL.init) {
-                    AsyncImage(url: frameURL) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFill()
-                        default:
-                            gradientBackground
-                        }
+        ZStack(alignment: .bottomLeading) {
+            // Frame URL — slider'ın arkasındaki çerçeve katmanı
+            if let frameURL = item.frameUrl.flatMap(URL.init) {
+                AsyncImage(url: frameURL) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image.resizable().scaledToFill()
+                    default:
+                        Color.clear
                     }
-                    .frame(width: geo.size.width, height: geo.size.height)
-                    .clipped()
-                } else {
-                    gradientBackground
-                        .frame(width: geo.size.width, height: geo.size.height)
                 }
-
-                // Arka plan resmi — frame'in üzerinde
-                if let imageURL = item.imageUrl.flatMap(URL.init) {
-                    AsyncImage(url: imageURL) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image.resizable().scaledToFill()
-                        case .failure(_):
-                            Color.clear
-                        case .empty:
-                            Color.clear
-                        @unknown default:
-                            Color.clear
-                        }
-                    }
-                    .frame(width: geo.size.width, height: geo.size.height)
-                    .clipped()
-                }
-
-                // Alt karartma gradient'i
-                LinearGradient(
-                    colors:[.clear, .black.opacity(0.55)],
-                    startPoint: .center,
-                    endPoint: .bottom
-                )
-                .frame(width: geo.size.width, height: geo.size.height)
-
-                HStack(alignment: .bottom) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("NEW")
-                            .font(.system(size: 11, weight: .bold))
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 11)
-                            .padding(.vertical, 5)
-                            .background(Color(hex: "B27A62").opacity(0.95))
-                            .clipShape(Capsule())
-
-                        if let title = item.title, !title.isEmpty {
-                            Text(title)
-                                .font(.system(size: 24, weight: .bold))
-                                .foregroundStyle(.white)
-                                .lineLimit(1)
-                        }
-
-                        if let description = item.description, !description.isEmpty {
-                            Text(description)
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundStyle(.white.opacity(0.9))
-                                .lineLimit(2)
-                        }
-                    }
-
-                    Spacer()
-
-                    Circle()
-                        .fill(Color.white.opacity(0.22))
-                        .frame(width: 52, height: 52)
-                        .overlay(Circle().stroke(Color.white.opacity(0.4), lineWidth: 1))
-                        .overlay(
-                            Image(systemName: "arrow.right")
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundStyle(.white.opacity(0.9))
-                        )
-                }
-                .padding(18)
+                .frame(width: 376 * 0.86, height: 240)
+                .clipped()
             }
-            .frame(width: geo.size.width, height: geo.size.height)
-            .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 36, style: .continuous)
-                    .stroke(Color.white.opacity(0.45), lineWidth: 1)
+
+            // Arka plan resmi veya gradient
+            if let imageURL = item.imageUrl.flatMap(URL.init) {
+                AsyncImage(url: imageURL) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image.resizable().scaledToFill()
+                    case .failure(_):
+                        gradientBackground
+                    case .empty:
+                        gradientBackground
+                    @unknown default:
+                        gradientBackground
+                    }
+                }
+                .frame(width: 376 * 0.86, height: 240)
+                .clipped()
+            } else {
+                gradientBackground
+                    .frame(width: 376 * 0.86, height: 240)
+            }
+
+            // Alt karartma gradient'i
+            LinearGradient(
+                colors:[.clear, .black.opacity(0.55)],
+                startPoint: .center,
+                endPoint: .bottom
             )
+            .frame(width: 376 * 0.86, height: 240)
+
+            HStack(alignment: .bottom) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("NEW")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 11)
+                        .padding(.vertical, 5)
+                        .background(Color(hex: "B27A62").opacity(0.95))
+                        .clipShape(Capsule())
+
+                    if let title = item.title, !title.isEmpty {
+                        Text(title)
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundStyle(.white)
+                            .lineLimit(1)
+                    }
+
+                    if let description = item.description, !description.isEmpty {
+                        Text(description)
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(.white.opacity(0.9))
+                            .lineLimit(2)
+                    }
+                }
+
+                Spacer()
+
+                Circle()
+                    .fill(Color.white.opacity(0.22))
+                    .frame(width: 52, height: 52)
+                    .overlay(Circle().stroke(Color.white.opacity(0.4), lineWidth: 1))
+                    .overlay(
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.9))
+                    )
+            }
+            .padding(18)
         }
+        .frame(width: 376 * 0.86, height: 240)
+        .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 36, style: .continuous)
+                .stroke(Color.white.opacity(0.45), lineWidth: 1)
+        )
     }
 
     private var gradientBackground: some View {
@@ -457,44 +453,42 @@ private struct HeroSliderCard: View {
 
 private struct HeroSliderPlaceholderCard: View {
     var body: some View {
-        GeometryReader { geo in
-            ZStack(alignment: .bottomLeading) {
-                LinearGradient(
-                    colors:[Color(hex: "D8C8C0"), Color(hex: "9E8A7F")],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .frame(width: geo.size.width, height: geo.size.height)
-
-                LinearGradient(
-                    colors:[.clear, .black.opacity(0.45)],
-                    startPoint: .center,
-                    endPoint: .bottom
-                )
-                .frame(width: geo.size.width, height: geo.size.height)
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("NEW")
-                        .font(.system(size: 11, weight: .bold))
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 11)
-                        .padding(.vertical, 5)
-                        .background(Color(hex: "B27A62").opacity(0.95))
-                        .clipShape(Capsule())
-
-                    Text("Loading...")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundStyle(.white)
-                }
-                .padding(18)
-            }
-            .frame(width: geo.size.width, height: geo.size.height)
-            .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 36, style: .continuous)
-                    .stroke(Color.white.opacity(0.45), lineWidth: 1)
+        ZStack(alignment: .bottomLeading) {
+            LinearGradient(
+                colors:[Color(hex: "D8C8C0"), Color(hex: "9E8A7F")],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
+            .frame(width: 376 * 0.86, height: 240)
+
+            LinearGradient(
+                colors:[.clear, .black.opacity(0.45)],
+                startPoint: .center,
+                endPoint: .bottom
+            )
+            .frame(width: 376 * 0.86, height: 240)
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("NEW")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 11)
+                    .padding(.vertical, 5)
+                    .background(Color(hex: "B27A62").opacity(0.95))
+                    .clipShape(Capsule())
+
+                Text("Loading...")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundStyle(.white)
+            }
+            .padding(18)
         }
+        .frame(width: 376 * 0.86, height: 240)
+        .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 36, style: .continuous)
+                .stroke(Color.white.opacity(0.45), lineWidth: 1)
+        )
     }
 }
 
