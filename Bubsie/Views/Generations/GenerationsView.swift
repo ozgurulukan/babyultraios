@@ -19,7 +19,7 @@ struct GenerationsView: View {
                 Color(hex: "FFF9EC").ignoresSafeArea()
 
                 StickyBlurHeader(
-                    maxBlurRadius: 8,
+                    maxBlurRadius: 10,
                     fadeExtension: 84,
                     tintOpacityTop: 0.58,
                     tintOpacityMiddle: 0.36
@@ -41,6 +41,7 @@ struct GenerationsView: View {
                         mainContent
                     }
                 }
+                .environment(\.colorScheme, .light)
             }
             .task {
                 await viewModel.loadHistory()

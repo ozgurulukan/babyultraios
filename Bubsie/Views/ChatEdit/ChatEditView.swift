@@ -9,7 +9,7 @@ struct ChatEditView: View {
             chatBackground.ignoresSafeArea()
 
             StickyBlurHeader(
-                maxBlurRadius: 8,
+                maxBlurRadius: 10,
                 fadeExtension: 84,
                 tintOpacityTop: 0.58,
                 tintOpacityMiddle: 0.36
@@ -31,6 +31,7 @@ struct ChatEditView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
             }
+            .environment(\.colorScheme, .light)
         }
         .safeAreaInset(edge: .bottom) {
             inputBar

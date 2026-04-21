@@ -31,7 +31,7 @@ struct HomeView: View {
                 HomePalette.background.ignoresSafeArea()
 
                 StickyBlurHeader(
-                    maxBlurRadius: 8,
+                    maxBlurRadius: 10,
                     fadeExtension: 84,
                     tintOpacityTop: 0.58,
                     tintOpacityMiddle: 0.36
@@ -62,7 +62,11 @@ struct HomeView: View {
                             .foregroundStyle(Color(hex: "f9f5f2"))
                             .padding(.horizontal, 12)
                             .padding(.vertical, 8)
-                            .background(.ultraThinMaterial)
+                            .background(
+                                Capsule()
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(Color.black.opacity(0.18))
+                            )
                             .clipShape(Capsule())
                             .overlay(Capsule().stroke(Color.white.opacity(0.4), lineWidth: 1))
                         }
@@ -83,6 +87,7 @@ struct HomeView: View {
                     .padding(.top, -8)
                     .padding(.bottom, 8)
                 }
+                .environment(\.colorScheme, .light)
             }
             .navigationBarHidden(true)
             .task { await homeVM.loadData() }
@@ -165,19 +170,26 @@ struct HomeView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 18)
                 .background(
-                    Group {
-                        if homeVM.selectedMode == 1 {
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .fill(HomePalette.accent)
-                        } else {
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .fill(.ultraThinMaterial)
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(homeVM.selectedMode == 1 ? HomePalette.accent : Color.white.opacity(0.22))
+                        .overlay {
+                            if homeVM.selectedMode != 1 {
+                                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                            .fill(Color.black.opacity(0.10))
+                                    )
+                            }
                         }
-                    }
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .stroke(Color.white.opacity(0.4), lineWidth: 1)
+                        .stroke(homeVM.selectedMode == 1 ? Color.white.opacity(0.72) : Color.white.opacity(0.35), lineWidth: 1)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .stroke(homeVM.selectedMode == 1 ? Color(hex: "FCECE5").opacity(0.55) : Color.black.opacity(0.10), lineWidth: 1)
                 )
             }
             .buttonStyle(.plain)
@@ -195,19 +207,26 @@ struct HomeView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 18)
                 .background(
-                    Group {
-                        if homeVM.selectedMode == 0 {
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .fill(HomePalette.accent)
-                        } else {
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .fill(.ultraThinMaterial)
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(homeVM.selectedMode == 0 ? HomePalette.accent : Color.white.opacity(0.22))
+                        .overlay {
+                            if homeVM.selectedMode != 0 {
+                                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                            .fill(Color.black.opacity(0.10))
+                                    )
+                            }
                         }
-                    }
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .stroke(Color.white.opacity(0.4), lineWidth: 1)
+                        .stroke(homeVM.selectedMode == 0 ? Color.white.opacity(0.72) : Color.white.opacity(0.35), lineWidth: 1)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .stroke(homeVM.selectedMode == 0 ? Color(hex: "FCECE5").opacity(0.55) : Color.black.opacity(0.10), lineWidth: 1)
                 )
             }
             .buttonStyle(.plain)

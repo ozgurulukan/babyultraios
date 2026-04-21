@@ -17,7 +17,7 @@ struct AccountView: View {
 
     var body: some View {
         StickyBlurHeader(
-            maxBlurRadius: 8,
+            maxBlurRadius: 10,
             fadeExtension: 84,
             tintOpacityTop: 0.58,
             tintOpacityMiddle: 0.36
@@ -38,6 +38,7 @@ struct AccountView: View {
             .padding(.horizontal, 24)
             .padding(.top, 8)
         }
+        .environment(\.colorScheme, .light)
         .background(profileBackground.ignoresSafeArea())
         .task { await auth.fetchProfile() }
         .sheet(isPresented: $isPremiumShow) { PremiumView() }
