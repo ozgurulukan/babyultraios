@@ -388,8 +388,9 @@ private struct HomeTemplateCard: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 mediaPreview
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(contentMode: .fill)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .clipped()
 
                 LinearGradient(
                     colors: [.clear, .black.opacity(0.45)],
@@ -459,16 +460,18 @@ private struct HomeTemplateCard: View {
     private var mediaPreview: some View {
         if shouldShowVideo, let previewURL {
             LoopingTemplateVideoView(url: previewURL)
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                .clipped()
         } else if let previewURL {
             AsyncImage(url: previewURL) { phase in
                 switch phase {
                 case .success(let image):
                     image
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
+                        .aspectRatio(contentMode: .fill)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        .clipped()
                 default:
                     placeholder
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -543,7 +546,7 @@ private final class LoopingTemplatePlayerView: UIView {
         player.isMuted = true
         player.actionAtItemEnd = .none
         playerLayer.player = player
-        playerLayer.videoGravity = .resizeAspect
+        playerLayer.videoGravity = .resizeAspectFill
         layer.addSublayer(playerLayer)
     }
 
