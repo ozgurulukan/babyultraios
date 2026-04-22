@@ -20,6 +20,8 @@ struct HomeView: View {
     @State private var isPremiumShow = false
     @State private var showAccount = false
     @State private var selectedCategoryForDetail: CategoryItem?
+    @State private var currentSliderIndex = 0
+    @State private var sliderTimer: Timer?
     @StateObject private var counter = CoinCounter()
     @StateObject private var homeVM = HomeViewModel()
     @StateObject private var auth = AuthManager.shared
@@ -122,26 +124,52 @@ struct HomeView: View {
 
     private var heroSection: some View {
         GeometryReader { geo in
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 0) {
-                    if homeVM.sliderItems.isEmpty {
-                        HeroSliderPlaceholderCard()
-                            .frame(width: geo.size.width, height: 280)
-                    } else {
-                        ForEach(homeVM.sliderItems) { item in
-                            Button {
-                                handleSliderTap(item)
-                            } label: {
-                                HeroSliderCard(item: item)
-                                    .frame(width: geo.size.width, height: 280)
+            ScrollViewReader { proxy in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 0) {
+                        if homeVM.sliderItems.isEmpty {
+                            HeroSliderPlaceholderCard()
+                                .frame(width: geo.size.width, height: 280)
+                        } else {
+                            ForEach(Array(homeVM.sliderItems.enumerated()), id: \.element.id) { index, item in
+                                Button {
+                                    handleSliderTap(item)
+                                } label: {
+                                    HeroSliderCard(item: item)
+                                        .frame(width: geo.size.width, height: 280)
+                                }
+                                .buttonStyle(.plain)
+                                .id(index)
                             }
-                            .buttonStyle(.plain)
                         }
                     }
+                }
+                .onAppear {
+                    startAutoScroll(proxy: proxy)
+                }
+                .onDisappear {
+                    sliderTimer?.invalidate()
+                }
+                .onChange(of: homeVM.sliderItems.count) { _ in
+                    currentSliderIndex = 0
+                    startAutoScroll(proxy: proxy)
                 }
             }
         }
         .frame(height: 280)
+    }
+
+    private func startAutoScroll(proxy: ScrollViewProxy) {
+        sliderTimer?.invalidate()
+        let count = homeVM.sliderItems.count
+        guard count > 1 else { return }
+
+        sliderTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
+            withAnimation(.easeInOut(duration: 0.5)) {
+                currentSliderIndex = (currentSliderIndex + 1) % count
+                proxy.scrollTo(currentSliderIndex, anchor: .leading)
+            }
+        }
     }
 
     private func handleSliderTap(_ item: SliderItem) {
