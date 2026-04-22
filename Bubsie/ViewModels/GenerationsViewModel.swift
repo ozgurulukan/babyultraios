@@ -23,7 +23,9 @@ final class GenerationsViewModel: ObservableObject {
             history = items
             hasMore = items.count == pageSize
         } catch {
-            errorMessage = error.localizedDescription
+            if !isCancellationError(error) {
+                errorMessage = error.localizedDescription
+            }
         }
     }
 
@@ -43,7 +45,9 @@ final class GenerationsViewModel: ObservableObject {
                 hasMore = items.count == pageSize
             }
         } catch {
-            errorMessage = error.localizedDescription
+            if !isCancellationError(error) {
+                errorMessage = error.localizedDescription
+            }
         }
     }
 
@@ -62,7 +66,15 @@ final class GenerationsViewModel: ObservableObject {
             try await BubsieAPI.shared.deleteHistoryItem(id: id)
             history.removeAll { $0.id == id }
         } catch {
-            errorMessage = error.localizedDescription
+            if !isCancellationError(error) {
+                errorMessage = error.localizedDescription
+            }
         }
+    }
+
+    private func isCancellationError(_ error: Error) -> Bool {
+        if error is CancellationError { return true }
+        if let urlError = error as? URLError, urlError.code == .cancelled { return true }
+        return false
     }
 }

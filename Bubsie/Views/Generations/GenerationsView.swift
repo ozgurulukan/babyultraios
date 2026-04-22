@@ -1,4 +1,5 @@
 import SwiftUI
+import AVKit
 
 struct GenerationsView: View {
     @StateObject private var viewModel = GenerationsViewModel()
@@ -190,6 +191,11 @@ private struct GenerationHistoryCard: View {
 
     private var isSuccess: Bool { item.status == "success" }
     private var displayURL: String? { item.resultUrl ?? item.imageUrl }
+    private var isVideo: Bool {
+        guard let urlString = displayURL, let url = URL(string: urlString) else { return false }
+        let videoExts = ["mp4", "mov", "m4v", "webm"]
+        return videoExts.contains(url.pathExtension.lowercased())
+    }
     private var title: String {
         if let prompt = item.prompt?.trimmingCharacters(in: .whitespacesAndNewlines), !prompt.isEmpty {
             if let explicit = prompt
@@ -254,6 +260,13 @@ private struct GenerationHistoryCard: View {
                             .foregroundStyle(Color(hex: "1E1C10"))
                     }
                 }
+
+                if isSuccess && isVideo {
+                    Image(systemName: "play.circle.fill")
+                        .font(.system(size: 44, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .shadow(color: .black.opacity(0.4), radius: 6, x: 0, y: 2)
+                }
             }
 
             HStack(alignment: .top) {
@@ -307,18 +320,22 @@ private struct GenerationHistoryCard: View {
     private var media: some View {
         Group {
             if let urlString = displayURL, let url = URL(string: urlString) {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .blur(radius: isSuccess ? 0 : 2)
-                            .saturation(isSuccess ? 1 : 0.5)
-                    case .failure:
-                        placeholder
-                    default:
-                        placeholder.overlay(ProgressView().tint(Color(hex: "97462E")))
+                if isVideo {
+                    VideoFillPlayer(player: AVPlayer(url: url))
+                } else {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .blur(radius: isSuccess ? 0 : 2)
+                                .saturation(isSuccess ? 1 : 0.5)
+                        case .failure:
+                            placeholder
+                        default:
+                            placeholder.overlay(ProgressView().tint(Color(hex: "97462E")))
+                        }
                     }
                 }
             } else {
@@ -340,6 +357,23 @@ private struct GenerationHistoryCard: View {
         let rel = RelativeDateTimeFormatter()
         rel.unitsStyle = .full
         return rel.localizedString(for: date, relativeTo: Date())
+    }
+}
+
+private struct VideoFillPlayer: UIViewControllerRepresentable {
+    let player: AVPlayer
+
+    func makeUIViewController(context: Context) -> AVPlayerViewController {
+        let controller = AVPlayerViewController()
+        controller.player = player
+        controller.videoGravity = .resizeAspectFill
+        controller.showsPlaybackControls = false
+        controller.view.isUserInteractionEnabled = false
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
+        uiViewController.view.isUserInteractionEnabled = false
     }
 }
 
