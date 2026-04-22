@@ -58,9 +58,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
 
     private func registerDeviceToken(_ token: String) async {
         do {
+            print("[FCM] Registering device token: \(token.prefix(20))...")
             try await BubsieAPI.shared.registerDeviceToken(token)
+            print("[FCM] Device token registered successfully")
         } catch {
-            print("Failed to register device token: \(error)")
+            print("[FCM] Failed to register device token: \(error)")
         }
     }
 
