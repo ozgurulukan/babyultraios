@@ -93,7 +93,8 @@ struct PrompotView: View {
             do {
                 let result = try await BubsieAPI.shared.uploadAndTransform(
                     image: image,
-                    template: template
+                    template: template,
+                    videoURL: template.referenceVideoUrl
                 )
                 await MainActor.run {
                     resultURL = result.resultUrl

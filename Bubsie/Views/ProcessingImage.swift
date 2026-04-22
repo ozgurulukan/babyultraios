@@ -8,6 +8,7 @@ struct ProcessingImage: View {
     var momImageURL: String? = nil
     var babyImageURL: String? = nil
     var dadImageURL: String? = nil
+    var videoURL: String? = nil
     var onBackToTemplates: (() -> Void)? = nil
 
     @State private var isResult = false
@@ -252,6 +253,7 @@ struct ProcessingImage: View {
                 momImageURL: momImageURL,
                 babyImageURL: babyImageURL,
                 dadImageURL: dadImageURL,
+                videoURL: videoURL ?? template.referenceVideoUrl,
                 notifyWhenDone: notifyWhenDone
             )
 

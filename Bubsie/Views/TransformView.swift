@@ -64,6 +64,7 @@ struct TransformView: View {
                     image: img,
                     template: template,
                     aspectRatio: selectedAspectRatio,
+                    videoURL: template.referenceVideoUrl,
                     onBackToTemplates: { dismiss() }
                 )
             }

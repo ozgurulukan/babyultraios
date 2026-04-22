@@ -912,7 +912,7 @@ struct CategoryDetailView: View {
                         }
                     }
                     .padding(.horizontal, HomePalette.edgePadding)
-                    .padding(.top, 12)
+                    .padding(.top, 4)
                     .padding(.bottom, 32)
                 }
             }
