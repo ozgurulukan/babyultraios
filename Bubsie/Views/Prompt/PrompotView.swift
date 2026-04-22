@@ -8,6 +8,7 @@ struct PrompotView: View {
     @State private var isResult = false
     @State private var resultURL: String?
     @State private var errorMessage: String?
+    @State private var isSubmitting = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -81,22 +82,25 @@ struct PrompotView: View {
     }
 
     private func startTransform() {
+        guard !isSubmitting else { return }
         guard let image = image else {
             errorMessage = "No image selected"
             return
         }
+        isSubmitting = true
         Task {
+            defer { isSubmitting = false }
             do {
                 let result = try await BubsieAPI.shared.uploadAndTransform(
                     image: image,
                     template: template
                 )
-                DispatchQueue.main.async {
+                await MainActor.run {
                     resultURL = result.resultUrl
                     isResult = true
                 }
             } catch {
-                DispatchQueue.main.async {
+                await MainActor.run {
                     errorMessage = error.localizedDescription
                 }
             }

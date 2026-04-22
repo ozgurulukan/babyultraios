@@ -227,6 +227,9 @@ struct ProcessingImage: View {
     }
 
     private func startProcessing() {
+        guard !isSubmitting else { return }
+        isSubmitting = true
+
         withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: false)) {
             spinnerRotation = 360
         }
@@ -235,8 +238,6 @@ struct ProcessingImage: View {
     }
 
     private func processImage() async {
-        guard !isSubmitting else { return }
-        isSubmitting = true
         defer { isSubmitting = false }
 
         do {

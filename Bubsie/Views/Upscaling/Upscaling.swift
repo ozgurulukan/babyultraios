@@ -9,6 +9,7 @@ struct Upscaling: View {
     @State private var isResult = false
     @State private var resultURL: String?
     @State private var errorMessage: String?
+    @State private var isSubmitting = false
 
     private let aspectRatios = ["1:1", "2:1", "4:3"]
 
@@ -71,22 +72,25 @@ struct Upscaling: View {
     }
 
     private func startUpscale() {
+        guard !isSubmitting else { return }
         guard let image = image else {
             errorMessage = "No image selected"
             return
         }
+        isSubmitting = true
         Task {
+            defer { isSubmitting = false }
             do {
                 let result = try await BubsieAPI.shared.uploadAndTransform(
                     image: image,
                     template: template,
                     aspectRatio: selectedRatio
                 )
-                DispatchQueue.main.async {
+                await MainActor.run {
                     resultURL = result.resultUrl
                 }
             } catch {
-                DispatchQueue.main.async {
+                await MainActor.run {
                     errorMessage = error.localizedDescription
                 }
             }
