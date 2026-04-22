@@ -123,7 +123,7 @@ struct BubsieAPI {
     }
 
     // MARK: - Transform
-    func transform(imageURL: String, template: TemplateItem, aspectRatio: String? = nil, momImageURL: String? = nil, babyImageURL: String? = nil, dadImageURL: String? = nil, imageUrls: [String]? = nil) async throws -> TransformResult {
+    func transform(imageURL: String, template: TemplateItem, aspectRatio: String? = nil, momImageURL: String? = nil, babyImageURL: String? = nil, dadImageURL: String? = nil, imageUrls: [String]? = nil, notifyWhenDone: Bool = false) async throws -> TransformResult {
         var paramsDict: [String: String]? = nil
         if let ar = aspectRatio {
             paramsDict = ["aspect_ratio": ar]
@@ -140,7 +140,8 @@ struct BubsieAPI {
             prompt: template.prompt,
             negativePrompt: template.negativePrompt,
             params: paramsDict,
-            creditCost: template.creditCost
+            creditCost: template.creditCost,
+            notifyWhenDone: notifyWhenDone
         )
         let timeout: TimeInterval = template.actionType == "video" ? 300 : 120
         let response: APIResponse<TransformResult> = try await client.post("/api/v1/transform", body: body, timeout: timeout)
@@ -151,7 +152,7 @@ struct BubsieAPI {
     }
 
     // MARK: - Upload + Transform Pipeline
-    func uploadAndTransform(image: UIImage, template: TemplateItem, aspectRatio: String? = nil, momImageURL: String? = nil, babyImageURL: String? = nil, dadImageURL: String? = nil, imageUrls: [String]? = nil) async throws -> TransformResult {
+    func uploadAndTransform(image: UIImage, template: TemplateItem, aspectRatio: String? = nil, momImageURL: String? = nil, babyImageURL: String? = nil, dadImageURL: String? = nil, imageUrls: [String]? = nil, notifyWhenDone: Bool = false) async throws -> TransformResult {
         let imageURL = try await uploadImage(image)
         return try await transform(
             imageURL: imageURL,
@@ -160,7 +161,8 @@ struct BubsieAPI {
             momImageURL: momImageURL,
             babyImageURL: babyImageURL,
             dadImageURL: dadImageURL,
-            imageUrls: imageUrls
+            imageUrls: imageUrls,
+            notifyWhenDone: notifyWhenDone
         )
     }
 

@@ -1,5 +1,4 @@
 import SwiftUI
-import UserNotifications
 
 struct ProcessingImage: View {
     let image: UIImage?
@@ -252,14 +251,11 @@ struct ProcessingImage: View {
                 aspectRatio: aspectRatio ?? template.aspectRatio,
                 momImageURL: momImageURL,
                 babyImageURL: babyImageURL,
-                dadImageURL: dadImageURL
+                dadImageURL: dadImageURL,
+                notifyWhenDone: notifyWhenDone
             )
 
             await AuthManager.shared.fetchProfile()
-
-            if notifyWhenDone {
-                await sendCompletionNotification()
-            }
 
             resultURL = result.resultUrl
             isResult = true
@@ -277,23 +273,5 @@ struct ProcessingImage: View {
                 }
             }
         }
-    }
-
-    private func sendCompletionNotification() async {
-        let center = UNUserNotificationCenter.current()
-        let settings = await center.notificationSettings()
-        guard settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional else { return }
-
-        let content = UNMutableNotificationContent()
-        content.title = "Your result is ready"
-        content.body = "\(template.name) has completed. Tap to view it."
-        content.sound = .default
-
-        let request = UNNotificationRequest(
-            identifier: "bubsie-transform-\(UUID().uuidString)",
-            content: content,
-            trigger: nil
-        )
-        try? await center.add(request)
     }
 }
