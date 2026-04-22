@@ -1,6 +1,7 @@
 import SwiftUI
 import AVFoundation
 import AVKit
+import WebKit
 
 private enum HomePalette {
     static let background = Color(hex: "F6ECE6")
@@ -18,6 +19,7 @@ struct HomeView: View {
     @State private var showTransform = false
     @State private var isPremiumShow = false
     @State private var showAccount = false
+    @State private var selectedCategoryForDetail: CategoryItem?
     @StateObject private var counter = CoinCounter()
     @StateObject private var homeVM = HomeViewModel()
     @StateObject private var auth = AuthManager.shared
@@ -97,6 +99,16 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $isPremiumShow) { PremiumView() }
+            .sheet(item: $selectedCategoryForDetail) { category in
+                CategoryDetailView(
+                    category: category,
+                    templates: homeVM.selectedMode == 0
+                        ? homeVM.videoTemplates.filter { $0.categoryId == category.rawID }
+                        : homeVM.photoTemplates.filter { $0.categoryId == category.rawID },
+                    categoryName: homeVM.categoryName,
+                    onTemplateTap: handleTemplateTap
+                )
+            }
             .navigationDestination(isPresented: $showTransform) {
                 if let template = selectedTemplate {
                     TransformView(template: template)
@@ -306,10 +318,25 @@ struct HomeView: View {
                 let catTemplates = allTemplates.filter { $0.categoryId == category.rawID }
                 if !catTemplates.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
-                        Text(category.name)
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundStyle(HomePalette.text)
+                        Button {
+                            selectedCategoryForDetail = category
+                        } label: {
+                            HStack(spacing: 8) {
+                                if let iconUrl = category.iconUrl, let url = URL(string: iconUrl) {
+                                    SVGAsyncImage(url: url, size: CGSize(width: 22, height: 22))
+                                }
+
+                                Text(category.name)
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundStyle(HomePalette.text)
+
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundStyle(HomePalette.subtleText)
+                            }
                             .padding(.horizontal, HomePalette.edgePadding)
+                        }
+                        .buttonStyle(.plain)
 
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: HomePalette.gridGap) {
@@ -762,6 +789,125 @@ private final class LoopingTemplatePlayerView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         playerLayer.frame = bounds
+    }
+}
+
+// MARK: - SVG Support
+
+struct SVGAsyncImage: View {
+    let url: URL
+    var size: CGSize = CGSize(width: 22, height: 22)
+
+    var body: some View {
+        if url.pathExtension.lowercased() == "svg" {
+            SVGWebImage(url: url)
+                .frame(width: size.width, height: size.height)
+        } else {
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFit()
+                default:
+                    EmptyView()
+                }
+            }
+            .frame(width: size.width, height: size.height)
+        }
+    }
+}
+
+struct SVGWebImage: UIViewRepresentable {
+    let url: URL
+
+    func makeUIView(context: Context) -> WKWebView {
+        let webView = WKWebView()
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
+        webView.scrollView.isScrollEnabled = false
+        webView.scrollView.bounces = false
+        webView.scrollView.showsHorizontalScrollIndicator = false
+        webView.scrollView.showsVerticalScrollIndicator = false
+        return webView
+    }
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        let html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+            <style>
+                body { margin: 0; padding: 0; overflow: hidden; background: transparent; }
+                img { width: 100%; height: 100%; object-fit: contain; display: block; }
+            </style>
+        </head>
+        <body>
+            <img src="\(url.absoluteString)" />
+        </body>
+        </html>
+        """
+        uiView.loadHTMLString(html, baseURL: nil)
+    }
+}
+
+struct CategoryDetailView: View {
+    let category: CategoryItem
+    let templates: [TemplateItem]
+    let categoryName: (TemplateItem) -> String?
+    let onTemplateTap: (TemplateItem) -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    private let columns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                HomePalette.background.ignoresSafeArea()
+
+                ScrollView(showsIndicators: false) {
+                    LazyVGrid(columns: columns, spacing: 16) {
+                        ForEach(templates) { template in
+                            HomeTemplateCard(
+                                template: template,
+                                categoryName: categoryName(template)
+                            ) {
+                                onTemplateTap(template)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, HomePalette.edgePadding)
+                    .padding(.top, 12)
+                    .padding(.bottom, 32)
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack(spacing: 8) {
+                        if let iconUrl = category.iconUrl, let url = URL(string: iconUrl) {
+                            SVGAsyncImage(url: url, size: CGSize(width: 20, height: 20))
+                        }
+
+                        Text(category.name)
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundStyle(HomePalette.text)
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 24))
+                            .foregroundStyle(HomePalette.subtleText)
+                    }
+                }
+            }
+        }
     }
 }
 
