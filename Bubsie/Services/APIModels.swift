@@ -318,6 +318,7 @@ struct TransformRequest: Encodable {
     let prompt: String
     let negativePrompt: String?
     let params: [String: String]?
+    let creditCost: Int
 
     enum CodingKeys: String, CodingKey {
         case provider, model, prompt, params
@@ -327,6 +328,7 @@ struct TransformRequest: Encodable {
         case babyImageUrl = "baby_image_url"
         case dadImageUrl = "dad_image_url"
         case negativePrompt = "negative_prompt"
+        case creditCost = "credit_cost"
     }
 }
 

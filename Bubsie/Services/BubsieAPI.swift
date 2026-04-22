@@ -139,7 +139,8 @@ struct BubsieAPI {
             dadImageUrl: dadImageURL,
             prompt: template.prompt,
             negativePrompt: template.negativePrompt,
-            params: paramsDict
+            params: paramsDict,
+            creditCost: template.creditCost
         )
         let timeout: TimeInterval = template.actionType == "video" ? 300 : 120
         let response: APIResponse<TransformResult> = try await client.post("/api/v1/transform", body: body, timeout: timeout)
