@@ -43,6 +43,12 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
+        // Always sync the current FCM token immediately after APNs registration.
+        // didReceiveRegistrationToken may not fire if the token is already cached.
+        Messaging.messaging().token { token, error in
+            guard let token = token, error == nil else { return }
+            Task { await self.registerDeviceToken(token) }
+        }
     }
 
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
