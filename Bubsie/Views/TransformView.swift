@@ -395,6 +395,7 @@ private struct AspectRatioButton: View {
         afterMediaUrl: nil,
         afterMediaType: nil,
         referenceImageCount: nil,
+        referenceVideoUrl: nil,
         requireMomPhoto: nil,
         requireBabyPhoto: nil,
         requireDadPhoto: nil,
