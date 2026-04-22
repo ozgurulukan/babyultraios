@@ -131,7 +131,8 @@ struct HomeView: View {
                             HeroSliderPlaceholderCard()
                                 .frame(width: geo.size.width, height: 280)
                         } else {
-                            ForEach(Array(homeVM.sliderItems.enumerated()), id: \.element.id) { index, item in
+                            ForEach(0..<homeVM.sliderItems.count, id: \.self) { index in
+                                let item = homeVM.sliderItems[index]
                                 Button {
                                     handleSliderTap(item)
                                 } label: {
@@ -164,12 +165,14 @@ struct HomeView: View {
         let count = homeVM.sliderItems.count
         guard count > 1 else { return }
 
-        sliderTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
+        let timer = Timer(timeInterval: 3.0, repeats: true) { _ in
             withAnimation(.easeInOut(duration: 0.5)) {
                 currentSliderIndex = (currentSliderIndex + 1) % count
                 proxy.scrollTo(currentSliderIndex, anchor: .leading)
             }
         }
+        RunLoop.main.add(timer, forMode: .common)
+        sliderTimer = timer
     }
 
     private func handleSliderTap(_ item: SliderItem) {
