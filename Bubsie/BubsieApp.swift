@@ -3,6 +3,7 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseMessaging
 import UserNotifications
+import Combine
 
 @main
 struct BubsieApp: App {
@@ -29,6 +30,9 @@ struct BubsieApp: App {
 }
 
 final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+    private var cancellables = Set<AnyCancellable>()
+    private var pendingFCMToken: String?
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
         AuthManager.shared.startListening()
@@ -38,22 +42,31 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
 
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }
         DispatchQueue.main.async { application.registerForRemoteNotifications() }
+
+        // Observe auth token changes and flush any pending FCM token
+        AuthManager.shared.$idToken
+            .dropFirst()
+            .sink { [weak self] _ in
+                guard let self, let token = self.pendingFCMToken else { return }
+                self.pendingFCMToken = nil
+                Task { await self.registerDeviceToken(token) }
+            }
+            .store(in: &cancellables)
+
         return true
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
-        // Always sync the current FCM token immediately after APNs registration.
-        // didReceiveRegistrationToken may not fire if the token is already cached.
-        Messaging.messaging().token { token, error in
-            guard let token = token, error == nil else { return }
-            Task { await self.registerDeviceToken(token) }
-        }
     }
 
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let token = fcmToken else { return }
-        Task { await registerDeviceToken(token) }
+        if AuthManager.shared.idToken != nil {
+            Task { await registerDeviceToken(token) }
+        } else {
+            pendingFCMToken = token
+        }
     }
 
     private func registerDeviceToken(_ token: String) async {
