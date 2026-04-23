@@ -643,19 +643,6 @@ private struct OnboardingReviewsView: View {
                             reviewSet
                         }
                         .offset(y: -scrollOffset)
-                        .background(
-                            GeometryReader { contentGeo in
-                                Color.clear
-                                    .onAppear {
-                                        DispatchQueue.main.async {
-                                            let totalHeight = contentGeo.size.height
-                                            guard totalHeight > 0, singleSetHeight == 0 else { return }
-                                            singleSetHeight = totalHeight / 2
-                                            startAutoScroll()
-                                        }
-                                    }
-                            }
-                        )
 
                         // Top fade gradient
                         VStack(spacing: 0) {
@@ -766,6 +753,16 @@ private struct OnboardingReviewsView: View {
             }
         }
         .padding(.horizontal, 20)
+        .overlay(
+            GeometryReader { geo in
+                Color.clear
+                    .onAppear {
+                        guard singleSetHeight == 0 else { return }
+                        singleSetHeight = geo.size.height
+                        startAutoScroll()
+                    }
+            }
+        )
     }
 }
 
