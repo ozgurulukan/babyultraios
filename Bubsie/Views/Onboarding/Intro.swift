@@ -110,13 +110,13 @@ private struct OnboardingBeforeAfterView: View {
         ZStack {
             // Material blur with gradient mask for smooth fade-out
             Color.clear
-                .background(.thinMaterial)
+                .background(.regularMaterial)
                 .mask(
                     LinearGradient(
                         colors: [
                             Color.white,
-                            Color.white.opacity(0.85),
-                            Color.white.opacity(0.5),
+                            Color.white.opacity(0.9),
+                            Color.white.opacity(0.6),
                             Color.white.opacity(0.0)
                         ],
                         startPoint: .top,
@@ -127,9 +127,9 @@ private struct OnboardingBeforeAfterView: View {
             // White tint overlay with fade-out
             LinearGradient(
                 colors: [
-                    Color.white.opacity(0.60),
-                    Color.white.opacity(0.40),
-                    Color.white.opacity(0.15),
+                    Color.white.opacity(0.70),
+                    Color.white.opacity(0.50),
+                    Color.white.opacity(0.20),
                     Color.white.opacity(0.0)
                 ],
                 startPoint: .top,
@@ -330,13 +330,13 @@ private struct OnboardingBeforeAfterVideoView: View {
         ZStack {
             // Material blur with gradient mask for smooth fade-out
             Color.clear
-                .background(.thinMaterial)
+                .background(.regularMaterial)
                 .mask(
                     LinearGradient(
                         colors: [
                             Color.white,
-                            Color.white.opacity(0.85),
-                            Color.white.opacity(0.5),
+                            Color.white.opacity(0.9),
+                            Color.white.opacity(0.6),
                             Color.white.opacity(0.0)
                         ],
                         startPoint: .top,
@@ -347,9 +347,9 @@ private struct OnboardingBeforeAfterVideoView: View {
             // White tint overlay with fade-out
             LinearGradient(
                 colors: [
-                    Color.white.opacity(0.60),
-                    Color.white.opacity(0.40),
-                    Color.white.opacity(0.15),
+                    Color.white.opacity(0.70),
+                    Color.white.opacity(0.50),
+                    Color.white.opacity(0.20),
                     Color.white.opacity(0.0)
                 ],
                 startPoint: .top,
