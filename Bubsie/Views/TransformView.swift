@@ -6,6 +6,7 @@ struct TransformView: View {
 
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var entitlementManager: EntitlementManager
+    @EnvironmentObject private var subscriptionManager: SubscriptionsManager
     @StateObject private var auth = AuthManager.shared
     @StateObject private var counter = CoinCounter()
 
@@ -13,6 +14,9 @@ struct TransformView: View {
     @State private var selectedAspectRatio: String = "1:1"
     @State private var showImagePicker = false
     @State private var isProcessing = false
+    @State private var showAccountView = false
+    @State private var goToMainTab = false
+    @State private var shimmerPhase: CGFloat = -1.5
 
     private let aspectRatios = ["1:1", "4:5", "9:16", "16:9"]
 
@@ -69,6 +73,17 @@ struct TransformView: View {
                 )
             }
         }
+        .navigationDestination(isPresented: $showAccountView) {
+            AccountView(isPresented: $showAccountView, showBackButton: true)
+                .environmentObject(entitlementManager)
+                .environmentObject(subscriptionManager)
+        }
+        .navigationDestination(isPresented: $goToMainTab) {
+            MainTabView()
+                .environmentObject(entitlementManager)
+                .environmentObject(subscriptionManager)
+                .navigationBarHidden(true)
+        }
         .preferredColorScheme(.light)
     }
 
@@ -86,7 +101,7 @@ struct TransformView: View {
     // MARK: Top Bar
     private var topBar: some View {
         HStack {
-            Button { dismiss() } label: {
+            Button { goToMainTab = true } label: {
                 Image(systemName: "arrow.left")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(Color(hex: "f9f5f2"))
@@ -104,28 +119,33 @@ struct TransformView: View {
             Spacer()
 
             Text("Bubsie")
-                .font(.system(size: 18, weight: .bold))
+                .font(.system(size: 24, weight: .bold, design: .rounded))
                 .foregroundStyle(accentBrown)
                 .tracking(-0.45)
 
             Spacer()
 
-            HStack(spacing: 6) {
-                Image(systemName: "circle.lefthalf.filled")
-                    .font(.system(size: 13, weight: .bold))
-                Text("\(displayCredits)")
-                    .font(.system(size: 14, weight: .bold))
+            Button {
+                showAccountView = true
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "circle.lefthalf.filled")
+                        .font(.system(size: 13, weight: .bold))
+                    Text("\(displayCredits)")
+                        .font(.system(size: 14, weight: .bold))
+                }
+                .foregroundStyle(Color(hex: "f9f5f2"))
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    Capsule()
+                        .fill(.ultraThinMaterial)
+                        .overlay(Color.black.opacity(0.18))
+                )
+                .clipShape(Capsule())
+                .overlay(Capsule().stroke(Color.white.opacity(0.4), lineWidth: 1))
             }
-            .foregroundStyle(Color(hex: "f9f5f2"))
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(
-                Capsule()
-                    .fill(.ultraThinMaterial)
-                    .overlay(Color.black.opacity(0.18))
-            )
-            .clipShape(Capsule())
-            .overlay(Capsule().stroke(Color.white.opacity(0.4), lineWidth: 1))
+            .buttonStyle(.plain)
         }
     }
 
@@ -141,6 +161,28 @@ struct TransformView: View {
                 .font(.system(size: 16, weight: .regular))
                 .foregroundStyle(secondaryText)
                 .multilineTextAlignment(.center)
+                .overlay(
+                    GeometryReader { geo in
+                        LinearGradient(
+                            colors: [.clear, Color.white.opacity(0.85), .clear],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        .frame(width: geo.size.width * 0.35)
+                        .offset(x: shimmerPhase * geo.size.width)
+                        .mask(
+                            Text("Upload a photo to see the magic happen.")
+                                .font(.system(size: 16, weight: .regular))
+                                .multilineTextAlignment(.center)
+                                .frame(width: geo.size.width, height: geo.size.height)
+                        )
+                    }
+                )
+                .onAppear {
+                    withAnimation(.linear(duration: 2.5).repeatForever(autoreverses: false)) {
+                        shimmerPhase = 1.5
+                    }
+                }
         }
         .padding(.horizontal, 24)
     }
@@ -215,9 +257,41 @@ struct TransformView: View {
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundStyle(primaryText)
 
-                        Text("Clear face, good lighting")
-                            .font(.system(size: 14, weight: .medium))
+                        HStack {
+                            Spacer()
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "face.smiling")
+                                        .font(.system(size: 12, weight: .medium))
+                                        .frame(width: 20, alignment: .center)
+                                    Text("Clear faces")
+                                        .font(.system(size: 13, weight: .medium))
+                                }
+                                HStack(spacing: 6) {
+                                    Image(systemName: "sun.max.fill")
+                                        .font(.system(size: 12, weight: .medium))
+                                        .frame(width: 20, alignment: .center)
+                                    Text("Good lighting")
+                                        .font(.system(size: 13, weight: .medium))
+                                }
+                                HStack(spacing: 6) {
+                                    Image(systemName: "person.fill.viewfinder")
+                                        .font(.system(size: 12, weight: .medium))
+                                        .frame(width: 20, alignment: .center)
+                                    Text("Face facing front")
+                                        .font(.system(size: 13, weight: .medium))
+                                }
+                                HStack(spacing: 6) {
+                                    Image(systemName: "eye.slash")
+                                        .font(.system(size: 12, weight: .medium))
+                                        .frame(width: 20, alignment: .center)
+                                    Text("No accessories")
+                                        .font(.system(size: 13, weight: .medium))
+                                }
+                            }
                             .foregroundStyle(secondaryText)
+                            Spacer()
+                        }
                     }
                     .padding(.vertical, 56)
                 }
@@ -413,4 +487,5 @@ private struct AspectRatioButton: View {
         sortOrder: 0
     ))
     .environmentObject(EntitlementManager())
+    .environmentObject(SubscriptionsManager(entitlementManager: EntitlementManager()))
 }
