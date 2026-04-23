@@ -477,8 +477,8 @@ struct ResultView: View {
 
 #Preview {
     ResultView(
-        resultURL: "https://api.builder.io/api/v1/image/assets/TEMP/dcde1743844c674dc2586c73753f6809f377e0a9?width=632",
-        actionType: "video"
+        resultURL: Bundle.main.url(forResource: "defaulttemplate", withExtension: "png")?.absoluteString ?? "",
+        actionType: "image"
     )
     .environmentObject(EntitlementManager())
 }

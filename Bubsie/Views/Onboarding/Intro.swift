@@ -143,23 +143,10 @@ struct Intro: View {
                         RoundedRectangle(cornerRadius: 16)
                             .fill(Color(hex: "FEF1ED"))
 
-                        AsyncImage(url: URL(string: "https://api.builder.io/api/v1/image/assets/TEMP/1c4e79365f4006ad8510ed1416035cd194e21df8?width=648")) { phase in
-                            switch phase {
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            case .failure, .empty:
-                                LinearGradient(
-                                    colors: [Color(hex: "FEF1ED"), Color(hex: "FFDBD0")],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            @unknown default:
-                                EmptyView()
-                            }
-                        }
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        Image("defaultpink")
+                            .resizable()
+                            .scaledToFill()
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
 
                         // Floating UI Element
                         HStack(spacing: 12) {

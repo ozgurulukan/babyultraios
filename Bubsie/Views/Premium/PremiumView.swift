@@ -103,24 +103,11 @@ struct PremiumView: View {
 
     var heroSection: some View {
         ZStack(alignment: .topLeading) {
-            AsyncImage(url: URL(string: "https://api.builder.io/api/v1/image/assets/TEMP/b4e16ac0831d6a92ac903746800ab19d638421df?width=716")) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                case .failure, .empty:
-                    LinearGradient(
-                        colors: [Color(hex: "F08C6E"), Color(hex: "FEB246")],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                @unknown default:
-                    EmptyView()
-                }
-            }
-            .frame(height: 256)
-            .clipped()
+            Image("defaultpaywallbg")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 256)
+                .clipped()
 
             LinearGradient(
                 stops: [

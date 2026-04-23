@@ -132,7 +132,7 @@ struct AccountView: View {
 
             ProfileStyleHeader(
                 title: "Profile",
-                subtitle: "Manage your credits and profile settings."
+                subtitle: "Manage your credits and profile."
             )
 
             Spacer()

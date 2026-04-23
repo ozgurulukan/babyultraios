@@ -38,6 +38,7 @@ struct ProfileStyleHeader: View {
             Text(subtitle)
                 .font(.system(size: 16))
                 .foregroundStyle(Color(hex: "55433E"))
+                .lineLimit(1)
         }
     }
 }
