@@ -184,6 +184,22 @@ struct BubsieAPI {
         _ = try await client.delete("/api/v1/device-token", body: TokenBody(token: token)) as APIResponse<EmptyData>
     }
 
+    // MARK: - Chat
+    func sendChatMessage(_ message: String) async throws -> String {
+        struct ChatRequest: Encodable {
+            let message: String
+        }
+        struct ChatResponse: Decodable {
+            let reply: String
+        }
+        let body = ChatRequest(message: message)
+        let response: APIResponse<ChatResponse> = try await client.post("/api/v1/chat", body: body, timeout: 120)
+        guard response.success, let data = response.data else {
+            throw APIError.serverError(response.error ?? "Chat failed")
+        }
+        return data.reply
+    }
+
     // MARK: - Firebase Config
     func getFirebaseConfig() async throws -> FirebaseConfig {
         let response: APIResponse<FirebaseConfig> = try await client.get("/api/config/firebase")

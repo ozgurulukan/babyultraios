@@ -3,6 +3,13 @@ import SwiftUI
 struct ChatEditView: View {
     @State private var inputText = ""
     @State private var chatItems: [ChatItem] = ChatItem.seed
+    @State private var isLoading = false
+
+    private let suggestions = [
+        "How do I start sleep training?",
+        "What should my 6-month-old eat?",
+        "Tips for toddler tantrums?"
+    ]
 
     var body: some View {
         ZStack {
@@ -18,10 +25,18 @@ struct ChatEditView: View {
                     .padding(.bottom, 8)
             } content: {
                 VStack(alignment: .leading, spacing: 18) {
-                    timestampPill
-
                     ForEach(chatItems) { item in
                         ChatRow(item: item)
+                    }
+
+                    if isLoading {
+                        HStack {
+                            botAvatar
+                            ProgressView()
+                                .padding(.vertical, 16)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 16)
                     }
 
                     tipCard
@@ -70,20 +85,6 @@ struct ChatEditView: View {
         .padding(.bottom, 4)
     }
 
-    private var timestampPill: some View {
-        HStack {
-            Spacer()
-            Text("Today, 10:42 AM")
-                .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(Color(hex: "55433E"))
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(Capsule().fill(Color(hex: "FAF3E0")))
-                .shadow(color: .black.opacity(0.04), radius: 6, y: 2)
-            Spacer()
-        }
-    }
-
     private var tipCard: some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: "lightbulb.max.fill")
@@ -103,29 +104,32 @@ struct ChatEditView: View {
     private var suggestionChips: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
-                suggestionChip("How long does it last?")
-                suggestionChip("Should I feed her?")
+                suggestionChip(suggestions[0])
+                suggestionChip(suggestions[1])
             }
-            suggestionChip("Create sleep schedule")
+            suggestionChip(suggestions[2])
         }
     }
 
     private func suggestionChip(_ text: String) -> some View {
-        Text(text)
-            .font(.system(size: 12, weight: .semibold))
-            .foregroundStyle(Color(hex: "55433E"))
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .background(Capsule().fill(Color(hex: "FAF3E0")))
-            .overlay(Capsule().stroke(Color(hex: "E9E2D0").opacity(0.3), lineWidth: 1))
-            .shadow(color: .black.opacity(0.05), radius: 2, y: 1)
+        Button {
+            inputText = text
+        } label: {
+            Text(text)
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(Color(hex: "55433E"))
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(Capsule().fill(Color(hex: "FAF3E0")))
+                .overlay(Capsule().stroke(Color(hex: "E9E2D0").opacity(0.3), lineWidth: 1))
+                .shadow(color: .black.opacity(0.05), radius: 2, y: 1)
+        }
+        .buttonStyle(.plain)
     }
 
     private var inputBar: some View {
         HStack(spacing: 8) {
-            CircleButton(icon: "photo.badge.plus")
-
-            TextField("Ask Bubsie anything about Emma...", text: $inputText)
+            TextField("Ask Bubsie anything...", text: $inputText)
                 .font(.system(size: 14))
                 .foregroundStyle(Color(hex: "1E1C10"))
                 .tint(Color(hex: "97462E"))
@@ -149,8 +153,8 @@ struct ChatEditView: View {
                     )
             }
             .buttonStyle(.plain)
-            .disabled(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-            .opacity(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.6 : 1)
+            .disabled(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading)
+            .opacity(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading ? 0.6 : 1)
         }
         .padding(8)
         .background(
@@ -167,21 +171,45 @@ struct ChatEditView: View {
 
         chatItems.append(ChatItem(text: text, sender: .user, title: nil, bullets: []))
         inputText = ""
+        isLoading = true
+
+        Task {
+            do {
+                let reply = try await BubsieAPI.shared.sendChatMessage(text)
+                await MainActor.run {
+                    isLoading = false
+                    chatItems.append(ChatItem(text: reply, sender: .ai, title: nil, bullets: []))
+                }
+            } catch {
+                await MainActor.run {
+                    isLoading = false
+                    chatItems.append(ChatItem(
+                        text: "Sorry, I'm having trouble connecting right now. Please try again in a moment.",
+                        sender: .ai,
+                        title: nil,
+                        bullets: []
+                    ))
+                }
+            }
+        }
     }
-}
 
-private struct CircleButton: View {
-    let icon: String
-
-    var body: some View {
+    private var botAvatar: some View {
         Circle()
-            .fill(Color.clear)
-            .frame(width: 40, height: 40)
-            .overlay(
-                Image(systemName: icon)
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(Color(hex: "55433E"))
+            .fill(
+                LinearGradient(
+                    colors: [Color(hex: "97462E"), Color(hex: "F08C6E")],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
             )
+            .frame(width: 32, height: 32)
+            .overlay(
+                Image(systemName: "sparkles")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundStyle(.white)
+            )
+            .shadow(color: Color(hex: "97462E").opacity(0.25), radius: 8, y: 4)
     }
 }
 
@@ -203,22 +231,6 @@ private struct ChatItem: Identifiable {
             sender: .ai,
             title: nil,
             bullets: []
-        ),
-        ChatItem(
-            text: "Emma has been waking up every 2 hours at night recently. She's 4 months old. Is this the sleep regression everyone talks about?",
-            sender: .user,
-            title: nil,
-            bullets: []
-        ),
-        ChatItem(
-            text: "It sounds very likely! The 4-month mark is a classic time for a sleep progression (often called a regression). Emma's sleep cycles are maturing and becoming more like an adult's.",
-            sender: .ai,
-            title: "Here are a few gentle things you can try:",
-            bullets: [
-                "Consistent Bedtime Routine: A bath, book, and soothing song can signal it's time to wind down.",
-                "Dark Environment: Ensure her room is very dark to encourage melatonin production.",
-                "Practice Independent Sleep: Try putting her down awake but drowsy when possible."
-            ]
         )
     ]
 }
