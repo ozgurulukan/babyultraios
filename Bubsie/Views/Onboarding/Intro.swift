@@ -91,15 +91,39 @@ private struct OnboardingBeforeAfterView: View {
     private let accent = Color(hex: "A66A54")
 
     var body: some View {
-        ZStack {
-            bgColor.ignoresSafeArea()
-            VStack(spacing: 0) {
-                sliderSection
-                    .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
-                bottomBar
+        GeometryReader { geo in
+            ZStack {
+                bgColor.ignoresSafeArea()
+                VStack(spacing: 0) {
+                    sliderSection
+                    bottomBar
+                }
+
+                topBlurOverlay(height: geo.size.height * 0.30)
+                    .ignoresSafeArea(edges: .top)
             }
         }
         .onAppear { startAutoAnimation() }
+    }
+
+    private func topBlurOverlay(height: CGFloat) -> some View {
+        VStack(spacing: 0) {
+            ZStack {
+                LinearGradient(
+                    colors: [
+                        Color.white.opacity(0.55),
+                        Color.white.opacity(0.25),
+                        Color.white.opacity(0.0)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .background(.ultraThinMaterial)
+            }
+            .frame(height: height)
+
+            Spacer()
+        }
     }
 
     private func startAutoAnimation() {
@@ -273,15 +297,39 @@ private struct OnboardingBeforeAfterVideoView: View {
     private let accent = Color(hex: "A66A54")
 
     var body: some View {
-        ZStack {
-            bgColor.ignoresSafeArea()
-            VStack(spacing: 0) {
-                sliderSection
-                    .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
-                bottomBar
+        GeometryReader { geo in
+            ZStack {
+                bgColor.ignoresSafeArea()
+                VStack(spacing: 0) {
+                    sliderSection
+                    bottomBar
+                }
+
+                topBlurOverlay(height: geo.size.height * 0.30)
+                    .ignoresSafeArea(edges: .top)
             }
         }
         .onAppear { startAutoAnimation() }
+    }
+
+    private func topBlurOverlay(height: CGFloat) -> some View {
+        VStack(spacing: 0) {
+            ZStack {
+                LinearGradient(
+                    colors: [
+                        Color.white.opacity(0.55),
+                        Color.white.opacity(0.25),
+                        Color.white.opacity(0.0)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .background(.ultraThinMaterial)
+            }
+            .frame(height: height)
+
+            Spacer()
+        }
     }
 
     private func startAutoAnimation() {
