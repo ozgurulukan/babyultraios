@@ -1,15 +1,7 @@
 import SwiftUI
 
 struct ChatEditView: View {
-    @State private var inputText = ""
-    @State private var chatItems: [ChatItem] = ChatItem.seed
-    @State private var isLoading = false
-
-    private let suggestions = [
-        "How do I start sleep training?",
-        "What should my 6-month-old eat?",
-        "Tips for toddler tantrums?"
-    ]
+    @StateObject private var viewModel = ChatEditViewModel()
 
     var body: some View {
         ZStack {
@@ -25,11 +17,11 @@ struct ChatEditView: View {
                     .padding(.bottom, 8)
             } content: {
                 VStack(alignment: .leading, spacing: 18) {
-                    ForEach(chatItems) { item in
+                    ForEach(viewModel.chatItems) { item in
                         ChatRow(item: item)
                     }
 
-                    if isLoading {
+                    if viewModel.isLoading {
                         HStack {
                             botAvatar
                             ProgressView()
@@ -75,10 +67,25 @@ struct ChatEditView: View {
     }
 
     private var headerBar: some View {
-        ProfileStyleHeader(
-            title: "BubsieAI",
-            subtitle: "Ask Bubsie anything about your little one."
-        )
+        HStack(alignment: .top) {
+            ProfileStyleHeader(
+                title: "BubsieAI",
+                subtitle: "Ask Bubsie anything about your little one."
+            )
+            Spacer()
+            Button {
+                viewModel.clearChat()
+            } label: {
+                Text("Clear Chat")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(Color(hex: "97462E"))
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Capsule().fill(Color(hex: "FAF3E0")))
+                    .overlay(Capsule().stroke(Color(hex: "E9E2D0").opacity(0.4), lineWidth: 1))
+            }
+            .buttonStyle(.plain)
+        }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 24)
         .padding(.top, 8)
@@ -104,16 +111,16 @@ struct ChatEditView: View {
     private var suggestionChips: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
-                suggestionChip(suggestions[0])
-                suggestionChip(suggestions[1])
+                suggestionChip(viewModel.suggestions[0])
+                suggestionChip(viewModel.suggestions[1])
             }
-            suggestionChip(suggestions[2])
+            suggestionChip(viewModel.suggestions[2])
         }
     }
 
     private func suggestionChip(_ text: String) -> some View {
         Button {
-            inputText = text
+            viewModel.selectSuggestion(text)
         } label: {
             Text(text)
                 .font(.system(size: 12, weight: .semibold))
@@ -129,13 +136,21 @@ struct ChatEditView: View {
 
     private var inputBar: some View {
         HStack(spacing: 8) {
-            TextField("Ask Bubsie anything...", text: $inputText)
-                .font(.system(size: 14))
-                .foregroundStyle(Color(hex: "1E1C10"))
-                .tint(Color(hex: "97462E"))
+            ZStack(alignment: .leading) {
+                if viewModel.inputText.isEmpty {
+                    Text("Ask Bubsie anything...")
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color(hex: "88726C"))
+                        .shimmer()
+                }
+                TextField("", text: $viewModel.inputText)
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color(hex: "1E1C10"))
+                    .tint(Color(hex: "97462E"))
+            }
 
             Button {
-                sendMessage()
+                viewModel.sendMessage()
             } label: {
                 Circle()
                     .fill(
@@ -153,8 +168,8 @@ struct ChatEditView: View {
                     )
             }
             .buttonStyle(.plain)
-            .disabled(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading)
-            .opacity(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading ? 0.6 : 1)
+            .disabled(viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || viewModel.isLoading)
+            .opacity(viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || viewModel.isLoading ? 0.6 : 1)
         }
         .padding(8)
         .background(
@@ -163,35 +178,6 @@ struct ChatEditView: View {
                 .overlay(Capsule().stroke(Color(hex: "E9E2D0").opacity(0.35), lineWidth: 1))
                 .shadow(color: .black.opacity(0.08), radius: 12, y: 6)
         )
-    }
-
-    private func sendMessage() {
-        let text = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !text.isEmpty else { return }
-
-        chatItems.append(ChatItem(text: text, sender: .user, title: nil, bullets: []))
-        inputText = ""
-        isLoading = true
-
-        Task {
-            do {
-                let reply = try await BubsieAPI.shared.sendChatMessage(text)
-                await MainActor.run {
-                    isLoading = false
-                    chatItems.append(ChatItem(text: reply, sender: .ai, title: nil, bullets: []))
-                }
-            } catch {
-                await MainActor.run {
-                    isLoading = false
-                    chatItems.append(ChatItem(
-                        text: "Sorry, I'm having trouble connecting right now. Please try again in a moment.",
-                        sender: .ai,
-                        title: nil,
-                        bullets: []
-                    ))
-                }
-            }
-        }
     }
 
     private var botAvatar: some View {
@@ -213,12 +199,43 @@ struct ChatEditView: View {
     }
 }
 
-private enum Sender {
+private struct Shimmer: ViewModifier {
+    @State private var phase: CGFloat = -1
+
+    func body(content: Content) -> some View {
+        content
+            .overlay(
+                GeometryReader { geo in
+                    LinearGradient(
+                        colors: [.clear, .white.opacity(0.7), .clear],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                    .frame(width: geo.size.width * 1.5)
+                    .offset(x: phase * geo.size.width * 1.5)
+                }
+                .mask(content)
+            )
+            .onAppear {
+                withAnimation(.linear(duration: 2.0).repeatForever(autoreverses: false)) {
+                    phase = 1
+                }
+            }
+    }
+}
+
+private extension View {
+    func shimmer() -> some View {
+        modifier(Shimmer())
+    }
+}
+
+enum Sender {
     case ai
     case user
 }
 
-private struct ChatItem: Identifiable {
+struct ChatItem: Identifiable {
     let id = UUID()
     let text: String
     let sender: Sender
