@@ -953,7 +953,7 @@ struct Intro: View {
         .ignoresSafeArea(.container, edges: .bottom)
         .onChange(of: currentPage) { _, newValue in
             if newValue == 2 && !hasRequestedReview {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     hasRequestedReview = true
                     requestReview()
                 }
