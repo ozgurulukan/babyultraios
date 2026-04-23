@@ -5,6 +5,10 @@ struct ChatEditView: View {
     @EnvironmentObject private var entitlementManager: EntitlementManager
     @State private var showPaywall = false
 
+    private var isPro: Bool {
+        AuthManager.shared.currentUser?.isPro ?? entitlementManager.hasPro
+    }
+
     var body: some View {
         ZStack {
             chatBackground.ignoresSafeArea()
@@ -159,7 +163,7 @@ struct ChatEditView: View {
             }
 
             Button {
-                guard entitlementManager.hasPro else {
+                guard isPro else {
                     showPaywall = true
                     return
                 }
