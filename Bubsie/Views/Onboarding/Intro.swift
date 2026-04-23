@@ -99,7 +99,7 @@ private struct OnboardingBeforeAfterView: View {
                     bottomBar
                 }
 
-                topBlurOverlay(height: geo.size.height * 0.30)
+                topBlurOverlay(height: geo.size.height * 0.25)
                     .ignoresSafeArea(edges: .top)
             }
         }
@@ -111,8 +111,9 @@ private struct OnboardingBeforeAfterView: View {
             ZStack {
                 LinearGradient(
                     colors: [
-                        Color.white.opacity(0.55),
-                        Color.white.opacity(0.25),
+                        Color.white.opacity(0.50),
+                        Color.white.opacity(0.30),
+                        Color.white.opacity(0.10),
                         Color.white.opacity(0.0)
                     ],
                     startPoint: .top,
@@ -305,7 +306,7 @@ private struct OnboardingBeforeAfterVideoView: View {
                     bottomBar
                 }
 
-                topBlurOverlay(height: geo.size.height * 0.30)
+                topBlurOverlay(height: geo.size.height * 0.25)
                     .ignoresSafeArea(edges: .top)
             }
         }
@@ -317,8 +318,9 @@ private struct OnboardingBeforeAfterVideoView: View {
             ZStack {
                 LinearGradient(
                     colors: [
-                        Color.white.opacity(0.55),
-                        Color.white.opacity(0.25),
+                        Color.white.opacity(0.50),
+                        Color.white.opacity(0.30),
+                        Color.white.opacity(0.10),
                         Color.white.opacity(0.0)
                     ],
                     startPoint: .top,
