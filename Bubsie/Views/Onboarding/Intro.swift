@@ -425,11 +425,13 @@ private final class LoopingOnboardingPlayerView: UIView {
     private let playerLayer = AVPlayerLayer()
     private var looper: AVPlayerLooper?
     private var currentURL: URL?
+    private var statusObserver: NSKeyValueObservation?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         player.isMuted = true
         player.actionAtItemEnd = .none
+        player.automaticallyWaitsToMinimizeStalling = true
         playerLayer.player = player
         playerLayer.videoGravity = .resizeAspectFill
         layer.addSublayer(playerLayer)
@@ -443,8 +445,19 @@ private final class LoopingOnboardingPlayerView: UIView {
         guard currentURL != url else { return }
         currentURL = url
         player.removeAllItems()
-        looper = AVPlayerLooper(player: player, templateItem: AVPlayerItem(url: url))
-        player.play()
+        looper = nil
+        statusObserver?.invalidate()
+
+        let asset = AVAsset(url: url)
+        asset.loadValuesAsynchronously(forKeys: ["playable"]) { [weak self] in
+            DispatchQueue.main.async {
+                guard self?.currentURL == url else { return }
+                let item = AVPlayerItem(asset: asset)
+                item.preferredForwardBufferDuration = 2
+                self?.looper = AVPlayerLooper(player: self!.player, templateItem: item)
+                self?.player.play()
+            }
+        }
     }
 
     override func layoutSubviews() {
