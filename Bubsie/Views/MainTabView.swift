@@ -56,7 +56,6 @@ struct MainTabView: View {
         .safeAreaInset(edge: .bottom, spacing: 0) {
             LiquidNavigationBar(selectedTab: $selectedTab)
         }
-        .preferredColorScheme(selectedTab == .account || selectedTab == .chatEdit ? .light : .dark)
         .ignoresSafeArea(.keyboard)
     }
 }
