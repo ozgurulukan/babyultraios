@@ -12,7 +12,7 @@ enum BubsieTab: String, CaseIterable {
         case .home:        return "house.fill"
         case .generations: return "square.grid.2x2.fill"
         case .chatEdit:    return "message.fill"
-        case .account:     return "person.crop.circle.fill"
+        case .account:     return "person.fill"
         }
     }
 
