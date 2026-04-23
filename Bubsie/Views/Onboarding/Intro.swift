@@ -610,6 +610,7 @@ private struct OnboardingReviewsView: View {
     @State private var scrollOffset: CGFloat = 0
     @State private var singleSetHeight: CGFloat = 0
     @State private var hasRequestedReview = false
+    @State private var scrollTimer: Timer? = nil
 
     private let bgColor = Color(hex: "F6ECE6")
     private let textColor = Color(hex: "3F2D28")
@@ -652,10 +653,7 @@ private struct OnboardingReviewsView: View {
                             let newSingleSetHeight = totalHeight / 2
                             guard newSingleSetHeight > 0, singleSetHeight == 0 else { return }
                             singleSetHeight = newSingleSetHeight
-                            let duration = max(Double(reviews.count) * 4, 12)
-                            withAnimation(.linear(duration: duration).repeatForever(autoreverses: false)) {
-                                scrollOffset = newSingleSetHeight
-                            }
+                            startAutoScroll()
                         }
 
                         // Top fade gradient
@@ -729,6 +727,22 @@ private struct OnboardingReviewsView: View {
                     hasRequestedReview = true
                     requestReview()
                 }
+            }
+        }
+        .onDisappear {
+            scrollTimer?.invalidate()
+            scrollTimer = nil
+        }
+    }
+
+    private func startAutoScroll() {
+        guard scrollTimer == nil else { return }
+        // ~40px per second for smooth readable scroll
+        let step: CGFloat = 0.6
+        scrollTimer = Timer.scheduledTimer(withTimeInterval: 0.016, repeats: true) { _ in
+            scrollOffset += step
+            if scrollOffset >= singleSetHeight {
+                scrollOffset = 0
             }
         }
     }
