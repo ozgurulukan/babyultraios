@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ChatEditView: View {
     @StateObject private var viewModel = ChatEditViewModel.shared
+    @EnvironmentObject private var entitlementManager: EntitlementManager
+    @State private var showPaywall = false
 
     var body: some View {
         ZStack {
@@ -53,6 +55,9 @@ struct ChatEditView: View {
                     )
                     .ignoresSafeArea()
                 )
+        }
+        .sheet(isPresented: $showPaywall) {
+            PremiumView()
         }
     }
 
@@ -154,6 +159,10 @@ struct ChatEditView: View {
             }
 
             Button {
+                guard entitlementManager.hasPro else {
+                    showPaywall = true
+                    return
+                }
                 viewModel.sendMessage()
             } label: {
                 Circle()
@@ -447,4 +456,5 @@ private struct FormattedMessageView: View {
 
 #Preview {
     ChatEditView()
+        .environmentObject(EntitlementManager())
 }
