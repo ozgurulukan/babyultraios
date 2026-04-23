@@ -107,24 +107,37 @@ private struct OnboardingBeforeAfterView: View {
     }
 
     private func topBlurOverlay(height: CGFloat) -> some View {
-        VStack(spacing: 0) {
-            ZStack {
-                LinearGradient(
-                    colors: [
-                        Color.white.opacity(0.50),
-                        Color.white.opacity(0.30),
-                        Color.white.opacity(0.10),
-                        Color.white.opacity(0.0)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+        ZStack {
+            // Material blur with gradient mask for smooth fade-out
+            Color.clear
                 .background(.ultraThinMaterial)
-            }
-            .frame(height: height)
+                .mask(
+                    LinearGradient(
+                        colors: [
+                            Color.white,
+                            Color.white.opacity(0.7),
+                            Color.white.opacity(0.3),
+                            Color.white.opacity(0.0)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
 
-            Spacer()
+            // White tint overlay with fade-out
+            LinearGradient(
+                colors: [
+                    Color.white.opacity(0.50),
+                    Color.white.opacity(0.30),
+                    Color.white.opacity(0.10),
+                    Color.white.opacity(0.0)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
         }
+        .frame(height: height)
+        .frame(maxHeight: .infinity, alignment: .top)
     }
 
     private func startAutoAnimation() {
@@ -314,24 +327,37 @@ private struct OnboardingBeforeAfterVideoView: View {
     }
 
     private func topBlurOverlay(height: CGFloat) -> some View {
-        VStack(spacing: 0) {
-            ZStack {
-                LinearGradient(
-                    colors: [
-                        Color.white.opacity(0.50),
-                        Color.white.opacity(0.30),
-                        Color.white.opacity(0.10),
-                        Color.white.opacity(0.0)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+        ZStack {
+            // Material blur with gradient mask for smooth fade-out
+            Color.clear
                 .background(.ultraThinMaterial)
-            }
-            .frame(height: height)
+                .mask(
+                    LinearGradient(
+                        colors: [
+                            Color.white,
+                            Color.white.opacity(0.7),
+                            Color.white.opacity(0.3),
+                            Color.white.opacity(0.0)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
 
-            Spacer()
+            // White tint overlay with fade-out
+            LinearGradient(
+                colors: [
+                    Color.white.opacity(0.50),
+                    Color.white.opacity(0.30),
+                    Color.white.opacity(0.10),
+                    Color.white.opacity(0.0)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
         }
+        .frame(height: height)
+        .frame(maxHeight: .infinity, alignment: .top)
     }
 
     private func startAutoAnimation() {
