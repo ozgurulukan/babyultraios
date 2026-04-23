@@ -59,8 +59,8 @@ struct AccountView: View {
 
     private var headerSection: some View {
         ProfileStyleHeader(
-            title: "Your Account",
-            subtitle: "Manage your credits and settings."
+            title: "Profile",
+            subtitle: "Manage your credits and profile settings."
         )
     }
 
