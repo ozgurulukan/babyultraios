@@ -1,5 +1,6 @@
 import SwiftUI
 import MessageUI
+import FirebaseAuth
 
 struct AccountView: View {
     @EnvironmentObject private var entitlementManager: EntitlementManager
@@ -11,6 +12,7 @@ struct AccountView: View {
     @State private var showLanguageSheet = false
     @State private var showMailComposer = false
     @State private var showCopiedBanner = false
+    @State private var copiedBannerText = "Copied to clipboard"
     @Environment(\.openURL) private var openURL
 
     private let supportEmail = "hi@fagore.com"
@@ -66,7 +68,7 @@ struct AccountView: View {
                     HStack {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundStyle(.white)
-                        Text("Email copied to clipboard")
+                        Text(copiedBannerText)
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.white)
                     }
@@ -290,6 +292,7 @@ struct AccountView: View {
                     showMailComposer = true
                 } else {
                     UIPasteboard.general.string = supportEmail
+                    copiedBannerText = "Email copied to clipboard"
                     withAnimation { showCopiedBanner = true }
                 }
             }
@@ -308,6 +311,14 @@ struct AccountView: View {
             menuDivider
             profileMenuRow(icon: "star.fill", title: "Rate Us") {
                 openURL(URL(string: "https://apps.apple.com")!)
+            }
+            menuDivider
+            profileMenuRow(icon: "person.fill.viewfinder", title: "User ID") {
+                if let uid = Auth.auth().currentUser?.uid {
+                    UIPasteboard.general.string = uid
+                    copiedBannerText = "User ID copied to clipboard"
+                    withAnimation { showCopiedBanner = true }
+                }
             }
         }
         .background(
