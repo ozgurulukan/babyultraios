@@ -46,7 +46,7 @@ final class ChatEditViewModel: ObservableObject {
     func clearChat() {
         chatItems = [
             ChatItem(
-                text: "Hi there! I'm Bubsie, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.",
+                text: "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.",
                 sender: .ai,
                 title: nil,
                 bullets: []
