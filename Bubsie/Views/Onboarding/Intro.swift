@@ -721,9 +721,14 @@ private struct ReviewBubble: View {
 }
 
 // MARK: - Left Clip Shape (for before/after slider)
-private struct LeftClipShape: Shape {
+private struct LeftClipShape: Shape, Animatable {
     var width: CGFloat
     var height: CGFloat
+
+    var animatableData: CGFloat {
+        get { width }
+        set { width = newValue }
+    }
 
     func path(in rect: CGRect) -> Path {
         Path(CGRect(x: 0, y: 0, width: width, height: height))
