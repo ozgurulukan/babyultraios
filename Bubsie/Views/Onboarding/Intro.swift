@@ -425,13 +425,14 @@ private final class LoopingOnboardingPlayerView: UIView {
     private let playerLayer = AVPlayerLayer()
     private var looper: AVPlayerLooper?
     private var currentURL: URL?
-    private var statusObserver: NSKeyValueObservation?
+    private var itemObserver: NSKeyValueObservation?
+    private var timeObserver: Any?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         player.isMuted = true
         player.actionAtItemEnd = .none
-        player.automaticallyWaitsToMinimizeStalling = true
+        player.automaticallyWaitsToMinimizeStalling = false
         playerLayer.player = player
         playerLayer.videoGravity = .resizeAspectFill
         layer.addSublayer(playerLayer)
@@ -446,18 +447,30 @@ private final class LoopingOnboardingPlayerView: UIView {
         currentURL = url
         player.removeAllItems()
         looper = nil
-        statusObserver?.invalidate()
+        itemObserver?.invalidate()
+        if let timeObserver = timeObserver {
+            player.removeTimeObserver(timeObserver)
+            self.timeObserver = nil
+        }
 
-        let asset = AVAsset(url: url)
-        asset.loadValuesAsynchronously(forKeys: ["playable"]) { [weak self] in
-            DispatchQueue.main.async {
-                guard self?.currentURL == url else { return }
-                let item = AVPlayerItem(asset: asset)
-                item.preferredForwardBufferDuration = 2
-                self?.looper = AVPlayerLooper(player: self!.player, templateItem: item)
-                self?.player.play()
+        let item = AVPlayerItem(url: url)
+        item.preferredForwardBufferDuration = 6
+
+        itemObserver = item.observe(\.status, options: [.new]) { [weak self] item, _ in
+            guard item.status == .readyToPlay, let self = self, self.currentURL == url else { return }
+            self.looper = AVPlayerLooper(player: self.player, templateItem: item)
+            self.player.play()
+            // Fade in player layer once playback actually starts
+            self.timeObserver = self.player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.05, preferredTimescale: 600), queue: .main) { [weak self] time in
+                guard let self = self else { return }
+                if time.seconds > 0 && self.playerLayer.opacity == 0 {
+                    self.playerLayer.opacity = 1
+                }
             }
         }
+
+        player.insert(item, after: nil)
+        playerLayer.opacity = 0  // Hide until first frame renders
     }
 
     override func layoutSubviews() {
