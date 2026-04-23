@@ -646,15 +646,16 @@ private struct OnboardingReviewsView: View {
                         .background(
                             GeometryReader { contentGeo in
                                 Color.clear
-                                    .preference(key: ScrollContentHeightKey.self, value: contentGeo.size.height)
+                                    .onAppear {
+                                        DispatchQueue.main.async {
+                                            let totalHeight = contentGeo.size.height
+                                            guard totalHeight > 0, singleSetHeight == 0 else { return }
+                                            singleSetHeight = totalHeight / 2
+                                            startAutoScroll()
+                                        }
+                                    }
                             }
                         )
-                        .onPreferenceChange(ScrollContentHeightKey.self) { totalHeight in
-                            let newSingleSetHeight = totalHeight / 2
-                            guard newSingleSetHeight > 0, singleSetHeight == 0 else { return }
-                            singleSetHeight = newSingleSetHeight
-                            startAutoScroll()
-                        }
 
                         // Top fade gradient
                         VStack(spacing: 0) {
@@ -722,6 +723,17 @@ private struct OnboardingReviewsView: View {
             }
         }
         .onAppear {
+            // Fallback: estimate height and start scroll if GeometryReader fails
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if singleSetHeight == 0 {
+                    let bubbleHeight: CGFloat = 100
+                    let spacing: CGFloat = 16
+                    let estimated = CGFloat(reviews.count) * bubbleHeight + CGFloat(max(0, reviews.count - 1)) * spacing
+                    singleSetHeight = estimated
+                    startAutoScroll()
+                }
+            }
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 if !hasRequestedReview {
                     hasRequestedReview = true
@@ -736,14 +748,14 @@ private struct OnboardingReviewsView: View {
     }
 
     private func startAutoScroll() {
-        guard scrollTimer == nil else { return }
-        // ~40px per second for smooth readable scroll
+        guard scrollTimer == nil, singleSetHeight > 0 else { return }
         let step: CGFloat = 0.6
-        scrollTimer = Timer.scheduledTimer(withTimeInterval: 0.016, repeats: true) { _ in
-            scrollOffset += step
-            if scrollOffset >= singleSetHeight {
-                scrollOffset = 0
+        scrollTimer = Timer.scheduledTimer(withTimeInterval: 0.016, repeats: true) { [self] _ in
+            var newOffset = self.scrollOffset + step
+            if newOffset >= self.singleSetHeight {
+                newOffset = 0
             }
+            self.scrollOffset = newOffset
         }
     }
 
