@@ -55,7 +55,9 @@ struct HomeView: View {
                         Spacer()
                         
                         Button {
-                            showAccount = true
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                showAccount = true
+                            }
                         } label: {
                             HStack(spacing: 6) {
                                 Image(systemName: "circle.lefthalf.filled")
@@ -92,6 +94,13 @@ struct HomeView: View {
                     .padding(.bottom, 8)
                 }
                 .environment(\.colorScheme, .light)
+
+                if showAccount {
+                    AccountView(isPresented: $showAccount, showBackButton: true)
+                        .transition(.move(edge: .trailing))
+                        .zIndex(1)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
             }
             .navigationBarHidden(true)
             .task { await homeVM.loadData() }
@@ -115,9 +124,6 @@ struct HomeView: View {
                 if let template = selectedTemplate {
                     TransformView(template: template)
                 }
-            }
-            .navigationDestination(isPresented: $showAccount) {
-                AccountView()
             }
         }
     }

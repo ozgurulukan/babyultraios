@@ -14,8 +14,16 @@ struct AccountView: View {
     @State private var showCopiedBanner = false
     @State private var copiedBannerText = "Copied to clipboard"
     @Environment(\.openURL) private var openURL
+    @Binding var isPresented: Bool
+
+    var showBackButton: Bool = false
 
     private let supportEmail = "hi@fagore.com"
+
+    init(isPresented: Binding<Bool> = .constant(false), showBackButton: Bool = false) {
+        self._isPresented = isPresented
+        self.showBackButton = showBackButton
+    }
 
     private var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
     private var isPro: Bool { auth.currentUser?.isPro ?? entitlementManager.hasPro }
@@ -46,6 +54,7 @@ struct AccountView: View {
         }
         .environment(\.colorScheme, .light)
         .background(profileBackground.ignoresSafeArea())
+        .navigationBarHidden(true)
         .task { await auth.fetchProfile() }
         .sheet(isPresented: $isPremiumShow) { PremiumView() }
         .sheet(isPresented: $showShareSheet) {
@@ -100,10 +109,32 @@ struct AccountView: View {
     }
 
     private var headerSection: some View {
-        ProfileStyleHeader(
-            title: "Profile",
-            subtitle: "Manage your credits and profile settings."
-        )
+        HStack(spacing: 20) {
+            if showBackButton {
+                Button {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        isPresented = false
+                    }
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .frame(width: 36, height: 36)
+                        .background(.ultraThinMaterial)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.white.opacity(0.5), lineWidth: 1))
+                        .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+                }
+                .buttonStyle(.plain)
+            }
+
+            ProfileStyleHeader(
+                title: "Profile",
+                subtitle: "Manage your credits and profile settings."
+            )
+
+            Spacer()
+        }
     }
 
     private var creditCard: some View {
