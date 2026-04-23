@@ -52,7 +52,7 @@ struct Splash: View {
                             .font(.system(size: 40, weight: .black, design: .rounded))
                             .foregroundStyle(SplashPalette.text)
 
-                        Text("AI Video & Photo Studio")
+                        Text("AI Magic for Your Little One")
                             .font(.system(size: 15, weight: .medium))
                             .foregroundStyle(SplashPalette.subtleText)
                             .offset(y: taglineOffset)
@@ -67,6 +67,12 @@ struct Splash: View {
                     }
 
                     Spacer()
+
+                    Image("splashkid")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 280)
+                        .padding(.bottom, 20)
                 }
             }
             .onAppear {

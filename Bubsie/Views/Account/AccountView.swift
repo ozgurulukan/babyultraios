@@ -60,7 +60,7 @@ struct AccountView: View {
         .sheet(isPresented: $isPremiumShow) { PremiumView() }
         .sheet(isPresented: $showTopup) { TopupView() }
         .sheet(isPresented: $showShareSheet) {
-            ActivityView(activityItems: ["Check out Bubsie AI — stunning AI video & photo studio! 🎬 https://apps.apple.com"])
+            ActivityView(activityItems: ["Check out Bubsie · AI Magic for Your Little One! 🎬 https://apps.apple.com"])
         }
         .sheet(isPresented: $showLanguageSheet) {
             LanguageSelectionView()
