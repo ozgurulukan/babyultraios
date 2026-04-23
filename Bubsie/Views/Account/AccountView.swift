@@ -1,4 +1,5 @@
 import SwiftUI
+import MessageUI
 
 struct AccountView: View {
     @EnvironmentObject private var entitlementManager: EntitlementManager
@@ -8,7 +9,11 @@ struct AccountView: View {
     @State private var isPremiumShow = false
     @State private var showShareSheet = false
     @State private var showLanguageSheet = false
+    @State private var showMailComposer = false
+    @State private var showCopiedBanner = false
     @Environment(\.openURL) private var openURL
+
+    private let supportEmail = "hi@fagore.com"
 
     private var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
     private var isPro: Bool { auth.currentUser?.isPro ?? entitlementManager.hasPro }
@@ -46,6 +51,41 @@ struct AccountView: View {
         }
         .sheet(isPresented: $showLanguageSheet) {
             LanguageSelectionView()
+        }
+        .sheet(isPresented: $showMailComposer) {
+            MailComposerView(
+                recipients: [supportEmail],
+                subject: "Bubsie Support",
+                body: ""
+            )
+        }
+        .overlay {
+            if showCopiedBanner {
+                VStack {
+                    Spacer()
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundStyle(.white)
+                        Text("Email copied to clipboard")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.white)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background(
+                        Capsule()
+                            .fill(Color(hex: "97462E"))
+                    )
+                    .shadow(color: .black.opacity(0.15), radius: 12, y: 6)
+                    .padding(.bottom, 32)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        withAnimation { showCopiedBanner = false }
+                    }
+                }
+            }
         }
     }
 
@@ -246,7 +286,12 @@ struct AccountView: View {
             profileMenuRow(icon: "globe", title: "Language") { showLanguageSheet = true }
             menuDivider
             profileMenuRow(icon: "headphones", title: "Contact Support") {
-                openURL(URL(string: "mailto:hi@fagore.com")!)
+                if MFMailComposeViewController.canSendMail() {
+                    showMailComposer = true
+                } else {
+                    UIPasteboard.general.string = supportEmail
+                    withAnimation { showCopiedBanner = true }
+                }
             }
             menuDivider
             profileMenuRow(icon: "questionmark.circle", title: "Help Center") {
@@ -389,6 +434,33 @@ struct LanguageSelectionView: View {
                     }
                 }
             }
+        }
+    }
+}
+
+struct MailComposerView: UIViewControllerRepresentable {
+    let recipients: [String]
+    let subject: String
+    let body: String
+
+    func makeUIViewController(context: Context) -> MFMailComposeViewController {
+        let composer = MFMailComposeViewController()
+        composer.mailComposeDelegate = context.coordinator
+        composer.setToRecipients(recipients)
+        composer.setSubject(subject)
+        composer.setMessageBody(body, isHTML: false)
+        return composer
+    }
+
+    func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
+        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+            controller.dismiss(animated: true)
         }
     }
 }
