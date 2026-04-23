@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ChatEditView: View {
-    @StateObject private var viewModel = ChatEditViewModel()
+    @StateObject private var viewModel = ChatEditViewModel.shared
 
     var body: some View {
         ZStack {
@@ -68,10 +68,14 @@ struct ChatEditView: View {
 
     private var headerBar: some View {
         HStack(alignment: .top) {
-            ProfileStyleHeader(
-                title: "BubsieAI",
-                subtitle: "Ask Bubsie anything about your little one."
-            )
+            VStack(alignment: .leading, spacing: 4) {
+                Text("BubsieAI")
+                    .font(.system(size: 30, weight: .bold))
+                    .foregroundStyle(Color(hex: "1E1C10"))
+                Text("Ask BubsieAI anything about your little one.")
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color(hex: "55433E"))
+            }
             Spacer()
             Button {
                 viewModel.clearChat()
@@ -138,7 +142,7 @@ struct ChatEditView: View {
         HStack(spacing: 8) {
             ZStack(alignment: .leading) {
                 if viewModel.inputText.isEmpty {
-                    Text("Ask Bubsie anything...")
+                    Text("Ask BubsieAI anything…")
                         .font(.system(size: 14))
                         .foregroundStyle(Color(hex: "88726C"))
                         .shimmer()
@@ -293,10 +297,14 @@ private struct ChatRow: View {
 
     private var bubble: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(item.text)
-                .font(.system(size: 14))
-                .foregroundStyle(Color(hex: "1E1C10"))
-                .lineSpacing(4)
+            if item.sender == .ai {
+                FormattedMessageView(text: item.text)
+            } else {
+                Text(item.text)
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color(hex: "1E1C10"))
+                    .lineSpacing(4)
+            }
 
             if let title = item.title {
                 Text(title)
@@ -343,6 +351,97 @@ private struct ChatRow: View {
             .stroke(item.sender == .ai ? Color(hex: "E9E2D0").opacity(0.6) : .clear, lineWidth: 1)
         }
         .shadow(color: .black.opacity(item.sender == .ai ? 0.06 : 0.03), radius: 12, y: 6)
+    }
+}
+
+private struct FormattedMessageView: View {
+    let text: String
+
+    var body: some View {
+        let lines = text.components(separatedBy: "\n")
+        VStack(alignment: .leading, spacing: 6) {
+            ForEach(0..<lines.count, id: \.self) { index in
+                formatLine(lines[index])
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func formatLine(_ line: String) -> some View {
+        let trimmed = line.trimmingCharacters(in: .whitespaces)
+        if trimmed.hasPrefix("* ") || trimmed.hasPrefix("- ") {
+            let content = String(trimmed.dropFirst(2))
+            HStack(alignment: .top, spacing: 8) {
+                Text("•")
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color(hex: "845400"))
+                    .padding(.top, 2)
+                inlineFormattedText(content)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        } else {
+            inlineFormattedText(trimmed)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    private func inlineFormattedText(_ input: String) -> Text {
+        var result = Text("")
+        var remaining = input
+
+        while !remaining.isEmpty {
+            if let boldRange = remaining.range(of: "**") {
+                let before = String(remaining[..<boldRange.lowerBound])
+                if !before.isEmpty {
+                    result = result + Text(before)
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color(hex: "1E1C10"))
+                }
+
+                let afterBoldStart = String(remaining[boldRange.upperBound...])
+                if let endBoldRange = afterBoldStart.range(of: "**") {
+                    let boldContent = String(afterBoldStart[..<endBoldRange.lowerBound])
+                    result = result + Text(boldContent)
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(Color(hex: "97462E"))
+                    remaining = String(afterBoldStart[endBoldRange.upperBound...])
+                } else {
+                    result = result + Text(remaining)
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color(hex: "1E1C10"))
+                    remaining = ""
+                }
+            } else if let underlineRange = remaining.range(of: "*") {
+                let before = String(remaining[..<underlineRange.lowerBound])
+                if !before.isEmpty {
+                    result = result + Text(before)
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color(hex: "1E1C10"))
+                }
+
+                let afterUnderlineStart = String(remaining[underlineRange.upperBound...])
+                if let endUnderlineRange = afterUnderlineStart.range(of: "*") {
+                    let underlineContent = String(afterUnderlineStart[..<endUnderlineRange.lowerBound])
+                    result = result + Text(underlineContent)
+                        .font(.system(size: 14))
+                        .underline()
+                        .foregroundStyle(Color(hex: "1E1C10"))
+                    remaining = String(afterUnderlineStart[endUnderlineRange.upperBound...])
+                } else {
+                    result = result + Text(remaining)
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color(hex: "1E1C10"))
+                    remaining = ""
+                }
+            } else {
+                result = result + Text(remaining)
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color(hex: "1E1C10"))
+                remaining = ""
+            }
+        }
+
+        return result
     }
 }
 

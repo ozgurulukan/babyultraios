@@ -3,6 +3,7 @@ import Combine
 
 @MainActor
 final class ChatEditViewModel: ObservableObject {
+    static let shared = ChatEditViewModel()
     @Published var inputText = ""
     @Published var chatItems: [ChatItem] = ChatItem.seed
     @Published var isLoading = false

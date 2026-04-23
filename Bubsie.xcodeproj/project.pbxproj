@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A3B5E072F99A03B00F10C0D /* ChatEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B5E062F99A03B00F10C0D /* ChatEditViewModel.swift */; };
 		5A5071632F9838010012C7EF /* Icon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 5A5071622F9838010012C7EF /* Icon.icon */; };
 		5A60040B2F95B6920057469C /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE0002SPMDEP /* FirebaseCore */; };
 		5A60040C2F95B6920057469C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE0003SPMDEP /* FirebaseAuth */; };
@@ -62,6 +63,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A3B5E062F99A03B00F10C0D /* ChatEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEditViewModel.swift; sourceTree = "<group>"; };
 		5A5071622F9838010012C7EF /* Icon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Icon.icon; sourceTree = "<group>"; };
 		6A6A19C9E87ED4525D9D2FCB /* TransformView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TransformView.swift; sourceTree = "<group>"; };
 		773870302C489A7500477E83 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
@@ -346,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				AABB00092C489A7500477E83 /* ChatEditView.swift */,
+				5A3B5E062F99A03B00F10C0D /* ChatEditViewModel.swift */,
 			);
 			path = ChatEdit;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				77C65CD82C40BC9200D8B584 /* Constants.swift in Sources */,
 				AABB00022C489A7500477E83 /* ThemeManager.swift in Sources */,
 				AABB00052C489A7500477E83 /* MainTabView.swift in Sources */,
+				5A3B5E072F99A03B00F10C0D /* ChatEditViewModel.swift in Sources */,
 				AABB00072C489A7500477E83 /* GenerationsView.swift in Sources */,
 				AABB000A2C489A7500477E83 /* ChatEditView.swift in Sources */,
 				AABB000D2C489A7500477E83 /* AccountView.swift in Sources */,
