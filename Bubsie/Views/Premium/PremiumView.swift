@@ -388,3 +388,335 @@ struct PlanCardNew: View {
         .environmentObject(EntitlementManager())
         .environmentObject(SubscriptionsManager(entitlementManager: EntitlementManager()))
 }
+
+// MARK: - Topup Credits Paywall
+struct TopupView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) var openURL
+
+    @State private var selectedPlan = 1
+    @State private var isPurchasing = false
+
+    // Placeholder credit packs — update prices later
+    private let creditPlans: [CreditPlanDisplay] = [
+        CreditPlanDisplay(
+            title: "100 Credits",
+            subtitle: "$4.99",
+            tag: nil,
+            credits: 100
+        ),
+        CreditPlanDisplay(
+            title: "500 Credits",
+            subtitle: "$19.99",
+            tag: "BEST VALUE",
+            credits: 500
+        ),
+        CreditPlanDisplay(
+            title: "1,000 Credits",
+            subtitle: "$34.99",
+            tag: nil,
+            credits: 1000
+        ),
+    ]
+
+    // Design colors
+    private let creamBg = Color(hex: "FFF9EC")
+    private let cardBg = Color.white
+    private let primaryText = Color(hex: "1E1C10")
+    private let secondaryText = Color(hex: "55433E")
+    private let accentBrown = Color(hex: "97462E")
+    private let accentCoral = Color(hex: "F08C6E")
+    private let starYellow = Color(hex: "845400")
+
+    var body: some View {
+        ZStack {
+            creamBg.ignoresSafeArea()
+
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    closeButton
+                        .padding(.horizontal, 20)
+                        .padding(.top, 16)
+                        .zIndex(1)
+
+                    mainCard
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 16)
+                }
+            }
+        }
+        .preferredColorScheme(.light)
+    }
+
+    var closeButton: some View {
+        HStack {
+            Spacer()
+            Button { dismiss() } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundStyle(primaryText)
+                    .frame(width: 40, height: 40)
+                    .background(Color(hex: "E9E2D0").opacity(0.5))
+                    .background(.ultraThinMaterial.opacity(0.3))
+                    .clipShape(Circle())
+            }
+        }
+    }
+
+    var mainCard: some View {
+        VStack(spacing: 0) {
+            heroSection
+
+            VStack(spacing: 24) {
+                copySection
+                    .padding(.top, 32)
+
+                benefitsSection
+                    .padding(.horizontal, 8)
+
+                pricingSection
+
+                ctaSection
+
+                footerLinks
+            }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 24)
+        }
+        .background(cardBg)
+        .clipShape(RoundedRectangle(cornerRadius: 48))
+        .shadow(color: Color(hex: "1E1C10").opacity(0.06), radius: 32, x: 0, y: 12)
+    }
+
+    var heroSection: some View {
+        ZStack(alignment: .topLeading) {
+            Image("defaulttopupheader")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 256)
+                .clipped()
+
+            LinearGradient(
+                stops: [
+                    .init(color: .clear, location: 0),
+                    .init(color: .white.opacity(0.4), location: 0.5),
+                    .init(color: .white, location: 1),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(height: 256)
+
+            HStack(spacing: 4) {
+                Image(systemName: "star.fill")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(.white)
+                Text("CREDITS")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(.white)
+                    .tracking(0.6)
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 4)
+            .background(starYellow)
+            .clipShape(Capsule())
+            .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
+            .padding(.leading, 16)
+            .padding(.top, 16)
+        }
+        .frame(height: 256)
+    }
+
+    var copySection: some View {
+        VStack(spacing: 8) {
+            Text("Top Up Your\nCredits")
+                .font(.system(size: 30, weight: .heavy))
+                .foregroundStyle(primaryText)
+                .multilineTextAlignment(.center)
+                .tracking(-0.75)
+
+            Text("Get more AI transforms whenever\nyou need them.")
+                .font(.system(size: 16, weight: .regular))
+                .foregroundStyle(secondaryText)
+                .multilineTextAlignment(.center)
+                .lineSpacing(2)
+        }
+    }
+
+    var benefitsSection: some View {
+        VStack(spacing: 16) {
+            BenefitRow(
+                icon: "bolt.fill",
+                text: "Instant Delivery",
+                iconBg: Color(hex: "F08C6E").opacity(0.20),
+                iconColor: Color(hex: "97462E")
+            )
+            BenefitRow(
+                icon: "clock.fill",
+                text: "Use Anytime — No Expiration",
+                iconBg: Color(hex: "FEB246").opacity(0.20),
+                iconColor: Color(hex: "845400")
+            )
+            BenefitRow(
+                icon: "sparkles",
+                text: "Works with All Templates",
+                iconBg: Color(hex: "FB856D").opacity(0.20),
+                iconColor: Color(hex: "9F402D")
+            )
+        }
+    }
+
+    var pricingSection: some View {
+        HStack(spacing: 12) {
+            ForEach(creditPlans.indices, id: \.self) { index in
+                CreditPlanCard(
+                    plan: creditPlans[index],
+                    isSelected: selectedPlan == index
+                ) {
+                    withAnimation(.spring(response: 0.3)) {
+                        selectedPlan = index
+                    }
+                }
+            }
+        }
+    }
+
+    var ctaSection: some View {
+        VStack(spacing: 12) {
+            Button {
+                isPurchasing = true
+                // TODO: Wire up purchase logic
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    isPurchasing = false
+                    dismiss()
+                }
+            } label: {
+                Text("Purchase Credits")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(
+                        LinearGradient(
+                            colors: [accentBrown, accentCoral],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .clipShape(Capsule())
+                    .shadow(color: Color.black.opacity(0.10), radius: 6, x: 0, y: 4)
+            }
+            .disabled(isPurchasing)
+            .buttonStyle(.plain)
+
+            Text("One-time purchase. No subscription.")
+                .font(.system(size: 12, weight: .medium))
+                .foregroundStyle(secondaryText)
+        }
+    }
+
+    var footerLinks: some View {
+        HStack(spacing: 16) {
+            Button { /* TODO: restore purchases if needed */ } label: {
+                Text("Restore Purchase")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(secondaryText)
+            }
+
+            Text("•")
+                .font(.system(size: 11))
+                .foregroundStyle(secondaryText)
+
+            Button { openURL(URL(string: "https://www.apple.com")!) } label: {
+                Text("Terms")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(secondaryText)
+            }
+
+            Text("•")
+                .font(.system(size: 11))
+                .foregroundStyle(secondaryText)
+
+            Button { openURL(URL(string: "https://www.apple.com")!) } label: {
+                Text("Privacy Policy")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(secondaryText)
+            }
+        }
+        .padding(.bottom, 16)
+    }
+}
+
+// MARK: - Credit Plan Display Model
+struct CreditPlanDisplay: Identifiable {
+    let id = UUID()
+    let title: String
+    let subtitle: String
+    let tag: String?
+    let credits: Int
+}
+
+// MARK: - Credit Plan Card
+struct CreditPlanCard: View {
+    let plan: CreditPlanDisplay
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            ZStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
+                    // Reserve space for badge so text doesn't overlap
+                    if plan.tag != nil {
+                        Color.clear.frame(height: 10)
+                    }
+
+                    Text(plan.title)
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundStyle(Color(hex: "55433E"))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+
+                    Text(plan.subtitle)
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundStyle(Color(hex: "1E1C10"))
+
+                    Spacer()
+
+                    Text("\(plan.credits) cr")
+                        .font(.system(size: 11, weight: .regular))
+                        .foregroundStyle(Color(hex: "55433E"))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .padding(14)
+                .background(isSelected ? Color(hex: "E9E2D0") : Color(hex: "FAF3E0"))
+                .clipShape(RoundedRectangle(cornerRadius: 28))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28)
+                        .stroke(isSelected ? Color(hex: "97462E") : Color.clear, lineWidth: 2)
+                )
+
+                if let tag = plan.tag {
+                    Text(tag)
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundStyle(.white)
+                        .tracking(0.5)
+                        .textCase(.uppercase)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 3)
+                        .background(Color(hex: "97462E"))
+                        .clipShape(Capsule())
+                        .offset(y: -8)
+                }
+            }
+        }
+        .frame(height: 120)
+        .frame(maxWidth: .infinity)
+        .buttonStyle(.plain)
+    }
+}
+
+#Preview("Topup") {
+    TopupView()
+}

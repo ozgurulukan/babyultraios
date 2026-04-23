@@ -13,6 +13,7 @@ struct AccountView: View {
     @State private var showMailComposer = false
     @State private var showCopiedBanner = false
     @State private var copiedBannerText = "Copied to clipboard"
+    @State private var showTopup = false
     @Environment(\.openURL) private var openURL
     @Binding var isPresented: Bool
 
@@ -57,6 +58,7 @@ struct AccountView: View {
         .navigationBarHidden(true)
         .task { await auth.fetchProfile() }
         .sheet(isPresented: $isPremiumShow) { PremiumView() }
+        .sheet(isPresented: $showTopup) { TopupView() }
         .sheet(isPresented: $showShareSheet) {
             ActivityView(activityItems: ["Check out Bubsie AI — stunning AI video & photo studio! 🎬 https://apps.apple.com"])
         }
@@ -138,36 +140,95 @@ struct AccountView: View {
     }
 
     private var creditCard: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("CURRENT BALANCE")
-                        .font(.system(size: 14, weight: .medium))
-                        .tracking(0.7)
-                        .foregroundStyle(Color(hex: "55433E"))
+        VStack(alignment: .leading, spacing: 0) {
+            // Top half
+            VStack(alignment: .leading, spacing: 20) {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("CURRENT BALANCE")
+                            .font(.system(size: 14, weight: .medium))
+                            .tracking(0.7)
+                            .foregroundStyle(Color(hex: "55433E"))
 
-                    Text("\(displayCredits)")
-                        .font(.system(size: 48, weight: .heavy))
-                        .foregroundStyle(Color(hex: "97462E"))
+                        Text("\(displayCredits)")
+                            .font(.system(size: 48, weight: .heavy))
+                            .foregroundStyle(Color(hex: "97462E"))
+
+                        HStack(spacing: 8) {
+                            Image(systemName: "sparkles")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundStyle(Color(hex: "55433E"))
+                            Text("Credits ready to use")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundStyle(Color(hex: "55433E"))
+                        }
+                        .padding(.top, 4)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "star.circle.fill")
+                        .font(.system(size: 30))
+                        .foregroundStyle(Color(hex: "97462E").opacity(0.85))
                 }
-
-                Spacer()
-
-                Image(systemName: "star.circle.fill")
-                    .font(.system(size: 30))
-                    .foregroundStyle(Color(hex: "97462E").opacity(0.85))
             }
+            .padding(.horizontal, 32)
+            .padding(.top, 24)
+            .padding(.bottom, 20)
 
-            HStack(spacing: 8) {
-                Image(systemName: "sparkles")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(Color(hex: "55433E"))
-                Text("Credits ready to use")
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(Color(hex: "55433E"))
+            // Horizontal divider
+            Rectangle()
+                .fill(Color.white.opacity(0.4))
+                .frame(height: 1)
+                .padding(.horizontal, 24)
+
+            // Bottom half — tappable liquid-glass area
+            Button {
+                showTopup = true
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 16, weight: .semibold))
+                    Text("Top Up Credits")
+                        .font(.system(size: 16, weight: .semibold))
+                }
+                .foregroundStyle(Color(hex: "97462E"))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .background(
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(.ultraThinMaterial)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color.white.opacity(0.30), Color.white.opacity(0.06)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .stroke(Color.white.opacity(0.55), lineWidth: 1)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .stroke(
+                                    LinearGradient(
+                                        colors: [Color(hex: "F08C6E").opacity(0.32), Color(hex: "FEB246").opacity(0.22)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ),
+                                    lineWidth: 1
+                                )
+                        )
+                )
+                .padding(.horizontal, 24)
+                .padding(.vertical, 12)
             }
+            .buttonStyle(.plain)
         }
-        .padding(32)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background {
             RoundedRectangle(cornerRadius: 40, style: .continuous)
