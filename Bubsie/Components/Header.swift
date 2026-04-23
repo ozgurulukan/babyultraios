@@ -29,11 +29,12 @@ struct Header: View {
 struct ProfileStyleHeader: View {
     let title: String
     let subtitle: String
+    var spacing: CGFloat = 4
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: spacing) {
             Text(title)
-                .font(.system(size: 30, weight: .bold))
+                .font(.system(size: 30, weight: .bold, design: .rounded))
                 .foregroundStyle(Color(hex: "1E1C10"))
             Text(subtitle)
                 .font(.system(size: 16))

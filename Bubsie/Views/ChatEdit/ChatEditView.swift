@@ -79,7 +79,7 @@ struct ChatEditView: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 4) {
                 Text("BubsieAI")
-                    .font(.system(size: 30, weight: .bold))
+                    .font(.system(size: 30, weight: .bold, design: .rounded))
                     .foregroundStyle(Color(hex: "1E1C10"))
                 Text("Ask BubsieAI anything about your little one.")
                     .font(.system(size: 14))
