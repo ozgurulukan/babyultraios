@@ -6,9 +6,8 @@ struct AccountView: View {
     @StateObject private var counter = CoinCounter()
     @StateObject private var auth = AuthManager.shared
     @State private var isPremiumShow = false
-    @State private var showSettings = false
     @State private var showShareSheet = false
-    @State private var showRedeemCode = false
+    @State private var showLanguageSheet = false
     @Environment(\.openURL) private var openURL
 
     private var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
@@ -42,11 +41,12 @@ struct AccountView: View {
         .background(profileBackground.ignoresSafeArea())
         .task { await auth.fetchProfile() }
         .sheet(isPresented: $isPremiumShow) { PremiumView() }
-        .sheet(isPresented: $showSettings) { Menu() }
         .sheet(isPresented: $showShareSheet) {
             ActivityView(activityItems: ["Check out Bubsie AI — stunning AI video & photo studio! 🎬 https://apps.apple.com"])
         }
-        .sheet(isPresented: $showRedeemCode) { RedeemCodeView() }
+        .sheet(isPresented: $showLanguageSheet) {
+            LanguageSelectionView()
+        }
     }
 
     private var profileBackground: some View {
@@ -243,17 +243,27 @@ struct AccountView: View {
         VStack(spacing: 0) {
             profileMenuRow(icon: "person.2.fill", title: "Invite Friends") { showShareSheet = true }
             menuDivider
-            profileMenuRow(icon: "gift.fill", title: "Redeem Code") { showRedeemCode = true }
+            profileMenuRow(icon: "globe", title: "Language") { showLanguageSheet = true }
             menuDivider
             profileMenuRow(icon: "headphones", title: "Contact Support") {
-                openURL(URL(string: "https://support.apple.com")!)
+                openURL(URL(string: "mailto:hi@fagore.com")!)
+            }
+            menuDivider
+            profileMenuRow(icon: "questionmark.circle", title: "Help Center") {
+                openURL(URL(string: "https://fagore.com/help/")!)
+            }
+            menuDivider
+            profileMenuRow(icon: "lock.shield", title: "Privacy Policy") {
+                openURL(URL(string: "https://fagore.com/privacy/")!)
+            }
+            menuDivider
+            profileMenuRow(icon: "doc.text", title: "Terms & Conditions") {
+                openURL(URL(string: "https://fagore.com/terms/")!)
             }
             menuDivider
             profileMenuRow(icon: "star.fill", title: "Rate Us") {
                 openURL(URL(string: "https://apps.apple.com")!)
             }
-            menuDivider
-            profileMenuRow(icon: "gearshape.fill", title: "Settings") { showSettings = true }
         }
         .background(
             RoundedRectangle(cornerRadius: 40, style: .continuous)
@@ -292,69 +302,85 @@ struct AccountView: View {
     }
 }
 
-struct RedeemCodeView: View {
+struct LanguageSelectionView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var code = ""
+    @AppStorage("appLanguage") private var selectedLanguage: String = Locale.current.language.languageCode?.identifier ?? "en"
+
+    private let languages: [(code: String, name: String, flag: String)] = [
+        ("en", "English", "🇺🇸"),
+        ("tr", "Türkçe", "🇹🇷"),
+        ("es", "Español", "🇪🇸"),
+        ("fr", "Français", "🇫🇷"),
+        ("de", "Deutsch", "🇩🇪"),
+        ("it", "Italiano", "🇮🇹"),
+        ("pt", "Português", "🇵🇹"),
+        ("ru", "Русский", "🇷🇺"),
+        ("ja", "日本語", "🇯🇵"),
+        ("ko", "한국어", "🇰🇷"),
+        ("zh", "中文", "🇨🇳"),
+        ("ar", "العربية", "🇸🇦")
+    ]
 
     var body: some View {
         NavigationStack {
             ZStack {
                 Color(hex: "FFF9EC").ignoresSafeArea()
 
-                VStack(spacing: 20) {
-                    Image(systemName: "gift.fill")
-                        .font(.system(size: 44))
-                        .foregroundStyle(Color(hex: "97462E"))
-                        .padding(.top, 24)
-
-                    Text("Redeem a Code")
-                        .font(.system(size: 26, weight: .bold))
-                        .foregroundStyle(Color(hex: "1E1C10"))
-
-                    Text("Enter your gift code below to unlock credits or premium features.")
+                VStack(spacing: 0) {
+                    Text("Choose your preferred language")
                         .font(.system(size: 15))
                         .foregroundStyle(Color(hex: "55433E"))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
+                        .padding(.top, 16)
+                        .padding(.bottom, 8)
 
-                    TextField("XXXX-XXXX-XXXX", text: $code)
-                        .font(.system(size: 20, weight: .semibold, design: .monospaced))
-                        .multilineTextAlignment(.center)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 14).fill(Color.white))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 14)
-                                .stroke(Color(hex: "F4EEDB"), lineWidth: 1)
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 0) {
+                            ForEach(languages, id: \.code) { lang in
+                                Button {
+                                    selectedLanguage = lang.code
+                                } label: {
+                                    HStack(spacing: 12) {
+                                        Text(lang.flag)
+                                            .font(.system(size: 22))
+                                        Text(lang.name)
+                                            .font(.system(size: 16, weight: .medium))
+                                            .foregroundStyle(Color(hex: "1E1C10"))
+                                        Spacer()
+                                        if selectedLanguage == lang.code {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .font(.system(size: 20))
+                                                .foregroundStyle(Color(hex: "97462E"))
+                                        }
+                                    }
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 16)
+                                    .background(selectedLanguage == lang.code ? Color(hex: "FAF3E0") : Color.clear)
+                                }
+                                .buttonStyle(.plain)
+
+                                if lang.code != languages.last?.code {
+                                    Divider()
+                                        .overlay(Color(hex: "F4EEDB"))
+                                        .padding(.leading, 20)
+                                }
+                            }
+                        }
+                        .background(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .fill(.white)
+                                .shadow(color: Color(hex: "1E1C10").opacity(0.03), radius: 10, y: 4)
                         )
-                        .padding(.horizontal)
-
-                    Button {
-                        dismiss()
-                    } label: {
-                        Text("Apply Code")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 54)
-                            .background(
-                                LinearGradient(
-                                    colors: [Color(hex: "97462E"), Color(hex: "F08C6E")],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                                .opacity(code.isEmpty ? 0.35 : 1.0)
-                            )
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 16)
                     }
-                    .disabled(code.isEmpty)
-                    .padding(.horizontal)
-
-                    Spacer()
                 }
-                .padding(.top, 8)
             }
+            .navigationTitle("Language")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         dismiss()
                     } label: {
