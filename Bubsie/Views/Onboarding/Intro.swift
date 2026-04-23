@@ -638,11 +638,22 @@ private struct OnboardingReviewsView: View {
                 GeometryReader { geo in
                     ZStack {
                         // Scrolling content - duplicated for seamless loop
-                        VStack(spacing: 0) {
+                        VStack(spacing: 16) {
                             reviewSet
                             reviewSet
                         }
                         .offset(y: -scrollOffset)
+                        .background(
+                            GeometryReader { contentGeo in
+                                Color.clear
+                                    .onAppear {
+                                        let totalHeight = contentGeo.size.height
+                                        guard totalHeight > 0, singleSetHeight == 0 else { return }
+                                        singleSetHeight = totalHeight / 2
+                                        startAutoScroll()
+                                    }
+                            }
+                        )
 
                         // Top fade gradient
                         VStack(spacing: 0) {
@@ -715,7 +726,8 @@ private struct OnboardingReviewsView: View {
                 if singleSetHeight == 0 {
                     let bubbleHeight: CGFloat = 100
                     let spacing: CGFloat = 16
-                    let estimated = CGFloat(reviews.count) * bubbleHeight + CGFloat(max(0, reviews.count - 1)) * spacing
+                    // Include spacing between sets (same as VStack spacing)
+                    let estimated = CGFloat(reviews.count) * bubbleHeight + CGFloat(max(0, reviews.count - 1)) * spacing + spacing
                     singleSetHeight = estimated
                     startAutoScroll()
                 }
@@ -753,16 +765,6 @@ private struct OnboardingReviewsView: View {
             }
         }
         .padding(.horizontal, 20)
-        .overlay(
-            GeometryReader { geo in
-                Color.clear
-                    .onAppear {
-                        guard singleSetHeight == 0 else { return }
-                        singleSetHeight = geo.size.height
-                        startAutoScroll()
-                    }
-            }
-        )
     }
 }
 
