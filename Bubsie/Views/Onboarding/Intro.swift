@@ -84,7 +84,7 @@ private struct OnboardingBeforeAfterView: View {
     let onNext: () -> Void
 
     @State private var sliderPosition: CGFloat = 0.5
-    @State private var dragOffset: CGFloat = 0
+    @State private var dragStartPosition: CGFloat = 0.5
 
     private let bgColor = Color(hex: "F6ECE6")
     private let accent = Color(hex: "A66A54")
@@ -104,7 +104,7 @@ private struct OnboardingBeforeAfterView: View {
         GeometryReader { geo in
             let width = geo.size.width
             let height = geo.size.height
-            let currentX = (width * sliderPosition) + dragOffset
+            let currentX = width * sliderPosition
             let clampedX = min(max(currentX, 0), width)
             ZStack {
                 afterImage
@@ -207,16 +207,11 @@ private struct OnboardingBeforeAfterView: View {
     private func dragGesture(width: CGFloat) -> some Gesture {
         DragGesture()
             .onChanged { value in
-                let newX = (width * sliderPosition) + value.translation.width
-                dragOffset = value.translation.width
-                sliderPosition = min(max(newX / width, 0), 1)
+                let newPosition = dragStartPosition + (value.translation.width / width)
+                sliderPosition = min(max(newPosition, 0), 1)
             }
-            .onEnded { value in
-                withAnimation(.easeOut(duration: 0.2)) {
-                    let newX = (width * sliderPosition) + value.predictedEndTranslation.width
-                    sliderPosition = min(max(newX / width, 0), 1)
-                }
-                dragOffset = 0
+            .onEnded { _ in
+                dragStartPosition = sliderPosition
             }
     }
 
@@ -252,7 +247,7 @@ private struct OnboardingBeforeAfterVideoView: View {
     let onNext: () -> Void
 
     @State private var sliderPosition: CGFloat = 0.5
-    @State private var dragOffset: CGFloat = 0
+    @State private var dragStartPosition: CGFloat = 0.5
 
     private let bgColor = Color(hex: "F6ECE6")
     private let accent = Color(hex: "A66A54")
@@ -272,7 +267,7 @@ private struct OnboardingBeforeAfterVideoView: View {
         GeometryReader { geo in
             let width = geo.size.width
             let height = geo.size.height
-            let currentX = (width * sliderPosition) + dragOffset
+            let currentX = width * sliderPosition
             let clampedX = min(max(currentX, 0), width)
             ZStack {
                 afterVideo
@@ -377,16 +372,11 @@ private struct OnboardingBeforeAfterVideoView: View {
     private func dragGesture(width: CGFloat) -> some Gesture {
         DragGesture()
             .onChanged { value in
-                let newX = (width * sliderPosition) + value.translation.width
-                dragOffset = value.translation.width
-                sliderPosition = min(max(newX / width, 0), 1)
+                let newPosition = dragStartPosition + (value.translation.width / width)
+                sliderPosition = min(max(newPosition, 0), 1)
             }
-            .onEnded { value in
-                withAnimation(.easeOut(duration: 0.2)) {
-                    let newX = (width * sliderPosition) + value.predictedEndTranslation.width
-                    sliderPosition = min(max(newX / width, 0), 1)
-                }
-                dragOffset = 0
+            .onEnded { _ in
+                dragStartPosition = sliderPosition
             }
     }
 
