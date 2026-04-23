@@ -593,24 +593,27 @@ private final class LoopingOnboardingPlayerView: UIView {
     }
 }
 
-// MARK: - Page 3: Reviews
+// MARK: - Scroll Content Height Preference
+private struct ScrollContentHeightKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+// MARK: - Page 3: Reviews (Auto-Scrolling)
 private struct OnboardingReviewsView: View {
     let reviews: [UserReview]
     let onGetStarted: () -> Void
 
     @Environment(\.requestReview) private var requestReview
-    @State private var visibleReviews: [Bool]
+    @State private var scrollOffset: CGFloat = 0
+    @State private var singleSetHeight: CGFloat = 0
     @State private var hasRequestedReview = false
 
     private let bgColor = Color(hex: "F6ECE6")
     private let textColor = Color(hex: "3F2D28")
     private let subtleText = Color(hex: "796B64")
-
-    init(reviews: [UserReview], onGetStarted: @escaping () -> Void) {
-        self.reviews = reviews
-        self.onGetStarted = onGetStarted
-        _visibleReviews = State(initialValue: Array(repeating: false, count: reviews.count))
-    }
 
     var body: some View {
         ZStack {
@@ -630,25 +633,58 @@ private struct OnboardingReviewsView: View {
                 .padding(.top, 24)
                 .padding(.horizontal, 24)
 
-                ScrollView(showsIndicators: false) {
-                    LazyVStack(spacing: 16) {
-                        ForEach(Array(reviews.enumerated()), id: \.element.id) { index, review in
-                            ReviewBubble(
-                                review: review,
-                                isVisible: visibleReviews[safe: index] ?? false
+                // Auto-scrolling reviews
+                GeometryReader { geo in
+                    ZStack {
+                        // Scrolling content - duplicated for seamless loop
+                        VStack(spacing: 0) {
+                            reviewSet
+                            reviewSet
+                        }
+                        .offset(y: -scrollOffset)
+                        .background(
+                            GeometryReader { contentGeo in
+                                Color.clear
+                                    .preference(key: ScrollContentHeightKey.self, value: contentGeo.size.height)
+                            }
+                        )
+                        .onPreferenceChange(ScrollContentHeightKey.self) { totalHeight in
+                            let newSingleSetHeight = totalHeight / 2
+                            guard newSingleSetHeight > 0, singleSetHeight == 0 else { return }
+                            singleSetHeight = newSingleSetHeight
+                            let duration = max(Double(reviews.count) * 4, 12)
+                            withAnimation(.linear(duration: duration).repeatForever(autoreverses: false)) {
+                                scrollOffset = newSingleSetHeight
+                            }
+                        }
+
+                        // Top fade gradient
+                        VStack(spacing: 0) {
+                            LinearGradient(
+                                colors: [bgColor, bgColor.opacity(0)],
+                                startPoint: .top,
+                                endPoint: .bottom
                             )
-                            .offset(x: visibleReviews[safe: index] == true ? 0 : 60)
-                            .opacity(visibleReviews[safe: index] == true ? 1 : 0)
-                            .animation(
-                                .spring(response: 0.6, dampingFraction: 0.75)
-                                .delay(Double(index) * 0.15),
-                                value: visibleReviews[safe: index]
+                            .frame(height: 30)
+                            .allowsHitTesting(false)
+
+                            Spacer()
+                        }
+
+                        // Bottom fade gradient
+                        VStack(spacing: 0) {
+                            Spacer()
+
+                            LinearGradient(
+                                colors: [bgColor.opacity(0), bgColor],
+                                startPoint: .top,
+                                endPoint: .bottom
                             )
+                            .frame(height: 30)
+                            .allowsHitTesting(false)
                         }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 24)
-                    .padding(.bottom, 120)
+                    .clipped()
                 }
             }
 
@@ -688,16 +724,6 @@ private struct OnboardingReviewsView: View {
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                for index in reviews.indices {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
-                        if visibleReviews.indices.contains(index) {
-                            visibleReviews[index] = true
-                        }
-                    }
-                }
-            }
-
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 if !hasRequestedReview {
                     hasRequestedReview = true
@@ -705,6 +731,15 @@ private struct OnboardingReviewsView: View {
                 }
             }
         }
+    }
+
+    private var reviewSet: some View {
+        VStack(spacing: 16) {
+            ForEach(Array(reviews.enumerated()), id: \.offset) { _, review in
+                ReviewBubble(review: review, isVisible: true)
+            }
+        }
+        .padding(.horizontal, 20)
     }
 }
 
