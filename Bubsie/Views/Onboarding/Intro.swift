@@ -606,10 +606,8 @@ private struct OnboardingReviewsView: View {
     let reviews: [UserReview]
     let onGetStarted: () -> Void
 
-    @Environment(\.requestReview) private var requestReview
     @State private var scrollOffset: CGFloat = 0
     @State private var singleSetHeight: CGFloat = 0
-    @State private var hasRequestedReview = false
     @State private var scrollTimer: Timer? = nil
 
     private let bgColor = Color(hex: "F6ECE6")
@@ -730,13 +728,6 @@ private struct OnboardingReviewsView: View {
                     let estimated = CGFloat(reviews.count) * bubbleHeight + CGFloat(max(0, reviews.count - 1)) * spacing + spacing
                     singleSetHeight = estimated
                     startAutoScroll()
-                }
-            }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                if !hasRequestedReview {
-                    hasRequestedReview = true
-                    requestReview()
                 }
             }
         }
@@ -885,7 +876,9 @@ struct Intro: View {
     @State private var currentPage = 0
     @State private var showPaywall = false
     @State private var navigateToMain = false
+    @State private var hasRequestedReview = false
 
+    @Environment(\.requestReview) private var requestReview
     @EnvironmentObject private var entitlementManager: EntitlementManager
     @EnvironmentObject private var subscriptionsManager: SubscriptionsManager
 
@@ -958,6 +951,14 @@ struct Intro: View {
         }
         .animation(.easeInOut(duration: 0.35), value: currentPage)
         .ignoresSafeArea(.container, edges: .bottom)
+        .onChange(of: currentPage) { _, newValue in
+            if newValue == 2 && !hasRequestedReview {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    hasRequestedReview = true
+                    requestReview()
+                }
+            }
+        }
     }
 
     private func offsetForPage(_ page: Int, screenWidth: CGFloat) -> CGFloat {
