@@ -345,32 +345,79 @@ struct AccountView: View {
         .padding(.vertical, 16)
     }
 
+    @State private var glowPulse = false
+    @State private var scalePulse = false
+
     private var premiumButton: some View {
         Button { isPremiumShow = true } label: {
-            HStack(spacing: 8) {
-                Image(systemName: "star.circle.fill")
-                    .font(.system(size: 20))
-                Text("Go Premium")
-                    .font(.system(size: 18, weight: .semibold))
+            HStack(spacing: 10) {
+                Image(systemName: "crown.fill")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundStyle(.white)
+
+                Text("Start Free Trial")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(.white)
+
+                Image(systemName: "sparkles")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(Color(hex: "FFD56A"))
             }
-            .foregroundStyle(.white)
+            .padding(.vertical, 18)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 16)
             .background(
-                LinearGradient(
-                    colors: [Color(hex: "97462E"), Color(hex: "F08C6E")],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color(hex: "97462E"),
+                                Color(hex: "B75D3F"),
+                                Color(hex: "F08C6E"),
+                                Color(hex: "B75D3F"),
+                                Color(hex: "97462E")
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
             )
-            .clipShape(Capsule())
             .overlay(
                 Capsule()
-                    .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.25),
+                                Color.white.opacity(0.05),
+                                Color.clear
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
             )
-            .shadow(color: Color(hex: "97462E").opacity(0.2), radius: 12, y: 6)
+            .overlay(
+                Capsule()
+                    .stroke(
+                        LinearGradient(
+                            colors: [Color.white.opacity(0.4), Color.white.opacity(0.1)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1.5
+                    )
+            )
+            .shadow(color: Color(hex: "97462E").opacity(glowPulse ? 0.35 : 0.18), radius: glowPulse ? 24 : 14, y: 8)
         }
         .buttonStyle(.plain)
+        .scaleEffect(scalePulse ? 1.02 : 1.0)
+        .onAppear {
+            withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
+                glowPulse.toggle()
+            }
+            withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
+                scalePulse.toggle()
+            }
+        }
     }
 
     private var menuList: some View {
