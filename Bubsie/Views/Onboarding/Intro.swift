@@ -85,6 +85,7 @@ private struct OnboardingBeforeAfterView: View {
 
     @State private var sliderPosition: CGFloat = 0.5
     @State private var dragStartPosition: CGFloat = 0.5
+    @State private var isAutoAnimating = true
 
     private let bgColor = Color(hex: "F6ECE6")
     private let accent = Color(hex: "A66A54")
@@ -96,6 +97,23 @@ private struct OnboardingBeforeAfterView: View {
                 sliderSection
                     .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
                 bottomBar
+            }
+        }
+        .onAppear { startAutoAnimation() }
+    }
+
+    private func startAutoAnimation() {
+        guard isAutoAnimating else { return }
+        withAnimation(.easeInOut(duration: 1.2)) {
+            sliderPosition = 0.7
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            guard self.isAutoAnimating else { return }
+            withAnimation(.easeInOut(duration: 1.2)) {
+                self.sliderPosition = 0.3
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                self.startAutoAnimation()
             }
         }
     }
@@ -207,6 +225,7 @@ private struct OnboardingBeforeAfterView: View {
     private func dragGesture(width: CGFloat) -> some Gesture {
         DragGesture()
             .onChanged { value in
+                isAutoAnimating = false
                 let newPosition = dragStartPosition + (value.translation.width / width)
                 sliderPosition = min(max(newPosition, 0), 1)
             }
@@ -248,6 +267,7 @@ private struct OnboardingBeforeAfterVideoView: View {
 
     @State private var sliderPosition: CGFloat = 0.5
     @State private var dragStartPosition: CGFloat = 0.5
+    @State private var isAutoAnimating = true
 
     private let bgColor = Color(hex: "F6ECE6")
     private let accent = Color(hex: "A66A54")
@@ -259,6 +279,23 @@ private struct OnboardingBeforeAfterVideoView: View {
                 sliderSection
                     .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
                 bottomBar
+            }
+        }
+        .onAppear { startAutoAnimation() }
+    }
+
+    private func startAutoAnimation() {
+        guard isAutoAnimating else { return }
+        withAnimation(.easeInOut(duration: 1.2)) {
+            sliderPosition = 0.7
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            guard self.isAutoAnimating else { return }
+            withAnimation(.easeInOut(duration: 1.2)) {
+                self.sliderPosition = 0.3
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                self.startAutoAnimation()
             }
         }
     }
@@ -372,6 +409,7 @@ private struct OnboardingBeforeAfterVideoView: View {
     private func dragGesture(width: CGFloat) -> some Gesture {
         DragGesture()
             .onChanged { value in
+                isAutoAnimating = false
                 let newPosition = dragStartPosition + (value.translation.width / width)
                 sliderPosition = min(max(newPosition, 0), 1)
             }
