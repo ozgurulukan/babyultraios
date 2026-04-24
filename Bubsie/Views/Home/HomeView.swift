@@ -54,30 +54,66 @@ struct HomeView: View {
                         )
                         
                         Spacer()
-                        
-                        Button {
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                showAccount = true
+
+                        HStack(spacing: 6) {
+                            if !hasProAccess {
+                                Button {
+                                    isPremiumShow = true
+                                } label: {
+                                    Text("PRO")
+                                        .font(.system(size: 11, weight: .heavy))
+                                        .foregroundStyle(.white)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 8)
+                                        .background(
+                                            ZStack {
+                                                Capsule()
+                                                    .fill(HomePalette.accent.opacity(0.88))
+                                                Capsule()
+                                                    .fill(.ultraThinMaterial)
+                                                LinearGradient(
+                                                    colors: [Color.white.opacity(0.35), Color.white.opacity(0.05)],
+                                                    startPoint: .top,
+                                                    endPoint: .bottom
+                                                )
+                                            }
+                                            .clipShape(Capsule())
+                                        )
+                                        .overlay(
+                                            Capsule()
+                                                .stroke(Color.white.opacity(0.55), lineWidth: 1)
+                                        )
+                                        .shadow(color: HomePalette.accent.opacity(0.35), radius: 6, x: 0, y: 3)
+                                }
+                                .buttonStyle(.plain)
                             }
-                        } label: {
-                            HStack(spacing: 6) {
-                                Image(systemName: "circle.lefthalf.filled")
-                                    .font(.system(size: 13, weight: .bold))
-                                Text("\(displayCredits)")
-                                    .font(.system(size: 14, weight: .bold))
+
+                            Button {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    showAccount = true
+                                }
+                            } label: {
+                                HStack(spacing: 5) {
+                                    Image(systemName: "circle.lefthalf.filled")
+                                        .font(.system(size: 13, weight: .bold))
+                                    Text("\(displayCredits)")
+                                        .font(.system(size: 14, weight: .bold))
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.8)
+                                }
+                                .foregroundStyle(Color(hex: "f9f5f2"))
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 8)
+                                .background(
+                                    Capsule()
+                                        .fill(.ultraThinMaterial)
+                                        .overlay(Color.black.opacity(0.18))
+                                )
+                                .clipShape(Capsule())
+                                .overlay(Capsule().stroke(Color.white.opacity(0.4), lineWidth: 1))
                             }
-                            .foregroundStyle(Color(hex: "f9f5f2"))
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(
-                                Capsule()
-                                    .fill(.ultraThinMaterial)
-                                    .overlay(Color.black.opacity(0.18))
-                            )
-                            .clipShape(Capsule())
-                            .overlay(Capsule().stroke(Color.white.opacity(0.4), lineWidth: 1))
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 24)
