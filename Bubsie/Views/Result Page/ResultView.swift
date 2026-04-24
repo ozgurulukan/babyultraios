@@ -171,23 +171,33 @@ struct ResultView: View {
                         .stroke(Color.white.opacity(0.5), lineWidth: 1)
                 )
 
-                // Badge
-                HStack(spacing: 6) {
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(accentBrown)
-                    Text("Magic Enhanced")
-                        .font(.system(size: 13, weight: .bold))
-                        .foregroundStyle(accentBrown)
+                // Badge + Report
+                HStack(spacing: 10) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "sparkles")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(accentBrown)
+                        Text("Magic Enhanced")
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundStyle(accentBrown)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(
+                        Capsule()
+                            .fill(Color.white.opacity(0.70))
+                            .overlay(Capsule().stroke(Color.white.opacity(0.9), lineWidth: 1))
+                    )
+                    .shadow(color: Color(hex: "8E4C3A").opacity(0.12), radius: 8, x: 0, y: 4)
+
+                    Button {
+                        showReportSheet = true
+                    } label: {
+                        Text("🚩")
+                            .font(.system(size: 13))
+                    }
+                    .buttonStyle(.plain)
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(
-                    Capsule()
-                        .fill(Color.white.opacity(0.70))
-                        .overlay(Capsule().stroke(Color.white.opacity(0.9), lineWidth: 1))
-                )
-                .shadow(color: Color(hex: "8E4C3A").opacity(0.12), radius: 8, x: 0, y: 4)
             }
             .padding(12)
         }
@@ -319,28 +329,6 @@ struct ResultView: View {
                     .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
                 }
                 .buttonStyle(.plain)
-
-                // Report button
-                Button {
-                    showReportSheet = true
-                } label: {
-                    HStack(spacing: 6) {
-                        Text("🚩")
-                            .font(.system(size: 13))
-                        Text("Report")
-                            .font(.system(size: 13, weight: .semibold))
-                    }
-                    .foregroundStyle(secondaryText.opacity(0.8))
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 7)
-                    .background(
-                        Capsule()
-                            .fill(.ultraThinMaterial)
-                            .overlay(Capsule().stroke(Color.white.opacity(0.6), lineWidth: 1))
-                    )
-                }
-                .buttonStyle(.plain)
-                .padding(.top, 4)
             }
         }
     }
