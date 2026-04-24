@@ -11,10 +11,6 @@ struct PremiumView: View {
     @State private var selectedPlan = 0
     @State private var isPurchasing = false
 
-    // Plan metadata for UI — maps to subscriptionsManager.products by index
-    // Products are sorted by price descending: [0] = yearly (higher), [1] = monthly (lower)
-    // NOTE: If your App Store Connect products are different (e.g. weekly instead of monthly),
-    // update both the labels here and the productIDs in SubscriptionManager.
     private let planDisplays: [PlanDisplay] = [
         PlanDisplay(
             title: "Yearly",
@@ -23,8 +19,8 @@ struct PremiumView: View {
             productIndex: 0
         ),
         PlanDisplay(
-            title: "Monthly",
-            subtitle: "Billed monthly",
+            title: "Weekly",
+            subtitle: "Billed weekly",
             tag: nil,
             productIndex: 1
         ),
@@ -386,20 +382,20 @@ struct TopupView: View {
     private let creditPlans: [CreditPlanDisplay] = [
         CreditPlanDisplay(
             title: "100 Credits",
-            subtitle: "$4.99",
+            subtitle: "$14.99",
             tag: nil,
             credits: 100
         ),
         CreditPlanDisplay(
-            title: "500 Credits",
-            subtitle: "$19.99",
-            tag: "BEST VALUE",
-            credits: 500
+            title: "250 Credits",
+            subtitle: "$29.99",
+            tag: nil,
+            credits: 250
         ),
         CreditPlanDisplay(
             title: "1,000 Credits",
-            subtitle: "$34.99",
-            tag: nil,
+            subtitle: "$99.99",
+            tag: "BEST VALUE",
             credits: 1000
         ),
     ]

@@ -17,6 +17,11 @@ struct TransformView: View {
     @State private var showAccountView = false
     @State private var goToMainTab = false
     @State private var shimmerPhase: CGFloat = -1.5
+    @State private var showConsentSheet = false
+
+    private var hasAcceptedPhotoConsent: Bool {
+        UserDefaults.standard.bool(forKey: "photoConsentAccepted")
+    }
 
     private let aspectRatios = ["1:1", "4:5", "9:16", "16:9"]
 
@@ -87,7 +92,11 @@ struct TransformView: View {
                 .environmentObject(subscriptionManager)
                 .navigationBarHidden(true)
         }
-        .preferredColorScheme(.light)
+            .preferredColorScheme(.light)
+            .overlay(
+                consentSheet
+                    .animation(.spring(response: 0.4, dampingFraction: 0.8), value: showConsentSheet)
+            )
     }
 
     // MARK: Background Glows
@@ -193,7 +202,11 @@ struct TransformView: View {
     // MARK: Photo Upload
     private var photoUploadSection: some View {
         Button {
-            showImagePicker = true
+            if !hasAcceptedPhotoConsent {
+                showConsentSheet = true
+            } else {
+                showImagePicker = true
+            }
         } label: {
             ZStack {
                 // Glassmorphism background
@@ -338,7 +351,11 @@ struct TransformView: View {
 
                 Button {
                     guard selectedImage != nil else {
-                        showImagePicker = true
+                        if !hasAcceptedPhotoConsent {
+                            showConsentSheet = true
+                        } else {
+                            showImagePicker = true
+                        }
                         return
                     }
                     isProcessing = true
@@ -387,6 +404,105 @@ struct TransformView: View {
 
     private var canTransform: Bool {
         selectedImage != nil
+    }
+
+    // MARK: - Photo Consent Sheet
+    private var consentSheet: some View {
+        ZStack {
+            if showConsentSheet {
+                Color.black.opacity(0.25)
+                    .ignoresSafeArea()
+                    .transition(.opacity)
+                    .onTapGesture {
+                        showConsentSheet = false
+                    }
+
+                VStack(spacing: 0) {
+                    Spacer()
+
+                    VStack(spacing: 20) {
+                        VStack(spacing: 12) {
+                            Text("Bubsie uses AI to edit your uploaded photos.")
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundStyle(primaryText)
+                                .multilineTextAlignment(.center)
+
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack(alignment: .top, spacing: 6) {
+                                    Text("•")
+                                    Text("The photos I upload are mine or I have parental permission")
+                                }
+                                HStack(alignment: .top, spacing: 6) {
+                                    Text("•")
+                                    Text("I am an adult over 18 years old using this app")
+                                }
+                                HStack(alignment: .top, spacing: 6) {
+                                    Text("•")
+                                    Text("I will not upload someone else's child without permission")
+                                }
+                            }
+                            .font(.system(size: 13, weight: .regular))
+                            .foregroundStyle(secondaryText)
+                        }
+
+                        HStack(spacing: 12) {
+                            Button {
+                                showConsentSheet = false
+                            } label: {
+                                Text("Decline")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundStyle(accentBrown)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 14)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .fill(Color.white.opacity(0.50))
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(Color.white.opacity(0.60), lineWidth: 1)
+                                    )
+                            }
+                            .buttonStyle(.plain)
+
+                            Button {
+                                UserDefaults.standard.set(true, forKey: "photoConsentAccepted")
+                                showConsentSheet = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    showImagePicker = true
+                                }
+                            } label: {
+                                Text("Agree")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundStyle(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 14)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .fill(accentBrown)
+                                    )
+                                    .shadow(color: accentBrown.opacity(0.25), radius: 12, x: 0, y: 4)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding(24)
+                    .background(
+                        RoundedRectangle(cornerRadius: 32)
+                            .fill(.ultraThinMaterial)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 32)
+                                    .stroke(Color.white.opacity(0.50), lineWidth: 1)
+                            )
+                            .shadow(color: Color.black.opacity(0.10), radius: 20, x: 0, y: -4)
+                    )
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 24)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
+        }
+        .ignoresSafeArea()
     }
 }
 

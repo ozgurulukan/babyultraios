@@ -3,8 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>Yearly</key>
-	<string>com.yearly</string>
-	<key>Monthly</key>
-	<string>com.monthly</string>
+	<string>com.bubsie.yearly</string>
+	<key>Weekly</key>
+	<string>com.bubsie.weekly</string>
 </dict>
 </plist>

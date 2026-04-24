@@ -1,4 +1,14 @@
 {
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
   "identifier" : "97B5E620",
   "nonRenewingSubscriptions" : [
 
@@ -7,54 +17,53 @@
 
   ],
   "settings" : {
+    "_askToBuyEnabled" : false,
+    "_billingGracePeriodEnabled" : false,
+    "_billingIssuesEnabled" : false,
+    "_disableDialogs" : false,
     "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_renewalBillingIssuesEnabled" : false,
+    "_storefront" : "USA",
     "_storeKitErrors" : [
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Load Products"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Purchase"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Verification"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "App Store Sync"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Subscription Status"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "App Transaction"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Manage Subscriptions Sheet"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Refund Request Sheet"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Offer Code Redeem Sheet"
       }
-    ]
+    ],
+    "_timeRate" : 0
   },
   "subscriptionGroups" : [
     {
@@ -76,11 +85,23 @@
           "groupNumber" : 1,
           "internalID" : "59F5A2A8",
           "introductoryOffer" : {
+            "billingPlanType" : "BILLED_UPFRONT",
             "displayPrice" : "0.99",
             "internalID" : "C7803CAD",
+            "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P3D"
           },
+          "introductoryOffers" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "displayPrice" : "0.99",
+              "internalID" : "C7803CAD",
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "subscriptionPeriod" : "P3D"
+            }
+          ],
           "localizations" : [
             {
               "description" : "3 Days free trail",
@@ -88,11 +109,14 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.monthly",
+          "productID" : "com.bubsie.weekly",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Monthly",
           "subscriptionGroupID" : "0D658CCC",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         },
         {
           "adHocOffers" : [
@@ -101,16 +125,28 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "9.99",
+          "displayPrice" : "199.99",
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "5868CC7B",
           "introductoryOffer" : {
+            "billingPlanType" : "BILLED_UPFRONT",
             "displayPrice" : "0.99",
             "internalID" : "1B75235C",
+            "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P3D"
           },
+          "introductoryOffers" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "displayPrice" : "0.99",
+              "internalID" : "1B75235C",
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "subscriptionPeriod" : "P3D"
+            }
+          ],
           "localizations" : [
             {
               "description" : "3 Days free trail",
@@ -118,17 +154,20 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.yearly",
+          "productID" : "com.bubsie.yearly",
           "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "Yearly",
+          "referenceName" : "Yearly Pro",
           "subscriptionGroupID" : "0D658CCC",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         }
       ]
     }
   ],
   "version" : {
-    "major" : 3,
+    "major" : 5,
     "minor" : 0
   }
 }

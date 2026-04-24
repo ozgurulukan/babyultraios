@@ -10,7 +10,7 @@ import StoreKit
 class SubscriptionsManager: NSObject, ObservableObject {
     // NOTE: Ensure these IDs match the plans shown in PremiumView.
     // The new paywall design shows Yearly and Weekly plans.
-    let productIDs: [String] = ["com.monthly", "com.yearly"]
+    let productIDs: [String] = ["com.bubsie.weekly", "com.bubsie.yearly"]
     var purchasedProductIDs: Set<String> = []
 
     @Published var products: [Product] = []
