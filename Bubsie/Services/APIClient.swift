@@ -22,6 +22,10 @@ final class APIClient {
         InstallSeedStore.shared.getOrCreate()
     }
 
+    private var deviceID: String {
+        UIDevice.current.identifierForVendor?.uuidString ?? ""
+    }
+
     private func makeRequest(method: String, path: String, timeout: TimeInterval = 60) -> URLRequest {
         let url = URL(string: baseURL + path)!
         var req = URLRequest(url: url)
@@ -31,6 +35,9 @@ final class APIClient {
             req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         req.setValue(installSeed, forHTTPHeaderField: "X-Install-Seed")
+        if !deviceID.isEmpty {
+            req.setValue(deviceID, forHTTPHeaderField: "X-Device-ID")
+        }
         logger.info("\(method) \(path) | token=\(self.currentToken != nil ? "YES" : "NO") | seed=\(self.installSeed.prefix(8))")
         return req
     }

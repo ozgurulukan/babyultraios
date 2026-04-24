@@ -31,6 +31,7 @@ struct MainTabView: View {
     @State private var selectedTab: BubsieTab = .home
     @EnvironmentObject private var entitlementManager: EntitlementManager
     @EnvironmentObject private var subscriptionManager: SubscriptionsManager
+    @StateObject private var auth = AuthManager.shared
 
     var body: some View {
         ZStack {
@@ -57,6 +58,12 @@ struct MainTabView: View {
             LiquidNavigationBar(selectedTab: $selectedTab)
         }
         .ignoresSafeArea(.keyboard)
+        .overlay {
+            if auth.isDeviceBanned {
+                DeviceBannedView()
+                    .transition(.opacity.combined(with: .scale))
+            }
+        }
     }
 }
 

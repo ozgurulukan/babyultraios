@@ -22,6 +22,7 @@ final class AuthManager: ObservableObject {
     @Published var isLoadingUser = false
     @Published var isAuthenticating = false
     @Published var authError: String?
+    @Published var isDeviceBanned = false
 
     var isAuthenticated: Bool { Auth.auth().currentUser != nil }
 
@@ -44,6 +45,7 @@ final class AuthManager: ObservableObject {
         isSigningIn = true
         isAuthenticating = true
         authError = nil
+        isDeviceBanned = false
         logger.info("Starting anonymous sign-in…")
 
         Task {
@@ -54,6 +56,11 @@ final class AuthManager: ObservableObject {
                 self.idToken = token
                 logger.info("Token obtained, length: \(token.count)")
                 await self.fetchProfile()
+            } catch let error as APIError {
+                self.logger.error("Anonymous sign-in API error: \(error.localizedDescription)")
+                self.handleAPIError(error)
+                self.isSigningIn = false
+                self.isAuthenticating = false
             } catch {
                 self.logger.error("Anonymous sign-in FAILED: \(error)")
                 self.authError = "Sign-in failed: \(error.localizedDescription)"
@@ -61,6 +68,18 @@ final class AuthManager: ObservableObject {
                 self.isAuthenticating = false
             }
         }
+    }
+
+    private func handleAPIError(_ error: APIError) {
+        if case .forbidden = error {
+            let msg = error.localizedDescription.lowercased()
+            if msg.contains("device") {
+                self.isDeviceBanned = true
+                self.authError = nil
+                return
+            }
+        }
+        self.authError = error.localizedDescription
     }
 
     func signOut() {
@@ -104,14 +123,14 @@ final class AuthManager: ObservableObject {
             logger.info("Profile OK: uid=\(profile.uid) credits=\(profile.credits) isPro=\(profile.isPro)")
         } catch let error as APIError {
             self.logger.error("Profile fetch API error: \(error.localizedDescription)")
-            self.authError = error.localizedDescription
+            self.handleAPIError(error)
             if case .unauthorized = error {
                 if let user = Auth.auth().currentUser {
                     do {
                         let token = try await user.getIDToken()
                         self.idToken = token
                         let profile = try await BubsieAPI.shared.getProfile()
-                        currentUser = profile
+                        self.currentUser = profile
                         logger.info("Profile OK after token refresh")
                     } catch {
                         self.logger.error("Profile still failing after refresh: \(error)")
