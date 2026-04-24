@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>888171512898-l84kc6bdd50kelvqei0qhe7hfisbo1qe.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.888171512898-l84kc6bdd50kelvqei0qhe7hfisbo1qe</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDiFxNEM2YRVq2muCGoWaEPRrmr4qic1AI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>888171512898</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.fagore.bubsie</string>
+	<key>PROJECT_ID</key>
+	<string>bubsieios</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bubsieios.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:888171512898:ios:809be86c0630ff1b5e19db</string>
+</dict>
+</plist>

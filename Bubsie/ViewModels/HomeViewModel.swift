@@ -144,16 +144,16 @@ final class HomeViewModel: ObservableObject {
         if let filter = selectedFilter {
             switch filter {
             case "popular":
-                filteredTemplates = allTemplates.filter { $0.isPopular }
+                filteredTemplates = allTemplates.filter { $0.isPopular }.shuffled()
             case "trending":
-                filteredTemplates = allTemplates.filter { $0.isViral }
+                filteredTemplates = allTemplates.filter { $0.isViral }.shuffled()
             default:
-                filteredTemplates = allTemplates
+                filteredTemplates = allTemplates.shuffled()
             }
         } else if let id = selectedCategoryID, let catId = Int(id.components(separatedBy: "_").first ?? "") {
-            filteredTemplates = allTemplates.filter { $0.categoryId == catId }
+            filteredTemplates = allTemplates.filter { $0.categoryId == catId }.shuffled()
         } else {
-            filteredTemplates = allTemplates.filter { !($0.hideFromAll ?? false) }
+            filteredTemplates = allTemplates.filter { !($0.hideFromAll ?? false) }.shuffled()
         }
     }
 
