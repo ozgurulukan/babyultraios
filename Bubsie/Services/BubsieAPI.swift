@@ -215,6 +215,19 @@ struct BubsieAPI {
         }
         return data
     }
+
+    // MARK: - Report
+    func submitReport(resultURL: String, reason: String, details: String? = nil) async throws {
+        let body = CreateReportRequest(
+            resultUrl: resultURL,
+            reason: reason,
+            details: details
+        )
+        let response: APIResponse<SubmitReportResponse> = try await client.post("/api/v1/reports", body: body)
+        guard response.success else {
+            throw APIError.serverError(response.error ?? "Failed to submit report")
+        }
+    }
 }
 
 private struct EmptyData: Decodable {}

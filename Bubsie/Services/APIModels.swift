@@ -413,3 +413,19 @@ struct FirebaseConfig: Decodable {
         case appId = "app_id"
     }
 }
+
+struct CreateReportRequest: Encodable {
+    let resultUrl: String
+    let reason: String
+    let details: String?
+
+    enum CodingKeys: String, CodingKey {
+        case resultUrl = "result_url"
+        case reason
+        case details
+    }
+}
+
+struct SubmitReportResponse: Decodable {
+    let id: Int
+}

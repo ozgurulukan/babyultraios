@@ -106,7 +106,7 @@ struct Menu: View {
                         // Legal
                         settingsGroup(title: "Legal & Support") {
                             Button {
-                                openURL(URL(string: "https://www.apple.com/legal/privacy/")!)
+                                openURL(URL(string: "https://fagore.com/privacy/")!)
                             } label: {
                                 CardItem(icon: "shield.fill", text: "Privacy Policy", iconColor: .green)
                             }
@@ -115,7 +115,7 @@ struct Menu: View {
                             Rectangle().fill(Color(hex: "1C1C2E")).frame(height: 0.5).padding(.leading, 60)
 
                             Button {
-                                openURL(URL(string: "https://www.apple.com")!)
+                                openURL(URL(string: "https://fagore.com/terms/")!)
                             } label: {
                                 CardItem(icon: "doc.text.fill", text: "Terms of Service", iconColor: .blue)
                             }
@@ -124,7 +124,7 @@ struct Menu: View {
                             Rectangle().fill(Color(hex: "1C1C2E")).frame(height: 0.5).padding(.leading, 60)
 
                             Button {
-                                openURL(URL(string: "https://support.apple.com")!)
+                                openURL(URL(string: "https://fagore.com/help/")!)
                             } label: {
                                 CardItem(icon: "questionmark.circle.fill", text: "Help Center", iconColor: .orange)
                             }

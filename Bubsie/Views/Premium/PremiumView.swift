@@ -248,7 +248,7 @@ struct PremiumView: View {
                 .font(.system(size: 11))
                 .foregroundStyle(secondaryText)
 
-            Button { openURL(URL(string: "https://www.apple.com")!) } label: {
+            Button { openURL(URL(string: "https://fagore.com/terms/")!) } label: {
                 Text("Terms")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
@@ -258,7 +258,7 @@ struct PremiumView: View {
                 .font(.system(size: 11))
                 .foregroundStyle(secondaryText)
 
-            Button { openURL(URL(string: "https://www.apple.com")!) } label: {
+            Button { openURL(URL(string: "https://fagore.com/privacy/")!) } label: {
                 Text("Privacy Policy")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
@@ -607,7 +607,7 @@ struct TopupView: View {
                 .font(.system(size: 11))
                 .foregroundStyle(secondaryText)
 
-            Button { openURL(URL(string: "https://www.apple.com")!) } label: {
+            Button { openURL(URL(string: "https://fagore.com/terms/")!) } label: {
                 Text("Terms")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
@@ -617,7 +617,7 @@ struct TopupView: View {
                 .font(.system(size: 11))
                 .foregroundStyle(secondaryText)
 
-            Button { openURL(URL(string: "https://www.apple.com")!) } label: {
+            Button { openURL(URL(string: "https://fagore.com/privacy/")!) } label: {
                 Text("Privacy Policy")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
