@@ -558,16 +558,18 @@ struct ResultView: View {
                 .background(
                     Capsule()
                         .fill(
-                            selectedReportReason == nil || reportSending
-                                ? Color.gray.opacity(0.35)
-                                : LinearGradient(
-                                    colors: [
-                                        Color(hex: "8E4C3A").opacity(0.90),
-                                        Color(hex: "FFB5A0").opacity(0.90),
-                                    ],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
+                            AnyShapeStyle(
+                                selectedReportReason == nil || reportSending
+                                    ? Color.gray.opacity(0.35)
+                                    : LinearGradient(
+                                        colors: [
+                                            Color(hex: "8E4C3A").opacity(0.90),
+                                            Color(hex: "FFB5A0").opacity(0.90),
+                                        ],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                            )
                         )
                 )
                 .shadow(color: selectedReportReason == nil ? Color.clear : Color(hex: "8E4C3A").opacity(0.25), radius: 12, x: 0, y: 6)
