@@ -515,7 +515,7 @@ struct AccountView: View {
                 Image(systemName: "trash.fill")
                     .font(.system(size: 18, weight: .semibold))
                     .foregroundStyle(Color(hex: "C0392B"))
-                Text("Delete Account")
+                Text("Delete All Data")
                     .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(Color(hex: "C0392B"))
                 Spacer()
@@ -552,7 +552,7 @@ struct AccountView: View {
                     .font(.system(size: 40))
                     .foregroundStyle(Color(hex: "E04A2E"))
 
-                Text("Delete Account?")
+                Text("Delete All Data?")
                     .font(.system(size: 20, weight: .bold))
                     .foregroundStyle(Color(hex: "1E1C10"))
 
@@ -599,7 +599,7 @@ struct AccountView: View {
                     Button {
                         Task { await performDeleteAccount() }
                     } label: {
-                        Text(isDeletingAccount ? "Deleting..." : "Delete Account")
+                        Text(isDeletingAccount ? "Deleting..." : "Delete All Data")
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)

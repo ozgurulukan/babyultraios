@@ -197,6 +197,14 @@ struct ResultView: View {
                             .font(.system(size: 13))
                     }
                     .buttonStyle(.plain)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(
+                        Capsule()
+                            .fill(Color.white.opacity(0.70))
+                            .overlay(Capsule().stroke(Color.white.opacity(0.9), lineWidth: 1))
+                    )
+                    .shadow(color: Color(hex: "8E4C3A").opacity(0.12), radius: 8, x: 0, y: 4)
                 }
             }
             .padding(12)
