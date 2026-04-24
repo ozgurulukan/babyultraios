@@ -56,8 +56,10 @@ struct GenerationsView: View {
             }
             .task { await viewModel.loadHistory() }
             .refreshable { await viewModel.refresh() }
-            .navigationDestination(item: $selectedResult) { route in
+            .sheet(item: $selectedResult) { route in
                 ResultView(resultURL: route.url, actionType: route.actionType)
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.hidden)
             }
             .alert("Delete generation?", isPresented: .constant(pendingDeleteItem != nil)) {
                 Button("Delete", role: .destructive) {

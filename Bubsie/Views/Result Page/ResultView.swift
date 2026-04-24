@@ -2,7 +2,7 @@ import SwiftUI
 import Photos
 import AVKit
 
-// MARK: - Result Screen (Warm Edition)
+// MARK: - Result Screen (Liquid Glass Edition)
 struct ResultView: View {
     let resultURL: String
     let actionType: String
@@ -11,23 +11,18 @@ struct ResultView: View {
     @StateObject private var auth = AuthManager.shared
     @StateObject private var counter = CoinCounter()
 
-    @State private var savedAlert = false
     @State private var showToast = false
     @State private var showShareSheet = false
     @State private var shareItems: [Any] = []
     @State private var backgroundImage: Color = .clear
 
-    // Design colors
+    // Colors
     private let bgColor = Color(hex: "FFF8F6")
-    private let primaryText = Color(hex: "231917")
     private let secondaryText = Color(hex: "53433F")
     private let accentBrown = Color(hex: "8E4C3A")
-    private let accentCoral = Color(hex: "FFB5A0")
-    private let starYellow = Color(hex: "FFDF8E")
     private let successGreen = Color(hex: "7ADDBD")
     private let darkText = Color(hex: "221A18")
 
-    var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
     private var resultExtension: String {
         URL(string: resultURL)?.pathExtension.lowercased() ?? ""
     }
@@ -39,9 +34,6 @@ struct ResultView: View {
         let supported = ["jpg", "jpeg", "png", "mp4"]
         return supported.contains(resultExtension) || (actionType == "video" && resultExtension.isEmpty)
     }
-    private var mediaHeight: CGFloat {
-        min(max(UIScreen.main.bounds.height * 0.42, 280), 340)
-    }
 
     var body: some View {
         ZStack {
@@ -50,25 +42,40 @@ struct ResultView: View {
             backgroundGlows
 
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    topBar
-                        .padding(.horizontal, 24)
-                        .padding(.top, 16)
+                VStack(spacing: 20) {
+                    // Close button
+                    HStack {
+                        Spacer()
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundStyle(Color(hex: "231917"))
+                                .frame(width: 32, height: 32)
+                                .background(
+                                    Circle()
+                                        .fill(.ultraThinMaterial)
+                                        .overlay(Circle().stroke(Color.white.opacity(0.6), lineWidth: 1))
+                                )
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
 
-                    resultCanvas
-                        .padding(.horizontal, 24)
-                        .padding(.top, 32)
+                    // Result Card
+                    resultCard
+                        .padding(.horizontal, 20)
 
                     if actionType == "remove_bg" {
                         bgPicker
-                            .padding(.horizontal, 24)
-                            .padding(.top, 16)
+                            .padding(.horizontal, 20)
                     }
 
                     actionButtons
-                        .padding(.horizontal, 24)
-                        .padding(.top, 24)
-                        .padding(.bottom, 88)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 32)
                 }
             }
 
@@ -90,152 +97,99 @@ struct ResultView: View {
         ZStack {
             Circle()
                 .fill(Color(hex: "FFB5A0").opacity(0.30))
-                .frame(width: 384, height: 384)
-                .blur(radius: 50)
-                .offset(x: -120, y: -250)
+                .frame(width: 300, height: 300)
+                .blur(radius: 60)
+                .offset(x: -100, y: -200)
 
             Circle()
                 .fill(Color(hex: "FFDF8E").opacity(0.20))
-                .frame(width: 480, height: 480)
-                .blur(radius: 60)
-                .offset(x: 50, y: 100)
-
-            Circle()
-                .fill(Color(hex: "7ADDBD").opacity(0.20))
-                .frame(width: 400, height: 400)
-                .blur(radius: 50)
-                .offset(x: 80, y: 500)
+                .frame(width: 350, height: 350)
+                .blur(radius: 70)
+                .offset(x: 80, y: 50)
         }
         .ignoresSafeArea()
         .allowsHitTesting(false)
     }
 
-    // MARK: Top Bar
-    private var topBar: some View {
-        HStack {
-            Button { dismiss() } label: {
-                Image(systemName: "arrow.left")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(Color(hex: "f9f5f2"))
-                    .frame(width: 40, height: 40)
-                    .background(
-                        Circle()
-                            .fill(.ultraThinMaterial)
-                            .overlay(Circle().fill(Color.black.opacity(0.18)))
-                    )
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white.opacity(0.4), lineWidth: 1))
-            }
-            .buttonStyle(.plain)
-
-            Text("Bubsie")
-                .font(.system(size: 22, weight: .heavy))
-                .foregroundStyle(accentBrown)
-                .tracking(-0.8)
-                .padding(.leading, 10)
-
-            Spacer()
-        }
-    }
-
-    // MARK: Result Canvas
-    private var resultCanvas: some View {
+    // MARK: Result Card
+    private var resultCard: some View {
         ZStack {
-            // Decorative blobs behind
-            Circle()
-                .fill(Color(hex: "FFDAD2").opacity(0.60))
-                .frame(width: 256, height: 256)
-                .blur(radius: 32)
-                .offset(x: 60, y: -80)
+            RoundedRectangle(cornerRadius: 28, style: .continuous)
+                .fill(Color.white.opacity(0.45))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28, style: .continuous)
+                        .stroke(Color.white.opacity(0.70), lineWidth: 1)
+                )
+                .shadow(color: Color.black.opacity(0.04), radius: 16, x: 0, y: 8)
 
-            Circle()
-                .fill(Color(hex: "FFDF8E").opacity(0.50))
-                .frame(width: 192, height: 192)
-                .blur(radius: 20)
-                .offset(x: -60, y: 120)
-
-            // Glassmorphism card
-            VStack(spacing: 0) {
+            VStack(spacing: 16) {
+                // Media
                 Group {
                     if !isSupportedResultFormat {
-                        VStack(spacing: 12) {
-                            Image(systemName: "exclamationmark.triangle")
-                                .font(.system(size: 32))
-                                .foregroundStyle(secondaryText)
-                            Text("Unsupported format. Supported: jpg, jpeg, png, mp4")
-                                .font(.system(size: 13, weight: .medium))
-                                .foregroundStyle(secondaryText)
-                                .multilineTextAlignment(.center)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.white.opacity(0.20))
+                        errorPlaceholder(message: "Unsupported format. Supported: jpg, jpeg, png, mp4")
                     } else if isVideoResult, let videoURL = URL(string: resultURL) {
                         VideoPlayer(player: AVPlayer(url: videoURL))
+                            .aspectRatio(1, contentMode: .fit)
                     } else {
                         AsyncImage(url: URL(string: resultURL)) { phase in
                             switch phase {
                             case .success(let image):
                                 image
                                     .resizable()
-                                    .scaledToFill()
+                                    .aspectRatio(1, contentMode: .fit)
                             case .failure:
-                                VStack(spacing: 12) {
-                                    Image(systemName: "exclamationmark.triangle")
-                                        .font(.system(size: 32))
-                                        .foregroundStyle(secondaryText)
-                                    Text("Failed to load")
-                                        .font(.system(size: 14, weight: .medium))
-                                        .foregroundStyle(secondaryText)
-                                }
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(Color.white.opacity(0.20))
+                                errorPlaceholder(message: "Failed to load")
                             default:
                                 ProgressView()
                                     .tint(accentBrown)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .background(Color.white.opacity(0.20))
+                                    .frame(maxWidth: .infinity, minHeight: 200)
                             }
                         }
                     }
                 }
-                .frame(height: mediaHeight)
-                .clipShape(RoundedRectangle(cornerRadius: 32))
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 32)
-                        .fill(Color.black.opacity(0.03))
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .stroke(Color.white.opacity(0.5), lineWidth: 1)
                 )
-                .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 2)
 
-                // Floating badge
-                HStack(spacing: 8) {
+                // Badge
+                HStack(spacing: 6) {
                     Image(systemName: "sparkles")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.system(size: 11, weight: .semibold))
                         .foregroundStyle(accentBrown)
-
                     Text("Magic Enhanced")
-                        .font(.system(size: 14, weight: .bold))
+                        .font(.system(size: 13, weight: .bold))
                         .foregroundStyle(accentBrown)
                 }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 10)
-                .background(Color.white.opacity(0.60))
-                .overlay(
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(
                     Capsule()
-                        .stroke(Color.white.opacity(0.80), lineWidth: 1)
+                        .fill(Color.white.opacity(0.70))
+                        .overlay(Capsule().stroke(Color.white.opacity(0.9), lineWidth: 1))
                 )
-                .clipShape(Capsule())
-                .shadow(color: Color(hex: "8E4C3A").opacity(0.20), radius: 24, x: 0, y: 8)
-                .offset(y: -20)
+                .shadow(color: Color(hex: "8E4C3A").opacity(0.12), radius: 8, x: 0, y: 4)
             }
             .padding(12)
-            .background(Color.white.opacity(0.30))
-            .overlay(
-                RoundedRectangle(cornerRadius: 40)
-                    .stroke(Color.white.opacity(0.60), lineWidth: 1)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 40))
-            .shadow(color: Color(hex: "8E4C3A").opacity(0.12), radius: 28, x: 0, y: 12)
         }
+    }
+
+    private func errorPlaceholder(message: String) -> some View {
+        VStack(spacing: 12) {
+            Image(systemName: "exclamationmark.triangle")
+                .font(.system(size: 28))
+                .foregroundStyle(secondaryText)
+            Text(message)
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(secondaryText)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity, minHeight: 200)
+        .background(Color.white.opacity(0.20))
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
 
     // MARK: Background Picker (for remove_bg)
@@ -279,83 +233,77 @@ struct ResultView: View {
 
     // MARK: Action Buttons
     private var actionButtons: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 12) {
             // Save to Gallery
             Button {
                 saveToPhotos()
             } label: {
-                HStack(spacing: 12) {
+                HStack(spacing: 8) {
                     Image(systemName: "arrow.down.circle.fill")
                         .font(.system(size: 18, weight: .semibold))
                     Text("Save to Gallery")
-                        .font(.system(size: 18, weight: .bold))
+                        .font(.system(size: 17, weight: .bold))
                 }
                 .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 20)
+                .frame(maxWidth: .infinity, minHeight: 52)
                 .background(
-                    LinearGradient(
-                        colors: [
-                            Color(hex: "8E4C3A").opacity(0.90),
-                            Color(hex: "FFB5A0").opacity(0.90),
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color(hex: "8E4C3A").opacity(0.90),
+                                    Color(hex: "FFB5A0").opacity(0.90),
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                )
+                .shadow(color: Color(hex: "8E4C3A").opacity(0.25), radius: 12, x: 0, y: 6)
+            }
+            .buttonStyle(.plain)
+
+            HStack(spacing: 12) {
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "arrow.counterclockwise")
+                            .font(.system(size: 16, weight: .semibold))
+                        Text("Back")
+                            .font(.system(size: 15, weight: .bold))
+                    }
+                    .foregroundStyle(darkText)
+                    .frame(maxWidth: .infinity, minHeight: 48)
+                    .background(
+                        Capsule()
+                            .fill(Color.white.opacity(0.50))
+                            .overlay(Capsule().stroke(Color.white.opacity(0.60), lineWidth: 1))
                     )
-                )
-                .clipShape(Capsule())
-                .shadow(color: Color(hex: "8E4C3A").opacity(0.40), radius: 32, x: 0, y: -8)
-            }
-            .buttonStyle(.plain)
-
-            Button {
-                dismiss()
-            } label: {
-                VStack(spacing: 12) {
-                    Image(systemName: "arrow.counterclockwise")
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundStyle(darkText)
-
-                    Text("Back to Templates")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundStyle(darkText)
+                    .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 24)
-                .background(Color.white.opacity(0.40))
-                .overlay(
-                    Capsule()
-                        .stroke(Color.white.opacity(0.50), lineWidth: 1)
-                )
-                .clipShape(Capsule())
-                .shadow(color: Color(hex: "8E4C3A").opacity(0.08), radius: 24, x: 0, y: 8)
-            }
-            .buttonStyle(.plain)
+                .buttonStyle(.plain)
 
-            // Share to Social
-            Button {
-                prepareShare()
-            } label: {
-                VStack(spacing: 12) {
-                    Image(systemName: "square.and.arrow.up")
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundStyle(secondaryText)
-
-                    Text("Share to Social")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundStyle(secondaryText)
+                Button {
+                    prepareShare()
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.system(size: 16, weight: .semibold))
+                        Text("Share")
+                            .font(.system(size: 15, weight: .bold))
+                    }
+                    .foregroundStyle(secondaryText)
+                    .frame(maxWidth: .infinity, minHeight: 48)
+                    .background(
+                        Capsule()
+                            .fill(Color(hex: "FFDF8E").opacity(0.45))
+                            .overlay(Capsule().stroke(Color.white.opacity(0.60), lineWidth: 1))
+                    )
+                    .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 24)
-                .background(Color(hex: "FFDF8E").opacity(0.40))
-                .overlay(
-                    Capsule()
-                        .stroke(Color.white.opacity(0.50), lineWidth: 1)
-                )
-                .clipShape(Capsule())
-                .shadow(color: Color(hex: "8E4C3A").opacity(0.08), radius: 24, x: 0, y: 8)
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
         }
     }
 
@@ -366,26 +314,23 @@ struct ResultView: View {
                 .font(.system(size: 20, weight: .semibold))
                 .foregroundStyle(Color(hex: "002016"))
 
-            Text("Download\nComplete")
-                .font(.system(size: 14, weight: .bold))
+            Text("Saved to Gallery")
+                .font(.system(size: 15, weight: .bold))
                 .foregroundStyle(Color(hex: "002016"))
-                .lineLimit(2)
 
             Spacer()
         }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 12)
-        .background(successGreen.opacity(0.70))
-        .overlay(
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
+        .background(
             Capsule()
-                .stroke(Color.white.opacity(0.40), lineWidth: 1)
+                .fill(successGreen.opacity(0.85))
+                .overlay(Capsule().stroke(Color.white.opacity(0.50), lineWidth: 1))
         )
-        .clipShape(Capsule())
-        .shadow(color: successGreen.opacity(0.30), radius: 32, x: 0, y: 8)
-        .background(.ultraThinMaterial.opacity(0.3))
-        .padding(.horizontal, 24)
+        .shadow(color: successGreen.opacity(0.30), radius: 16, x: 0, y: 6)
+        .padding(.horizontal, 20)
         .frame(maxHeight: .infinity, alignment: .top)
-        .padding(.top, 80)
+        .padding(.top, 60)
     }
 
     // MARK: Actions
@@ -452,24 +397,20 @@ struct ResultView: View {
     private func applyBackgroundIfNeeded(to image: UIImage) -> UIImage {
         guard actionType == "remove_bg", backgroundImage != .clear else { return image }
 
-        // Convert SwiftUI Color to UIColor for rendering
         let uiBackgroundColor: UIColor
         if backgroundImage == .white {
             uiBackgroundColor = .white
         } else if backgroundImage == .black {
             uiBackgroundColor = .black
         } else {
-            // For custom colors (like peach), extract components
             uiBackgroundColor = UIColor(backgroundImage)
         }
 
         let size = image.size
         let renderer = UIGraphicsImageRenderer(size: size)
         return renderer.image { context in
-            // Fill background
             uiBackgroundColor.setFill()
             context.fill(CGRect(origin: .zero, size: size))
-            // Draw original image on top
             image.draw(in: CGRect(origin: .zero, size: size))
         }
     }

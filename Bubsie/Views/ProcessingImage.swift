@@ -11,52 +11,79 @@ struct ProcessingImage: View {
     var videoURL: String? = nil
     var onBackToTemplates: (() -> Void)? = nil
 
+    @Environment(\.dismiss) private var dismiss
     @State private var isResult = false
     @State private var resultURL: String? = nil
     @State private var errorMessage: String? = nil
     @State private var progress: CGFloat = 0
     @State private var statusText = "Preparing your transform..."
-    @State private var spinnerRotation: Double = 0
     @State private var notifyWhenDone = true
     @State private var isSubmitting = false
 
-    @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var entitlementManager: EntitlementManager
-    @StateObject private var auth = AuthManager.shared
-    @StateObject private var counter = CoinCounter()
-
     private let statusMessages = [
-        "Analyzing photo...",
-        "Applying template...",
-        "Generating details...",
-        "Finalizing output..."
+        "Catching the magic...",
+        "Styling your little star...",
+        "Adding a pinch of wonder...",
+        "Preparing the big debut! ✨"
     ]
 
-    var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
+    private let bgColor = Color(hex: "FFF8F6")
+    private let accentBrown = Color(hex: "8E4C3A")
 
     var body: some View {
         ZStack {
-            Color(hex: "FFF8F6").ignoresSafeArea()
+            bgColor.ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                topBar
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
+            backgroundGlows
 
-                VStack(spacing: 24) {
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 20) {
+                    // Close button
+                    HStack {
+                        Spacer()
+                        Button {
+                            if let onBack = onBackToTemplates {
+                                onBack()
+                            } else {
+                                dismiss()
+                            }
+                        } label: {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundStyle(Color(hex: "231917"))
+                                .frame(width: 32, height: 32)
+                                .background(
+                                    Circle()
+                                        .fill(.ultraThinMaterial)
+                                        .overlay(Circle().stroke(Color.white.opacity(0.6), lineWidth: 1))
+                                )
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
+
+                    // Preview Card
                     previewCard
+                        .padding(.horizontal, 20)
+
+                    // Progress Card
                     progressCard
+                        .padding(.horizontal, 20)
+
+                    // Actions
                     actionsCard
-                    Spacer(minLength: 20)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 32)
                 }
-                .padding(.horizontal, 24)
-                .padding(.top, 20)
             }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationDestination(isPresented: $isResult) {
+        .sheet(isPresented: $isResult) {
             if let url = resultURL {
                 ResultView(resultURL: url, actionType: template.actionType)
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.hidden)
             }
         }
         .alert("Error", isPresented: .constant(errorMessage != nil)) {
@@ -67,87 +94,95 @@ struct ProcessingImage: View {
         .onAppear { startProcessing() }
     }
 
-    private var topBar: some View {
-        HStack {
-            Text(template.name)
-                .font(.system(size: 20, weight: .bold))
-                .foregroundStyle(Color(hex: "8F4C38"))
-                .lineLimit(1)
+    // MARK: Background Glows
+    private var backgroundGlows: some View {
+        ZStack {
+            Circle()
+                .fill(Color(hex: "FFB5A0").opacity(0.30))
+                .frame(width: 300, height: 300)
+                .blur(radius: 60)
+                .offset(x: -100, y: -200)
 
-            Spacer()
-
-            if !entitlementManager.hasPro {
-                HStack(spacing: 6) {
-                    Image(systemName: "circle.lefthalf.filled")
-                        .font(.system(size: 13, weight: .bold))
-                    Text("\(displayCredits)")
-                        .font(.system(size: 14, weight: .bold))
-                }
-                .foregroundStyle(Color(hex: "f9f5f2"))
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(
-                    Capsule()
-                        .fill(.ultraThinMaterial)
-                        .overlay(Color.black.opacity(0.18))
-                )
-                .clipShape(Capsule())
-                .overlay(Capsule().stroke(Color.white.opacity(0.4), lineWidth: 1))
-            }
+            Circle()
+                .fill(Color(hex: "FFDF8E").opacity(0.20))
+                .frame(width: 350, height: 350)
+                .blur(radius: 70)
+                .offset(x: 80, y: 50)
         }
+        .ignoresSafeArea()
+        .allowsHitTesting(false)
     }
 
+    // MARK: Preview Card
     private var previewCard: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .fill(Color.white.opacity(0.62))
+                .fill(Color.white.opacity(0.45))
                 .overlay(
                     RoundedRectangle(cornerRadius: 28, style: .continuous)
-                        .stroke(Color.white.opacity(0.75), lineWidth: 1)
+                        .stroke(Color.white.opacity(0.70), lineWidth: 1)
                 )
+                .shadow(color: Color.black.opacity(0.04), radius: 16, x: 0, y: 8)
 
-            Group {
-                if let image {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                } else {
-                    ZStack {
-                        Color(hex: "F3E7E2")
-                        Image(systemName: "photo")
-                            .font(.system(size: 40, weight: .medium))
-                            .foregroundStyle(Color(hex: "8F4C38").opacity(0.7))
+            VStack(spacing: 12) {
+                Group {
+                    if let image {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                    } else {
+                        ZStack {
+                            Color(hex: "F3E7E2")
+                            Image(systemName: "photo")
+                                .font(.system(size: 40, weight: .medium))
+                                .foregroundStyle(Color(hex: "8F4C38").opacity(0.7))
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 200)
                     }
                 }
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                )
+
+                // Status badge
+                HStack(spacing: 6) {
+                    ProgressView()
+                        .tint(accentBrown)
+                        .scaleEffect(0.8)
+                    Text("Processing...")
+                        .font(.system(size: 13, weight: .bold))
+                        .foregroundStyle(accentBrown)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(
+                    Capsule()
+                        .fill(Color.white.opacity(0.70))
+                        .overlay(Capsule().stroke(Color.white.opacity(0.9), lineWidth: 1))
+                )
+                .shadow(color: Color(hex: "8E4C3A").opacity(0.12), radius: 8, x: 0, y: 4)
             }
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .padding(14)
-            .overlay(
-                RoundedRectangle(cornerRadius: 28, style: .continuous)
-                    .stroke(Color(hex: "8F4C38").opacity(0.14), lineWidth: 1)
-            )
+            .padding(12)
         }
-        .frame(height: 260)
     }
 
+    // MARK: Progress Card
     private var progressCard: some View {
-        VStack(spacing: 14) {
-            HStack(spacing: 10) {
-                Circle()
-                    .trim(from: 0.15, to: 0.95)
-                    .stroke(
-                        LinearGradient(colors: [Color(hex: "8F4C38"), Color(hex: "C07B64")], startPoint: .leading, endPoint: .trailing),
-                        style: StrokeStyle(lineWidth: 3, lineCap: .round)
-                    )
-                    .frame(width: 26, height: 26)
-                    .rotationEffect(.degrees(spinnerRotation))
+        VStack(spacing: 16) {
+            HStack(spacing: 12) {
                 Text(statusText)
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(Color(hex: "3A2A26"))
+
                 Spacer()
+
                 Text("\(Int(progress * 100))%")
                     .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(Color(hex: "8F4C38"))
+                    .foregroundStyle(accentBrown)
                     .monospacedDigit()
             }
 
@@ -156,7 +191,13 @@ struct ProcessingImage: View {
                     Capsule()
                         .fill(Color(hex: "E8D8D2"))
                     Capsule()
-                        .fill(LinearGradient(colors: [Color(hex: "8F4C38"), Color(hex: "C07B64")], startPoint: .leading, endPoint: .trailing))
+                        .fill(
+                            LinearGradient(
+                                colors: [Color(hex: "8F4C38"), Color(hex: "C07B64")],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
                         .frame(width: max(10, geo.size.width * progress))
                 }
             }
@@ -164,75 +205,76 @@ struct ProcessingImage: View {
         }
         .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .fill(Color.white.opacity(0.65))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .stroke(Color.white.opacity(0.78), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 28, style: .continuous)
+                .fill(Color.white.opacity(0.45))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28, style: .continuous)
+                        .stroke(Color.white.opacity(0.70), lineWidth: 1)
+                )
+                .shadow(color: Color.black.opacity(0.04), radius: 16, x: 0, y: 8)
         )
     }
 
+    // MARK: Actions Card
     private var actionsCard: some View {
         VStack(spacing: 12) {
+            // Notify toggle
             Button {
                 notifyWhenDone.toggle()
             } label: {
-                HStack {
+                HStack(spacing: 10) {
                     Image(systemName: notifyWhenDone ? "bell.badge.fill" : "bell")
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.system(size: 16, weight: .semibold))
                     Text("Notify me when it's completed")
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.system(size: 15, weight: .semibold))
                     Spacer()
                     Image(systemName: notifyWhenDone ? "checkmark.circle.fill" : "circle")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.system(size: 18, weight: .semibold))
                 }
-                .foregroundStyle(Color(hex: "8F4C38"))
-                .padding(.horizontal, 14)
-                .padding(.vertical, 12)
+                .foregroundStyle(accentBrown)
+                .frame(maxWidth: .infinity, minHeight: 48)
+                .padding(.horizontal, 16)
                 .background(
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .fill(Color.white.opacity(0.72))
+                    Capsule()
+                        .fill(Color.white.opacity(0.50))
+                        .overlay(Capsule().stroke(Color.white.opacity(0.60), lineWidth: 1))
                 )
+                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
             }
             .buttonStyle(.plain)
 
+            // Back to templates
             Button {
-                onBackToTemplates?()
-                if onBackToTemplates == nil {
+                if let onBack = onBackToTemplates {
+                    onBack()
+                } else {
                     dismiss()
                 }
             } label: {
-                Text("Back to other templates")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(Color(hex: "4B3935"))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .fill(Color(hex: "EFE1DB"))
-                    )
+                HStack(spacing: 6) {
+                    Image(systemName: "arrow.counterclockwise")
+                        .font(.system(size: 16, weight: .semibold))
+                    Text("Back to Templates")
+                        .font(.system(size: 15, weight: .bold))
+                }
+                .foregroundStyle(Color(hex: "221A18"))
+                .frame(maxWidth: .infinity, minHeight: 48)
+                .background(
+                    Capsule()
+                        .fill(Color.white.opacity(0.50))
+                        .overlay(Capsule().stroke(Color.white.opacity(0.60), lineWidth: 1))
+                )
+                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
             }
             .buttonStyle(.plain)
         }
-        .padding(14)
-        .background(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .fill(Color.white.opacity(0.60))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .stroke(Color.white.opacity(0.78), lineWidth: 1)
-        )
     }
 
+    // MARK: Processing
     private func startProcessing() {
         guard !isSubmitting else { return }
         isSubmitting = true
 
-        withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: false)) {
-            spinnerRotation = 360
-        }
         animateProgress()
         Task { await processImage() }
     }
@@ -276,4 +318,44 @@ struct ProcessingImage: View {
             }
         }
     }
+}
+
+#Preview {
+    ProcessingImage(
+        image: UIImage(systemName: "photo"),
+        template: TemplateItem(
+            id: 1,
+            appId: "preview",
+            slug: "preview",
+            name: "Preview",
+            description: nil,
+            actionType: "image",
+            prompt: "",
+            negativePrompt: nil,
+            provider: "",
+            model: nil,
+            categoryId: 1,
+            beforeMediaUrl: nil,
+            beforeMediaType: nil,
+            afterMediaUrl: nil,
+            afterMediaType: nil,
+            referenceImageCount: nil,
+            referenceVideoUrl: nil,
+            requireMomPhoto: nil,
+            requireBabyPhoto: nil,
+            requireDadPhoto: nil,
+            hideFromAll: nil,
+            aspectRatio: nil,
+            supportedAspectRatios: nil,
+            iconUrl: nil,
+            params: nil,
+            creditCost: 1,
+            isActive: true,
+            isFeatured: false,
+            isPopular: false,
+            isViral: false,
+            isPremium: false,
+            sortOrder: 0
+        )
+    )
 }

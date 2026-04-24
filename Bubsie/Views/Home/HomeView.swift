@@ -158,7 +158,7 @@ struct HomeView: View {
                 .onDisappear {
                     sliderTimer?.invalidate()
                 }
-                .onChange(of: homeVM.sliderItems.count) { _ in
+                .onChange(of: homeVM.sliderItems.count) {
                     currentSliderIndex = 0
                     startAutoScroll(proxy: proxy)
                 }

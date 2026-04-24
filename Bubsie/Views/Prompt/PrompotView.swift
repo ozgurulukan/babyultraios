@@ -72,9 +72,11 @@ struct PrompotView: View {
             } message: {
                 Text(errorMessage ?? "")
             }
-            .navigationDestination(isPresented: $isResult) {
+            .sheet(isPresented: $isResult) {
                 if let url = resultURL {
                     ResultView(resultURL: url, actionType: template.actionType)
+                        .presentationDetents([.large])
+                        .presentationDragIndicator(.hidden)
                 }
             }
         }

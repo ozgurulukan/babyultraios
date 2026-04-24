@@ -69,7 +69,10 @@ struct TransformView: View {
                     template: template,
                     aspectRatio: selectedAspectRatio,
                     videoURL: template.referenceVideoUrl,
-                    onBackToTemplates: { dismiss() }
+                    onBackToTemplates: {
+                        isProcessing = false
+                        dismiss()
+                    }
                 )
             }
         }
