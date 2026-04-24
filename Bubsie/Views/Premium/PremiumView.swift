@@ -43,18 +43,16 @@ struct PremiumView: View {
         ZStack {
             creamBg.ignoresSafeArea()
 
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    closeButton
-                        .padding(.horizontal, 20)
-                        .padding(.top, 16)
-                        .zIndex(1)
+            VStack(spacing: 0) {
+                closeButton
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
+                    .zIndex(1)
 
-                    mainCard
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 16)
-                }
+                mainCard
+                    .padding(.horizontal, 16)
+                    .padding(.top, 6)
+                    .padding(.bottom, 12)
             }
         }
         .preferredColorScheme(.light)
@@ -80,9 +78,9 @@ struct PremiumView: View {
         VStack(spacing: 0) {
             heroSection
 
-            VStack(spacing: 24) {
+            VStack(spacing: 14) {
                 copySection
-                    .padding(.top, 32)
+                    .padding(.top, 16)
 
                 benefitsSection
                     .padding(.horizontal, 8)
@@ -94,11 +92,11 @@ struct PremiumView: View {
                 footerLinks
             }
             .padding(.horizontal, 24)
-            .padding(.bottom, 24)
+            .padding(.bottom, 16)
         }
         .background(cardBg)
-        .clipShape(RoundedRectangle(cornerRadius: 48))
-        .shadow(color: Color(hex: "1E1C10").opacity(0.06), radius: 32, x: 0, y: 12)
+        .clipShape(RoundedRectangle(cornerRadius: 40))
+        .shadow(color: Color(hex: "1E1C10").opacity(0.06), radius: 24, x: 0, y: 8)
     }
 
     var heroSection: some View {
@@ -106,7 +104,7 @@ struct PremiumView: View {
             Image("defaultpaywallbg")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(height: 256)
+                .frame(height: 180)
                 .clipped()
 
             LinearGradient(
@@ -118,7 +116,7 @@ struct PremiumView: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .frame(height: 256)
+            .frame(height: 180)
 
             HStack(spacing: 4) {
                 Image(systemName: "star.fill")
@@ -137,19 +135,19 @@ struct PremiumView: View {
             .padding(.leading, 16)
             .padding(.top, 16)
         }
-        .frame(height: 256)
+        .frame(height: 180)
     }
 
     var copySection: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 6) {
             Text("Unlock the Magic\nfor Bubsie")
-                .font(.system(size: 30, weight: .heavy))
+                .font(.system(size: 26, weight: .heavy))
                 .foregroundStyle(primaryText)
                 .multilineTextAlignment(.center)
-                .tracking(-0.75)
+                .tracking(-0.5)
 
             Text("Transform every giggle into a\nmasterpiece.")
-                .font(.system(size: 16, weight: .regular))
+                .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(secondaryText)
                 .multilineTextAlignment(.center)
                 .lineSpacing(2)
@@ -157,7 +155,7 @@ struct PremiumView: View {
     }
 
     var benefitsSection: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 10) {
             BenefitRow(
                 icon: "sparkles",
                 text: "Unlimited AI Transforms",
@@ -291,19 +289,19 @@ struct BenefitRow: View {
     let iconColor: Color
 
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 12) {
             ZStack {
                 Circle()
                     .fill(iconBg)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 32, height: 32)
 
                 Image(systemName: icon)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(iconColor)
             }
 
             Text(text)
-                .font(.system(size: 16, weight: .medium))
+                .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(Color(hex: "1E1C10"))
 
             Spacer()
@@ -342,29 +340,29 @@ struct PlanCardNew: View {
                         .foregroundStyle(Color(hex: "55433E"))
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                .padding(16)
+                .padding(12)
                 .background(isSelected ? Color(hex: "E9E2D0") : Color(hex: "FAF3E0"))
-                .clipShape(RoundedRectangle(cornerRadius: 32))
+                .clipShape(RoundedRectangle(cornerRadius: 24))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 32)
+                    RoundedRectangle(cornerRadius: 24)
                         .stroke(isSelected ? Color(hex: "97462E") : Color.clear, lineWidth: 2)
                 )
 
                 if let tag = plan.tag {
                     Text(tag)
-                        .font(.system(size: 10, weight: .bold))
+                        .font(.system(size: 9, weight: .bold))
                         .foregroundStyle(.white)
                         .tracking(0.5)
                         .textCase(.uppercase)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 4)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 3)
                         .background(Color(hex: "97462E"))
                         .clipShape(Capsule())
-                        .offset(y: -10)
+                        .offset(y: -8)
                 }
             }
         }
-        .frame(height: 128)
+        .frame(height: 100)
         .frame(maxWidth: .infinity)
         .buttonStyle(.plain)
     }
@@ -419,18 +417,16 @@ struct TopupView: View {
         ZStack {
             creamBg.ignoresSafeArea()
 
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    closeButton
-                        .padding(.horizontal, 20)
-                        .padding(.top, 16)
-                        .zIndex(1)
+            VStack(spacing: 0) {
+                closeButton
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
+                    .zIndex(1)
 
-                    mainCard
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 16)
-                }
+                mainCard
+                    .padding(.horizontal, 16)
+                    .padding(.top, 6)
+                    .padding(.bottom, 12)
             }
         }
         .preferredColorScheme(.light)
@@ -455,9 +451,9 @@ struct TopupView: View {
         VStack(spacing: 0) {
             heroSection
 
-            VStack(spacing: 24) {
+            VStack(spacing: 14) {
                 copySection
-                    .padding(.top, 32)
+                    .padding(.top, 16)
 
                 benefitsSection
                     .padding(.horizontal, 8)
@@ -469,11 +465,11 @@ struct TopupView: View {
                 footerLinks
             }
             .padding(.horizontal, 24)
-            .padding(.bottom, 24)
+            .padding(.bottom, 16)
         }
         .background(cardBg)
-        .clipShape(RoundedRectangle(cornerRadius: 48))
-        .shadow(color: Color(hex: "1E1C10").opacity(0.06), radius: 32, x: 0, y: 12)
+        .clipShape(RoundedRectangle(cornerRadius: 40))
+        .shadow(color: Color(hex: "1E1C10").opacity(0.06), radius: 24, x: 0, y: 8)
     }
 
     var heroSection: some View {
@@ -481,7 +477,7 @@ struct TopupView: View {
             Image("defaulttopupheader")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(height: 256)
+                .frame(height: 180)
                 .clipped()
 
             LinearGradient(
@@ -493,7 +489,7 @@ struct TopupView: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .frame(height: 256)
+            .frame(height: 180)
 
             HStack(spacing: 4) {
                 Image(systemName: "star.fill")
@@ -512,19 +508,19 @@ struct TopupView: View {
             .padding(.leading, 16)
             .padding(.top, 16)
         }
-        .frame(height: 256)
+        .frame(height: 180)
     }
 
     var copySection: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 6) {
             Text("Top Up Your\nCredits")
-                .font(.system(size: 30, weight: .heavy))
+                .font(.system(size: 26, weight: .heavy))
                 .foregroundStyle(primaryText)
                 .multilineTextAlignment(.center)
-                .tracking(-0.75)
+                .tracking(-0.5)
 
             Text("Get more AI transforms whenever\nyou need them.")
-                .font(.system(size: 16, weight: .regular))
+                .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(secondaryText)
                 .multilineTextAlignment(.center)
                 .lineSpacing(2)
@@ -532,7 +528,7 @@ struct TopupView: View {
     }
 
     var benefitsSection: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 10) {
             BenefitRow(
                 icon: "bolt.fill",
                 text: "Instant Delivery",
@@ -676,11 +672,11 @@ struct CreditPlanCard: View {
                         .foregroundStyle(Color(hex: "55433E"))
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                .padding(14)
+                .padding(12)
                 .background(isSelected ? Color(hex: "E9E2D0") : Color(hex: "FAF3E0"))
-                .clipShape(RoundedRectangle(cornerRadius: 28))
+                .clipShape(RoundedRectangle(cornerRadius: 24))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 28)
+                    RoundedRectangle(cornerRadius: 24)
                         .stroke(isSelected ? Color(hex: "97462E") : Color.clear, lineWidth: 2)
                 )
 
@@ -698,7 +694,7 @@ struct CreditPlanCard: View {
                 }
             }
         }
-        .frame(height: 120)
+        .frame(height: 100)
         .frame(maxWidth: .infinity)
         .buttonStyle(.plain)
     }
