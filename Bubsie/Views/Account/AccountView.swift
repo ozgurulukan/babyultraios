@@ -14,6 +14,9 @@ struct AccountView: View {
     @State private var showCopiedBanner = false
     @State private var copiedBannerText = "Copied to clipboard"
     @State private var showTopup = false
+    @State private var showDeleteAccountPopup = false
+    @State private var isDeletingAccount = false
+    @State private var deleteAccountError: String?
     @Environment(\.openURL) private var openURL
     @Binding var isPresented: Bool
 
@@ -48,6 +51,7 @@ struct AccountView: View {
                 subscriptionSection
                 if !isPro { premiumButton }
                 menuList
+                deleteAccountButton
                 Color.clear.frame(height: 96)
             }
             .padding(.horizontal, 24)
@@ -60,7 +64,7 @@ struct AccountView: View {
         .sheet(isPresented: $isPremiumShow) { PremiumView() }
         .sheet(isPresented: $showTopup) { TopupView() }
         .sheet(isPresented: $showShareSheet) {
-            ActivityView(activityItems: ["Check out Bubsie · AI Magic for Your Little One! 🎬 https://apps.apple.com"])
+            ActivityView(activityItems: ["Check out Bubsie · AI Magic for Your Little One! 🎬 https://apps.apple.com/app/id\(BUBSIE_APP_STORE_ID)"])
         }
         .sheet(isPresented: $showLanguageSheet) {
             LanguageSelectionView()
@@ -98,6 +102,11 @@ struct AccountView: View {
                         withAnimation { showCopiedBanner = false }
                     }
                 }
+            }
+        }
+        .overlay {
+            if showDeleteAccountPopup {
+                deleteAccountPopup
             }
         }
     }
@@ -449,7 +458,7 @@ struct AccountView: View {
             }
             menuDivider
             profileMenuRow(icon: "star.fill", title: "Rate Us") {
-                openURL(URL(string: "https://apps.apple.com")!)
+                openURL(URL(string: "https://apps.apple.com/app/id\(BUBSIE_APP_STORE_ID)?action=write-review")!)
             }
             menuDivider
             profileMenuRow(icon: "person.fill.viewfinder", title: "User ID") {
@@ -494,6 +503,155 @@ struct AccountView: View {
             .padding(20)
         }
         .buttonStyle(.plain)
+    }
+
+    private var deleteAccountButton: some View {
+        Button {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                showDeleteAccountPopup = true
+            }
+        } label: {
+            HStack(spacing: 16) {
+                Image(systemName: "trash.fill")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(Color(hex: "C0392B"))
+                Text("Delete Account")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundStyle(Color(hex: "C0392B"))
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(Color(hex: "C0392B").opacity(0.5))
+            }
+            .padding(20)
+            .background(
+                RoundedRectangle(cornerRadius: 40, style: .continuous)
+                    .fill(.white)
+                    .shadow(color: Color(hex: "1E1C10").opacity(0.03), radius: 10, y: 4)
+            )
+        }
+        .buttonStyle(.plain)
+        .padding(.top, 8)
+    }
+
+    private var deleteAccountPopup: some View {
+        ZStack {
+            Color.black.opacity(0.35)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    if !isDeletingAccount {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            showDeleteAccountPopup = false
+                            deleteAccountError = nil
+                        }
+                    }
+                }
+
+            VStack(spacing: 20) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.system(size: 40))
+                    .foregroundStyle(Color(hex: "E04A2E"))
+
+                Text("Delete Account?")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundStyle(Color(hex: "1E1C10"))
+
+                Text("All your data, including your generations, will be permanently deleted. This action cannot be undone. Complete server-side deletion will be finalized within 48 hours.")
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color(hex: "55433E"))
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(4)
+
+                if let error = deleteAccountError {
+                    Text(error)
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundStyle(Color(hex: "E04A2E"))
+                        .multilineTextAlignment(.center)
+                }
+
+                HStack(spacing: 12) {
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            showDeleteAccountPopup = false
+                            deleteAccountError = nil
+                        }
+                    } label: {
+                        Text("Cancel")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(Color(hex: "1E1C10"))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                            .fill(Color.white.opacity(0.25))
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                            .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                                    )
+                            )
+                    }
+                    .buttonStyle(.plain)
+
+                    Button {
+                        Task { await performDeleteAccount() }
+                    } label: {
+                        Text(isDeletingAccount ? "Deleting..." : "Delete Account")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                    .fill(Color(hex: "C0392B"))
+                            )
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(isDeletingAccount)
+                }
+            }
+            .padding(24)
+            .background(
+                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                    .fill(.ultraThinMaterial)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 32, style: .continuous)
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.white.opacity(0.35), Color.white.opacity(0.08)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 32, style: .continuous)
+                            .stroke(Color.white.opacity(0.55), lineWidth: 1)
+                    )
+            )
+            .shadow(color: Color.black.opacity(0.12), radius: 24, y: 12)
+            .padding(.horizontal, 32)
+        }
+    }
+
+    private func performDeleteAccount() async {
+        isDeletingAccount = true
+        deleteAccountError = nil
+        do {
+            try await BubsieAPI.shared.deleteAccount()
+            isDeletingAccount = false
+            showDeleteAccountPopup = false
+            auth.signOut()
+            withAnimation(.easeInOut(duration: 0.3)) {
+                isPresented = false
+            }
+        } catch {
+            isDeletingAccount = false
+            deleteAccountError = error.localizedDescription
+        }
     }
 }
 

@@ -28,6 +28,13 @@ struct BubsieAPI {
         }
     }
 
+    func deleteAccount() async throws {
+        let response: APIResponse<EmptyData> = try await client.post("/api/v1/me/delete", body: EmptyRequest())
+        guard response.success else {
+            throw APIError.serverError(response.error ?? "Failed to delete account")
+        }
+    }
+
     // MARK: - Categories
     func getCategories(type: String? = nil) async throws -> [CategoryItem] {
         var path = "/api/v1/categories?app_id=\(appID)&lang=\(lang)"
