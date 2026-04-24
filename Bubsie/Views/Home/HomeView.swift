@@ -49,7 +49,7 @@ struct HomeView: View {
                         
                         ProfileStyleHeader(
                             title: "Bubsie",
-                            subtitle: "Every Giggle Matters",
+                            subtitle: "AI Studio",
                             spacing: 1
                         )
                         

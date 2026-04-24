@@ -644,10 +644,8 @@ struct AccountView: View {
             try await BubsieAPI.shared.deleteAccount()
             isDeletingAccount = false
             showDeleteAccountPopup = false
-            auth.signOut()
-            withAnimation(.easeInOut(duration: 0.3)) {
-                isPresented = false
-            }
+            copiedBannerText = "Account deletion request submitted"
+            withAnimation { showCopiedBanner = true }
         } catch {
             isDeletingAccount = false
             deleteAccountError = error.localizedDescription
