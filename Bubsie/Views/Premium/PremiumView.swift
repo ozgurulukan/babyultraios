@@ -659,7 +659,7 @@ struct TopupView: View {
     }
 
     var pricingSection: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 8) {
             ForEach(creditPlans.indices, id: \.self) { index in
                 CreditPlanCard(
                     plan: creditPlans[index],
@@ -824,7 +824,7 @@ struct CreditPlanCard: View {
                         .minimumScaleFactor(0.8)
 
                     Text(plan.subtitle)
-                        .font(.system(size: 20, weight: .bold))
+                        .font(.system(size: 17, weight: .bold))
                         .foregroundStyle(Color(hex: "1E1C10"))
                         .lineLimit(1)
                         .minimumScaleFactor(0.75)
@@ -836,7 +836,7 @@ struct CreditPlanCard: View {
                         .foregroundStyle(Color(hex: "55433E"))
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                .padding(12)
+                .padding(10)
                 .background(isSelected ? Color(hex: "E9E2D0") : Color(hex: "FAF3E0"))
                 .clipShape(RoundedRectangle(cornerRadius: 24))
                 .overlay(
