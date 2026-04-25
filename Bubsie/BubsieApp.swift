@@ -4,6 +4,7 @@ import FirebaseAuth
 import FirebaseMessaging
 import UserNotifications
 import Combine
+import RevenueCat
 
 @main
 struct BubsieApp: App {
@@ -12,6 +13,10 @@ struct BubsieApp: App {
     @StateObject private var subscriptionManager: SubscriptionsManager
 
     init() {
+        // Configure RevenueCat early, before any @StateObject init accesses Purchases.shared
+        Purchases.logLevel = .debug
+        Purchases.configure(withAPIKey: REVENUECAT_API_KEY)
+
         let em = EntitlementManager()
         let sm = SubscriptionsManager(entitlementManager: em)
         self._entitlementManager = StateObject(wrappedValue: em)
@@ -35,6 +40,14 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
+
+        // Sync Firebase UID with RevenueCat
+        if let user = Auth.auth().currentUser {
+            Task {
+                _ = try? await Purchases.shared.logIn(user.uid)
+            }
+        }
+
         AuthManager.shared.startListening()
 
         UNUserNotificationCenter.current().delegate = self

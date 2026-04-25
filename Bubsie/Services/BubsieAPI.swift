@@ -28,6 +28,13 @@ struct BubsieAPI {
         }
     }
 
+    func syncPurchases() async throws {
+        let response: APIResponse<EmptyData> = try await client.post("/api/v1/sync-purchases", body: EmptyRequest())
+        guard response.success else {
+            throw APIError.serverError(response.error ?? "Failed to sync purchases")
+        }
+    }
+
     func deleteAccount() async throws {
         let response: APIResponse<EmptyData> = try await client.post("/api/v1/me/delete", body: EmptyRequest())
         guard response.success else {

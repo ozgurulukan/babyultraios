@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import FirebaseAuth
 import FirebaseCore
+import RevenueCat
 import os
 
 @MainActor
@@ -56,6 +57,7 @@ final class AuthManager: ObservableObject {
                 self.idToken = token
                 logger.info("Token obtained, length: \(token.count)")
                 await self.fetchProfile()
+                await self.syncRevenueCatUserID()
             } catch let error as APIError {
                 self.logger.error("Anonymous sign-in API error: \(error.localizedDescription)")
                 self.handleAPIError(error)
@@ -92,6 +94,16 @@ final class AuthManager: ObservableObject {
         }
     }
 
+    private func syncRevenueCatUserID() async {
+        guard let user = Auth.auth().currentUser else { return }
+        do {
+            _ = try await Purchases.shared.logIn(user.uid)
+            logger.info("RevenueCat logIn OK for uid=\(user.uid)")
+        } catch {
+            logger.error("RevenueCat logIn failed: \(error)")
+        }
+    }
+
     private func refreshToken() {
         guard let user = Auth.auth().currentUser else { return }
         Task {
@@ -100,6 +112,7 @@ final class AuthManager: ObservableObject {
                 self.idToken = token
                 logger.info("Token refreshed, length: \(token.count)")
                 await self.fetchProfile()
+                await self.syncRevenueCatUserID()
             } catch {
                 self.logger.error("Token refresh FAILED: \(error)")
             }

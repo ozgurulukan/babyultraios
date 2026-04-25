@@ -5,130 +5,123 @@
 //  Created by Ozgur Ulukan on 18/07/24.
 //
 
-import StoreKit
+import Foundation
+import Combine
+import RevenueCat
 
-class SubscriptionsManager: NSObject, ObservableObject {
-    // NOTE: Ensure these IDs match the plans shown in PremiumView.
-    // The new paywall design shows Yearly and Weekly plans.
-    let productIDs: [String] = ["com.bubsie.weekly", "com.bubsie.yearly"]
-    var purchasedProductIDs: Set<String> = []
+// MARK: - RevenueCat Delegate (NSObject required for PurchasesDelegate)
+private class RevenueCatDelegate: NSObject, PurchasesDelegate {
+    var onUpdate: ((CustomerInfo) -> Void)?
 
-    @Published var products: [Product] = []
-    
-    private var entitlementManager: EntitlementManager? = nil
-    private var updates: Task<Void, Never>? = nil
-    
-    init(entitlementManager: EntitlementManager) {
-        self.entitlementManager = entitlementManager
-        super.init()
-        self.updates = observeTransactionUpdates()
-        SKPaymentQueue.default().add(self)
-    }
-    
-    deinit {
-        updates?.cancel()
-    }
-    
-    func observeTransactionUpdates() -> Task<Void, Never> {
-        Task(priority: .background) { [unowned self] in
-            for await _ in Transaction.updates {
-                await self.updatePurchasedProducts()
-            }
-        }
+    func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
+        onUpdate?(customerInfo)
     }
 }
 
-// MARK: StoreKit2 API
-extension SubscriptionsManager {
-    func loadProducts() async {
-        do {
-            let fetched = try await Product.products(for: productIDs)
-                .sorted(by: { $0.price > $1.price })
-            await MainActor.run {
-                self.products = fetched
-            }
-        } catch {
-            print("Failed to fetch products!")
-        }
-    }
-    
-    func buyProduct(_ product: Product) async {
-        do {
-            let result = try await product.purchase()
-            
-            switch result {
-            case let .success(.verified(transaction)):
-                // Successful purhcase
-                await transaction.finish()
-                await self.updatePurchasedProducts()
-            case let .success(.unverified(_, error)):
-                // Successful purchase but transaction/receipt can't be verified
-                // Could be a jailbroken phone
-                print("Unverified purchase. Might be jailbroken. Error: \(error)")
-                break
-            case .pending:
-                // Transaction waiting on SCA (Strong Customer Authentication) or
-                // approval from Ask to Buy
-                break
-            case .userCancelled:
-                print("User cancelled!")
-                break
-            @unknown default:
-                print("Failed to purchase the product!")
-                break
-            }
-        } catch {
-            print("Failed to purchase the product!")
-        }
-    }
-    
-    func updatePurchasedProducts() async {
-        var purchased = Set<String>()
-        for await result in Transaction.currentEntitlements {
-            guard case .verified(let transaction) = result else { continue }
-            if transaction.revocationDate == nil {
-                purchased.insert(transaction.productID)
-            }
-        }
-        let purchasedIDs = purchased
-        let hasActiveSubscription = !purchasedIDs.isEmpty
-        await MainActor.run {
-            self.purchasedProductIDs = purchasedIDs
-            self.entitlementManager?.hasPro = hasActiveSubscription
-        }
+// MARK: - Subscriptions Manager
+final class SubscriptionsManager: ObservableObject {
+    @Published var packages: [Package] = []
+    @Published var isLoading = false
+    @Published var creditProducts: [StoreProduct] = []
+    @Published var isLoadingCredits = false
 
-        let shouldSyncPro = await MainActor.run {
-            hasActiveSubscription && (AuthManager.shared.currentUser?.isPro != true)
+    private var entitlementManager: EntitlementManager?
+    private let rcDelegate = RevenueCatDelegate()
+
+    init(entitlementManager: EntitlementManager) {
+        self.entitlementManager = entitlementManager
+        rcDelegate.onUpdate = { [weak self] info in
+            guard let self = self else { return }
+            Task { await self.handleCustomerInfo(info) }
         }
-        if shouldSyncPro {
-            await syncProStatusToBackend()
+        Purchases.shared.delegate = rcDelegate
+    }
+
+    func loadProducts() async {
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            let offerings = try await Purchases.shared.offerings()
+            await MainActor.run {
+                if let current = offerings.current {
+                    // Sort yearly first, then weekly
+                    self.packages = current.availablePackages.sorted { a, b in
+                        let aYearly = a.storeProduct.subscriptionPeriod?.unit == .year
+                        let bYearly = b.storeProduct.subscriptionPeriod?.unit == .year
+                        if aYearly && !bYearly { return true }
+                        if !aYearly && bYearly { return false }
+                        return false
+                    }
+                } else {
+                    self.packages = []
+                }
+            }
+        } catch {
+            print("Failed to fetch offerings: \(error)")
         }
     }
-    
+
+    func loadCreditProducts() async {
+        isLoadingCredits = true
+        defer { isLoadingCredits = false }
+        let identifiers = [
+            "com.fagore.bubsie.100credits",
+            "com.fagore.bubsie.250credits",
+            "com.fagore.bubsie.1000credits"
+        ]
+        let products = await Purchases.shared.products(identifiers)
+        await MainActor.run {
+            self.creditProducts = products
+        }
+    }
+
+    func buyCreditProduct(_ product: StoreProduct) async throws -> CustomerInfo {
+        let result = try await Purchases.shared.purchase(product: product)
+        await handleCustomerInfo(result.customerInfo)
+        return result.customerInfo
+    }
+
+    func buyProduct(_ package: Package) async throws -> CustomerInfo {
+        let result = try await Purchases.shared.purchase(package: package)
+        await handleCustomerInfo(result.customerInfo)
+        return result.customerInfo
+    }
+
     func restorePurchases() async {
         do {
-            try await AppStore.sync()
+            let customerInfo = try await Purchases.shared.restorePurchases()
+            await handleCustomerInfo(customerInfo)
         } catch {
-            print(error)
+            print("Restore failed: \(error)")
+        }
+    }
+
+    func updatePurchasedProducts() async {
+        do {
+            let customerInfo = try await Purchases.shared.customerInfo()
+            await handleCustomerInfo(customerInfo)
+        } catch {
+            print("Failed to get customer info: \(error)")
+        }
+    }
+
+    @MainActor
+    private func handleCustomerInfo(_ customerInfo: CustomerInfo) async {
+        let hasPro = customerInfo.entitlements[REVENUECAT_PRO_ENTITLEMENT]?.isActive == true
+        self.entitlementManager?.hasPro = hasPro
+
+        let shouldSyncPro = hasPro && (AuthManager.shared.currentUser?.isPro != true)
+        if shouldSyncPro {
+            await syncProStatusToBackend()
         }
     }
 
     private func syncProStatusToBackend() async {
         do {
-            try await BubsieAPI.shared.activatePro()
+            try await BubsieAPI.shared.syncPurchases()
             await AuthManager.shared.fetchProfile()
         } catch {
-            print("Failed to sync pro status with backend: \(error)")
+            print("Failed to sync purchases with backend: \(error)")
         }
-    }
-}
-
-extension SubscriptionsManager: SKPaymentTransactionObserver {
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        
-    }
-    
-    func paymentQueue(_ queue: SKPaymentQueue, shouldAddStorePayment payment: SKPayment, for product: SKProduct) -> Bool {
-        return true
     }
 }

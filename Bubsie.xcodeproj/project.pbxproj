@@ -50,7 +50,6 @@
 		77FD33C52C429D2900C9DB28 /* PrompotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FD33C42C429D2900C9DB28 /* PrompotView.swift */; };
 		77FD33C72C42C42A00C9DB28 /* OperationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FD33C62C42C42A00C9DB28 /* OperationTypes.swift */; };
 		77FE00012C3D847D00ADE1B4 /* PremiumGradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FE00002C3D847D00ADE1B4 /* PremiumGradientButton.swift */; };
-		77FF32F92C4759B300F42477 /* ProductList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77FF32F82C4759B300F42477 /* ProductList.plist */; };
 		AABB00022C489A7500477E83 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB00012C489A7500477E83 /* ThemeManager.swift */; };
 		AABB00052C489A7500477E83 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB00042C489A7500477E83 /* MainTabView.swift */; };
 		AABB00072C489A7500477E83 /* GenerationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB00062C489A7500477E83 /* GenerationsView.swift */; };
@@ -324,8 +323,6 @@
 			isa = PBXGroup;
 			children = (
 				77F7D5A52C439E8B00F78A4B /* PremiumView.swift */,
-				77F7D5A72C4402B100F78A4B /* purchase.storekit */,
-				77FF32F82C4759B300F42477 /* ProductList.plist */,
 				773870302C489A7500477E83 /* SubscriptionManager.swift */,
 				773870322C489AB300477E83 /* EntitlementManager.swift */,
 			);
@@ -482,7 +479,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77FF32F92C4759B300F42477 /* ProductList.plist in Resources */,
 				5A56C40C2F9ACED7006FC6BE /* generation.json in Resources */,
 				5A5071632F9838010012C7EF /* Icon.icon in Resources */,
 				5A13CDCE2F9A5ABA00DB3A3E /* cleanup.mp4 in Resources */,

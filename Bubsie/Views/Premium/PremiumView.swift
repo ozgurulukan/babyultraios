@@ -1,5 +1,5 @@
 import SwiftUI
-import StoreKit
+import RevenueCat
 
 // MARK: - Premium Paywall (New Design)
 struct PremiumView: View {
@@ -184,7 +184,7 @@ struct PremiumView: View {
             ForEach(planDisplays.indices, id: \.self) { index in
                 PlanCardNew(
                     plan: planDisplays[index],
-                    product: productForPlan(at: index),
+                    package: packageForPlan(at: index),
                     isSelected: selectedPlan == index
                 ) {
                     withAnimation(.spring(response: 0.3)) {
@@ -195,19 +195,23 @@ struct PremiumView: View {
         }
     }
 
-    func productForPlan(at index: Int) -> Product? {
+    func packageForPlan(at index: Int) -> Package? {
         let productIdx = planDisplays[index].productIndex
-        guard subscriptionsManager.products.indices.contains(productIdx) else { return nil }
-        return subscriptionsManager.products[productIdx]
+        guard subscriptionsManager.packages.indices.contains(productIdx) else { return nil }
+        return subscriptionsManager.packages[productIdx]
     }
 
     var ctaSection: some View {
         VStack(spacing: 12) {
             Button {
                 isPurchasing = true
-                if let product = productForPlan(at: selectedPlan) {
+                if let package = packageForPlan(at: selectedPlan) {
                     Task {
-                        await subscriptionsManager.buyProduct(product)
+                        do {
+                            try await subscriptionsManager.buyProduct(package)
+                        } catch {
+                            print("Purchase failed: \(error)")
+                        }
                         isPurchasing = false
                     }
                 } else { isPurchasing = false }
@@ -308,7 +312,7 @@ struct BenefitRow: View {
 // MARK: - Plan Card (New Design)
 struct PlanCardNew: View {
     let plan: PlanDisplay
-    let product: Product?
+    let package: Package?
     let isSelected: Bool
     let action: () -> Void
 
@@ -325,7 +329,7 @@ struct PlanCardNew: View {
                         .font(.system(size: 14, weight: .medium))
                         .foregroundStyle(Color(hex: "55433E"))
 
-                    Text(product?.displayPrice ?? (plan.title == "Yearly" ? "$49.99" : "$14.99"))
+                    Text(package?.localizedPriceString ?? (plan.title == "Yearly" ? "$49.99" : "$14.99"))
                         .font(.system(size: 24, weight: .bold))
                         .foregroundStyle(Color(hex: "1E1C10"))
 
@@ -374,31 +378,37 @@ struct PlanCardNew: View {
 struct TopupView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) var openURL
+    @EnvironmentObject private var subscriptionsManager: SubscriptionsManager
 
     @State private var selectedPlan = 1
     @State private var isPurchasing = false
+    @State private var purchaseError: String?
 
-    // Placeholder credit packs — update prices later
-    private let creditPlans: [CreditPlanDisplay] = [
-        CreditPlanDisplay(
-            title: "100 Credits",
-            subtitle: "$14.99",
-            tag: nil,
-            credits: 100
-        ),
-        CreditPlanDisplay(
-            title: "250 Credits",
-            subtitle: "$29.99",
-            tag: nil,
-            credits: 250
-        ),
-        CreditPlanDisplay(
-            title: "1,000 Credits",
-            subtitle: "$99.99",
-            tag: "BEST VALUE",
-            credits: 1000
-        ),
+    // Fallback when RevenueCat products haven't loaded yet
+    private let fallbackPlans: [CreditPlanDisplay] = [
+        CreditPlanDisplay(title: "100 Credits", subtitle: "$14.99", tag: nil, credits: 100, productIdentifier: "com.fagore.bubsie.100credits"),
+        CreditPlanDisplay(title: "250 Credits", subtitle: "$29.99", tag: nil, credits: 250, productIdentifier: "com.fagore.bubsie.250credits"),
+        CreditPlanDisplay(title: "1,000 Credits", subtitle: "$99.99", tag: "BEST VALUE", credits: 1000, productIdentifier: "com.fagore.bubsie.1000credits"),
     ]
+
+    // Dynamic credit plans from RevenueCat
+    private var creditPlans: [CreditPlanDisplay] {
+        let products = subscriptionsManager.creditProducts
+        if products.isEmpty { return fallbackPlans }
+
+        let order = ["com.fagore.bubsie.100credits", "com.fagore.bubsie.250credits", "com.fagore.bubsie.1000credits"]
+        return order.compactMap { id in
+            guard let product = products.first(where: { $0.productIdentifier == id }) else { return nil }
+            let info = fallbackPlans.first { $0.productIdentifier == id }
+            return CreditPlanDisplay(
+                title: info?.title ?? "Credits",
+                subtitle: product.localizedPriceString,
+                tag: info?.tag,
+                credits: info?.credits ?? 0,
+                productIdentifier: id
+            )
+        }
+    }
 
     // Design colors
     private let creamBg = Color(hex: "FFF9EC")
@@ -426,6 +436,9 @@ struct TopupView: View {
             }
         }
         .preferredColorScheme(.light)
+        .task {
+            await subscriptionsManager.loadCreditProducts()
+        }
     }
 
     var closeButton: some View {
@@ -565,10 +578,20 @@ struct TopupView: View {
         VStack(spacing: 12) {
             Button {
                 isPurchasing = true
-                // TODO: Wire up purchase logic
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                purchaseError = nil
+                if subscriptionsManager.creditProducts.indices.contains(selectedPlan) {
+                    let product = subscriptionsManager.creditProducts[selectedPlan]
+                    Task {
+                        do {
+                            try await subscriptionsManager.buyCreditProduct(product)
+                        } catch {
+                            print("Purchase failed: \(error)")
+                            purchaseError = error.localizedDescription
+                        }
+                        isPurchasing = false
+                    }
+                } else {
                     isPurchasing = false
-                    dismiss()
                 }
             } label: {
                 Text("Purchase Credits")
@@ -586,8 +609,14 @@ struct TopupView: View {
                     .clipShape(Capsule())
                     .shadow(color: Color.black.opacity(0.10), radius: 6, x: 0, y: 4)
             }
-            .disabled(isPurchasing)
+            .disabled(isPurchasing || subscriptionsManager.isLoadingCredits)
             .buttonStyle(.plain)
+
+            if let error = purchaseError {
+                Text(error)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(Color.red)
+            }
 
             Text("One-time purchase. No subscription.")
                 .font(.system(size: 12, weight: .medium))
@@ -595,9 +624,35 @@ struct TopupView: View {
         }
     }
 
+    private func purchaseSelectedCredits() async {
+        let plans = creditPlans
+        guard selectedPlan < plans.count else {
+            isPurchasing = false
+            return
+        }
+        let plan = plans[selectedPlan]
+
+        guard let product = subscriptionsManager.creditProducts.first(where: { $0.productIdentifier == plan.productIdentifier }) else {
+            isPurchasing = false
+            purchaseError = "Product not available"
+            return
+        }
+
+        do {
+            _ = try await subscriptionsManager.buyCreditProduct(product)
+            try? await BubsieAPI.shared.syncPurchases()
+            await AuthManager.shared.fetchProfile()
+            isPurchasing = false
+            dismiss()
+        } catch {
+            isPurchasing = false
+            purchaseError = error.localizedDescription
+        }
+    }
+
     var footerLinks: some View {
         HStack(spacing: 16) {
-            Button { /* TODO: restore purchases if needed */ } label: {
+            Button { Task { await subscriptionsManager.restorePurchases() } } label: {
                 Text("Restore Purchase")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
@@ -634,6 +689,7 @@ struct CreditPlanDisplay: Identifiable {
     let subtitle: String
     let tag: String?
     let credits: Int
+    let productIdentifier: String
 }
 
 // MARK: - Credit Plan Card
@@ -698,4 +754,5 @@ struct CreditPlanCard: View {
 
 #Preview("Topup") {
     TopupView()
+        .environmentObject(SubscriptionsManager(entitlementManager: EntitlementManager()))
 }
