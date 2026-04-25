@@ -14,11 +14,14 @@ private class RevenueCatDelegate: NSObject, PurchasesDelegate {
     var onUpdate: ((CustomerInfo) -> Void)?
 
     func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
-        onUpdate?(customerInfo)
+        DispatchQueue.main.async { [weak self] in
+            self?.onUpdate?(customerInfo)
+        }
     }
 }
 
 // MARK: - Subscriptions Manager
+@MainActor
 final class SubscriptionsManager: ObservableObject {
     @Published var packages: [Package] = []
     @Published var isLoading = false
@@ -42,19 +45,17 @@ final class SubscriptionsManager: ObservableObject {
         defer { isLoading = false }
         do {
             let offerings = try await Purchases.shared.offerings()
-            await MainActor.run {
-                if let current = offerings.current {
-                    // Sort yearly first, then weekly
-                    self.packages = current.availablePackages.sorted { a, b in
-                        let aYearly = a.storeProduct.subscriptionPeriod?.unit == .year
-                        let bYearly = b.storeProduct.subscriptionPeriod?.unit == .year
-                        if aYearly && !bYearly { return true }
-                        if !aYearly && bYearly { return false }
-                        return false
-                    }
-                } else {
-                    self.packages = []
+            if let current = offerings.current {
+                // Sort yearly first, then weekly
+                self.packages = current.availablePackages.sorted { a, b in
+                    let aYearly = a.storeProduct.subscriptionPeriod?.unit == .year
+                    let bYearly = b.storeProduct.subscriptionPeriod?.unit == .year
+                    if aYearly && !bYearly { return true }
+                    if !aYearly && bYearly { return false }
+                    return false
                 }
+            } else {
+                self.packages = []
             }
         } catch {
             print("Failed to fetch offerings: \(error)")
@@ -70,9 +71,7 @@ final class SubscriptionsManager: ObservableObject {
             "com.fagore.bubsie.1000credits"
         ]
         let products = await Purchases.shared.products(identifiers)
-        await MainActor.run {
-            self.creditProducts = products
-        }
+        self.creditProducts = products
     }
 
     func buyCreditProduct(_ product: StoreProduct) async throws -> CustomerInfo {
@@ -105,7 +104,6 @@ final class SubscriptionsManager: ObservableObject {
         }
     }
 
-    @MainActor
     private func handleCustomerInfo(_ customerInfo: CustomerInfo) async {
         let hasPro = customerInfo.entitlements[REVENUECAT_PRO_ENTITLEMENT]?.isActive == true
         self.entitlementManager?.hasPro = hasPro

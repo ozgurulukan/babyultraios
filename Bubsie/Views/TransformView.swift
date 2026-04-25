@@ -18,6 +18,10 @@ struct TransformView: View {
     @State private var goToMainTab = false
     @State private var shimmerPhase: CGFloat = -1.5
     @State private var showConsentSheet = false
+    @State private var showTopup = false
+    @State private var showPremium = false
+
+    private var isPro: Bool { auth.currentUser?.isPro ?? entitlementManager.hasPro }
 
     private var hasAcceptedPhotoConsent: Bool {
         UserDefaults.standard.bool(forKey: "photoConsentAccepted")
@@ -97,6 +101,16 @@ struct TransformView: View {
                 consentSheet
                     .animation(.spring(response: 0.4, dampingFraction: 0.8), value: showConsentSheet)
             )
+            .sheet(isPresented: $showTopup) {
+                TopupView()
+                    .environmentObject(entitlementManager)
+                    .environmentObject(subscriptionManager)
+            }
+            .sheet(isPresented: $showPremium) {
+                PremiumView()
+                    .environmentObject(entitlementManager)
+                    .environmentObject(subscriptionManager)
+            }
     }
 
     // MARK: Background Glows
@@ -355,6 +369,14 @@ struct TransformView: View {
                             showConsentSheet = true
                         } else {
                             showImagePicker = true
+                        }
+                        return
+                    }
+                    guard displayCredits >= template.creditCost else {
+                        if isPro {
+                            showTopup = true
+                        } else {
+                            showPremium = true
                         }
                         return
                     }

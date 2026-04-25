@@ -10,6 +10,7 @@ struct PremiumView: View {
 
     @State private var selectedPlan = 0
     @State private var isPurchasing = false
+    @State private var showSuccessBanner = false
 
     private let planDisplays: [PlanDisplay] = [
         PlanDisplay(
@@ -52,6 +53,10 @@ struct PremiumView: View {
             }
         }
         .preferredColorScheme(.light)
+        .overlay(
+            successBanner
+                .animation(.spring(response: 0.4, dampingFraction: 0.8), value: showSuccessBanner)
+        )
         .onAppear { Task { await subscriptionsManager.loadProducts() } }
     }
 
@@ -208,7 +213,8 @@ struct PremiumView: View {
                 if let package = packageForPlan(at: selectedPlan) {
                     Task {
                         do {
-                            try await subscriptionsManager.buyProduct(package)
+                            _ = try await subscriptionsManager.buyProduct(package)
+                            showSuccessBanner = true
                         } catch {
                             print("Purchase failed: \(error)")
                         }
@@ -269,6 +275,52 @@ struct PremiumView: View {
             }
         }
         .padding(.bottom, 16)
+    }
+
+    private var successBanner: some View {
+        VStack {
+            if showSuccessBanner {
+                HStack(spacing: 10) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundStyle(Color.green)
+                    Text("Purchase successful! You now have access to all PRO templates and 50 weekly credits will be added every Monday.")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(Color.primary)
+                        .multilineTextAlignment(.leading)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 14)
+                .background(
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(.ultraThinMaterial)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color.white.opacity(0.35), Color.white.opacity(0.08)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .stroke(Color.white.opacity(0.55), lineWidth: 1)
+                        )
+                )
+                .shadow(color: Color.black.opacity(0.12), radius: 16, x: 0, y: 6)
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                .transition(.move(edge: .top).combined(with: .opacity))
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                        withAnimation { showSuccessBanner = false }
+                    }
+                }
+            }
+            Spacer()
+        }
     }
 }
 
@@ -548,7 +600,7 @@ struct TopupView: View {
                 icon: "clock.fill",
                 text: "Use Anytime — No Expiration",
                 iconBg: Color(hex: "FEB246").opacity(0.20),
-                iconColor: Color(hex: "845400")
+                iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "sparkles",
@@ -583,7 +635,7 @@ struct TopupView: View {
                     let product = subscriptionsManager.creditProducts[selectedPlan]
                     Task {
                         do {
-                            try await subscriptionsManager.buyCreditProduct(product)
+                            _ = try await subscriptionsManager.buyCreditProduct(product)
                         } catch {
                             print("Purchase failed: \(error)")
                             purchaseError = error.localizedDescription
