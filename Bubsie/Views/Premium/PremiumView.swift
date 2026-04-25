@@ -439,21 +439,18 @@ struct PlanCardNew: View {
                         .padding(.horizontal, 10)
                         .padding(.vertical, 3)
                         .background(Color(hex: "97462E"))
-                        .clipShape(Capsule())
                         .overlay(
                             GeometryReader { geo in
                                 LinearGradient(
-                                    colors: [.clear, Color.white.opacity(0.6), .clear],
+                                    colors: [.clear, Color.white.opacity(0.55), .clear],
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 )
-                                .frame(width: geo.size.width * 0.4)
+                                .frame(width: geo.size.width * 0.6)
                                 .offset(x: shimmerPhase * geo.size.width)
-                                .mask(
-                                    Capsule()
-                                )
                             }
                         )
+                        .clipShape(Capsule())
                         .offset(y: -8)
                         .onAppear {
                             withAnimation(.linear(duration: 1.8).repeatForever(autoreverses: false)) {
