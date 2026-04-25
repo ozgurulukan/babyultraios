@@ -10,6 +10,7 @@ import ObjectiveC
 // MARK: - Runtime Language Switching via Bundle Swizzling
 private var associatedBundleKey: UInt8 = 0
 
+@unchecked Sendable
 class LocalizedBundle: Bundle {
     override func localizedString(forKey key: String, value: String?, table tableName: String?) -> String {
         guard let bundle = objc_getAssociatedObject(self, &associatedBundleKey) as? Bundle else {

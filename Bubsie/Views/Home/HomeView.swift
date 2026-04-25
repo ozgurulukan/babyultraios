@@ -63,6 +63,7 @@ struct HomeView: View {
                                     Text(NSLocalizedString("home.pro_button", comment: ""))
                                         .font(.system(size: 11, weight: .heavy))
                                         .foregroundStyle(.white)
+                                        .lineLimit(1)
                                         .padding(.horizontal, 10)
                                         .padding(.vertical, 8)
                                         .background(
