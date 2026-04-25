@@ -141,13 +141,13 @@ struct PremiumView: View {
 
     var copySection: some View {
         VStack(spacing: 6) {
-            Text("Unlock the Magic\nfor Bubsie")
+            Text("Unlock the Magic✨")
                 .font(.system(size: 26, weight: .heavy))
                 .foregroundStyle(primaryText)
                 .multilineTextAlignment(.center)
                 .tracking(-0.5)
 
-            Text("Transform every giggle into a\nmasterpiece.")
+            Text("Transform every giggle into a masterpiece.")
                 .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(secondaryText)
                 .multilineTextAlignment(.center)
@@ -165,19 +165,19 @@ struct PremiumView: View {
             )
             BenefitRow(
                 icon: "tag.fill",
-                text: "Weekly 50 Credits Free",
+                text: "50 Free Credits Every Week",
                 iconBg: Color(hex: "F08C6E").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "drop.fill",
-                text: "No Watermarks on results",
+                text: "No Watermarks on Results",
                 iconBg: Color(hex: "FB856D").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "arrow.down.circle.fill",
-                text: "High-Resolution Downloads",
+                text: "High-Resolution 4K Downloads",
                 iconBg: Color(hex: "F08C6E").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
@@ -396,6 +396,7 @@ struct PlanCardNew: View {
     let package: Package?
     let isSelected: Bool
     let action: () -> Void
+    @State private var shimmerPhase: CGFloat = -1.5
 
     var body: some View {
         Button(action: action) {
@@ -439,7 +440,26 @@ struct PlanCardNew: View {
                         .padding(.vertical, 3)
                         .background(Color(hex: "97462E"))
                         .clipShape(Capsule())
+                        .overlay(
+                            GeometryReader { geo in
+                                LinearGradient(
+                                    colors: [.clear, Color.white.opacity(0.6), .clear],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                                .frame(width: geo.size.width * 0.4)
+                                .offset(x: shimmerPhase * geo.size.width)
+                                .mask(
+                                    Capsule()
+                                )
+                            }
+                        )
                         .offset(y: -8)
+                        .onAppear {
+                            withAnimation(.linear(duration: 1.8).repeatForever(autoreverses: false)) {
+                                shimmerPhase = 1.5
+                            }
+                        }
                 }
             }
         }
