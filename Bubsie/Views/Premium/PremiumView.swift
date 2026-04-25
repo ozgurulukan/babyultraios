@@ -478,7 +478,7 @@ struct TopupView: View {
     @Environment(\.openURL) var openURL
     @EnvironmentObject private var subscriptionsManager: SubscriptionsManager
 
-    @State private var selectedPlan = 1
+    @State private var selectedPlan = 2
     @State private var isPurchasing = false
     @State private var purchaseError: String?
 
@@ -620,13 +620,13 @@ struct TopupView: View {
 
     var copySection: some View {
         VStack(spacing: 6) {
-            Text("Top Up Your\nCredits")
+            Text("Top Up Credits")
                 .font(.system(size: 26, weight: .heavy))
                 .foregroundStyle(primaryText)
                 .multilineTextAlignment(.center)
                 .tracking(-0.5)
 
-            Text("Get more AI transforms whenever\nyou need them.")
+            Text("Top up your AI transforms instantly.")
                 .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(secondaryText)
                 .multilineTextAlignment(.center)
@@ -645,7 +645,7 @@ struct TopupView: View {
             BenefitRow(
                 icon: "clock.fill",
                 text: "Use Anytime — No Expiration",
-                iconBg: Color(hex: "FEB246").opacity(0.20),
+                iconBg: Color(hex: "F08C6E").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
             BenefitRow(
@@ -795,6 +795,16 @@ struct CreditPlanCard: View {
     let plan: CreditPlanDisplay
     let isSelected: Bool
     let action: () -> Void
+    @State private var shimmerPhase: CGFloat = -1.5
+
+    private var bundleName: String {
+        switch plan.credits {
+        case 100: return "Tiny Bundle"
+        case 250: return "Family Pack"
+        case 1000: return "Ultimate Pack"
+        default: return "\(plan.credits) cr"
+        }
+    }
 
     var body: some View {
         Button(action: action) {
@@ -817,7 +827,7 @@ struct CreditPlanCard: View {
 
                     Spacer()
 
-                    Text("\(plan.credits) cr")
+                    Text(bundleName)
                         .font(.system(size: 11, weight: .regular))
                         .foregroundStyle(Color(hex: "55433E"))
                 }
@@ -839,8 +849,24 @@ struct CreditPlanCard: View {
                         .padding(.horizontal, 10)
                         .padding(.vertical, 3)
                         .background(Color(hex: "97462E"))
+                        .overlay(
+                            GeometryReader { geo in
+                                LinearGradient(
+                                    colors: [.clear, Color.white.opacity(0.55), .clear],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                                .frame(width: geo.size.width * 0.6)
+                                .offset(x: shimmerPhase * geo.size.width)
+                            }
+                        )
                         .clipShape(Capsule())
                         .offset(y: -8)
+                        .onAppear {
+                            withAnimation(.linear(duration: 1.8).repeatForever(autoreverses: false)) {
+                                shimmerPhase = 1.5
+                            }
+                        }
                 }
             }
         }
