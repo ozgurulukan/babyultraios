@@ -728,10 +728,10 @@ struct TopupView: View {
 
         do {
             _ = try await subscriptionsManager.buyCreditProduct(product)
+            dismiss() // Close paywall immediately after successful purchase
             try await BubsieAPI.shared.syncPurchases()
             await AuthManager.shared.fetchProfile()
             isPurchasing = false
-            dismiss()
         } catch {
             isPurchasing = false
             purchaseError = error.localizedDescription
