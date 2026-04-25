@@ -112,6 +112,7 @@ final class SubscriptionsManager: ObservableObject {
         if shouldSyncPro {
             await syncProStatusToBackend()
         }
+        await AuthManager.shared.fetchProfile()
     }
 
     private func syncProStatusToBackend() async {

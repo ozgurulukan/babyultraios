@@ -30,7 +30,7 @@ struct AccountView: View {
     }
 
     private var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
-    private var isPro: Bool { auth.currentUser?.isPro ?? entitlementManager.hasPro }
+    private var isPro: Bool { auth.currentUser?.isPro == true || entitlementManager.hasPro }
     private var memberTier: String { isPro ? NSLocalizedString("account.premium_plan", comment: "") : NSLocalizedString("account.free_plan", comment: "") }
 
     var body: some View {
@@ -61,6 +61,9 @@ struct AccountView: View {
         .background(profileBackground.ignoresSafeArea())
         .navigationBarHidden(true)
         .task { await auth.fetchProfile() }
+        .onChange(of: entitlementManager.hasPro) { _, _ in
+            Task { await auth.fetchProfile() }
+        }
         .sheet(isPresented: $isPremiumShow) { PremiumView() }
         .sheet(isPresented: $showTopup) { TopupView() }
         .sheet(isPresented: $showShareSheet) {

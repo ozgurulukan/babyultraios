@@ -678,20 +678,8 @@ struct TopupView: View {
             Button {
                 isPurchasing = true
                 purchaseError = nil
-                if subscriptionsManager.creditProducts.indices.contains(selectedPlan) {
-                    let product = subscriptionsManager.creditProducts[selectedPlan]
-                    Task {
-                        do {
-                            _ = try await subscriptionsManager.buyCreditProduct(product)
-                            dismiss()
-                        } catch {
-                            print("Purchase failed: \(error)")
-                            purchaseError = error.localizedDescription
-                        }
-                        isPurchasing = false
-                    }
-                } else {
-                    isPurchasing = false
+                Task {
+                    await purchaseSelectedCredits()
                 }
             } label: {
                 Text(NSLocalizedString("topup.purchase_credits", comment: ""))
