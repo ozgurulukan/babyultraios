@@ -64,6 +64,7 @@ struct HomeView: View {
                                         .font(.system(size: 11, weight: .heavy))
                                         .foregroundStyle(.white)
                                         .lineLimit(1)
+                                        .fixedSize(horizontal: true, vertical: false)
                                         .padding(.horizontal, 10)
                                         .padding(.vertical, 8)
                                         .background(
@@ -112,6 +113,7 @@ struct HomeView: View {
                                 )
                                 .clipShape(Capsule())
                                 .overlay(Capsule().stroke(Color.white.opacity(0.4), lineWidth: 1))
+                                .fixedSize(horizontal: true, vertical: false)
                             }
                             .buttonStyle(.plain)
                         }
