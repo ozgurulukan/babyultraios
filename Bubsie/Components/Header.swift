@@ -52,6 +52,28 @@ private struct HeaderHeightKey: PreferenceKey {
     }
 }
 
+/// Walks up the view hierarchy to find the enclosing UIScrollView and disables
+/// `delaysContentTouches` so buttons inside the SwiftUI ScrollView respond immediately.
+private struct ScrollViewDelayFixer: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        view.backgroundColor = .clear
+        DispatchQueue.main.async {
+            var current: UIView? = view
+            while let superview = current?.superview {
+                if let scrollView = superview as? UIScrollView {
+                    scrollView.delaysContentTouches = false
+                    break
+                }
+                current = superview
+            }
+        }
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
+}
+
 struct StickyBlurHeader<Header: View, Content: View>: View {
     private let fadeExtension: CGFloat
     private let tintOpacityTop: Double
@@ -83,6 +105,8 @@ struct StickyBlurHeader<Header: View, Content: View>: View {
         ZStack(alignment: .top) {
             ScrollView(showsIndicators: false) {
                 content()
+                ScrollViewDelayFixer()
+                    .frame(height: 0)
             }
             .safeAreaInset(edge: .top, spacing: 0) {
                 Color.clear.frame(height: headerHeight)
