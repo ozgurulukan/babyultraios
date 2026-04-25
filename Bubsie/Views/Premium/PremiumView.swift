@@ -244,6 +244,7 @@ struct PremiumView: View {
                         do {
                             _ = try await subscriptionsManager.buyProduct(package)
                             showSuccessBanner = true
+                            dismiss.wrappedValue.dismiss()
                         } catch {
                             print("Purchase failed: \(error)")
                         }
@@ -682,6 +683,7 @@ struct TopupView: View {
                     Task {
                         do {
                             _ = try await subscriptionsManager.buyCreditProduct(product)
+                            dismiss()
                         } catch {
                             print("Purchase failed: \(error)")
                             purchaseError = error.localizedDescription
@@ -824,6 +826,8 @@ struct CreditPlanCard: View {
                     Text(plan.subtitle)
                         .font(.system(size: 20, weight: .bold))
                         .foregroundStyle(Color(hex: "1E1C10"))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
 
                     Spacer()
 
