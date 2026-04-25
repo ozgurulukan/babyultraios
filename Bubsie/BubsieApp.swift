@@ -5,6 +5,29 @@ import FirebaseMessaging
 import UserNotifications
 import Combine
 import RevenueCat
+import ObjectiveC
+
+// MARK: - Runtime Language Switching via Bundle Swizzling
+private var associatedBundleKey: UInt8 = 0
+
+class LocalizedBundle: Bundle {
+    override func localizedString(forKey key: String, value: String?, table tableName: String?) -> String {
+        guard let bundle = objc_getAssociatedObject(self, &associatedBundleKey) as? Bundle else {
+            return super.localizedString(forKey: key, value: value, table: tableName)
+        }
+        return bundle.localizedString(forKey: key, value: value, table: tableName)
+    }
+}
+
+extension Bundle {
+    static func setLanguage(_ language: String) {
+        object_setClass(Bundle.main, LocalizedBundle.self)
+        if let path = Bundle.main.path(forResource: language, ofType: "lproj"),
+           let bundle = Bundle(path: path) {
+            objc_setAssociatedObject(Bundle.main, &associatedBundleKey, bundle, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+}
 
 @MainActor
 final class LanguageManager: ObservableObject {
@@ -42,6 +65,7 @@ final class LanguageManager: ObservableObject {
 
     private func applyLanguage() {
         currentLocale = Locale(identifier: selectedLanguage)
+        Bundle.setLanguage(selectedLanguage)
         UserDefaults.standard.set([selectedLanguage], forKey: "AppleLanguages")
         UserDefaults.standard.synchronize()
     }
