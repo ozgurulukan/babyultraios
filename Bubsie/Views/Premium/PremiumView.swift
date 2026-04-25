@@ -728,7 +728,7 @@ struct TopupView: View {
 
         do {
             _ = try await subscriptionsManager.buyCreditProduct(product)
-            try? await BubsieAPI.shared.syncPurchases()
+            try await BubsieAPI.shared.syncPurchases()
             await AuthManager.shared.fetchProfile()
             isPurchasing = false
             dismiss()
