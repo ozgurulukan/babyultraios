@@ -515,6 +515,7 @@ struct AccountView: View {
                     .foregroundStyle(Color(hex: "88726C"))
             }
             .padding(20)
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }
@@ -538,6 +539,7 @@ struct AccountView: View {
                     .foregroundStyle(Color(hex: "C0392B").opacity(0.5))
             }
             .padding(20)
+            .contentShape(Rectangle())
             .background(
                 RoundedRectangle(cornerRadius: 40, style: .continuous)
                     .fill(.white)
