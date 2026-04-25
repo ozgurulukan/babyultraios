@@ -48,8 +48,8 @@ struct HomeView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                         
                         ProfileStyleHeader(
-                            title: "Bubsie",
-                            subtitle: "AI Studio",
+                            title: NSLocalizedString("app.name", comment: ""),
+                            subtitle: NSLocalizedString("home.ai_studio", comment: ""),
                             spacing: 1
                         )
                         
@@ -60,7 +60,7 @@ struct HomeView: View {
                                 Button {
                                     isPremiumShow = true
                                 } label: {
-                                    Text("★ PRO")
+                                    Text(NSLocalizedString("home.pro_button", comment: ""))
                                         .font(.system(size: 11, weight: .heavy))
                                         .foregroundStyle(.white)
                                         .padding(.horizontal, 10)
@@ -249,7 +249,7 @@ struct HomeView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "photo")
                         .font(.system(size: 18, weight: .medium))
-                    Text("PHOTO")
+                    Text(NSLocalizedString("home.photo", comment: ""))
                         .font(.system(size: 15, weight: .semibold))
                 }
                 .foregroundStyle(homeVM.selectedMode == 1 ? .white : HomePalette.text)
@@ -286,7 +286,7 @@ struct HomeView: View {
                  HStack(spacing: 8) {
                      Image(systemName: "video")
                          .font(.system(size: 18, weight: .medium))
-                     Text("VIDEO")
+                     Text(NSLocalizedString("home.video", comment: ""))
                          .font(.system(size: 15, weight: .semibold))
                  }
                 .foregroundStyle(homeVM.selectedMode == 0 ? .white : HomePalette.text)
@@ -323,15 +323,15 @@ struct HomeView: View {
     private var modeSegment: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
-                modeChip(title: "All", icon: nil, isSelected: homeVM.selectedCategoryID == nil && homeVM.selectedFilter == nil) {
+                modeChip(title: NSLocalizedString("home.filter_all", comment: ""), icon: nil, isSelected: homeVM.selectedCategoryID == nil && homeVM.selectedFilter == nil) {
                     homeVM.selectCategory(nil)
                 }
 
-                modeChip(title: "Popular", icon: "flame.fill", selectedColor: .blue, isSelected: homeVM.selectedFilter == "popular") {
+                modeChip(title: NSLocalizedString("home.filter_popular", comment: ""), icon: "flame.fill", selectedColor: .blue, isSelected: homeVM.selectedFilter == "popular") {
                     homeVM.selectFilter("popular")
                 }
 
-                modeChip(title: "Viral", icon: "chart.line.uptrend.xyaxis", selectedColor: .red, isSelected: homeVM.selectedFilter == "trending") {
+                modeChip(title: NSLocalizedString("home.filter_viral", comment: ""), icon: "chart.line.uptrend.xyaxis", selectedColor: .red, isSelected: homeVM.selectedFilter == "trending") {
                     homeVM.selectFilter("trending")
                 }
             }
@@ -546,7 +546,7 @@ private struct HeroSliderCard: View {
 
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("NEW")
+                        Text(NSLocalizedString("home.new_badge", comment: ""))
                             .font(.system(size: 11, weight: .bold))
                             .foregroundStyle(.white)
                             .padding(.horizontal, 11)
@@ -622,7 +622,7 @@ private struct HeroSliderPlaceholderCard: View {
                 .frame(width: 376 * 0.86, height: 240)
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("NEW")
+                    Text(NSLocalizedString("home.new_badge", comment: ""))
                         .font(.system(size: 11, weight: .bold))
                         .foregroundStyle(.white)
                         .padding(.horizontal, 11)
@@ -630,7 +630,7 @@ private struct HeroSliderPlaceholderCard: View {
                         .background(Color(hex: "B27A62").opacity(0.95))
                         .clipShape(Capsule())
 
-                    Text("Loading...")
+                    Text(NSLocalizedString("home.loading", comment: ""))
                         .font(.system(size: 24, weight: .bold))
                         .foregroundStyle(.white)
                 }
@@ -706,7 +706,7 @@ private struct HomeTemplateCard: View {
                 VStack {
                     HStack {
                         if template.isPremium {
-                            Text("PRO")
+                            Text(NSLocalizedString("home.pro_badge", comment: ""))
                                 .font(.system(size: 10, weight: .black))
                                 .foregroundStyle(.white)
                                 .padding(.horizontal, 8)
@@ -805,13 +805,13 @@ private struct HomeTemplateCard: View {
     private func kindText(for actionType: String) -> String {
         switch actionType {
         case "remove_bg", "upscale", "photo_restoration":
-            return "Photo Transform"
+            return NSLocalizedString("Photo Transform", comment: "")
         case "video":
-            return "Video Animation"
+            return NSLocalizedString("Video Animation", comment: "")
         case "ai_chat":
-            return "Concept"
+            return NSLocalizedString("Concept", comment: "")
         default:
-            return "AI Template"
+            return NSLocalizedString("AI Template", comment: "")
         }
     }
 }

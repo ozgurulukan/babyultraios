@@ -12,7 +12,7 @@ struct AccountView: View {
     @State private var showLanguageSheet = false
     @State private var showMailComposer = false
     @State private var showCopiedBanner = false
-    @State private var copiedBannerText = "Copied to clipboard"
+    @State private var copiedBannerText = NSLocalizedString("Copied to clipboard", comment: "")
     @State private var showTopup = false
     @State private var showDeleteAccountPopup = false
     @State private var isDeletingAccount = false
@@ -31,7 +31,7 @@ struct AccountView: View {
 
     private var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
     private var isPro: Bool { auth.currentUser?.isPro ?? entitlementManager.hasPro }
-    private var memberTier: String { isPro ? "Premium Plan" : "Free Plan" }
+    private var memberTier: String { isPro ? NSLocalizedString("Premium Plan", comment: "") : NSLocalizedString("Free Plan", comment: "") }
 
     var body: some View {
         StickyBlurHeader(
@@ -72,7 +72,7 @@ struct AccountView: View {
         .sheet(isPresented: $showMailComposer) {
             MailComposerView(
                 recipients: [supportEmail],
-                subject: "Bubsie Support",
+                subject: NSLocalizedString("Bubsie Support", comment: ""),
                 body: ""
             )
         }
@@ -140,8 +140,8 @@ struct AccountView: View {
             }
 
             ProfileStyleHeader(
-                title: "Profile",
-                subtitle: "Manage your credits and profile."
+                title: NSLocalizedString("account.profile_title", comment: ""),
+                subtitle: NSLocalizedString("account.profile_subtitle", comment: "")
             )
 
             Spacer()
@@ -154,7 +154,7 @@ struct AccountView: View {
             VStack(alignment: .leading, spacing: 20) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("CURRENT BALANCE")
+                        Text(NSLocalizedString("account.current_balance", comment: ""))
                             .font(.system(size: 14, weight: .medium))
                             .tracking(0.7)
                             .foregroundStyle(Color(hex: "55433E"))
@@ -167,7 +167,7 @@ struct AccountView: View {
                             Image(systemName: "sparkles")
                                 .font(.system(size: 13, weight: .semibold))
                                 .foregroundStyle(Color(hex: "55433E"))
-                            Text("Credits ready to use")
+                            Text(NSLocalizedString("account.credits_ready", comment: ""))
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundStyle(Color(hex: "55433E"))
                         }
@@ -198,7 +198,7 @@ struct AccountView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "plus")
                         .font(.system(size: 16, weight: .semibold))
-                    Text("Top Up Credits")
+                    Text(NSLocalizedString("account.top_up_credits", comment: ""))
                         .font(.system(size: 16, weight: .semibold))
                 }
                 .foregroundStyle(Color(hex: "97462E"))
@@ -291,10 +291,10 @@ struct AccountView: View {
         VStack(spacing: 0) {
             profileInfoRow(
                 icon: "creditcard.fill",
-                title: "Subscription",
+                title: NSLocalizedString("account.subscription", comment: ""),
                 subtitle: memberTier,
                 trailing: AnyView(
-                    Text("Active")
+                    Text(NSLocalizedString("account.active", comment: ""))
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(Color(hex: "55433E"))
                         .padding(.horizontal, 12)
@@ -307,19 +307,19 @@ struct AccountView: View {
 
             profileInfoRow(
                 icon: "calendar",
-                title: "Weekly Allowance",
-                subtitle: "Resets every Monday",
+                title: NSLocalizedString("account.weekly_allowance", comment: ""),
+                subtitle: NSLocalizedString("account.resets_monday", comment: ""),
                 trailing: AnyView(
                     Group {
                         if isPro {
-                            Text("50 Credits")
+                            Text(NSLocalizedString("account.50_credits", comment: ""))
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundStyle(Color(hex: "1E1C10"))
                         } else {
                             Button {
                                 isPremiumShow = true
                             } label: {
-                                Text("Upgrade")
+                                Text(NSLocalizedString("account.upgrade", comment: ""))
                                     .font(.system(size: 14, weight: .medium))
                                     .foregroundStyle(Color(hex: "88726C"))
                             }
@@ -378,7 +378,7 @@ struct AccountView: View {
                     .font(.system(size: 20, weight: .bold))
                     .foregroundStyle(.white)
 
-                Text("Start Free Trial")
+                Text(NSLocalizedString("account.start_free_trial", comment: ""))
                     .font(.system(size: 18, weight: .bold))
                     .foregroundStyle(.white)
 
@@ -445,40 +445,40 @@ struct AccountView: View {
 
     private var menuList: some View {
         VStack(spacing: 0) {
-            profileMenuRow(icon: "person.2.fill", title: "Invite Friends") { showShareSheet = true }
+            profileMenuRow(icon: "person.2.fill", title: NSLocalizedString("account.invite_friends", comment: "")) { showShareSheet = true }
             menuDivider
-            profileMenuRow(icon: "globe", title: "Language") { showLanguageSheet = true }
+            profileMenuRow(icon: "globe", title: NSLocalizedString("menu.language", comment: "")) { showLanguageSheet = true }
             menuDivider
-            profileMenuRow(icon: "headphones", title: "Contact Support") {
+            profileMenuRow(icon: "headphones", title: NSLocalizedString("account.contact_support", comment: "")) {
                 if MFMailComposeViewController.canSendMail() {
                     showMailComposer = true
                 } else {
                     UIPasteboard.general.string = supportEmail
-                    copiedBannerText = "Email copied to clipboard"
+                    copiedBannerText = NSLocalizedString("Email copied to clipboard", comment: "")
                     withAnimation { showCopiedBanner = true }
                 }
             }
             menuDivider
-            profileMenuRow(icon: "questionmark.circle", title: "Help Center") {
+            profileMenuRow(icon: "questionmark.circle", title: NSLocalizedString("menu.help_center", comment: "")) {
                 openURL(URL(string: "https://fagore.com/help/")!)
             }
             menuDivider
-            profileMenuRow(icon: "lock.shield", title: "Privacy Policy") {
+            profileMenuRow(icon: "lock.shield", title: NSLocalizedString("menu.privacy_policy", comment: "")) {
                 openURL(URL(string: "https://fagore.com/privacy/")!)
             }
             menuDivider
-            profileMenuRow(icon: "doc.text", title: "Terms & Conditions") {
+            profileMenuRow(icon: "doc.text", title: NSLocalizedString("account.terms_conditions", comment: "")) {
                 openURL(URL(string: "https://fagore.com/terms/")!)
             }
             menuDivider
-            profileMenuRow(icon: "star.fill", title: "Rate Us") {
+            profileMenuRow(icon: "star.fill", title: NSLocalizedString("account.rate_us", comment: "")) {
                 openURL(URL(string: "https://apps.apple.com/app/id\(BUBSIE_APP_STORE_ID)?action=write-review")!)
             }
             menuDivider
-            profileMenuRow(icon: "person.fill.viewfinder", title: "User ID") {
+            profileMenuRow(icon: "person.fill.viewfinder", title: NSLocalizedString("account.user_id", comment: "")) {
                 if let uid = Auth.auth().currentUser?.uid {
                     UIPasteboard.general.string = uid
-                    copiedBannerText = "User ID copied to clipboard"
+                    copiedBannerText = NSLocalizedString("User ID copied to clipboard", comment: "")
                     withAnimation { showCopiedBanner = true }
                 }
             }
@@ -529,7 +529,7 @@ struct AccountView: View {
                 Image(systemName: "trash.fill")
                     .font(.system(size: 18, weight: .semibold))
                     .foregroundStyle(Color(hex: "C0392B"))
-                Text("Delete All Data")
+                Text(NSLocalizedString("account.delete_all_data", comment: ""))
                     .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(Color(hex: "C0392B"))
                 Spacer()
@@ -566,11 +566,11 @@ struct AccountView: View {
                     .font(.system(size: 40))
                     .foregroundStyle(Color(hex: "E04A2E"))
 
-                Text("Delete All Data?")
+                Text(NSLocalizedString("account.delete_alert_title", comment: ""))
                     .font(.system(size: 20, weight: .bold))
                     .foregroundStyle(Color(hex: "1E1C10"))
 
-                Text("All your data, including your generations, will be permanently deleted. This action cannot be undone. Complete server-side deletion will be finalized within 48 hours.")
+                Text(NSLocalizedString("account.delete_alert_message", comment: ""))
                     .font(.system(size: 14))
                     .foregroundStyle(Color(hex: "55433E"))
                     .multilineTextAlignment(.center)
@@ -590,7 +590,7 @@ struct AccountView: View {
                             deleteAccountError = nil
                         }
                     } label: {
-                        Text("Cancel")
+                        Text(NSLocalizedString("common.cancel", comment: ""))
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(Color(hex: "1E1C10"))
                             .frame(maxWidth: .infinity)
@@ -613,7 +613,7 @@ struct AccountView: View {
                     Button {
                         Task { await performDeleteAccount() }
                     } label: {
-                        Text(isDeletingAccount ? "Deleting..." : "Delete All Data")
+                        Text(isDeletingAccount ? NSLocalizedString("account.deleting", comment: "") : NSLocalizedString("account.delete_all_data", comment: ""))
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
@@ -658,7 +658,7 @@ struct AccountView: View {
             try await BubsieAPI.shared.deleteAccount()
             isDeletingAccount = false
             showDeleteAccountPopup = false
-            copiedBannerText = "Account deletion request submitted"
+            copiedBannerText = NSLocalizedString("Account deletion request submitted", comment: "")
             withAnimation { showCopiedBanner = true }
         } catch {
             isDeletingAccount = false
@@ -669,7 +669,7 @@ struct AccountView: View {
 
 struct LanguageSelectionView: View {
     @Environment(\.dismiss) private var dismiss
-    @AppStorage("appLanguage") private var selectedLanguage: String = Locale.current.language.languageCode?.identifier ?? "en"
+    @StateObject private var languageManager = LanguageManager.shared
 
     private let languages: [(code: String, name: String, flag: String)] = [
         ("en", "English", "🇺🇸"),
@@ -683,7 +683,15 @@ struct LanguageSelectionView: View {
         ("ja", "日本語", "🇯🇵"),
         ("ko", "한국어", "🇰🇷"),
         ("zh", "中文", "🇨🇳"),
-        ("ar", "العربية", "🇸🇦")
+        ("ar", "العربية", "🇸🇦"),
+        ("da", "Dansk", "🇩🇰"),
+        ("fi", "Suomi", "🇫🇮"),
+        ("el", "Ελληνικά", "🇬🇷"),
+        ("nl", "Nederlands", "🇳🇱"),
+        ("sv", "Svenska", "🇸🇪"),
+        ("nb", "Norsk", "🇳🇴"),
+        ("ga", "Gaeilge", "🇮🇪"),
+        ("th", "ไทย", "🇹🇭")
     ]
 
     var body: some View {
@@ -692,7 +700,7 @@ struct LanguageSelectionView: View {
                 Color(hex: "FFF9EC").ignoresSafeArea()
 
                 VStack(spacing: 0) {
-                    Text("Choose your preferred language")
+                    Text(NSLocalizedString("language.choose", comment: ""))
                         .font(.system(size: 15))
                         .foregroundStyle(Color(hex: "55433E"))
                         .multilineTextAlignment(.center)
@@ -704,7 +712,7 @@ struct LanguageSelectionView: View {
                         VStack(spacing: 0) {
                             ForEach(languages, id: \.code) { lang in
                                 Button {
-                                    selectedLanguage = lang.code
+                                    languageManager.selectedLanguage = lang.code
                                 } label: {
                                     HStack(spacing: 12) {
                                         Text(lang.flag)
@@ -713,7 +721,7 @@ struct LanguageSelectionView: View {
                                             .font(.system(size: 16, weight: .medium))
                                             .foregroundStyle(Color(hex: "1E1C10"))
                                         Spacer()
-                                        if selectedLanguage == lang.code {
+                                        if languageManager.selectedLanguage == lang.code {
                                             Image(systemName: "checkmark.circle.fill")
                                                 .font(.system(size: 20))
                                                 .foregroundStyle(Color(hex: "97462E"))
@@ -721,7 +729,7 @@ struct LanguageSelectionView: View {
                                     }
                                     .padding(.horizontal, 20)
                                     .padding(.vertical, 16)
-                                    .background(selectedLanguage == lang.code ? Color(hex: "FAF3E0") : Color.clear)
+                                    .background(languageManager.selectedLanguage == lang.code ? Color(hex: "FAF3E0") : Color.clear)
                                 }
                                 .buttonStyle(.plain)
 
@@ -742,7 +750,7 @@ struct LanguageSelectionView: View {
                     }
                 }
             }
-            .navigationTitle("Language")
+            .navigationTitle(NSLocalizedString("menu.language", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

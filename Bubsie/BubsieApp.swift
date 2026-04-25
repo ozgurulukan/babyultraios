@@ -6,11 +6,53 @@ import UserNotifications
 import Combine
 import RevenueCat
 
+@MainActor
+final class LanguageManager: ObservableObject {
+    static let shared = LanguageManager()
+
+    @AppStorage("appLanguage") var selectedLanguage: String = "" {
+        didSet {
+            applyLanguage()
+        }
+    }
+
+    @Published var currentLocale: Locale = Locale(identifier: "en")
+
+    let supportedLanguages = [
+        "en", "tr", "es", "fr", "de", "it", "pt", "ru",
+        "ja", "ko", "zh", "ar", "da", "fi", "el", "nl",
+        "sv", "nb", "ga", "th"
+    ]
+
+    private init() {
+        if selectedLanguage.isEmpty {
+            selectedLanguage = deviceLanguage()
+        }
+        applyLanguage()
+    }
+
+    func deviceLanguage() -> String {
+        let preferred = Locale.preferredLanguages.first ?? "en"
+        let code = Locale(identifier: preferred).language.languageCode?.identifier ?? "en"
+        if supportedLanguages.contains(code) {
+            return code
+        }
+        return "en"
+    }
+
+    private func applyLanguage() {
+        currentLocale = Locale(identifier: selectedLanguage)
+        UserDefaults.standard.set([selectedLanguage], forKey: "AppleLanguages")
+        UserDefaults.standard.synchronize()
+    }
+}
+
 @main
 struct BubsieApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var entitlementManager: EntitlementManager
     @StateObject private var subscriptionManager: SubscriptionsManager
+    @StateObject private var languageManager = LanguageManager.shared
 
     init() {
         // Configure RevenueCat early, before any @StateObject init accesses Purchases.shared
@@ -26,8 +68,11 @@ struct BubsieApp: App {
     var body: some Scene {
         WindowGroup {
             Splash()
+                .id(languageManager.currentLocale.identifier)
                 .environmentObject(entitlementManager)
                 .environmentObject(subscriptionManager)
+                .environmentObject(languageManager)
+                .environment(\.locale, languageManager.currentLocale)
                 .task { await subscriptionManager.updatePurchasedProducts() }
         }
     }

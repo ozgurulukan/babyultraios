@@ -78,10 +78,10 @@ struct ChatEditView: View {
     private var headerBar: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("BubsieAI")
+                Text(NSLocalizedString("chat.title", comment: ""))
                     .font(.system(size: 30, weight: .bold, design: .rounded))
                     .foregroundStyle(Color(hex: "1E1C10"))
-                Text("Ask BubsieAI anything about your little one.")
+                Text(NSLocalizedString("chat.subtitle", comment: ""))
                     .font(.system(size: 14))
                     .foregroundStyle(Color(hex: "55433E"))
             }
@@ -89,7 +89,7 @@ struct ChatEditView: View {
             Button {
                 viewModel.clearChat()
             } label: {
-                Text("Clear Chat")
+                Text(NSLocalizedString("chat.clear_chat", comment: ""))
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(Color(hex: "97462E"))
                     .padding(.horizontal, 12)
@@ -112,7 +112,7 @@ struct ChatEditView: View {
                 .foregroundStyle(Color(hex: "FEB246"))
                 .frame(width: 24, height: 24)
 
-            Text("Remember, this is temporary!\nYou're doing a great job.")
+            Text(NSLocalizedString("chat.tip", comment: ""))
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(Color(hex: "55433E"))
         }
@@ -151,7 +151,7 @@ struct ChatEditView: View {
         HStack(spacing: 8) {
             ZStack(alignment: .leading) {
                 if viewModel.inputText.isEmpty {
-                    Text("Ask BubsieAI anything…")
+                    Text(NSLocalizedString("chat.input_placeholder", comment: ""))
                         .font(.system(size: 14))
                         .foregroundStyle(Color(hex: "88726C"))
                         .shimmer()
@@ -261,7 +261,7 @@ struct ChatItem: Identifiable {
 
     static let seed: [ChatItem] = [
         ChatItem(
-            text: "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.",
+            text: NSLocalizedString("chat.welcome_message", comment: ""),
             sender: .ai,
             title: nil,
             bullets: []

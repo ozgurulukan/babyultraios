@@ -13,8 +13,10 @@ struct Menu: View {
     @State private var showShareSheet     = false
 
     private let languages: [(String, String)] = [
-        ("English", "en"), ("Türkçe", "tr"),
-        ("Français", "fr"), ("Deutsch", "de"), ("Español", "es"),
+        ("English", "en"), ("Türkçe", "tr"), ("Español", "es"), ("Français", "fr"), ("Deutsch", "de"),
+        ("Italiano", "it"), ("Português", "pt"), ("Русский", "ru"), ("日本語", "ja"), ("한국어", "ko"),
+        ("中文", "zh"), ("العربية", "ar"), ("Dansk", "da"), ("Suomi", "fi"), ("Ελληνικά", "el"),
+        ("Nederlands", "nl"), ("Svenska", "sv"), ("Norsk Bokmål", "nb"), ("Gaeilge", "ga"), ("ไทย", "th"),
     ]
 
     var body: some View {
@@ -25,7 +27,7 @@ struct Menu: View {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 16) {
                         // Appearance
-                        settingsGroup(title: "Appearance") {
+                        settingsGroup(title: NSLocalizedString("menu.appearance", comment: "")) {
                             HStack(spacing: 12) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 8)
@@ -36,7 +38,7 @@ struct Menu: View {
                                         .foregroundStyle(isDarkMode ? Bubsie.accent : .yellow)
                                         .contentTransition(.symbolEffect(.replace))
                                 }
-                                Text("Dark Mode")
+                                Text(NSLocalizedString("menu.dark_mode", comment: ""))
                                     .font(.system(size: 15, weight: .medium))
                                     .foregroundStyle(.white)
                                 Spacer()
@@ -49,7 +51,7 @@ struct Menu: View {
                         }
 
                         // Preferences
-                        settingsGroup(title: "Preferences") {
+                        settingsGroup(title: NSLocalizedString("menu.preferences", comment: "")) {
                             // Language
                             Button {
                                 showLanguagePicker = true
@@ -63,7 +65,7 @@ struct Menu: View {
                                             .font(.system(size: 15))
                                             .foregroundStyle(.blue)
                                     }
-                                    Text("Language")
+                                    Text(NSLocalizedString("menu.language", comment: ""))
                                         .font(.system(size: 15, weight: .medium))
                                         .foregroundStyle(.white)
                                     Spacer()
@@ -91,7 +93,7 @@ struct Menu: View {
                                         .font(.system(size: 15))
                                         .foregroundStyle(Bubsie.textSecondary)
                                 }
-                                Text("Show Watermark")
+                                Text(NSLocalizedString("menu.show_watermark", comment: ""))
                                     .font(.system(size: 15, weight: .medium))
                                     .foregroundStyle(.white)
                                 Spacer()
@@ -104,11 +106,11 @@ struct Menu: View {
                         }
 
                         // Legal
-                        settingsGroup(title: "Legal & Support") {
+                        settingsGroup(title: NSLocalizedString("menu.legal_support", comment: "")) {
                             Button {
                                 openURL(URL(string: "https://fagore.com/privacy/")!)
                             } label: {
-                                CardItem(icon: "shield.fill", text: "Privacy Policy", iconColor: .green)
+                                CardItem(icon: "shield.fill", text: NSLocalizedString("menu.privacy_policy", comment: ""), iconColor: .green)
                             }
                             .buttonStyle(.plain)
 
@@ -117,7 +119,7 @@ struct Menu: View {
                             Button {
                                 openURL(URL(string: "https://fagore.com/terms/")!)
                             } label: {
-                                CardItem(icon: "doc.text.fill", text: "Terms of Service", iconColor: .blue)
+                                CardItem(icon: "doc.text.fill", text: NSLocalizedString("menu.terms_of_service", comment: ""), iconColor: .blue)
                             }
                             .buttonStyle(.plain)
 
@@ -126,7 +128,7 @@ struct Menu: View {
                             Button {
                                 openURL(URL(string: "https://fagore.com/help/")!)
                             } label: {
-                                CardItem(icon: "questionmark.circle.fill", text: "Help Center", iconColor: .orange)
+                                CardItem(icon: "questionmark.circle.fill", text: NSLocalizedString("menu.help_center", comment: ""), iconColor: .orange)
                             }
                             .buttonStyle(.plain)
                         }
@@ -142,7 +144,7 @@ struct Menu: View {
                     .padding(.top, 8)
                 }
             }
-            .navigationBarTitle("Settings", displayMode: .inline)
+            .navigationBarTitle(NSLocalizedString("menu.settings_title", comment: ""), displayMode: .inline)
             .navigationBarItems(leading: Button {
                 dismiss.wrappedValue.dismiss()
             } label: {
@@ -203,7 +205,7 @@ struct Menu: View {
                 }
                 .padding(.top, 8)
             }
-            .navigationBarTitle("Language", displayMode: .inline)
+            .navigationBarTitle(NSLocalizedString("menu.language", comment: ""), displayMode: .inline)
             .navigationBarItems(leading: Button {
                 showLanguagePicker = false
             } label: {

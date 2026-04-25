@@ -6,7 +6,11 @@ struct GenerationsView: View {
     @State private var selectedFilter = 0
     @State private var selectedResult: HistoryResultRoute?
     @State private var pendingDeleteItem: HistoryItem?
-    private let filters = ["All", "Success", "Processing"]
+    private let filters = [
+        NSLocalizedString("generations.filter_all", comment: ""),
+        NSLocalizedString("generations.filter_success", comment: ""),
+        NSLocalizedString("generations.filter_processing", comment: "")
+    ]
 
     private var filteredItems: [HistoryItem] {
         switch selectedFilter {
@@ -28,8 +32,8 @@ struct GenerationsView: View {
                     tintOpacityMiddle: 0.36
                 ) {
                     ProfileStyleHeader(
-                        title: "Generations",
-                        subtitle: "Your magical moments, beautifully crafted."
+                        title: NSLocalizedString("generations.title", comment: ""),
+                        subtitle: NSLocalizedString("generations.subtitle", comment: "")
                     )
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 24)
@@ -61,19 +65,19 @@ struct GenerationsView: View {
                     .presentationDetents([.large])
                     .presentationDragIndicator(.hidden)
             }
-            .alert("Delete generation?", isPresented: .constant(pendingDeleteItem != nil)) {
-                Button("Delete", role: .destructive) {
+            .alert(NSLocalizedString("generations.delete_alert_title", comment: ""), isPresented: .constant(pendingDeleteItem != nil)) {
+                Button(NSLocalizedString("common.delete", comment: ""), role: .destructive) {
                     if let item = pendingDeleteItem {
                         Task { await viewModel.deleteHistoryItem(id: item.id) }
                     }
                     pendingDeleteItem = nil
                 }
-                Button("Cancel", role: .cancel) { pendingDeleteItem = nil }
+                Button(NSLocalizedString("common.cancel", comment: ""), role: .cancel) { pendingDeleteItem = nil }
             } message: {
-                Text("This will permanently remove it from your account.")
+                Text(NSLocalizedString("generations.delete_alert_message", comment: ""))
             }
-            .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
-                Button("OK") { viewModel.errorMessage = nil }
+            .alert(NSLocalizedString("common.error", comment: ""), isPresented: .constant(viewModel.errorMessage != nil)) {
+                Button(NSLocalizedString("common.ok", comment: "")) { viewModel.errorMessage = nil }
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }
@@ -94,7 +98,7 @@ struct GenerationsView: View {
                         Button(role: .destructive) {
                             pendingDeleteItem = item
                         } label: {
-                            Label("Delete", systemImage: "trash")
+                            Label(NSLocalizedString("common.delete", comment: ""), systemImage: "trash")
                         }
                     }
                     .onAppear {
@@ -117,7 +121,7 @@ struct GenerationsView: View {
     private var loadingState: some View {
         VStack(spacing: 14) {
             ProgressView().tint(Color(hex: "97462E"))
-            Text("Loading generations…")
+            Text(NSLocalizedString("generations.loading", comment: ""))
                 .foregroundStyle(Color(hex: "55433E"))
         }
         .frame(maxWidth: .infinity, minHeight: 280)
@@ -128,10 +132,10 @@ struct GenerationsView: View {
             Image(systemName: selectedFilter == 2 ? "clock.badge.xmark.fill" : "photo.stack.fill")
                 .font(.system(size: 42))
                 .foregroundStyle(Color(hex: "97462E").opacity(0.8))
-            Text(selectedFilter == 2 ? "No Processing Generations" : "No Generations Yet")
+            Text(selectedFilter == 2 ? NSLocalizedString("generations.no_processing_title", comment: "") : NSLocalizedString("generations.empty_title", comment: ""))
                 .font(.system(size: 22, weight: .bold))
                 .foregroundStyle(Color(hex: "1E1C10"))
-            Text(selectedFilter == 2 ? "There are no generations in queue right now." : "Create your first AI transformation and it will appear here.")
+            Text(selectedFilter == 2 ? NSLocalizedString("generations.no_processing_message", comment: "") : NSLocalizedString("generations.empty_message", comment: ""))
                 .font(.system(size: 15))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color(hex: "55433E"))
@@ -257,7 +261,7 @@ private struct GenerationHistoryCard: View {
                                     .font(.system(size: 24, weight: .bold))
                                     .foregroundStyle(Color(hex: "97462E"))
                             )
-                        Text("Processing...")
+                        Text(NSLocalizedString("card.processing", comment: ""))
                             .font(.system(size: 17, weight: .semibold))
                             .foregroundStyle(Color(hex: "1E1C10"))
                     }
@@ -273,12 +277,12 @@ private struct GenerationHistoryCard: View {
 
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(isSuccess ? "Generated \(relativeDate(item.createdAt))" : "Generating now")
+                    Text(isSuccess ? String(format: NSLocalizedString("card.generated", comment: ""), relativeDate(item.createdAt)) : NSLocalizedString("card.generating_now", comment: ""))
                         .font(.system(size: 13))
                         .foregroundStyle(Color(hex: "55433E"))
                 }
                 Spacer()
-                Text(isSuccess ? "Success" : "Processing")
+                Text(isSuccess ? NSLocalizedString("card.success", comment: "") : NSLocalizedString("card.processing", comment: ""))
                     .font(.system(size: 12, weight: .bold))
                     .foregroundStyle(isSuccess ? Color(hex: "245A22") : Color(hex: "6F4600"))
                     .padding(.horizontal, 10)

@@ -18,10 +18,10 @@ enum BubsieTab: String, CaseIterable {
 
     var label: String {
         switch self {
-        case .home:        return "Home"
-        case .generations: return "Generations"
-        case .chatEdit:    return "BubsieAI"
-        case .account:     return "Profile"
+        case .home:        return NSLocalizedString("tab.home", comment: "")
+        case .generations: return NSLocalizedString("tab.generations", comment: "")
+        case .chatEdit:    return NSLocalizedString("tab.bubsieai", comment: "")
+        case .account:     return NSLocalizedString("tab.profile", comment: "")
         }
     }
 }

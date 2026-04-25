@@ -14,14 +14,14 @@ struct PremiumView: View {
 
     private let planDisplays: [PlanDisplay] = [
         PlanDisplay(
-            title: "Yearly",
-            subtitle: "Just $4.16 / month",
-            tag: "BEST VALUE",
+            title: NSLocalizedString("Yearly", comment: ""),
+            subtitle: NSLocalizedString("Just $4.16 / month", comment: ""),
+            tag: NSLocalizedString("BEST VALUE", comment: ""),
             productIndex: 0
         ),
         PlanDisplay(
-            title: "Weekly",
-            subtitle: "Billed weekly",
+            title: NSLocalizedString("Weekly", comment: ""),
+            subtitle: NSLocalizedString("Billed weekly", comment: ""),
             tag: nil,
             productIndex: 1
         ),
@@ -123,7 +123,7 @@ struct PremiumView: View {
                 Image(systemName: "star.fill")
                     .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(.white)
-                Text("PRO")
+                Text(NSLocalizedString("premium.pro_badge", comment: ""))
                     .font(.system(size: 12, weight: .bold))
                     .foregroundStyle(.white)
                     .tracking(0.6)
@@ -141,13 +141,13 @@ struct PremiumView: View {
 
     var copySection: some View {
         VStack(spacing: 6) {
-            Text("Unlock the Magic✨")
+            Text(NSLocalizedString("premium.unlock_title", comment: ""))
                 .font(.system(size: 26, weight: .heavy))
                 .foregroundStyle(primaryText)
                 .multilineTextAlignment(.center)
                 .tracking(-0.5)
 
-            Text("Transform every giggle into a masterpiece.")
+            Text(NSLocalizedString("premium.unlock_subtitle", comment: ""))
                 .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(secondaryText)
                 .multilineTextAlignment(.center)
@@ -159,25 +159,25 @@ struct PremiumView: View {
         VStack(spacing: 10) {
             BenefitRow(
                 icon: "sparkles",
-                text: "Access to all PRO Templates",
+                text: NSLocalizedString("premium.benefit_pro_templates", comment: ""),
                 iconBg: Color(hex: "F08C6E").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "tag.fill",
-                text: "50 Free Credits Every Week",
+                text: NSLocalizedString("premium.benefit_credits", comment: ""),
                 iconBg: Color(hex: "F08C6E").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "drop.fill",
-                text: "No Watermarks on Results",
+                text: NSLocalizedString("premium.benefit_no_watermark", comment: ""),
                 iconBg: Color(hex: "FB856D").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "arrow.down.circle.fill",
-                text: "High-Resolution 4K Downloads",
+                text: NSLocalizedString("premium.benefit_4k", comment: ""),
                 iconBg: Color(hex: "F08C6E").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
@@ -195,9 +195,9 @@ struct PremiumView: View {
             formatter.currencyCode = product.currencyCode
             let monthlyStr = formatter.string(from: monthlyNS) ?? "$4.16"
             displays[0] = PlanDisplay(
-                title: "Yearly",
-                subtitle: "Just \(monthlyStr) / month",
-                tag: "BEST VALUE",
+                title: NSLocalizedString("Yearly", comment: ""),
+                subtitle: String(format: NSLocalizedString("Just %@ / month", comment: ""), monthlyStr),
+                tag: NSLocalizedString("BEST VALUE", comment: ""),
                 productIndex: 0
             )
         }
@@ -229,10 +229,10 @@ struct PremiumView: View {
     private var ctaFooterText: String {
         if let package = packageForPlan(at: selectedPlan) {
             let unit = package.storeProduct.subscriptionPeriod?.unit
-            let periodText = unit == .week ? "week" : "year"
-            return "3 days free, then \(package.localizedPriceString)/\(periodText)."
+            let periodText = unit == .week ? NSLocalizedString("week", comment: "") : NSLocalizedString("year", comment: "")
+            return String(format: NSLocalizedString("3 days free, then %1$@/%2$@.", comment: ""), package.localizedPriceString, periodText)
         }
-        return selectedPlan == 0 ? "3 days free, then $49.99/year." : "3 days free, then $14.99/week."
+        return selectedPlan == 0 ? NSLocalizedString("3 days free, then $49.99/year.", comment: "") : NSLocalizedString("3 days free, then $14.99/week.", comment: "")
     }
 
     var ctaSection: some View {
@@ -251,7 +251,7 @@ struct PremiumView: View {
                     }
                 } else { isPurchasing = false }
             } label: {
-                Text("Start My Free Trial")
+                Text(NSLocalizedString("premium.start_free_trial", comment: ""))
                     .font(.system(size: 18, weight: .bold))
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
@@ -278,7 +278,7 @@ struct PremiumView: View {
     var footerLinks: some View {
         HStack(spacing: 16) {
             Button { Task { await subscriptionsManager.restorePurchases() } } label: {
-                Text("Restore Purchase")
+                Text(NSLocalizedString("premium.restore_purchase", comment: ""))
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
             }
@@ -288,7 +288,7 @@ struct PremiumView: View {
                 .foregroundStyle(secondaryText)
 
             Button { openURL(URL(string: "https://fagore.com/terms/")!) } label: {
-                Text("Terms")
+                Text(NSLocalizedString("menu.terms_of_service", comment: ""))
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
             }
@@ -298,7 +298,7 @@ struct PremiumView: View {
                 .foregroundStyle(secondaryText)
 
             Button { openURL(URL(string: "https://fagore.com/privacy/")!) } label: {
-                Text("Privacy Policy")
+                Text(NSLocalizedString("menu.privacy_policy", comment: ""))
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
             }
@@ -313,7 +313,7 @@ struct PremiumView: View {
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 18, weight: .bold))
                         .foregroundStyle(Color.green)
-                    Text("Purchase successful! You now have access to all PRO templates and 50 weekly credits will be added every Monday.")
+                    Text(NSLocalizedString("premium.purchase_success", comment: ""))
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(Color.primary)
                         .multilineTextAlignment(.leading)
@@ -484,9 +484,9 @@ struct TopupView: View {
 
     // Fallback when RevenueCat products haven't loaded yet
     private let fallbackPlans: [CreditPlanDisplay] = [
-        CreditPlanDisplay(title: "100 Credits", subtitle: "$14.99", tag: nil, credits: 100, productIdentifier: "com.fagore.bubsie.100credits"),
-        CreditPlanDisplay(title: "250 Credits", subtitle: "$29.99", tag: nil, credits: 250, productIdentifier: "com.fagore.bubsie.250credits"),
-        CreditPlanDisplay(title: "1,000 Credits", subtitle: "$99.99", tag: "BEST VALUE", credits: 1000, productIdentifier: "com.fagore.bubsie.1000credits"),
+        CreditPlanDisplay(title: NSLocalizedString("100 Credits", comment: ""), subtitle: "$14.99", tag: nil, credits: 100, productIdentifier: "com.fagore.bubsie.100credits"),
+        CreditPlanDisplay(title: NSLocalizedString("250 Credits", comment: ""), subtitle: "$29.99", tag: nil, credits: 250, productIdentifier: "com.fagore.bubsie.250credits"),
+        CreditPlanDisplay(title: NSLocalizedString("1,000 Credits", comment: ""), subtitle: "$99.99", tag: NSLocalizedString("BEST VALUE", comment: ""), credits: 1000, productIdentifier: "com.fagore.bubsie.1000credits"),
     ]
 
     // Dynamic credit plans from RevenueCat
@@ -499,7 +499,7 @@ struct TopupView: View {
             guard let product = products.first(where: { $0.productIdentifier == id }) else { return nil }
             let info = fallbackPlans.first { $0.productIdentifier == id }
             return CreditPlanDisplay(
-                title: info?.title ?? "Credits",
+                title: info?.title ?? NSLocalizedString("Credits", comment: ""),
                 subtitle: product.localizedPriceString,
                 tag: info?.tag,
                 credits: info?.credits ?? 0,
@@ -602,7 +602,7 @@ struct TopupView: View {
                 Image(systemName: "star.fill")
                     .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(.white)
-                Text("CREDITS")
+                Text(NSLocalizedString("topup.credits_badge", comment: ""))
                     .font(.system(size: 12, weight: .bold))
                     .foregroundStyle(.white)
                     .tracking(0.6)
@@ -620,13 +620,13 @@ struct TopupView: View {
 
     var copySection: some View {
         VStack(spacing: 6) {
-            Text("Top Up Credits")
+            Text(NSLocalizedString("topup.title", comment: ""))
                 .font(.system(size: 26, weight: .heavy))
                 .foregroundStyle(primaryText)
                 .multilineTextAlignment(.center)
                 .tracking(-0.5)
 
-            Text("Top up your AI transforms instantly.")
+            Text(NSLocalizedString("topup.subtitle", comment: ""))
                 .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(secondaryText)
                 .multilineTextAlignment(.center)
@@ -638,19 +638,19 @@ struct TopupView: View {
         VStack(spacing: 10) {
             BenefitRow(
                 icon: "bolt.fill",
-                text: "Instant Delivery",
+                text: NSLocalizedString("topup.benefit_instant", comment: ""),
                 iconBg: Color(hex: "F08C6E").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "clock.fill",
-                text: "Use Anytime — No Expiration",
+                text: NSLocalizedString("topup.benefit_no_expiration", comment: ""),
                 iconBg: Color(hex: "F08C6E").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "sparkles",
-                text: "Works with All Templates",
+                text: NSLocalizedString("topup.benefit_all_templates", comment: ""),
                 iconBg: Color(hex: "FB856D").opacity(0.20),
                 iconColor: Color(hex: "9F402D")
             )
@@ -692,7 +692,7 @@ struct TopupView: View {
                     isPurchasing = false
                 }
             } label: {
-                Text("Purchase Credits")
+                Text(NSLocalizedString("topup.purchase_credits", comment: ""))
                     .font(.system(size: 18, weight: .bold))
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
@@ -716,7 +716,7 @@ struct TopupView: View {
                     .foregroundStyle(Color.red)
             }
 
-            Text("One-time purchase. No subscription.")
+            Text(NSLocalizedString("topup.one_time_purchase", comment: ""))
                 .font(.system(size: 12, weight: .medium))
                 .foregroundStyle(secondaryText)
         }
@@ -732,7 +732,7 @@ struct TopupView: View {
 
         guard let product = subscriptionsManager.creditProducts.first(where: { $0.productIdentifier == plan.productIdentifier }) else {
             isPurchasing = false
-            purchaseError = "Product not available"
+            purchaseError = NSLocalizedString("Product not available", comment: "")
             return
         }
 
@@ -751,7 +751,7 @@ struct TopupView: View {
     var footerLinks: some View {
         HStack(spacing: 16) {
             Button { Task { await subscriptionsManager.restorePurchases() } } label: {
-                Text("Restore Purchase")
+                Text(NSLocalizedString("premium.restore_purchase", comment: ""))
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
             }
@@ -761,7 +761,7 @@ struct TopupView: View {
                 .foregroundStyle(secondaryText)
 
             Button { openURL(URL(string: "https://fagore.com/terms/")!) } label: {
-                Text("Terms")
+                Text(NSLocalizedString("menu.terms_of_service", comment: ""))
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
             }
@@ -771,7 +771,7 @@ struct TopupView: View {
                 .foregroundStyle(secondaryText)
 
             Button { openURL(URL(string: "https://fagore.com/privacy/")!) } label: {
-                Text("Privacy Policy")
+                Text(NSLocalizedString("menu.privacy_policy", comment: ""))
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(secondaryText)
             }
@@ -799,9 +799,9 @@ struct CreditPlanCard: View {
 
     private var bundleName: String {
         switch plan.credits {
-        case 100: return "Tiny Bundle"
-        case 250: return "Family Pack"
-        case 1000: return "Ultimate Pack"
+        case 100: return NSLocalizedString("topup.bundle_tiny", comment: "")
+        case 250: return NSLocalizedString("topup.bundle_family", comment: "")
+        case 1000: return NSLocalizedString("topup.bundle_ultimate", comment: "")
         default: return "\(plan.credits) cr"
         }
     }

@@ -101,10 +101,10 @@ struct ResultView: View {
                 .presentationDetents([.fraction(0.55)])
                 .presentationDragIndicator(.visible)
         }
-        .alert("Report Sent", isPresented: $showReportSent) {
-            Button("OK", role: .cancel) { }
+        .alert(NSLocalizedString("result.report_sent_title", comment: ""), isPresented: $showReportSent) {
+            Button(NSLocalizedString("common.ok", comment: ""), role: .cancel) { }
         } message: {
-            Text("Thank you for helping keep our community safe.")
+            Text(NSLocalizedString("result.report_thanks", comment: ""))
         }
     }
 
@@ -142,7 +142,7 @@ struct ResultView: View {
                 // Media
                 Group {
                     if !isSupportedResultFormat {
-                        errorPlaceholder(message: "Unsupported format. Supported: jpg, jpeg, png, mp4")
+                        errorPlaceholder(message: NSLocalizedString("result.error_unsupported_format", comment: ""))
                     } else if isVideoResult, let videoURL = URL(string: resultURL) {
                         VideoPlayer(player: AVPlayer(url: videoURL))
                             .aspectRatio(1, contentMode: .fit)
@@ -154,7 +154,7 @@ struct ResultView: View {
                                     .resizable()
                                     .aspectRatio(1, contentMode: .fit)
                             case .failure:
-                                errorPlaceholder(message: "Failed to load")
+                                errorPlaceholder(message: NSLocalizedString("result.error_failed_load", comment: ""))
                             default:
                                 ProgressView()
                                     .tint(accentBrown)
@@ -177,7 +177,7 @@ struct ResultView: View {
                         Image(systemName: "sparkles")
                             .font(.system(size: 11, weight: .semibold))
                             .foregroundStyle(accentBrown)
-                        Text("Magic Enhanced")
+                        Text(NSLocalizedString("result.magic_enhanced", comment: ""))
                             .font(.system(size: 13, weight: .bold))
                             .foregroundStyle(accentBrown)
                     }
@@ -229,15 +229,15 @@ struct ResultView: View {
     // MARK: Background Picker (for remove_bg)
     private var bgPicker: some View {
         HStack(spacing: 12) {
-            Text("Background:")
+            Text(NSLocalizedString("result.background_label", comment: ""))
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(secondaryText)
 
             HStack(spacing: 10) {
-                bgButton(color: .clear, label: "Transparent")
-                bgButton(color: .white, label: "White")
-                bgButton(color: .black, label: "Black")
-                bgButton(color: Color(hex: "FFB5A0"), label: "Peach")
+                bgButton(color: .clear, label: NSLocalizedString("result.bg_transparent", comment: ""))
+                bgButton(color: .white, label: NSLocalizedString("result.bg_white", comment: ""))
+                bgButton(color: .black, label: NSLocalizedString("result.bg_black", comment: ""))
+                bgButton(color: Color(hex: "FFB5A0"), label: NSLocalizedString("result.bg_peach", comment: ""))
             }
 
             Spacer()
@@ -275,7 +275,7 @@ struct ResultView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "arrow.down.circle.fill")
                         .font(.system(size: 18, weight: .semibold))
-                    Text("Save to Gallery")
+                    Text(NSLocalizedString("result.save_to_gallery", comment: ""))
                         .font(.system(size: 17, weight: .bold))
                 }
                 .foregroundStyle(.white)
@@ -304,7 +304,7 @@ struct ResultView: View {
                     HStack(spacing: 6) {
                         Image(systemName: "arrow.counterclockwise")
                             .font(.system(size: 16, weight: .semibold))
-                        Text("Back")
+                        Text(NSLocalizedString("result.back", comment: ""))
                             .font(.system(size: 15, weight: .bold))
                     }
                     .foregroundStyle(darkText)
@@ -324,7 +324,7 @@ struct ResultView: View {
                     HStack(spacing: 6) {
                         Image(systemName: "square.and.arrow.up")
                             .font(.system(size: 16, weight: .semibold))
-                        Text("Share")
+                        Text(NSLocalizedString("result.share", comment: ""))
                             .font(.system(size: 15, weight: .bold))
                     }
                     .foregroundStyle(secondaryText)
@@ -348,7 +348,7 @@ struct ResultView: View {
                 .font(.system(size: 20, weight: .semibold))
                 .foregroundStyle(Color(hex: "002016"))
 
-            Text("Saved to Gallery")
+            Text(NSLocalizedString("result.saved_to_gallery", comment: ""))
                 .font(.system(size: 15, weight: .bold))
                 .foregroundStyle(Color(hex: "002016"))
 
@@ -452,10 +452,10 @@ struct ResultView: View {
     // MARK: - Report Sheet
     private var reportSheet: some View {
         let reasons = [
-            ("Inappropriate content (explicit, violence)", "inappropriate"),
-            ("Unauthorized child photo", "unauthorized_child"),
-            ("Copyright infringement", "copyright"),
-            ("Other", "other"),
+            (NSLocalizedString("result.report_reason_inappropriate", comment: ""), "inappropriate"),
+            (NSLocalizedString("result.report_reason_unauthorized", comment: ""), "unauthorized_child"),
+            (NSLocalizedString("result.report_reason_copyright", comment: ""), "copyright"),
+            (NSLocalizedString("result.report_reason_other", comment: ""), "other"),
         ]
 
         return VStack(spacing: 0) {
@@ -465,7 +465,7 @@ struct ResultView: View {
                     .fill(Color.gray.opacity(0.4))
                     .frame(width: 36, height: 5)
 
-                Text("Why are you reporting this?")
+                Text(NSLocalizedString("result.report_title", comment: ""))
                     .font(.system(size: 18, weight: .bold))
                     .foregroundStyle(darkText)
             }
@@ -512,7 +512,7 @@ struct ResultView: View {
 
                 if selectedReportReason == "other" {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Details")
+                        Text(NSLocalizedString("result.report_details", comment: ""))
                             .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(secondaryText)
 
@@ -546,7 +546,7 @@ struct ResultView: View {
                             .tint(.white)
                             .scaleEffect(0.8)
                     }
-                    Text(reportSending ? "Sending..." : "Submit")
+                    Text(reportSending ? NSLocalizedString("result.report_sending", comment: "") : NSLocalizedString("result.report_submit", comment: ""))
                         .font(.system(size: 17, weight: .bold))
                 }
                 .foregroundStyle(.white)

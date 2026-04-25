@@ -58,11 +58,11 @@ struct Upscaling: View {
                 }
                 .padding()
             }
-            .navigationTitle("Upscale Image")
+            .navigationTitle(NSLocalizedString("upscaling.title", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.hidden)
-            .alert("Error", isPresented: .constant(errorMessage != nil)) {
-                Button("OK") { errorMessage = nil }
+            .alert(NSLocalizedString("common.error", comment: ""), isPresented: .constant(errorMessage != nil)) {
+            Button(NSLocalizedString("common.ok", comment: "")) { errorMessage = nil }
             } message: {
                 Text(errorMessage ?? "")
             }
@@ -74,7 +74,7 @@ struct Upscaling: View {
     private func startUpscale() {
         guard !isSubmitting else { return }
         guard let image = image else {
-            errorMessage = "No image selected"
+            errorMessage = NSLocalizedString("upscaling.no_image_error", comment: "")
             return
         }
         isSubmitting = true

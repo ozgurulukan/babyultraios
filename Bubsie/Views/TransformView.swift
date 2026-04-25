@@ -144,7 +144,7 @@ struct TransformView: View {
 
             Spacer()
 
-            Text("Bubsie")
+            Text(NSLocalizedString("app.name", comment: ""))
                 .font(.system(size: 24, weight: .bold, design: .rounded))
                 .foregroundStyle(accentBrown)
                 .tracking(-0.45)
@@ -183,7 +183,7 @@ struct TransformView: View {
                 .foregroundStyle(primaryText)
                 .multilineTextAlignment(.center)
 
-            Text("Upload a photo to see the magic happen.")
+            Text(NSLocalizedString("transform.upload_prompt", comment: ""))
                 .font(.system(size: 16, weight: .regular))
                 .foregroundStyle(secondaryText)
                 .multilineTextAlignment(.center)
@@ -197,7 +197,7 @@ struct TransformView: View {
                         .frame(width: geo.size.width * 0.35)
                         .offset(x: shimmerPhase * geo.size.width)
                         .mask(
-                            Text("Upload a photo to see the magic happen.")
+                            Text(NSLocalizedString("transform.upload_prompt", comment: ""))
                                 .font(.system(size: 16, weight: .regular))
                                 .multilineTextAlignment(.center)
                                 .frame(width: geo.size.width, height: geo.size.height)
@@ -283,7 +283,7 @@ struct TransformView: View {
                                 .foregroundStyle(accentBrown)
                         }
 
-                        Text("Tap to upload photo")
+                        Text(NSLocalizedString("transform.tap_upload", comment: ""))
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundStyle(primaryText)
 
@@ -294,28 +294,28 @@ struct TransformView: View {
                                     Image(systemName: "face.smiling")
                                         .font(.system(size: 12, weight: .medium))
                                         .frame(width: 20, alignment: .center)
-                                    Text("Clear faces")
+                                    Text(NSLocalizedString("transform.tip_clear_faces", comment: ""))
                                         .font(.system(size: 13, weight: .medium))
                                 }
                                 HStack(spacing: 6) {
                                     Image(systemName: "sun.max.fill")
                                         .font(.system(size: 12, weight: .medium))
                                         .frame(width: 20, alignment: .center)
-                                    Text("Good lighting")
+                                    Text(NSLocalizedString("transform.tip_good_lighting", comment: ""))
                                         .font(.system(size: 13, weight: .medium))
                                 }
                                 HStack(spacing: 6) {
                                     Image(systemName: "person.fill.viewfinder")
                                         .font(.system(size: 12, weight: .medium))
                                         .frame(width: 20, alignment: .center)
-                                    Text("Face facing front")
+                                    Text(NSLocalizedString("transform.tip_face_front", comment: ""))
                                         .font(.system(size: 13, weight: .medium))
                                 }
                                 HStack(spacing: 6) {
                                     Image(systemName: "eye.slash")
                                         .font(.system(size: 12, weight: .medium))
                                         .frame(width: 20, alignment: .center)
-                                    Text("No accessories")
+                                    Text(NSLocalizedString("transform.tip_no_accessories", comment: ""))
                                         .font(.system(size: 13, weight: .medium))
                                 }
                             }
@@ -334,7 +334,7 @@ struct TransformView: View {
     // MARK: Aspect Ratio Selection
     private var aspectRatioSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Aspect Ratio")
+            Text(NSLocalizedString("transform.aspect_ratio", comment: ""))
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(primaryText)
                 .padding(.horizontal, 8)
@@ -385,7 +385,7 @@ struct TransformView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "sparkles")
                             .font(.system(size: 16, weight: .semibold))
-                        Text("Transform (\(template.creditCost) Credit\(template.creditCost == 1 ? "" : "s"))")
+                        Text(String(format: NSLocalizedString("Transform (%d Credits)", comment: ""), template.creditCost))
                             .font(.system(size: 16, weight: .bold))
                     }
                     .foregroundStyle(.white)
@@ -444,7 +444,7 @@ struct TransformView: View {
 
                     VStack(spacing: 20) {
                         VStack(spacing: 12) {
-                            Text("Bubsie uses AI to edit your uploaded photos.")
+                            Text(NSLocalizedString("transform.consent_title", comment: ""))
                                 .font(.system(size: 15, weight: .semibold))
                                 .foregroundStyle(primaryText)
                                 .multilineTextAlignment(.center)
@@ -452,15 +452,15 @@ struct TransformView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 HStack(alignment: .top, spacing: 6) {
                                     Text("•")
-                                    Text("The photos I upload are mine or I have parental permission")
+                                    Text(NSLocalizedString("transform.consent_bullet1", comment: ""))
                                 }
                                 HStack(alignment: .top, spacing: 6) {
                                     Text("•")
-                                    Text("I am an adult over 18 years old using this app")
+                                    Text(NSLocalizedString("transform.consent_bullet2", comment: ""))
                                 }
                                 HStack(alignment: .top, spacing: 6) {
                                     Text("•")
-                                    Text("I will not upload someone else's child without permission")
+                                    Text(NSLocalizedString("transform.consent_bullet3", comment: ""))
                                 }
                             }
                             .font(.system(size: 13, weight: .regular))
@@ -471,7 +471,7 @@ struct TransformView: View {
                             Button {
                                 showConsentSheet = false
                             } label: {
-                                Text("Decline")
+                                Text(NSLocalizedString("transform.consent_decline", comment: ""))
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundStyle(accentBrown)
                                     .frame(maxWidth: .infinity)
@@ -494,7 +494,7 @@ struct TransformView: View {
                                     showImagePicker = true
                                 }
                             } label: {
-                                Text("Agree")
+                                Text(NSLocalizedString("transform.consent_agree", comment: ""))
                                     .font(.system(size: 14, weight: .bold))
                                     .foregroundStyle(.white)
                                     .frame(maxWidth: .infinity)

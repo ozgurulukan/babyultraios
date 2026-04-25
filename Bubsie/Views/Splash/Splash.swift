@@ -21,17 +21,17 @@ struct DeviceBannedView: View {
                     .foregroundStyle(Color(hex: "E04A2E"))
 
                 VStack(spacing: 12) {
-                    Text("Access Restricted")
+                    Text(NSLocalizedString("splash.access_restricted", comment: ""))
                         .font(.system(size: 24, weight: .bold))
                         .foregroundStyle(Color(hex: "1E1C10"))
 
-                    Text("This device has been restricted from using our services due to suspicious activity.")
+                    Text(NSLocalizedString("splash.device_banned_message", comment: ""))
                         .font(.system(size: 15))
                         .foregroundStyle(Color(hex: "55433E"))
                         .multilineTextAlignment(.center)
                         .lineSpacing(4)
 
-                    Text("If you believe this is a mistake, please contact our support team.")
+                    Text(NSLocalizedString("splash.contact_support_message", comment: ""))
                         .font(.system(size: 14, weight: .medium))
                         .foregroundStyle(Color(hex: "55433E"))
                         .multilineTextAlignment(.center)
@@ -48,7 +48,7 @@ struct DeviceBannedView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "envelope.fill")
                             .font(.system(size: 16, weight: .semibold))
-                        Text("Contact Support")
+                        Text(NSLocalizedString("splash.contact_support", comment: ""))
                             .font(.system(size: 16, weight: .semibold))
                     }
                     .foregroundStyle(.white)
@@ -128,11 +128,11 @@ struct Splash: View {
                         .opacity(logoOpacity)
 
                     VStack(spacing: 8) {
-                        Text("Bubsie")
+                        Text(NSLocalizedString("app.name", comment: ""))
                             .font(.system(size: 40, weight: .black, design: .rounded))
                             .foregroundStyle(SplashPalette.text)
 
-                        Text("AI Magic for Your Little One")
+                        Text(NSLocalizedString("splash.tagline", comment: ""))
                             .font(.system(size: 15, weight: .medium))
                             .foregroundStyle(SplashPalette.subtleText)
                             .offset(y: taglineOffset)

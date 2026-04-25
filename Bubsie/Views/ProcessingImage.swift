@@ -16,15 +16,15 @@ struct ProcessingImage: View {
     @State private var resultURL: String? = nil
     @State private var errorMessage: String? = nil
     @State private var progress: CGFloat = 0
-    @State private var statusText = "Preparing your transform..."
+    @State private var statusText = NSLocalizedString("processing.status_preparing", comment: "")
     @State private var notifyWhenDone = true
     @State private var isSubmitting = false
 
     private let statusMessages = [
-        "Catching the magic...",
-        "Styling your little star...",
-        "Adding a pinch of wonder...",
-        "Preparing the big debut! ✨"
+        NSLocalizedString("processing.status_catching", comment: ""),
+        NSLocalizedString("processing.status_styling", comment: ""),
+        NSLocalizedString("processing.status_wonder", comment: ""),
+        NSLocalizedString("processing.status_debut", comment: "")
     ]
 
     private let bgColor = Color(hex: "FFF8F6")
@@ -86,8 +86,8 @@ struct ProcessingImage: View {
                     .presentationDragIndicator(.hidden)
             }
         }
-        .alert("Error", isPresented: .constant(errorMessage != nil)) {
-            Button("OK") { errorMessage = nil }
+        .alert(NSLocalizedString("common.error", comment: ""), isPresented: .constant(errorMessage != nil)) {
+            Button(NSLocalizedString("common.ok", comment: "")) { errorMessage = nil }
         } message: {
             Text(errorMessage ?? "")
         }
@@ -153,7 +153,7 @@ struct ProcessingImage: View {
                     ProgressView()
                         .tint(accentBrown)
                         .scaleEffect(0.8)
-                    Text("Processing...")
+                    Text(NSLocalizedString("processing.status_processing", comment: ""))
                         .font(.system(size: 13, weight: .bold))
                         .foregroundStyle(accentBrown)
                 }
@@ -225,7 +225,7 @@ struct ProcessingImage: View {
                 HStack(spacing: 10) {
                     Image(systemName: notifyWhenDone ? "bell.badge.fill" : "bell")
                         .font(.system(size: 16, weight: .semibold))
-                    Text("Notify me when it's completed")
+                    Text(NSLocalizedString("processing.notify_me", comment: ""))
                         .font(.system(size: 15, weight: .semibold))
                     Spacer()
                     Image(systemName: notifyWhenDone ? "checkmark.circle.fill" : "circle")
@@ -254,7 +254,7 @@ struct ProcessingImage: View {
                 HStack(spacing: 6) {
                     Image(systemName: "arrow.counterclockwise")
                         .font(.system(size: 16, weight: .semibold))
-                    Text("Back to Templates")
+                    Text(NSLocalizedString("processing.back_to_templates", comment: ""))
                         .font(.system(size: 15, weight: .bold))
                 }
                 .foregroundStyle(Color(hex: "221A18"))
@@ -284,7 +284,7 @@ struct ProcessingImage: View {
 
         do {
             guard let image else {
-                errorMessage = "No image selected"
+                errorMessage = NSLocalizedString("processing.no_image_error", comment: "")
                 return
             }
 

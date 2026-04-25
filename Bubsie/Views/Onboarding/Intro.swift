@@ -276,7 +276,7 @@ private struct OnboardingBeforeAfterView: View {
         VStack(spacing: 0) {
             Divider()
                 .background(Color.white.opacity(0.5))
-            LiquidGlassButton(title: "Next") {
+            LiquidGlassButton(title: NSLocalizedString("onboarding.next", comment: "")) {
                 onNext()
             }
             .padding(.horizontal, 24)
@@ -620,12 +620,12 @@ private struct OnboardingReviewsView: View {
 
             VStack(spacing: 0) {
                 VStack(spacing: 8) {
-                    Text("Loved by Parents")
+                    Text(NSLocalizedString("onboarding.loved_by_parents", comment: ""))
                         .font(.system(size: 32, weight: .heavy))
                         .foregroundStyle(textColor)
                         .tracking(-0.8)
 
-                    Text("Join thousands of happy families")
+                    Text(NSLocalizedString("onboarding.join_families", comment: ""))
                         .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(subtleText)
                 }
@@ -698,7 +698,7 @@ private struct OnboardingReviewsView: View {
                     Divider()
                         .background(Color.white.opacity(0.5))
 
-                    LiquidGlassButton(title: "Get Started") {
+                    LiquidGlassButton(title: NSLocalizedString("onboarding.get_started", comment: "")) {
                         onGetStarted()
                     }
                     .padding(.horizontal, 24)
@@ -977,7 +977,7 @@ struct Intro: View {
                 .scaleEffect(1.4)
                 .tint(Color(hex: "A66A54"))
 
-            Text("Loading magic...")
+            Text(NSLocalizedString("onboarding.loading_magic", comment: ""))
                 .font(.system(size: 16, weight: .medium))
                 .foregroundStyle(Color(hex: "796B64"))
         }
@@ -989,7 +989,7 @@ struct Intro: View {
                 .font(.system(size: 48, weight: .semibold))
                 .foregroundStyle(Color(hex: "A66A54"))
 
-            Text("Oops!")
+            Text(NSLocalizedString("onboarding.oops", comment: ""))
                 .font(.system(size: 24, weight: .bold))
                 .foregroundStyle(Color(hex: "3F2D28"))
 
@@ -1002,7 +1002,7 @@ struct Intro: View {
             Button {
                 Task { await viewModel.load() }
             } label: {
-                Text("Try Again")
+                Text(NSLocalizedString("onboarding.try_again", comment: ""))
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.white)
                     .padding(.horizontal, 32)
@@ -1020,10 +1020,10 @@ struct Intro: View {
             Image(systemName: "photo.on.rectangle.angled")
                 .font(.system(size: 48, weight: .light))
                 .foregroundStyle(Color(hex: "A66A54").opacity(0.6))
-            Text("No onboarding content")
+            Text(NSLocalizedString("onboarding.no_content", comment: ""))
                 .font(.system(size: 20, weight: .bold))
                 .foregroundStyle(Color(hex: "3F2D28"))
-            Text("Check admin panel: app_id must be \"bubsie\" and is_active must be true.")
+            Text(NSLocalizedString("onboarding.no_content_message", comment: ""))
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(Color(hex: "796B64"))
                 .multilineTextAlignment(.center)
