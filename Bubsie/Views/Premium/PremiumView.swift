@@ -159,21 +159,21 @@ struct PremiumView: View {
         VStack(spacing: 10) {
             BenefitRow(
                 icon: "sparkles",
-                text: "Unlimited AI Transforms",
+                text: "Access to all PRO Templates",
                 iconBg: Color(hex: "F08C6E").opacity(0.20),
                 iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "tag.fill",
-                text: "Access to all PRO Templates",
-                iconBg: Color(hex: "FEB246").opacity(0.20),
-                iconColor: Color(hex: "845400")
+                text: "Weekly 50 Credits Free",
+                iconBg: Color(hex: "F08C6E").opacity(0.20),
+                iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "drop.fill",
                 text: "No Watermarks on results",
                 iconBg: Color(hex: "FB856D").opacity(0.20),
-                iconColor: Color(hex: "9F402D")
+                iconColor: Color(hex: "97462E")
             )
             BenefitRow(
                 icon: "arrow.down.circle.fill",
@@ -184,11 +184,31 @@ struct PremiumView: View {
         }
     }
 
+    private var dynamicPlanDisplays: [PlanDisplay] {
+        var displays = planDisplays
+        if let yearlyPackage = packageForPlan(at: 0) {
+            let product = yearlyPackage.storeProduct
+            let yearlyNS = NSDecimalNumber(decimal: product.price)
+            let monthlyNS = yearlyNS.dividing(by: NSDecimalNumber(value: 12))
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.currencyCode = product.currencyCode
+            let monthlyStr = formatter.string(from: monthlyNS) ?? "$4.16"
+            displays[0] = PlanDisplay(
+                title: "Yearly",
+                subtitle: "Just \(monthlyStr) / month",
+                tag: "BEST VALUE",
+                productIndex: 0
+            )
+        }
+        return displays
+    }
+
     var pricingSection: some View {
         HStack(spacing: 16) {
-            ForEach(planDisplays.indices, id: \.self) { index in
+            ForEach(dynamicPlanDisplays.indices, id: \.self) { index in
                 PlanCardNew(
-                    plan: planDisplays[index],
+                    plan: dynamicPlanDisplays[index],
                     package: packageForPlan(at: index),
                     isSelected: selectedPlan == index
                 ) {
@@ -204,6 +224,15 @@ struct PremiumView: View {
         let productIdx = planDisplays[index].productIndex
         guard subscriptionsManager.packages.indices.contains(productIdx) else { return nil }
         return subscriptionsManager.packages[productIdx]
+    }
+
+    private var ctaFooterText: String {
+        if let package = packageForPlan(at: selectedPlan) {
+            let unit = package.storeProduct.subscriptionPeriod?.unit
+            let periodText = unit == .week ? "week" : "year"
+            return "3 days free, then \(package.localizedPriceString)/\(periodText)."
+        }
+        return selectedPlan == 0 ? "3 days free, then $49.99/year." : "3 days free, then $14.99/week."
     }
 
     var ctaSection: some View {
@@ -240,7 +269,7 @@ struct PremiumView: View {
             .disabled(isPurchasing)
             .buttonStyle(.plain)
 
-            Text("3 days free, then $49.99/year.")
+            Text(ctaFooterText)
                 .font(.system(size: 12, weight: .medium))
                 .foregroundStyle(secondaryText)
         }

@@ -60,7 +60,7 @@ struct HomeView: View {
                                 Button {
                                     isPremiumShow = true
                                 } label: {
-                                    Text("PRO")
+                                    Text("★ PRO")
                                         .font(.system(size: 11, weight: .heavy))
                                         .foregroundStyle(.white)
                                         .padding(.horizontal, 10)

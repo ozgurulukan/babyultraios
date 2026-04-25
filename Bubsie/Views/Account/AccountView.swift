@@ -48,8 +48,8 @@ struct AccountView: View {
         } content: {
             VStack(alignment: .leading, spacing: 24) {
                 creditCard
-                subscriptionSection
                 if !isPro { premiumButton }
+                subscriptionSection
                 menuList
                 deleteAccountButton
                 Color.clear.frame(height: 96)
@@ -308,15 +308,29 @@ struct AccountView: View {
             profileInfoRow(
                 icon: "calendar",
                 title: "Weekly Allowance",
-                subtitle: "Resets every Sunday",
+                subtitle: "Resets every Monday",
                 trailing: AnyView(
-                    Text(isPro ? "Unlimited" : "5 Credits")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                    Group {
+                        if isPro {
+                            Text("50 Credits")
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundStyle(Color(hex: "1E1C10"))
+                        } else {
+                            Button {
+                                isPremiumShow = true
+                            } label: {
+                                Text("Upgrade")
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundStyle(Color(hex: "88726C"))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
                 )
             )
         }
-        .padding(24)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 12)
         .background(
             RoundedRectangle(cornerRadius: 32, style: .continuous)
                 .fill(Color(hex: "FAF3E0"))
