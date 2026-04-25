@@ -805,13 +805,13 @@ private struct HomeTemplateCard: View {
     private func kindText(for actionType: String) -> String {
         switch actionType {
         case "remove_bg", "upscale", "photo_restoration":
-            return NSLocalizedString("Photo Transform", comment: "")
+            return NSLocalizedString("home.filter_photo", comment: "")
         case "video":
-            return NSLocalizedString("Video Animation", comment: "")
+            return NSLocalizedString("home.filter_video", comment: "")
         case "ai_chat":
-            return NSLocalizedString("Concept", comment: "")
+            return NSLocalizedString("home.filter_concept", comment: "")
         default:
-            return NSLocalizedString("AI Template", comment: "")
+            return NSLocalizedString("home.filter_ai_template", comment: "")
         }
     }
 }

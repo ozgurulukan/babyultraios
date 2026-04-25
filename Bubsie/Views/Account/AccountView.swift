@@ -12,7 +12,7 @@ struct AccountView: View {
     @State private var showLanguageSheet = false
     @State private var showMailComposer = false
     @State private var showCopiedBanner = false
-    @State private var copiedBannerText = NSLocalizedString("Copied to clipboard", comment: "")
+    @State private var copiedBannerText = NSLocalizedString("common.copied", comment: "")
     @State private var showTopup = false
     @State private var showDeleteAccountPopup = false
     @State private var isDeletingAccount = false
@@ -31,7 +31,7 @@ struct AccountView: View {
 
     private var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
     private var isPro: Bool { auth.currentUser?.isPro ?? entitlementManager.hasPro }
-    private var memberTier: String { isPro ? NSLocalizedString("Premium Plan", comment: "") : NSLocalizedString("Free Plan", comment: "") }
+    private var memberTier: String { isPro ? NSLocalizedString("account.premium_plan", comment: "") : NSLocalizedString("account.free_plan", comment: "") }
 
     var body: some View {
         StickyBlurHeader(
@@ -72,7 +72,7 @@ struct AccountView: View {
         .sheet(isPresented: $showMailComposer) {
             MailComposerView(
                 recipients: [supportEmail],
-                subject: NSLocalizedString("Bubsie Support", comment: ""),
+                subject: NSLocalizedString("email.subject_support", comment: ""),
                 body: ""
             )
         }
@@ -454,7 +454,7 @@ struct AccountView: View {
                     showMailComposer = true
                 } else {
                     UIPasteboard.general.string = supportEmail
-                    copiedBannerText = NSLocalizedString("Email copied to clipboard", comment: "")
+                    copiedBannerText = NSLocalizedString("account.email_copied", comment: "")
                     withAnimation { showCopiedBanner = true }
                 }
             }
@@ -478,7 +478,7 @@ struct AccountView: View {
             profileMenuRow(icon: "person.fill.viewfinder", title: NSLocalizedString("account.user_id", comment: "")) {
                 if let uid = Auth.auth().currentUser?.uid {
                     UIPasteboard.general.string = uid
-                    copiedBannerText = NSLocalizedString("User ID copied to clipboard", comment: "")
+                    copiedBannerText = NSLocalizedString("account.userid_copied", comment: "")
                     withAnimation { showCopiedBanner = true }
                 }
             }
@@ -658,7 +658,7 @@ struct AccountView: View {
             try await BubsieAPI.shared.deleteAccount()
             isDeletingAccount = false
             showDeleteAccountPopup = false
-            copiedBannerText = NSLocalizedString("Account deletion request submitted", comment: "")
+            copiedBannerText = NSLocalizedString("account.deletion_submitted", comment: "")
             withAnimation { showCopiedBanner = true }
         } catch {
             isDeletingAccount = false

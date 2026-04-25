@@ -14,14 +14,14 @@ struct PremiumView: View {
 
     private let planDisplays: [PlanDisplay] = [
         PlanDisplay(
-            title: NSLocalizedString("Yearly", comment: ""),
-            subtitle: NSLocalizedString("Just $4.16 / month", comment: ""),
-            tag: NSLocalizedString("BEST VALUE", comment: ""),
+            title: NSLocalizedString("premium.yearly_title", comment: ""),
+            subtitle: NSLocalizedString("premium.yearly_subtitle", comment: ""),
+            tag: NSLocalizedString("premium.best_value", comment: ""),
             productIndex: 0
         ),
         PlanDisplay(
-            title: NSLocalizedString("Weekly", comment: ""),
-            subtitle: NSLocalizedString("Billed weekly", comment: ""),
+            title: NSLocalizedString("premium.weekly_title", comment: ""),
+            subtitle: NSLocalizedString("premium.billed_weekly", comment: ""),
             tag: nil,
             productIndex: 1
         ),
@@ -195,9 +195,9 @@ struct PremiumView: View {
             formatter.currencyCode = product.currencyCode
             let monthlyStr = formatter.string(from: monthlyNS) ?? "$4.16"
             displays[0] = PlanDisplay(
-                title: NSLocalizedString("Yearly", comment: ""),
-                subtitle: String(format: NSLocalizedString("Just %@ / month", comment: ""), monthlyStr),
-                tag: NSLocalizedString("BEST VALUE", comment: ""),
+                title: NSLocalizedString("premium.yearly_title", comment: ""),
+                subtitle: String(format: NSLocalizedString("premium.yearly_subtitle_format", comment: ""), monthlyStr),
+                tag: NSLocalizedString("premium.best_value", comment: ""),
                 productIndex: 0
             )
         }
@@ -229,10 +229,10 @@ struct PremiumView: View {
     private var ctaFooterText: String {
         if let package = packageForPlan(at: selectedPlan) {
             let unit = package.storeProduct.subscriptionPeriod?.unit
-            let periodText = unit == .week ? NSLocalizedString("week", comment: "") : NSLocalizedString("year", comment: "")
-            return String(format: NSLocalizedString("3 days free, then %1$@/%2$@.", comment: ""), package.localizedPriceString, periodText)
+            let periodText = unit == .week ? NSLocalizedString("common.week_unit", comment: "") : NSLocalizedString("common.year_unit", comment: "")
+            return String(format: NSLocalizedString("premium.trial_format", comment: ""), package.localizedPriceString, periodText)
         }
-        return selectedPlan == 0 ? NSLocalizedString("3 days free, then $49.99/year.", comment: "") : NSLocalizedString("3 days free, then $14.99/week.", comment: "")
+        return selectedPlan == 0 ? NSLocalizedString("premium.yearly_fallback", comment: "") : NSLocalizedString("premium.weekly_fallback", comment: "")
     }
 
     var ctaSection: some View {
@@ -484,9 +484,9 @@ struct TopupView: View {
 
     // Fallback when RevenueCat products haven't loaded yet
     private let fallbackPlans: [CreditPlanDisplay] = [
-        CreditPlanDisplay(title: NSLocalizedString("100 Credits", comment: ""), subtitle: "$14.99", tag: nil, credits: 100, productIdentifier: "com.fagore.bubsie.100credits"),
-        CreditPlanDisplay(title: NSLocalizedString("250 Credits", comment: ""), subtitle: "$29.99", tag: nil, credits: 250, productIdentifier: "com.fagore.bubsie.250credits"),
-        CreditPlanDisplay(title: NSLocalizedString("1,000 Credits", comment: ""), subtitle: "$99.99", tag: NSLocalizedString("BEST VALUE", comment: ""), credits: 1000, productIdentifier: "com.fagore.bubsie.1000credits"),
+        CreditPlanDisplay(title: NSLocalizedString("topup.100_credits", comment: ""), subtitle: "$14.99", tag: nil, credits: 100, productIdentifier: "com.fagore.bubsie.100credits"),
+        CreditPlanDisplay(title: NSLocalizedString("topup.250_credits", comment: ""), subtitle: "$29.99", tag: nil, credits: 250, productIdentifier: "com.fagore.bubsie.250credits"),
+        CreditPlanDisplay(title: NSLocalizedString("topup.1000_credits", comment: ""), subtitle: "$99.99", tag: NSLocalizedString("premium.best_value", comment: ""), credits: 1000, productIdentifier: "com.fagore.bubsie.1000credits"),
     ]
 
     // Dynamic credit plans from RevenueCat
@@ -499,7 +499,7 @@ struct TopupView: View {
             guard let product = products.first(where: { $0.productIdentifier == id }) else { return nil }
             let info = fallbackPlans.first { $0.productIdentifier == id }
             return CreditPlanDisplay(
-                title: info?.title ?? NSLocalizedString("Credits", comment: ""),
+                title: info?.title ?? NSLocalizedString("topup.credits_label", comment: ""),
                 subtitle: product.localizedPriceString,
                 tag: info?.tag,
                 credits: info?.credits ?? 0,
@@ -732,7 +732,7 @@ struct TopupView: View {
 
         guard let product = subscriptionsManager.creditProducts.first(where: { $0.productIdentifier == plan.productIdentifier }) else {
             isPurchasing = false
-            purchaseError = NSLocalizedString("Product not available", comment: "")
+            purchaseError = NSLocalizedString("common.product_unavailable", comment: "")
             return
         }
 

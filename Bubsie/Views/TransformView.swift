@@ -385,7 +385,7 @@ struct TransformView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "sparkles")
                             .font(.system(size: 16, weight: .semibold))
-                        Text(String(format: NSLocalizedString("Transform (%d Credits)", comment: ""), template.creditCost))
+                        Text(String(format: NSLocalizedString("transform.cta_format", comment: ""), template.creditCost))
                             .font(.system(size: 16, weight: .bold))
                     }
                     .foregroundStyle(.white)
