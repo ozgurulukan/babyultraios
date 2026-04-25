@@ -26,7 +26,6 @@ struct BubsieApp: App {
     var body: some Scene {
         WindowGroup {
             Splash()
-                .preferredColorScheme(.dark)
                 .environmentObject(entitlementManager)
                 .environmentObject(subscriptionManager)
                 .task { await subscriptionManager.updatePurchasedProducts() }
