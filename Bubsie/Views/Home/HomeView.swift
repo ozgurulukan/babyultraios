@@ -173,7 +173,7 @@ struct HomeView: View {
         GeometryReader { geo in
             ScrollViewReader { proxy in
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 0) {
+                    LazyHStack(spacing: 0) {
                         if homeVM.sliderItems.isEmpty {
                             HeroSliderPlaceholderCard()
                                 .frame(width: geo.size.width, height: 280)
@@ -375,7 +375,7 @@ struct HomeView: View {
 
     private func horizontalTemplatesRow(templates: [TemplateItem]) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: HomePalette.gridGap) {
+            LazyHStack(spacing: HomePalette.gridGap) {
                 ForEach(templates) { template in
                     HomeTemplateCard(template: template, categoryName: homeVM.categoryName(for: template)) {
                         handleTemplateTap(template)
@@ -416,7 +416,7 @@ struct HomeView: View {
                         .buttonStyle(.plain)
 
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: HomePalette.gridGap) {
+                            LazyHStack(spacing: HomePalette.gridGap) {
                                 ForEach(catTemplates) { template in
                                     HomeTemplateCard(template: template, categoryName: homeVM.categoryName(for: template)) {
                                         handleTemplateTap(template)
@@ -643,6 +643,7 @@ private struct HomeTemplateCard: View {
     private let cardHeight: CGFloat = 250
     private let previewURL: URL?
     private let shouldShowVideo: Bool
+    @State private var isVisible = false
 
     init(template: TemplateItem, categoryName: String?, action: @escaping () -> Void) {
         self.template = template
@@ -769,12 +770,14 @@ private struct HomeTemplateCard: View {
         .buttonStyle(.plain)
         .frame(maxWidth: .infinity)
         .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .onAppear { isVisible = true }
+        .onDisappear { isVisible = false }
     }
 
     @ViewBuilder
     private var mediaPreview: some View {
         if shouldShowVideo, let previewURL {
-            LoopingTemplateVideoView(url: previewURL)
+            LoopingTemplateVideoView(url: previewURL, isVisible: isVisible)
         } else if let previewURL {
             WebImage(url: previewURL) { image in
                 image
@@ -812,6 +815,7 @@ private struct HomeTemplateCard: View {
 
 private struct LoopingTemplateVideoView: UIViewRepresentable {
     let url: URL
+    let isVisible: Bool
 
     func makeUIView(context: Context) -> LoopingTemplatePlayerView {
         let view = LoopingTemplatePlayerView()
@@ -821,6 +825,7 @@ private struct LoopingTemplateVideoView: UIViewRepresentable {
 
     func updateUIView(_ uiView: LoopingTemplatePlayerView, context: Context) {
         uiView.setVideoURL(url)
+        uiView.setVisible(isVisible)
     }
 }
 
@@ -829,16 +834,17 @@ private final class LoopingTemplatePlayerView: UIView {
     private let playerLayer = AVPlayerLayer()
     private var looper: AVPlayerLooper?
     private var currentURL: URL?
+    private var isPlayerVisible = true
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         player.isMuted = true
         player.actionAtItemEnd = .none
         playerLayer.player = player
-        
+
         // Videonun boşluksuz olarak kartı tam kaplaması için resizeAspectFill
         playerLayer.videoGravity = .resizeAspectFill
-        
+
         layer.addSublayer(playerLayer)
     }
 
@@ -851,7 +857,19 @@ private final class LoopingTemplatePlayerView: UIView {
         currentURL = url
         player.removeAllItems()
         looper = AVPlayerLooper(player: player, templateItem: AVPlayerItem(url: url))
-        player.play()
+        if isPlayerVisible {
+            player.play()
+        }
+    }
+
+    func setVisible(_ visible: Bool) {
+        guard isPlayerVisible != visible else { return }
+        isPlayerVisible = visible
+        if visible {
+            player.play()
+        } else {
+            player.pause()
+        }
     }
 
     override func layoutSubviews() {

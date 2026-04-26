@@ -81,6 +81,7 @@ private struct LiquidGlassButton: View {
 // MARK: - Page 1: Photo Before/After
 private struct OnboardingBeforeAfterView: View {
     let item: OnboardingMedia
+    let isActivePage: Bool
     let onNext: () -> Void
 
     @State private var sliderPosition: CGFloat = 0.5
@@ -104,6 +105,14 @@ private struct OnboardingBeforeAfterView: View {
             }
         }
         .onAppear { startAutoAnimation() }
+        .onChange(of: isActivePage) { _, active in
+            if !active {
+                isAutoAnimating = false
+            } else {
+                isAutoAnimating = true
+                startAutoAnimation()
+            }
+        }
     }
 
     private func topBlurOverlay(height: CGFloat) -> some View {
@@ -301,6 +310,7 @@ private struct OnboardingBeforeAfterView: View {
 // MARK: - Page 2: Photo/Video Before/After
 private struct OnboardingBeforeAfterVideoView: View {
     let item: OnboardingMedia
+    let isActivePage: Bool
     let onNext: () -> Void
 
     @State private var sliderPosition: CGFloat = 0.5
@@ -324,6 +334,14 @@ private struct OnboardingBeforeAfterVideoView: View {
             }
         }
         .onAppear { startAutoAnimation() }
+        .onChange(of: isActivePage) { _, active in
+            if !active {
+                isAutoAnimating = false
+            } else {
+                isAutoAnimating = true
+                startAutoAnimation()
+            }
+        }
     }
 
     private func topBlurOverlay(height: CGFloat) -> some View {
@@ -402,7 +420,7 @@ private struct OnboardingBeforeAfterVideoView: View {
     private var afterVideo: some View {
         Group {
             if let mediaURL = URL(string: item.mediaUrl) {
-                LoopingOnboardingVideoView(url: mediaURL)
+                LoopingOnboardingVideoView(url: mediaURL, isPlaying: isActivePage)
             } else {
                 placeholderGradient
             }
@@ -522,6 +540,7 @@ private struct OnboardingBeforeAfterVideoView: View {
 // MARK: - Looping Video Player for Onboarding
 private struct LoopingOnboardingVideoView: UIViewRepresentable {
     let url: URL
+    let isPlaying: Bool
 
     func makeUIView(context: Context) -> LoopingOnboardingPlayerView {
         let view = LoopingOnboardingPlayerView()
@@ -531,6 +550,7 @@ private struct LoopingOnboardingVideoView: UIViewRepresentable {
 
     func updateUIView(_ uiView: LoopingOnboardingPlayerView, context: Context) {
         uiView.setVideoURL(url)
+        uiView.setPlaying(isPlaying)
     }
 }
 
@@ -541,6 +561,7 @@ private final class LoopingOnboardingPlayerView: UIView {
     private var currentURL: URL?
     private var itemObserver: NSKeyValueObservation?
     private var timeObserver: Any?
+    private var shouldPlayWhenReady = true
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -573,7 +594,9 @@ private final class LoopingOnboardingPlayerView: UIView {
         itemObserver = item.observe(\.status, options: [.new]) { [weak self] item, _ in
             guard item.status == .readyToPlay, let self = self, self.currentURL == url else { return }
             self.looper = AVPlayerLooper(player: self.player, templateItem: item)
-            self.player.play()
+            if self.shouldPlayWhenReady {
+                self.player.play()
+            }
             // Fade in player layer once playback actually starts
             self.timeObserver = self.player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.05, preferredTimescale: 600), queue: .main) { [weak self] time in
                 guard let self = self else { return }
@@ -585,6 +608,15 @@ private final class LoopingOnboardingPlayerView: UIView {
 
         player.insert(item, after: nil)
         playerLayer.opacity = 0  // Hide until first frame renders
+    }
+
+    func setPlaying(_ playing: Bool) {
+        shouldPlayWhenReady = playing
+        if playing {
+            player.play()
+        } else {
+            player.pause()
+        }
     }
 
     override func layoutSubviews() {
@@ -604,6 +636,7 @@ private struct ScrollContentHeightKey: PreferenceKey {
 // MARK: - Page 3: Reviews (Auto-Scrolling)
 private struct OnboardingReviewsView: View {
     let reviews: [UserReview]
+    let isActivePage: Bool
     let onGetStarted: () -> Void
 
     @State private var scrollOffset: CGFloat = 0
@@ -727,13 +760,23 @@ private struct OnboardingReviewsView: View {
                     // Include spacing between sets (same as VStack spacing)
                     let estimated = CGFloat(reviews.count) * bubbleHeight + CGFloat(max(0, reviews.count - 1)) * spacing + spacing
                     singleSetHeight = estimated
-                    startAutoScroll()
+                    if isActivePage {
+                        startAutoScroll()
+                    }
                 }
             }
         }
         .onDisappear {
             scrollTimer?.invalidate()
             scrollTimer = nil
+        }
+        .onChange(of: isActivePage) { _, active in
+            if active {
+                startAutoScroll()
+            } else {
+                scrollTimer?.invalidate()
+                scrollTimer = nil
+            }
         }
     }
 
@@ -918,7 +961,7 @@ struct Intro: View {
 
         ZStack {
             if let first = viewModel.firstItem {
-                OnboardingBeforeAfterView(item: first) {
+                OnboardingBeforeAfterView(item: first, isActivePage: currentPage == 0) {
                     withAnimation(.easeInOut(duration: 0.35)) {
                         currentPage = 1
                     }
@@ -930,7 +973,7 @@ struct Intro: View {
             }
 
             if let second = viewModel.secondItem {
-                OnboardingBeforeAfterVideoView(item: second) {
+                OnboardingBeforeAfterVideoView(item: second, isActivePage: currentPage == 1) {
                     withAnimation(.easeInOut(duration: 0.35)) {
                         currentPage = 2
                     }
@@ -941,7 +984,7 @@ struct Intro: View {
                     .offset(x: offsetForPage(1, screenWidth: screenWidth))
             }
 
-            OnboardingReviewsView(reviews: viewModel.reviews) {
+            OnboardingReviewsView(reviews: viewModel.reviews, isActivePage: currentPage == 2) {
                 showPaywall = true
             }
             .offset(x: currentPage == 2 ? 0 : screenWidth)
