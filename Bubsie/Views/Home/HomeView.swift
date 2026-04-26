@@ -167,6 +167,9 @@ struct HomeView: View {
                 }
             }
         }
+        .onAppear {
+            AppState.shared.hideTabBar = false
+        }
     }
 
     private var heroSection: some View {
