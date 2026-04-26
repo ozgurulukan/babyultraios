@@ -32,6 +32,7 @@ struct MainTabView: View {
     @EnvironmentObject private var entitlementManager: EntitlementManager
     @EnvironmentObject private var subscriptionManager: SubscriptionsManager
     @StateObject private var auth = AuthManager.shared
+    @StateObject private var appState = AppState.shared
 
     var body: some View {
         ZStack {
@@ -55,7 +56,9 @@ struct MainTabView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            LiquidNavigationBar(selectedTab: $selectedTab)
+            if !appState.hideTabBar {
+                LiquidNavigationBar(selectedTab: $selectedTab)
+            }
         }
         .ignoresSafeArea(.keyboard)
         .overlay {

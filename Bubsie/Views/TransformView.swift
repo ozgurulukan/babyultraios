@@ -97,6 +97,8 @@ struct TransformView: View {
                 .navigationBarHidden(true)
         }
             .preferredColorScheme(.light)
+            .onAppear { AppState.shared.hideTabBar = true }
+            .onDisappear { AppState.shared.hideTabBar = false }
             .overlay(
                 consentSheet
                     .animation(.spring(response: 0.4, dampingFraction: 0.8), value: showConsentSheet)

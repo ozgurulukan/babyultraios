@@ -81,9 +81,13 @@ struct ProcessingImage: View {
         .navigationBarBackButtonHidden(true)
         .sheet(isPresented: $isResult) {
             if let url = resultURL {
-                ResultView(resultURL: url, actionType: template.actionType)
-                    .presentationDetents([.large])
-                    .presentationDragIndicator(.hidden)
+                ResultView(
+                    resultURL: url,
+                    actionType: template.actionType,
+                    onGoHome: { onBackToTemplates?() }
+                )
+                .presentationDetents([.large])
+                .presentationDragIndicator(.hidden)
             }
         }
         .alert(NSLocalizedString("common.error", comment: ""), isPresented: .constant(errorMessage != nil)) {
@@ -91,7 +95,13 @@ struct ProcessingImage: View {
         } message: {
             Text(errorMessage ?? "")
         }
-        .onAppear { startProcessing() }
+        .onAppear {
+            AppState.shared.hideTabBar = true
+            startProcessing()
+        }
+        .onDisappear {
+            AppState.shared.hideTabBar = false
+        }
     }
 
     // MARK: Background Glows

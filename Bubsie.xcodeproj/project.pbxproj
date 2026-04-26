@@ -62,11 +62,13 @@
 		BBCC000A2C489A750000000B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC00092C489A750000000A /* HomeViewModel.swift */; };
 		BBCC000C2C489A750000000D /* GenerationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC000B2C489A750000000C /* GenerationsViewModel.swift */; };
 		BBCC000E2C489A750000000F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BBCC000F2C489A7500000010 /* GoogleService-Info.plist */; };
+		F62C00FED91A58E0AF2CA7A7 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189955A8F2D6B645E3FC69BA /* AppState.swift */; };
 		FF84741728D8C9CD37A1F001 /* TransformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A19C9E87ED4525D9D2FCB /* TransformView.swift */; };
 		ISEED0009FBLD01 /* InstallSeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ISEED0009FREF01 /* InstallSeedStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		189955A8F2D6B645E3FC69BA /* AppState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		5A13CDC92F9A5A9D00DB3A3E /* Intro_Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intro_Video.swift; sourceTree = "<group>"; };
 		5A13CDCB2F9A5AB400DB3A3E /* resolation.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = resolation.mp4; sourceTree = "<group>"; };
 		5A13CDCD2F9A5ABA00DB3A3E /* cleanup.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = cleanup.mp4; sourceTree = "<group>"; };
@@ -118,11 +120,9 @@
 		77EA14AB2C30199300DCA4C0 /* ProcessingImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingImage.swift; sourceTree = "<group>"; };
 		77EA14AD2C301AB000DCA4C0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		77F7D5A52C439E8B00F78A4B /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
-		77F7D5A72C4402B100F78A4B /* purchase.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = purchase.storekit; sourceTree = "<group>"; };
 		77FD33C42C429D2900C9DB28 /* PrompotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrompotView.swift; sourceTree = "<group>"; };
 		77FD33C62C42C42A00C9DB28 /* OperationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationTypes.swift; sourceTree = "<group>"; };
 		77FE00002C3D847D00ADE1B4 /* PremiumGradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumGradientButton.swift; sourceTree = "<group>"; };
-		77FF32F82C4759B300F42477 /* ProductList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ProductList.plist; sourceTree = "<group>"; };
 		AABB00012C489A7500477E83 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		AABB00042C489A7500477E83 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		AABB00062C489A7500477E83 /* GenerationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationsView.swift; sourceTree = "<group>"; };
@@ -225,6 +225,7 @@
 				77C65CD72C40BC9200D8B584 /* Constants.swift */,
 				7738703A2C48A60700477E83 /* CoinCounter.swift */,
 				ISEED0009FREF01 /* InstallSeedStore.swift */,
+				189955A8F2D6B645E3FC69BA /* AppState.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -464,38 +465,38 @@
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
-		knownRegions = (
-			en,
-			Base,
-			ar,
-			da,
-			de,
-			el,
-			es,
-			fi,
-			fr,
-			ga,
-			it,
-			ja,
-			ko,
-			nb,
-			nl,
-			pt,
-			ru,
-			sv,
-			th,
-			tr,
-			zh,
-		);
+			knownRegions = (
+				en,
+				Base,
+				ar,
+				da,
+				de,
+				el,
+				es,
+				fi,
+				fr,
+				ga,
+				it,
+				ja,
+				ko,
+				nb,
+				nl,
+				pt,
+				ru,
+				sv,
+				th,
+				tr,
+				zh,
+			);
 			mainGroup = 77CE35F12C1464160096007C;
 			packageReferences = (
-				77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire.git" */,
 				77EA14AF2C301FA000DCA4C0 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
-				77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
-				FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */,
+				FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
 				5A6004122F95F0010057469C /* XCRemoteSwiftPackageReference "VariableBlur" */,
-				5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios" */,
+				5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios.git" */,
+				5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios.git" */,
 			);
 			productRefGroup = 77CE35FB2C1464160096007C /* Products */;
 			projectDirPath = "";
@@ -568,6 +569,7 @@
 				BBCC000C2C489A750000000D /* GenerationsViewModel.swift in Sources */,
 				ISEED0009FBLD01 /* InstallSeedStore.swift in Sources */,
 				FF84741728D8C9CD37A1F001 /* TransformView.swift in Sources */,
+				F62C00FED91A58E0AF2CA7A7 /* AppState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -817,7 +819,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+		5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
 			requirement = {
@@ -825,7 +827,7 @@
 				minimumVersion = 5.69.0;
 			};
 		};
-		5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
@@ -841,7 +843,7 @@
 				kind = branch;
 			};
 		};
-		77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -857,7 +859,7 @@
 				minimumVersion = 1.5.0;
 			};
 		};
-		77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+		77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
 			requirement = {
@@ -865,7 +867,7 @@
 				minimumVersion = 3.1.1;
 			};
 		};
-		FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -878,17 +880,17 @@
 /* Begin XCSwiftPackageProductDependency section */
 		5A3934322F9AD20800873A0B /* RevenueCat */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			package = 5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios.git" */;
 			productName = RevenueCat;
 		};
 		5A3934342F9AD20800873A0B /* RevenueCatUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			package = 5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios.git" */;
 			productName = RevenueCatUI;
 		};
 		5A56C4052F9ACE63006FC6BE /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = 5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios.git" */;
 			productName = Lottie;
 		};
 		5A6004112F95F0010057469C /* VariableBlur */ = {
@@ -898,7 +900,7 @@
 		};
 		77CABFF42C27D92A00FBED06 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = 77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire.git" */;
 			productName = Alamofire;
 		};
 		77EA14B02C301FA000DCA4C0 /* Shimmer */ = {
@@ -908,22 +910,22 @@
 		};
 		77FD33C12C42567700C9DB28 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			package = 77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */;
 			productName = SDWebImageSwiftUI;
 		};
 		FIREBASE0002SPMDEP /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseCore;
 		};
 		FIREBASE0003SPMDEP /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseAuth;
 		};
 		FIREBASE0004SPMDEP /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -6,6 +6,7 @@ import AVKit
 struct ResultView: View {
     let resultURL: String
     let actionType: String
+    var onGoHome: (() -> Void)? = nil
 
     @Environment(\.dismiss) private var dismiss
     @StateObject private var auth = AuthManager.shared
@@ -53,7 +54,11 @@ struct ResultView: View {
                     HStack {
                         Spacer()
                         Button {
-                            dismiss()
+                            if let goHome = onGoHome {
+                                goHome()
+                            } else {
+                                dismiss()
+                            }
                         } label: {
                             Image(systemName: "xmark")
                                 .font(.system(size: 14, weight: .bold))
@@ -299,7 +304,11 @@ struct ResultView: View {
 
             HStack(spacing: 12) {
                 Button {
-                    dismiss()
+                    if let goHome = onGoHome {
+                        goHome()
+                    } else {
+                        dismiss()
+                    }
                 } label: {
                     HStack(spacing: 6) {
                         Image(systemName: "arrow.counterclockwise")
