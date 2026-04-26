@@ -50,17 +50,17 @@ struct TransformView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 16)
 
-                VStack(spacing: 24) {
-                    headerSection
-                        .padding(.top, 24)
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 24) {
+                        headerSection
+                            .padding(.top, 24)
 
-                    photoUploadSection
-                        .padding(.horizontal, 24)
+                        photoUploadSection
+                            .padding(.horizontal, 24)
 
-                    aspectRatioSection
-                        .padding(.horizontal, 24)
-
-                    Spacer(minLength: 0)
+                        aspectRatioSection
+                            .padding(.horizontal, 24)
+                    }
                 }
             }
         }
