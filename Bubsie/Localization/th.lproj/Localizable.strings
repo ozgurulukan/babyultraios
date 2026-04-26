@@ -23,7 +23,7 @@
 "Metropolis Magic" = "เวทมนตร์เมโทรโพลิส";
 "Noir Nightlife" = "ชีวิตกลางคืนแบบนัวร์";
 "Reimagine" = "จินตนาการใหม่";
-"Remember, this is temporary!\nYou're doing a great job." = "จำไว้ว่านี่เป็นเพียงชั่วคราว!\\\\\\\\\\\\\\\\nคุณทำได้ดีมาก";
+"Remember, this is temporary!\nYou're doing a great job." = "จำไว้ว่านี่เป็นเพียงชั่วคราว!\nคุณทำได้ดีมาก";
 "Remove Background" = "ลบพื้นหลัง";
 "Remove Text" = "ลบข้อความ";
 "Remove the background of your pictures." = "ลบพื้นหลังของรูปภาพของคุณ";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "ล้างแชท";
 "chat.input_placeholder" = "ถาม BubsieAI อะไรก็ได้…";
 "chat.subtitle" = "ถาม BubsieAI ได้ทุกเรื่องเกี่ยวกับลูกน้อยของคุณ";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary! You're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "ยกเลิก";

@@ -23,7 +23,7 @@
 "Metropolis Magic" = "메트로폴리스 매직";
 "Noir Nightlife" = "느와르 나이트라이프";
 "Reimagine" = "재상상";
-"Remember, this is temporary!\nYou're doing a great job." = "이것은 임시적입니다!\\\\\\\\\\\\\\\\n잘하고 계십니다.";
+"Remember, this is temporary!\nYou're doing a great job." = "이것은 임시적입니다!\n잘하고 계십니다.";
 "Remove Background" = "배경 제거";
 "Remove Text" = "텍스트 제거";
 "Remove the background of your pictures." = "사진의 배경을 제거하세요.";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "채팅 지우기";
 "chat.input_placeholder" = "BubsieAI에게 무엇이든 물어보세요…";
 "chat.subtitle" = "BubsieAI에게 소중한 아이에 대해 무엇이든 물어보세요.";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "취소";

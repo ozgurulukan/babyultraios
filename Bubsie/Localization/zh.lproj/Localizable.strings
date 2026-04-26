@@ -23,7 +23,7 @@
 "Metropolis Magic" = "大都会魔法";
 "Noir Nightlife" = "黑色夜生活";
 "Reimagine" = "重新构想";
-"Remember, this is temporary!\nYou're doing a great job." = "请记住，这是暂时的！\\\\\\\\\\\\\\\\n您做得很好。";
+"Remember, this is temporary!\nYou're doing a great job." = "请记住，这是暂时的！\n您做得很好。";
 "Remove Background" = "移除背景";
 "Remove Text" = "移除文字";
 "Remove the background of your pictures." = "移除您照片的背景。";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "清空聊天";
 "chat.input_placeholder" = "向BubsieAI提问任何问题…";
 "chat.subtitle" = "向BubsieAI询问关于您小宝贝的任何事情。";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "取消";

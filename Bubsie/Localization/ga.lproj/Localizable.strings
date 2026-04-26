@@ -23,7 +23,7 @@
 "Metropolis Magic" = "Draíocht na Meitripole";
 "Noir Nightlife" = "Oíche Noir";
 "Reimagine" = "Athshamhlaigh";
-"Remember, this is temporary!\nYou're doing a great job." = "Cuimhnigh, tá sé seo sealadach!\\\\\\\\\\\\\\\\nTá tú ag déanamh jab iontach.";
+"Remember, this is temporary!\nYou're doing a great job." = "Cuimhnigh, tá sé seo sealadach!\nTá tú ag déanamh jab iontach.";
 "Remove Background" = "Bain Cúlra";
 "Remove Text" = "Bain Téacs";
 "Remove the background of your pictures." = "Bain cúlra do ghrianghraf.";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "Glan Comhrá";
 "chat.input_placeholder" = "Fiafraigh rud ar bith de BubsieAI…";
 "chat.subtitle" = "Fiafraigh de BubsieAI rud ar bith faoi do bheagán.";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "Cealaigh";

@@ -23,7 +23,7 @@
 "Metropolis Magic" = "Metropolis-taika";
 "Noir Nightlife" = "Noir-yöelämä";
 "Reimagine" = "Kuvittele uudelleen";
-"Remember, this is temporary!\nYou're doing a great job." = "Muista, tämä on väliaikaista!\\\\\\\\\\\\\\\\nTeet hienoa työtä.";
+"Remember, this is temporary!\nYou're doing a great job." = "Muista, tämä on väliaikaista!\nTeet hienoa työtä.";
 "Remove Background" = "Poista tausta";
 "Remove Text" = "Poista teksti";
 "Remove the background of your pictures." = "Poista kuviesi tausta.";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "Tyhjennä keskustelu";
 "chat.input_placeholder" = "Kysy BubsieAI:lta mitä tahansa…";
 "chat.subtitle" = "Kysy BubsieAI:lta mitä tahansa pienokaisestasi.";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "Peruuta";

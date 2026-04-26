@@ -23,7 +23,7 @@
 "Metropolis Magic" = "Metropolis-magie";
 "Noir Nightlife" = "Noir-nachtleven";
 "Reimagine" = "Hervoorstellen";
-"Remember, this is temporary!\nYou're doing a great job." = "Onthoud, dit is tijdelijk!\\\\\\\\\\\\\\\\nJe doet het geweldig.";
+"Remember, this is temporary!\nYou're doing a great job." = "Onthoud, dit is tijdelijk!\nJe doet het geweldig.";
 "Remove Background" = "Achtergrond verwijderen";
 "Remove Text" = "Tekst verwijderen";
 "Remove the background of your pictures." = "Verwijder de achtergrond van je foto's.";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "Chat wissen";
 "chat.input_placeholder" = "Vraag BubsieAI wat dan ook…";
 "chat.subtitle" = "Vraag BubsieAI alles over jouw kleintje.";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "Annuleren";

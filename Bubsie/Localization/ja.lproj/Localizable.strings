@@ -23,7 +23,7 @@
 "Metropolis Magic" = "メトロポリスマジック";
 "Noir Nightlife" = "ノワールナイトライフ";
 "Reimagine" = "再想像する";
-"Remember, this is temporary!\nYou're doing a great job." = "これは一時的なものです！\\\\\\\\\\\\\\\\nあなたは素晴らしい仕事をしています。";
+"Remember, this is temporary!\nYou're doing a great job." = "これは一時的なものです！\nあなたは素晴らしい仕事をしています。";
 "Remove Background" = "背景を削除";
 "Remove Text" = "テキストを削除";
 "Remove the background of your pictures." = "写真の背景を削除します。";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "チャットをクリア";
 "chat.input_placeholder" = "BubsieAIになんでも尋ねて…";
 "chat.subtitle" = "BubsieAIにお子様について何でもお尋ねください。";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "キャンセル";

@@ -23,7 +23,7 @@
 "Metropolis Magic" = "Магия Метрополиса";
 "Noir Nightlife" = "Нуар ночная жизнь";
 "Reimagine" = "Переосмыслить";
-"Remember, this is temporary!\nYou're doing a great job." = "Помните, это временно!\\\\\\\\\\\\\\\\nВы отлично справляетесь.";
+"Remember, this is temporary!\nYou're doing a great job." = "Помните, это временно!\nВы отлично справляетесь.";
 "Remove Background" = "Удалить фон";
 "Remove Text" = "Удалить текст";
 "Remove the background of your pictures." = "Удалите фон ваших фото.";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "Очистить чат";
 "chat.input_placeholder" = "Спросите BubsieAI о чем угодно…";
 "chat.subtitle" = "Спросите BubsieAI о вашем малыше что угодно.";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "Отмена";

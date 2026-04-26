@@ -74,7 +74,7 @@
 "chat.clear_chat" = "Clear Chat";
 "chat.input_placeholder" = "Ask BubsieAI anything…";
 "chat.subtitle" = "Ask BubsieAI anything about your little one.";
-"chat.tip" = "Remember, this is temporary!\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "Cancel";

@@ -23,7 +23,7 @@
 "Metropolis Magic" = "Μαγεία Μητρόπολης";
 "Noir Nightlife" = "Νουάρ Νυχτερινή Ζωή";
 "Reimagine" = "Επαναφαντάσου";
-"Remember, this is temporary!\nYou're doing a great job." = "Θυμηθείτε, αυτό είναι προσωρινό!\\\\\\\\\\\\\\\\nΚάνετε εξαιρετική δουλειά.";
+"Remember, this is temporary!\nYou're doing a great job." = "Θυμηθείτε, αυτό είναι προσωρινό!\nΚάνετε εξαιρετική δουλειά.";
 "Remove Background" = "Αφαίρεση Φόντου";
 "Remove Text" = "Αφαίρεση Κειμένου";
 "Remove the background of your pictures." = "Αφαιρέστε το φόντο των φωτογραφιών σας.";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "Καθαρισμός Συνομιλίας";
 "chat.input_placeholder" = "Ρωτήστε το BubsieAI οτιδήποτε…";
 "chat.subtitle" = "Ρωτήστε το BubsieAI οτιδήποτε για το μικρό σας.";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "Ακύρωση";

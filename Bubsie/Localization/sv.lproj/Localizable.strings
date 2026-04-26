@@ -23,7 +23,7 @@
 "Metropolis Magic" = "Metropolis-magi";
 "Noir Nightlife" = "Noir-nattliv";
 "Reimagine" = "Föreställ dig igen";
-"Remember, this is temporary!\nYou're doing a great job." = "Kom ihåg, detta är tillfälligt!\\\\\\\\\\\\\\\\nDu gör ett jättebra jobb.";
+"Remember, this is temporary!\nYou're doing a great job." = "Kom ihåg, detta är tillfälligt!\nDu gör ett jättebra jobb.";
 "Remove Background" = "Ta bort bakgrund";
 "Remove Text" = "Ta bort text";
 "Remove the background of your pictures." = "Ta bort bakgrunden på dina foton.";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "Rensa chatt";
 "chat.input_placeholder" = "Fråga BubsieAI vad som helst…";
 "chat.subtitle" = "Fråga BubsieAI vad som helst om din lilla.";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "Avbryt";

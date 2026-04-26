@@ -23,7 +23,7 @@
 "Metropolis Magic" = "Magia Metropolis";
 "Noir Nightlife" = "Vita Notturna Noir";
 "Reimagine" = "Rinnova";
-"Remember, this is temporary!\nYou're doing a great job." = "Ricorda, è temporaneo!\\\\\\\\\\\\\\\\nStai facendo un ottimo lavoro.";
+"Remember, this is temporary!\nYou're doing a great job." = "Ricorda, è temporaneo!\nStai facendo un ottimo lavoro.";
 "Remove Background" = "Rimuovi Sfondo";
 "Remove Text" = "Rimuovi Testo";
 "Remove the background of your pictures." = "Rimuovi lo sfondo delle tue foto.";
@@ -77,7 +77,7 @@
 "chat.clear_chat" = "Cancella Chat";
 "chat.input_placeholder" = "Chiedi qualsiasi cosa a BubsieAI…";
 "chat.subtitle" = "Chiedi a BubsieAI qualsiasi cosa sul tuo piccolo.";
-"chat.tip" = "Remember, this is temporary!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nYou're doing a great job.";
+"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
 "chat.title" = "BubsieAI";
 "chat.welcome_message" = "Hi there! I'm BubsieAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
 "common.cancel" = "Annulla";
