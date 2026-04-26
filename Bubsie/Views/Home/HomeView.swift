@@ -155,7 +155,7 @@ struct HomeView: View {
                     category: category,
                     templates: (homeVM.selectedMode == 0
                         ? homeVM.videoTemplates.filter { $0.categoryId == category.rawID }
-                        : homeVM.photoTemplates.filter { $0.categoryId == category.rawID }).shuffled(),
+                        : homeVM.photoTemplates.filter { $0.categoryId == category.rawID }),
                     categoryName: homeVM.categoryName,
                     onTemplateTap: handleTemplateTap
                 )
@@ -392,7 +392,7 @@ struct HomeView: View {
 
         return VStack(spacing: 24) {
             ForEach(categories) { category in
-                let catTemplates = allTemplates.filter { $0.categoryId == category.rawID }.shuffled()
+                let catTemplates = allTemplates.filter { $0.categoryId == category.rawID }
                 if !catTemplates.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
                         Button {
