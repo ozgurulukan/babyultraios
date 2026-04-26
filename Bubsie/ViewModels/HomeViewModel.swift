@@ -18,6 +18,13 @@ final class HomeViewModel: ObservableObject {
     @Published var debugInfo: String = ""
     @Published var selectedMode: Int = 1
 
+    /// O(1) category name lookup cache. Rebuilt whenever categories change.
+    private(set) var categoryNameCache: [Int: String] = [:]
+
+    /// Pre-grouped templates by category ID for category rows.
+    /// Rebuilt whenever templates or mode changes.
+    @Published var templatesByCategory: [Int: [TemplateItem]] = [:]
+
     private var currentTemplates: [TemplateItem] {
         selectedMode == 0 ? videoTemplates : photoTemplates
     }
@@ -37,6 +44,7 @@ final class HomeViewModel: ObservableObject {
             virtualFilters = c.filter { $0.isVirtual == true }
             photoCategories = c.filter { $0.isVirtual != true && $0.type == "photo" }
             videoCategories = c.filter { $0.isVirtual != true && $0.type == "video" }
+            rebuildCategoryNameCache()
             didLoadAnySection = true
         } catch APIError.rateLimited(let secs) {
             rateLimitWait = max(rateLimitWait ?? 0, secs)
@@ -155,6 +163,24 @@ final class HomeViewModel: ObservableObject {
         } else {
             filteredTemplates = allTemplates.filter { !($0.hideFromAll ?? false) }
         }
+        rebuildTemplatesByCategory()
+    }
+
+    private func rebuildCategoryNameCache() {
+        var map: [Int: String] = [:]
+        for cat in photoCategories { map[cat.rawID] = cat.name }
+        for cat in videoCategories { map[cat.rawID] = cat.name }
+        categoryNameCache = map
+    }
+
+    private func rebuildTemplatesByCategory() {
+        let all = currentTemplates
+        var map: [Int: [TemplateItem]] = [:]
+        for t in all {
+            guard let cid = t.categoryId else { continue }
+            map[cid, default: []].append(t)
+        }
+        templatesByCategory = map
     }
 
     func canAfford(_ template: TemplateItem, credits: Int) -> Bool {
@@ -163,8 +189,7 @@ final class HomeViewModel: ObservableObject {
 
     func categoryName(for template: TemplateItem) -> String? {
         guard let catId = template.categoryId else { return nil }
-        let allCategories = photoCategories + videoCategories
-        return allCategories.first(where: { $0.rawID == catId })?.name
+        return categoryNameCache[catId]
     }
 
     func templateForQuickButton(_ button: QuickButtonItem) -> TemplateItem? {

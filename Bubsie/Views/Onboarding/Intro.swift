@@ -776,15 +776,12 @@ private struct ReviewBubble: View {
                     .frame(width: 48, height: 48)
 
                 if let photoURL = review.photoUrl, let url = URL(string: photoURL) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFill()
-                        default:
-                            initialsView
-                        }
+                    WebImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        initialsView
                     }
                     .frame(width: 46, height: 46)
                     .clipShape(Circle())

@@ -2,6 +2,7 @@ import SwiftUI
 import AVFoundation
 import AVKit
 import WebKit
+import SDWebImageSwiftUI
 
 private enum HomePalette {
     static let background = Color(hex: "F6ECE6")
@@ -388,11 +389,10 @@ struct HomeView: View {
 
     private var categoryRows: some View {
         let categories = homeVM.selectedMode == 1 ? homeVM.photoCategories : homeVM.videoCategories
-        let allTemplates = homeVM.selectedMode == 0 ? homeVM.videoTemplates : homeVM.photoTemplates
 
         return VStack(spacing: 24) {
             ForEach(categories) { category in
-                let catTemplates = allTemplates.filter { $0.categoryId == category.rawID }
+                let catTemplates = homeVM.templatesByCategory[category.rawID] ?? []
                 if !catTemplates.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
                         Button {
@@ -444,17 +444,14 @@ private struct AvatarBadge: View {
                 .frame(width: 54, height: 54)
 
             if let photoURL, let url = URL(string: photoURL) {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    default:
-                        Image(systemName: "person.crop.circle.fill")
-                            .font(.system(size: 26))
-                            .foregroundStyle(.white.opacity(0.8))
-                    }
+                WebImage(url: url) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    Image(systemName: "person.crop.circle.fill")
+                        .font(.system(size: 26))
+                        .foregroundStyle(.white.opacity(0.8))
                 }
                 .frame(width: 52, height: 52)
                 .clipShape(Circle())
@@ -478,13 +475,10 @@ private struct HeroSliderCard: View {
             // Frame URL — slider'ın arkasındaki çerçeve katmanı
             // Karttan büyük, kenarları sarar, clipShape'e maruz kalmaz
             if let frameURL = item.frameUrl.flatMap(URL.init) {
-                AsyncImage(url: frameURL) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image.resizable().scaledToFill()
-                    default:
-                        EmptyView()
-                    }
+                WebImage(url: frameURL) { image in
+                    image.resizable().scaledToFill()
+                } placeholder: {
+                    EmptyView()
                 }
                 .frame(width: cardWidth + framePadding * 2, height: cardHeight + framePadding * 2)
             }
@@ -493,17 +487,10 @@ private struct HeroSliderCard: View {
             ZStack(alignment: .bottomLeading) {
                 // Arka plan resmi veya gradient
                 if let imageURL = item.imageUrl.flatMap(URL.init) {
-                    AsyncImage(url: imageURL) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image.resizable().scaledToFill()
-                        case .failure(_):
-                            gradientBackground
-                        case .empty:
-                            gradientBackground
-                        @unknown default:
-                            gradientBackground
-                        }
+                    WebImage(url: imageURL) { image in
+                        image.resizable().scaledToFill()
+                    } placeholder: {
+                        gradientBackground
                     }
                     .frame(width: cardWidth, height: cardHeight)
                     .clipped()
@@ -654,6 +641,29 @@ private struct HomeTemplateCard: View {
     let categoryName: String?
     let action: () -> Void
     private let cardHeight: CGFloat = 250
+    private let previewURL: URL?
+    private let shouldShowVideo: Bool
+
+    init(template: TemplateItem, categoryName: String?, action: @escaping () -> Void) {
+        self.template = template
+        self.categoryName = categoryName
+        self.action = action
+        let url = template.afterMediaUrl.flatMap(URL.init) ?? template.beforeMediaUrl.flatMap(URL.init)
+        self.previewURL = url
+
+        if template.actionType == "video" {
+            self.shouldShowVideo = true
+        } else {
+            let videoHints = [template.afterMediaType, template.beforeMediaType].compactMap { $0?.lowercased() }
+            if videoHints.contains(where: { $0.contains("video") }) {
+                self.shouldShowVideo = true
+            } else if let ext = url?.pathExtension.lowercased(), ["mp4", "mov", "m4v", "webm"].contains(ext) {
+                self.shouldShowVideo = true
+            } else {
+                self.shouldShowVideo = false
+            }
+        }
+    }
 
     var body: some View {
         Button(action: action) {
@@ -766,35 +776,16 @@ private struct HomeTemplateCard: View {
         if shouldShowVideo, let previewURL {
             LoopingTemplateVideoView(url: previewURL)
         } else if let previewURL {
-            AsyncImage(url: previewURL) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill() // Görüntüyü kartın sınırlarına kadar tam sığdırır (fill yapar)
-                default:
-                    placeholder
-                }
+            WebImage(url: previewURL) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                placeholder
             }
         } else {
             placeholder
         }
-    }
-
-    private var previewURL: URL? {
-        template.afterMediaUrl.flatMap(URL.init) ?? template.beforeMediaUrl.flatMap(URL.init)
-    }
-
-    private var shouldShowVideo: Bool {
-        if template.actionType == "video" { return true }
-
-        let videoHints  = [template.afterMediaType, template.beforeMediaType].compactMap { $0?.lowercased() }
-        if videoHints.contains(where: { $0.contains("video") }) { return true }
-
-        if let ext = previewURL?.pathExtension.lowercased() {
-            return["mp4", "mov", "m4v", "webm"].contains(ext)
-        }
-        return false
     }
 
     private var placeholder: some View {
