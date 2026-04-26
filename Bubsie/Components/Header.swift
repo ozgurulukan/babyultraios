@@ -133,13 +133,18 @@ struct StickyBlurHeader<Header: View, Content: View>: View {
                 .allowsHitTesting(false)
 
             header()
+                .frame(height: headerHeight)
                 .overlay {
                     GeometryReader { geo in
                         Color.clear.preference(key: HeaderHeightKey.self, value: geo.size.height)
                     }
                 }
         }
-        .onPreferenceChange(HeaderHeightKey.self) { headerHeight = $0 }
+        .onPreferenceChange(HeaderHeightKey.self) { newValue in
+            if abs(newValue - headerHeight) > 1 {
+                headerHeight = newValue
+            }
+        }
     }
 
     private var fadeTint: Color {
