@@ -79,6 +79,10 @@ struct BubsieApp: App {
     @StateObject private var languageManager = LanguageManager.shared
 
     init() {
+        // Configure RevenueCat early, before any @StateObject init accesses Purchases.shared
+        Purchases.logLevel = .debug
+        Purchases.configure(withAPIKey: REVENUECAT_API_KEY)
+
         let em = EntitlementManager()
         let sm = SubscriptionsManager(entitlementManager: em)
         self._entitlementManager = StateObject(wrappedValue: em)
@@ -105,18 +109,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
 
-        // Defer RevenueCat configure so the app launches (Splash) immediately.
-        // StoreKit connection in sandbox can take ~10 s; doing it on the main
-        // queue after the run-loop iteration keeps launch fast.
-        DispatchQueue.main.async {
-            Purchases.logLevel = .debug
-            Purchases.configure(withAPIKey: REVENUECAT_API_KEY)
-
-            // Sync Firebase UID with RevenueCat after configure
-            if let user = Auth.auth().currentUser {
-                Task {
-                    _ = try? await Purchases.shared.logIn(user.uid)
-                }
+        // Sync Firebase UID with RevenueCat
+        if let user = Auth.auth().currentUser {
+            Task {
+                _ = try? await Purchases.shared.logIn(user.uid)
             }
         }
 
