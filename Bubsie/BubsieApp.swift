@@ -48,10 +48,13 @@ final class LanguageManager: ObservableObject {
     ]
 
     private init() {
+        let t0 = CFAbsoluteTimeGetCurrent()
         if selectedLanguage.isEmpty {
             selectedLanguage = deviceLanguage()
         }
         applyLanguage()
+        let t1 = CFAbsoluteTimeGetCurrent()
+        print("[LaunchTime] LanguageManager init: \(String(format: "%.3f", (t1 - t0) * 1000)) ms")
     }
 
     func deviceLanguage() -> String {
@@ -79,12 +82,22 @@ struct BubsieApp: App {
     @StateObject private var languageManager = LanguageManager.shared
 
     init() {
+        let t0 = CFAbsoluteTimeGetCurrent()
+
         // Configure RevenueCat early, before any @StateObject init accesses Purchases.shared
         Purchases.logLevel = .debug
         Purchases.configure(withAPIKey: REVENUECAT_API_KEY)
+        let t1 = CFAbsoluteTimeGetCurrent()
+        print("[LaunchTime] RevenueCat.configure: \(String(format: "%.3f", (t1 - t0) * 1000)) ms")
 
         let em = EntitlementManager()
+        let t2 = CFAbsoluteTimeGetCurrent()
+        print("[LaunchTime] EntitlementManager init: \(String(format: "%.3f", (t2 - t1) * 1000)) ms")
+
         let sm = SubscriptionsManager(entitlementManager: em)
+        let t3 = CFAbsoluteTimeGetCurrent()
+        print("[LaunchTime] SubscriptionsManager init: \(String(format: "%.3f", (t3 - t2) * 1000)) ms")
+
         self._entitlementManager = StateObject(wrappedValue: em)
         self._subscriptionManager = StateObject(wrappedValue: sm)
     }
@@ -107,7 +120,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
     private var pendingFCMToken: String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        let t0 = CFAbsoluteTimeGetCurrent()
         FirebaseApp.configure()
+        let t1 = CFAbsoluteTimeGetCurrent()
+        print("[LaunchTime] FirebaseApp.configure: \(String(format: "%.3f", (t1 - t0) * 1000)) ms")
 
         // Sync Firebase UID with RevenueCat
         if let user = Auth.auth().currentUser {
@@ -117,6 +133,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
         }
 
         AuthManager.shared.startListening()
+        let t2 = CFAbsoluteTimeGetCurrent()
+        print("[LaunchTime] AuthManager.startListening: \(String(format: "%.3f", (t2 - t1) * 1000)) ms")
 
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
@@ -134,6 +152,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
             }
             .store(in: &cancellables)
 
+        let t3 = CFAbsoluteTimeGetCurrent()
+        print("[LaunchTime] AppDelegate total: \(String(format: "%.3f", (t3 - t0) * 1000)) ms")
         return true
     }
 
