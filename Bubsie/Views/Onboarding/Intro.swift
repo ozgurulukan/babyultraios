@@ -189,7 +189,7 @@ private struct OnboardingBeforeAfterView: View {
     }
 
     private var afterImage: some View {
-        WebImage(url: URL(string: item.mediaUrl)) { image in
+        WebImage(url: URL(string: item.mediaUrl), options: [.retryFailed]) { image in
             image.resizable().scaledToFill()
         } placeholder: {
             placeholderGradient
@@ -197,7 +197,7 @@ private struct OnboardingBeforeAfterView: View {
     }
 
     private func beforeImage(clampedX: CGFloat, height: CGFloat) -> some View {
-        WebImage(url: item.thumbnailUrl.flatMap { URL(string: $0) }) { image in
+        WebImage(url: item.thumbnailUrl.flatMap { URL(string: $0) }, options: [.retryFailed]) { image in
             image.resizable().scaledToFill()
         } placeholder: {
             placeholderGradient
@@ -428,7 +428,7 @@ private struct OnboardingBeforeAfterVideoView: View {
     }
 
     private func beforeImage(clampedX: CGFloat, height: CGFloat) -> some View {
-        WebImage(url: item.thumbnailUrl.flatMap { URL(string: $0) }) { image in
+        WebImage(url: item.thumbnailUrl.flatMap { URL(string: $0) }, options: [.retryFailed]) { image in
             image.resizable().scaledToFill()
         } placeholder: {
             placeholderGradient
@@ -516,7 +516,7 @@ private struct OnboardingBeforeAfterVideoView: View {
         VStack(spacing: 0) {
             Divider()
                 .background(Color.white.opacity(0.5))
-            LiquidGlassButton(title: "Next") {
+            LiquidGlassButton(title: NSLocalizedString("onboarding.next", comment: "")) {
                 onNext()
             }
             .padding(.horizontal, 24)
@@ -535,9 +535,9 @@ private struct OnboardingBeforeAfterVideoView: View {
             .background(.ultraThinMaterial.opacity(0.35))
         }
     }
+
 }
 
-// MARK: - Looping Video Player for Onboarding
 private struct LoopingOnboardingVideoView: UIViewRepresentable {
     let url: URL
     let isPlaying: Bool

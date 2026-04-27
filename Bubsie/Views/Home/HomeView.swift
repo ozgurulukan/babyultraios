@@ -447,7 +447,7 @@ private struct AvatarBadge: View {
                 .frame(width: 54, height: 54)
 
             if let photoURL, let url = URL(string: photoURL) {
-                WebImage(url: url) { image in
+                WebImage(url: url, options: [.retryFailed]) { image in
                     image
                         .resizable()
                         .scaledToFill()
@@ -478,7 +478,7 @@ private struct HeroSliderCard: View {
             // Frame URL — slider'ın arkasındaki çerçeve katmanı
             // Karttan büyük, kenarları sarar, clipShape'e maruz kalmaz
             if let frameURL = item.frameUrl.flatMap(URL.init) {
-                WebImage(url: frameURL) { image in
+                WebImage(url: frameURL, options: [.retryFailed]) { image in
                     image.resizable().scaledToFill()
                 } placeholder: {
                     EmptyView()
@@ -490,7 +490,7 @@ private struct HeroSliderCard: View {
             ZStack(alignment: .bottomLeading) {
                 // Arka plan resmi veya gradient
                 if let imageURL = item.imageUrl.flatMap(URL.init) {
-                    WebImage(url: imageURL) { image in
+                    WebImage(url: imageURL, options: [.retryFailed]) { image in
                         image.resizable().scaledToFill()
                     } placeholder: {
                         gradientBackground
@@ -780,9 +780,13 @@ private struct HomeTemplateCard: View {
     @ViewBuilder
     private var mediaPreview: some View {
         if shouldShowVideo, let previewURL {
-            LoopingTemplateVideoView(url: previewURL, isVisible: isVisible)
+            if isVisible {
+                LoopingTemplateVideoView(url: previewURL, isVisible: isVisible)
+            } else {
+                placeholder
+            }
         } else if let previewURL {
-            WebImage(url: previewURL) { image in
+            WebImage(url: previewURL, options: [.retryFailed]) { image in
                 image
                     .resizable()
                     .scaledToFill()

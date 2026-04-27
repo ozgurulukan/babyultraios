@@ -6,6 +6,7 @@ import UserNotifications
 import Combine
 import RevenueCat
 import ObjectiveC
+import SDWebImage
 
 // MARK: - Runtime Language Switching via Bundle Swizzling
 private var associatedBundleKey: UInt8 = 0
@@ -107,6 +108,12 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         FirebaseApp.configure()
+
+        // Configure SDWebImage cache & downloader limits
+        SDImageCache.shared.config.maxMemoryCost = 80 * 1024 * 1024
+        SDImageCache.shared.config.maxDiskSize = 300 * 1024 * 1024
+        SDWebImageDownloader.shared.config.downloadTimeout = 30
+        SDWebImageDownloader.shared.config.maxConcurrentDownloads = 5
 
         // Sync Firebase UID with RevenueCat
         if let user = Auth.auth().currentUser {
