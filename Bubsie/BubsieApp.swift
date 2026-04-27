@@ -127,8 +127,14 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
 
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }
-        DispatchQueue.main.async { application.registerForRemoteNotifications() }
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if let error = error {
+                print("[FCM] Notification authorization error: \(error)")
+            } else {
+                print("[FCM] Notification authorization granted=\(granted)")
+            }
+            application.registerForRemoteNotifications()
+        }
 
         // Observe auth token changes and flush any pending FCM token
         AuthManager.shared.$idToken
@@ -144,15 +150,43 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("[FCM] APNS token received: \(deviceToken.map { String(format: "%02x", $0) }.joined().prefix(20))...")
         Messaging.messaging().apnsToken = deviceToken
+
+        // Proactively fetch FCM token now that APNS token is available.
+        // Firebase may skip the delegate callback if the token is already cached
+        // (e.g. after app reinstall or hard-delete on backend).
+        Messaging.messaging().token { [weak self] token, error in
+            guard let self, let token = token else {
+                if let error = error {
+                    print("[FCM] Failed to fetch token after APNS registration: \(error)")
+                }
+                return
+            }
+            print("[FCM] Token fetch after APNS: \(token.prefix(20))...")
+            Task { @MainActor in
+                if AuthManager.shared.idToken != nil {
+                    await self.registerDeviceToken(token)
+                } else {
+                    self.pendingFCMToken = token
+                }
+            }
+        }
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("[FCM] Failed to register for remote notifications: \(error)")
     }
 
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let token = fcmToken else { return }
-        if AuthManager.shared.idToken != nil {
-            Task { await registerDeviceToken(token) }
-        } else {
-            pendingFCMToken = token
+        print("[FCM] Delegate received token: \(token.prefix(20))...")
+        Task { @MainActor in
+            if AuthManager.shared.idToken != nil {
+                await registerDeviceToken(token)
+            } else {
+                pendingFCMToken = token
+            }
         }
     }
 
