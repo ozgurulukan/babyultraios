@@ -77,6 +77,8 @@
 		5A5071622F9838010012C7EF /* Icon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Icon.icon; sourceTree = "<group>"; };
 		5A56C4092F9ACE97006FC6BE /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		5A56C40B2F9ACED7006FC6BE /* generation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = generation.json; sourceTree = "<group>"; };
+		5AAA35C92F9EED6E0028B685 /* Bubsie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bubsie.entitlements; sourceTree = "<group>"; };
+		5AAA35CA2F9EED910028B685 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6A6A19C9E87ED4525D9D2FCB /* TransformView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TransformView.swift; sourceTree = "<group>"; };
 		773870302C489A7500477E83 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		773870322C489AB300477E83 /* EntitlementManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementManager.swift; sourceTree = "<group>"; };
@@ -270,6 +272,8 @@
 		77CE35FC2C1464160096007C /* Bubsie */ = {
 			isa = PBXGroup;
 			children = (
+				5AAA35CA2F9EED910028B685 /* Info.plist */,
+				5AAA35C92F9EED6E0028B685 /* Bubsie.entitlements */,
 				77CE35FD2C1464160096007C /* BubsieApp.swift */,
 				BBCC000F2C489A7500000010 /* GoogleService-Info.plist */,
 				AABB00032C489A7500477E83 /* Theme */,
@@ -490,13 +494,13 @@
 			);
 			mainGroup = 77CE35F12C1464160096007C;
 			packageReferences = (
-				77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire.git" */,
+				77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				77EA14AF2C301FA000DCA4C0 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
-				77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */,
-				FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
+				77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				5A6004122F95F0010057469C /* XCRemoteSwiftPackageReference "VariableBlur" */,
-				5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios.git" */,
-				5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios.git" */,
+				5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = 77CE35FB2C1464160096007C /* Products */;
 			projectDirPath = "";
@@ -730,12 +734,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Bubsie/Bubsie.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Bubsie/Preview Content\"";
 				DEVELOPMENT_TEAM = C49T444S56;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bubsie/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bubsie;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need access of photo's library to store processed images";
@@ -765,12 +771,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Bubsie/Bubsie.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Bubsie/Preview Content\"";
 				DEVELOPMENT_TEAM = C49T444S56;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bubsie/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bubsie;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need access of photo's library to store processed images";
@@ -819,7 +827,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios.git" */ = {
+		5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
 			requirement = {
@@ -827,7 +835,7 @@
 				minimumVersion = 5.69.0;
 			};
 		};
-		5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios.git" */ = {
+		5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
@@ -843,7 +851,7 @@
 				kind = branch;
 			};
 		};
-		77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
+		77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -859,7 +867,7 @@
 				minimumVersion = 1.5.0;
 			};
 		};
-		77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */ = {
+		77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
 			requirement = {
@@ -867,7 +875,7 @@
 				minimumVersion = 3.1.1;
 			};
 		};
-		FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
+		FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -880,17 +888,17 @@
 /* Begin XCSwiftPackageProductDependency section */
 		5A3934322F9AD20800873A0B /* RevenueCat */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios.git" */;
+			package = 5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCat;
 		};
 		5A3934342F9AD20800873A0B /* RevenueCatUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios.git" */;
+			package = 5A3934312F9AD20800873A0B /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCatUI;
 		};
 		5A56C4052F9ACE63006FC6BE /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios.git" */;
+			package = 5A56C4042F9ACE63006FC6BE /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
 		};
 		5A6004112F95F0010057469C /* VariableBlur */ = {
@@ -900,7 +908,7 @@
 		};
 		77CABFF42C27D92A00FBED06 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 77CABFF32C27D92A00FBED06 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		77EA14B02C301FA000DCA4C0 /* Shimmer */ = {
@@ -910,22 +918,22 @@
 		};
 		77FD33C12C42567700C9DB28 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */;
+			package = 77FD33C02C42567700C9DB28 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
 		};
 		FIREBASE0002SPMDEP /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCore;
 		};
 		FIREBASE0003SPMDEP /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
 		FIREBASE0004SPMDEP /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = FIREBASE0001SPMREF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
