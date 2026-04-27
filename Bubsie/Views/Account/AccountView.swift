@@ -782,6 +782,10 @@ struct MailComposerView: UIViewControllerRepresentable {
         composer.setToRecipients(recipients)
         composer.setSubject(subject)
         composer.setMessageBody(body, isHTML: false)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            composer.modalPresentationStyle = .popover
+            composer.popoverPresentationController?.delegate = context.coordinator
+        }
         return composer
     }
 
@@ -791,9 +795,16 @@ struct MailComposerView: UIViewControllerRepresentable {
         Coordinator()
     }
 
-    class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
+    class Coordinator: NSObject, MFMailComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
         func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
             controller.dismiss(animated: true)
+        }
+
+        func prepareForPopoverPresentation(_ popoverPresentationController: UIPopoverPresentationController) {
+            guard let view = popoverPresentationController.presentedViewController.view else { return }
+            popoverPresentationController.sourceView = view
+            popoverPresentationController.sourceRect = view.bounds
+            popoverPresentationController.permittedArrowDirections = []
         }
     }
 }

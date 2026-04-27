@@ -957,44 +957,46 @@ struct Intro: View {
 
     @ViewBuilder
     private var contentView: some View {
-        let screenWidth = UIScreen.main.bounds.width
+        GeometryReader { geo in
+            let screenWidth = geo.size.width
 
-        ZStack {
-            if let first = viewModel.firstItem {
-                OnboardingBeforeAfterView(item: first, isActivePage: currentPage == 0) {
-                    withAnimation(.easeInOut(duration: 0.35)) {
-                        currentPage = 1
+            ZStack {
+                if let first = viewModel.firstItem {
+                    OnboardingBeforeAfterView(item: first, isActivePage: currentPage == 0) {
+                        withAnimation(.easeInOut(duration: 0.35)) {
+                            currentPage = 1
+                        }
                     }
-                }
-                .offset(x: currentPage == 0 ? 0 : -screenWidth)
-            } else {
-                emptyPlaceholder
                     .offset(x: currentPage == 0 ? 0 : -screenWidth)
-            }
-
-            if let second = viewModel.secondItem {
-                OnboardingBeforeAfterVideoView(item: second, isActivePage: currentPage == 1) {
-                    withAnimation(.easeInOut(duration: 0.35)) {
-                        currentPage = 2
-                    }
+                } else {
+                    emptyPlaceholder
+                        .offset(x: currentPage == 0 ? 0 : -screenWidth)
                 }
-                .offset(x: offsetForPage(1, screenWidth: screenWidth))
-            } else {
-                emptyPlaceholder
-                    .offset(x: offsetForPage(1, screenWidth: screenWidth))
-            }
 
-            OnboardingReviewsView(reviews: viewModel.reviews, isActivePage: currentPage == 2) {
-                showPaywall = true
+                if let second = viewModel.secondItem {
+                    OnboardingBeforeAfterVideoView(item: second, isActivePage: currentPage == 1) {
+                        withAnimation(.easeInOut(duration: 0.35)) {
+                            currentPage = 2
+                        }
+                    }
+                    .offset(x: offsetForPage(1, screenWidth: screenWidth))
+                } else {
+                    emptyPlaceholder
+                        .offset(x: offsetForPage(1, screenWidth: screenWidth))
+                }
+
+                OnboardingReviewsView(reviews: viewModel.reviews, isActivePage: currentPage == 2) {
+                    showPaywall = true
+                }
+                .offset(x: currentPage == 2 ? 0 : screenWidth)
             }
-            .offset(x: currentPage == 2 ? 0 : screenWidth)
-        }
-        .animation(.easeInOut(duration: 0.35), value: currentPage)
-        .ignoresSafeArea(.container, edges: .bottom)
-        .onChange(of: currentPage) { _, newValue in
-            if newValue == 2 && !hasRequestedReview {
-                hasRequestedReview = true
-                requestReview()
+            .animation(.easeInOut(duration: 0.35), value: currentPage)
+            .ignoresSafeArea(.container, edges: .bottom)
+            .onChange(of: currentPage) { _, newValue in
+                if newValue == 2 && !hasRequestedReview {
+                    hasRequestedReview = true
+                    requestReview()
+                }
             }
         }
     }

@@ -469,121 +469,124 @@ private struct AvatarBadge: View {
 
 private struct HeroSliderCard: View {
     let item: SliderItem
-    private let cardWidth: CGFloat = 376 * 0.86
     private let cardHeight: CGFloat = 240
     private let framePadding: CGFloat = 20
 
     var body: some View {
-        ZStack {
-            // Frame URL — slider'ın arkasındaki çerçeve katmanı
-            // Karttan büyük, kenarları sarar, clipShape'e maruz kalmaz
-            if let frameURL = item.frameUrl.flatMap(URL.init) {
-                WebImage(url: frameURL, options: [.retryFailed]) { image in
-                    image.resizable().scaledToFill()
-                } placeholder: {
-                    EmptyView()
-                }
-                .frame(width: cardWidth + framePadding * 2, height: cardHeight + framePadding * 2)
-            }
+        GeometryReader { geo in
+            let cardWidth = min(geo.size.width * 0.86, 420)
 
-            // Kart içeriği — yuvarlak köşeli ve kırpılmış
-            ZStack(alignment: .bottomLeading) {
-                // Arka plan resmi veya gradient
-                if let imageURL = item.imageUrl.flatMap(URL.init) {
-                    WebImage(url: imageURL, options: [.retryFailed]) { image in
+            ZStack {
+                // Frame URL — slider'ın arkasındaki çerçeve katmanı
+                // Karttan büyük, kenarları sarar, clipShape'e maruz kalmaz
+                if let frameURL = item.frameUrl.flatMap(URL.init) {
+                    WebImage(url: frameURL, options: [.retryFailed]) { image in
                         image.resizable().scaledToFill()
                     } placeholder: {
-                        gradientBackground
+                        EmptyView()
                     }
-                    .frame(width: cardWidth, height: cardHeight)
-                    .clipped()
-                } else {
-                    gradientBackground
-                        .frame(width: cardWidth, height: cardHeight)
+                    .frame(width: cardWidth + framePadding * 2, height: cardHeight + framePadding * 2)
                 }
 
-                // Header benzeri blur/tint alt katmanı
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .opacity(0.18)
-                    .overlay(Color(hex: "2F1E18").opacity(0.34))
+                // Kart içeriği — yuvarlak köşeli ve kırpılmış
+                ZStack(alignment: .bottomLeading) {
+                    // Arka plan resmi veya gradient
+                    if let imageURL = item.imageUrl.flatMap(URL.init) {
+                        WebImage(url: imageURL, options: [.retryFailed]) { image in
+                            image.resizable().scaledToFill()
+                        } placeholder: {
+                            gradientBackground
+                        }
+                        .frame(width: cardWidth, height: cardHeight)
+                        .clipped()
+                    } else {
+                        gradientBackground
+                            .frame(width: cardWidth, height: cardHeight)
+                    }
+
+                    // Header benzeri blur/tint alt katmanı
+                    Rectangle()
+                        .fill(.ultraThinMaterial)
+                        .opacity(0.18)
+                        .overlay(Color(hex: "2F1E18").opacity(0.34))
+                        .frame(width: cardWidth, height: cardHeight)
+                        .mask(
+                            LinearGradient(
+                                stops: [
+                                    .init(color: .clear, location: 0.46),
+                                    .init(color: .black, location: 0.82),
+                                    .init(color: .black, location: 1)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                    )
+                    LinearGradient(
+                        colors: [Color(hex: "4A2E25").opacity(0.50), Color(hex: "4A2E25").opacity(0.28), .clear],
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
                     .frame(width: cardWidth, height: cardHeight)
                     .mask(
                         LinearGradient(
                             stops: [
-                                .init(color: .clear, location: 0.46),
-                                .init(color: .black, location: 0.82),
+                                .init(color: .clear, location: 0.5),
+                                .init(color: .black, location: 0.88),
                                 .init(color: .black, location: 1)
                             ],
                             startPoint: .top,
                             endPoint: .bottom
                         )
-                )
-                LinearGradient(
-                    colors: [Color(hex: "4A2E25").opacity(0.50), Color(hex: "4A2E25").opacity(0.28), .clear],
-                    startPoint: .bottom,
-                    endPoint: .top
-                )
-                .frame(width: cardWidth, height: cardHeight)
-                .mask(
-                    LinearGradient(
-                        stops: [
-                            .init(color: .clear, location: 0.5),
-                            .init(color: .black, location: 0.88),
-                            .init(color: .black, location: 1)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
                     )
-                )
 
-                HStack(alignment: .bottom) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(NSLocalizedString("home.new_badge", comment: ""))
-                            .font(.system(size: 11, weight: .bold))
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 11)
-                            .padding(.vertical, 5)
-                            .background(Color(hex: "B27A62").opacity(0.95))
-                            .clipShape(Capsule())
-
-                        if let title = item.title, !title.isEmpty {
-                            Text(title)
-                                .font(.system(size: 24, weight: .bold))
+                    HStack(alignment: .bottom) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(NSLocalizedString("home.new_badge", comment: ""))
+                                .font(.system(size: 11, weight: .bold))
                                 .foregroundStyle(.white)
-                                .lineLimit(1)
+                                .padding(.horizontal, 11)
+                                .padding(.vertical, 5)
+                                .background(Color(hex: "B27A62").opacity(0.95))
+                                .clipShape(Capsule())
+
+                            if let title = item.title, !title.isEmpty {
+                                Text(title)
+                                    .font(.system(size: 24, weight: .bold))
+                                    .foregroundStyle(.white)
+                                    .lineLimit(1)
+                            }
+
+                            if let description = item.description, !description.isEmpty {
+                                Text(description)
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundStyle(.white.opacity(0.9))
+                                    .lineLimit(2)
+                            }
                         }
 
-                        if let description = item.description, !description.isEmpty {
-                            Text(description)
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundStyle(.white.opacity(0.9))
-                                .lineLimit(2)
-                        }
+                        Spacer()
+
+                        Circle()
+                            .fill(Color.white.opacity(0.22))
+                            .frame(width: 52, height: 52)
+                            .overlay(Circle().stroke(Color.white.opacity(0.4), lineWidth: 1))
+                            .overlay(
+                                Image(systemName: "arrow.right")
+                                    .font(.system(size: 20, weight: .semibold))
+                                    .foregroundStyle(.white.opacity(0.9))
+                            )
                     }
-
-                    Spacer()
-
-                    Circle()
-                        .fill(Color.white.opacity(0.22))
-                        .frame(width: 52, height: 52)
-                        .overlay(Circle().stroke(Color.white.opacity(0.4), lineWidth: 1))
-                        .overlay(
-                            Image(systemName: "arrow.right")
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundStyle(.white.opacity(0.9))
-                        )
+                    .padding(18)
                 }
-                .padding(18)
+                .frame(width: cardWidth, height: cardHeight)
+                .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 36, style: .continuous)
+                        .stroke(Color.white.opacity(0.45), lineWidth: 1)
+                )
             }
             .frame(width: cardWidth, height: cardHeight)
-            .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 36, style: .continuous)
-                    .stroke(Color.white.opacity(0.45), lineWidth: 1)
-            )
         }
-        .frame(width: cardWidth, height: cardHeight)
     }
 
     private var gradientBackground: some View {
@@ -597,44 +600,49 @@ private struct HeroSliderCard: View {
 
 private struct HeroSliderPlaceholderCard: View {
     var body: some View {
-        ZStack {
-            // Kart içeriği — yuvarlak köşeli ve kırpılmış
-            ZStack(alignment: .bottomLeading) {
-                LinearGradient(
-                    colors:[Color(hex: "D8C8C0"), Color(hex: "9E8A7F")],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .frame(width: 376 * 0.86, height: 240)
+        GeometryReader { geo in
+            let cardWidth = min(geo.size.width * 0.86, 420)
+            let cardHeight: CGFloat = 240
 
-                LinearGradient(
-                    colors:[.clear, .black.opacity(0.45)],
-                    startPoint: .center,
-                    endPoint: .bottom
-                )
-                .frame(width: 376 * 0.86, height: 240)
+            ZStack {
+                // Kart içeriği — yuvarlak köşeli ve kırpılmış
+                ZStack(alignment: .bottomLeading) {
+                    LinearGradient(
+                        colors:[Color(hex: "D8C8C0"), Color(hex: "9E8A7F")],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                    .frame(width: cardWidth, height: cardHeight)
 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(NSLocalizedString("home.new_badge", comment: ""))
-                        .font(.system(size: 11, weight: .bold))
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 11)
-                        .padding(.vertical, 5)
-                        .background(Color(hex: "B27A62").opacity(0.95))
-                        .clipShape(Capsule())
+                    LinearGradient(
+                        colors:[.clear, .black.opacity(0.45)],
+                        startPoint: .center,
+                        endPoint: .bottom
+                    )
+                    .frame(width: cardWidth, height: cardHeight)
 
-                    Text(NSLocalizedString("home.loading", comment: ""))
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundStyle(.white)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(NSLocalizedString("home.new_badge", comment: ""))
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 11)
+                            .padding(.vertical, 5)
+                            .background(Color(hex: "B27A62").opacity(0.95))
+                            .clipShape(Capsule())
+
+                        Text(NSLocalizedString("home.loading", comment: ""))
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundStyle(.white)
+                    }
+                    .padding(18)
                 }
-                .padding(18)
+                .frame(width: cardWidth, height: cardHeight)
+                .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 36, style: .continuous)
+                        .stroke(Color.white.opacity(0.45), lineWidth: 1)
+                )
             }
-            .frame(width: 376 * 0.86, height: 240)
-            .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 36, style: .continuous)
-                    .stroke(Color.white.opacity(0.45), lineWidth: 1)
-            )
         }
     }
 }
@@ -951,11 +959,21 @@ struct CategoryDetailView: View {
     let categoryName: (TemplateItem) -> String?
     let onTemplateTap: (TemplateItem) -> Void
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-    private let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12)
-    ]
+    private var columns: [GridItem] {
+        if horizontalSizeClass == .regular {
+            return [
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12)
+            ]
+        }
+        return [
+            GridItem(.flexible(), spacing: 12),
+            GridItem(.flexible(), spacing: 12)
+        ]
+    }
 
     var body: some View {
         NavigationStack {
