@@ -133,7 +133,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
             } else {
                 print("[FCM] Notification authorization granted=\(granted)")
             }
-            application.registerForRemoteNotifications()
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+            }
         }
 
         // Observe auth token changes and flush any pending FCM token

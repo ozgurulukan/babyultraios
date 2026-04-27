@@ -38,7 +38,9 @@ struct ChatEditView: View {
                     }
 
                     tipCard
-                    suggestionChips
+                    if viewModel.chatItems.count <= 1 {
+                        suggestionChips
+                    }
                     Color.clear.frame(height: 16)
                 }
                 .padding(.horizontal, 16)
@@ -273,23 +275,21 @@ private struct ChatRow: View {
     let item: ChatItem
 
     var body: some View {
-        GeometryReader { geo in
-            HStack(alignment: .top, spacing: 12) {
-                if item.sender == .ai {
-                    botAvatar
-                } else {
-                    Spacer(minLength: 0)
-                }
-
-                bubble
-                    .frame(maxWidth: geo.size.width * 0.82, alignment: item.sender == .ai ? .leading : .trailing)
-
-                if item.sender == .user {
-                    Spacer(minLength: 0)
-                }
+        HStack(alignment: .top, spacing: 12) {
+            if item.sender == .ai {
+                botAvatar
+            } else {
+                Spacer(minLength: 0)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: item.sender == .ai ? .leading : .trailing)
+
+            bubble
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: item.sender == .ai ? .leading : .trailing)
+
+            if item.sender == .user {
+                Spacer(minLength: 0)
+            }
         }
+        .frame(maxWidth: .infinity, alignment: item.sender == .ai ? .leading : .trailing)
     }
 
     private var botAvatar: some View {
