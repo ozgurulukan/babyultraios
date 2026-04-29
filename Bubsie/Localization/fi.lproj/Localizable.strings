@@ -215,6 +215,7 @@
 "transform.consent_bullet1" = "Lataamani kuvat ovat minun tai minulla on vanhempien lupa";
 "transform.consent_bullet2" = "Olen yli 18-vuotias aikuinen, joka käyttää tätä sovellusta";
 "transform.consent_bullet3" = "En lataa toisen ihmisen lasta ilman lupaa";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "Hylkää";
 "transform.consent_title" = "Bubsie käyttää tekoälyä ladattujen kuviesi muokkaamiseen.";
 "transform.cta_format" = "Muunna (%d krediittiä)";

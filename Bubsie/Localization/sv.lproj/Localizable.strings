@@ -215,6 +215,7 @@
 "transform.consent_bullet1" = "Foton jag laddar upp är mina eller jag har föräldrarnas tillstånd";
 "transform.consent_bullet2" = "Jag är en vuxen över 18 år som använder denna app";
 "transform.consent_bullet3" = "Jag kommer inte att ladda upp någon annans barn utan tillstånd";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "Avböj";
 "transform.consent_title" = "Bubsie använder AI för att redigera dina uppladdade foton.";
 "transform.cta_format" = "Transformera (%d krediter)";

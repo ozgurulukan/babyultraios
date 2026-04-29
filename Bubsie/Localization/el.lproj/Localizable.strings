@@ -215,6 +215,7 @@
 "transform.consent_bullet1" = "Οι φωτογραφίες που ανεβάζω είναι δικές μου ή έχω άδεια από τους γονείς";
 "transform.consent_bullet2" = "Είμαι ενήλικας άνω των 18 ετών που χρησιμοποιώ αυτή την εφαρμογή";
 "transform.consent_bullet3" = "Δεν θα ανεβάσω το παιδί κάποιου άλλου χωρίς άδεια";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "Απόρριψη";
 "transform.consent_title" = "Το Bubsie χρησιμοποιεί AI για να επεξεργαστεί τις φωτογραφίες που ανεβάσατε.";
 "transform.cta_format" = "Μεταμόρφωση (%d Credits)";

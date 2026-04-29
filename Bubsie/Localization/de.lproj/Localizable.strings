@@ -212,6 +212,7 @@
 "transform.consent_bullet1" = "The photos I upload are mine or I have parental permission";
 "transform.consent_bullet2" = "I am an adult over 18 years old using this app";
 "transform.consent_bullet3" = "I will not upload someone else's child without permission";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "Decline";
 "transform.consent_title" = "Bubsie uses AI to edit your uploaded photos.";
 "transform.cta_format" = "Transform (%d Credits)";

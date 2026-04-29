@@ -214,6 +214,7 @@
 "transform.consent_bullet1" = "Yüklediğim fotoğraflar bana aittir veya ebeveyn iznim vardır";
 "transform.consent_bullet2" = "Bu uygulamayı kullanan 18 yaşından büyük bir yetişkinim";
 "transform.consent_bullet3" = "İzin almadan başka birinin çocuğunu yüklemeyeceğim";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "Reddet";
 "transform.consent_title" = "Bubsie, yüklediğiniz fotoğrafları düzenlemek için AI kullanır.";
 "transform.cta_format" = "Dönüştür (%d Kredi)";

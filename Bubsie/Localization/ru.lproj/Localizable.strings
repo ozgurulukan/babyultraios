@@ -215,6 +215,7 @@
 "transform.consent_bullet1" = "Фото, которые я загружаю, принадлежат мне или у меня есть разрешение родителей";
 "transform.consent_bullet2" = "Я взрослый старше 18 лет, использующий это приложение";
 "transform.consent_bullet3" = "Я не буду загружать фото чужого ребенка без разрешения";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "Отклонить";
 "transform.consent_title" = "Bubsie использует ИИ для редактирования загруженных фото.";
 "transform.cta_format" = "Трансформировать (%d Кредитов)";

@@ -215,6 +215,7 @@
 "transform.consent_bullet1" = "アップロードする写真は私のものであるか、親の許可を得ています";
 "transform.consent_bullet2" = "私は18歳以上の大人で、このアプリを使用しています";
 "transform.consent_bullet3" = "許可なく他の人の子供をアップロードすることはありません";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "拒否";
 "transform.consent_title" = "Bubsieは、AIを使用してアップロードされた写真を編集します。";
 "transform.cta_format" = "変換 (%d クレジット)";

@@ -215,6 +215,7 @@
 "transform.consent_bullet1" = "الصور التي أحمّلها ملكي أو لدي إذن والدي";
 "transform.consent_bullet2" = "أنا بالغ فوق 18 عامًا وأستخدم هذا التطبيق";
 "transform.consent_bullet3" = "لن أحمّل طفل شخص آخر بدون إذن";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "رفض";
 "transform.consent_title" = "يستخدم Bubsie الذكاء الاصطناعي لتحرير صورك المحمّلة.";
 "transform.cta_format" = "تحويل (%d رصيد)";

@@ -463,6 +463,10 @@ struct TransformView: View {
                                     Text("•")
                                     Text(NSLocalizedString("transform.consent_bullet3", comment: ""))
                                 }
+                                HStack(alignment: .top, spacing: 6) {
+                                    Text("•")
+                                    Text(NSLocalizedString("transform.consent_bullet4", comment: ""))
+                                }
                             }
                             .font(.system(size: 13, weight: .regular))
                             .foregroundStyle(secondaryText)

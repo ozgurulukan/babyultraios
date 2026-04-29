@@ -215,6 +215,7 @@
 "transform.consent_bullet1" = "รูปภาพที่ฉันอัปโหลดเป็นของฉันเองหรือฉันได้รับอนุญาตจากผู้ปกครอง";
 "transform.consent_bullet2" = "ฉันเป็นผู้ใหญ่อายุเกิน 18 ปีที่ใช้แอปนี้";
 "transform.consent_bullet3" = "ฉันจะไม่อัปโหลดรูปลูกของผู้อื่นโดยไม่ได้รับอนุญาต";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "ปฏิเสธ";
 "transform.consent_title" = "Bubsie ใช้ AI เพื่อแก้ไขรูปภาพที่คุณอัปโหลด";
 "transform.cta_format" = "แปลง (%d เครดิต)";

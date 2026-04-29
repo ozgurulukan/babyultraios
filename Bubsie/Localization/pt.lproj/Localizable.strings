@@ -215,6 +215,7 @@
 "transform.consent_bullet1" = "As fotos que carrego são minhas ou tenho permissão dos pais";
 "transform.consent_bullet2" = "Sou um adulto com mais de 18 anos usando este app";
 "transform.consent_bullet3" = "Não carregarei a criança de outra pessoa sem permissão";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "Recusar";
 "transform.consent_title" = "O Bubsie usa IA para editar suas fotos carregadas.";
 "transform.cta_format" = "Transformar (%d Créditos)";

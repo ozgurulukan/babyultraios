@@ -215,6 +215,7 @@
 "transform.consent_bullet1" = "Is leatsa na grianghraif a uaslódáilim nó tá cead ó na tuismitheoirí agam";
 "transform.consent_bullet2" = "Is duine fásta thar 18 mbliana d'aois mé a úsáideann an aip seo";
 "transform.consent_bullet3" = "Ní uaslódáilfidh mé leanbh duine eile gan cead";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "Diúltú";
 "transform.consent_title" = "Úsáideann Bubsie AI chun do ghrianghraif uaslódáilte a chur in eagar.";
 "transform.cta_format" = "Claochlú (%d Creidmheas)";

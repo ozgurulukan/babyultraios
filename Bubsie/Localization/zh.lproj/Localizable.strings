@@ -215,6 +215,7 @@
 "transform.consent_bullet1" = "我上传的照片是我本人的，或我已获得家长许可";
 "transform.consent_bullet2" = "我是年满18岁的成年人，正在使用此应用";
 "transform.consent_bullet3" = "未经许可，我不会上传他人的孩子";
+"transform.consent_bullet4" = "By continuing, you agree that your photo will be processed by our secure AI partner (fal.ai) to generate results.";
 "transform.consent_decline" = "拒绝";
 "transform.consent_title" = "Bubsie使用AI编辑您上传的照片。";
 "transform.cta_format" = "变换 (%d 积分)";
