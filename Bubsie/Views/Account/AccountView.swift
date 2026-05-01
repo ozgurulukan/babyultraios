@@ -717,7 +717,7 @@ struct LanguageSelectionView: View {
                         VStack(spacing: 0) {
                             ForEach(languages, id: \.code) { lang in
                                 Button {
-                                    languageManager.selectedLanguage = lang.code
+                                    languageManager.setLanguage(lang.code)
                                 } label: {
                                     HStack(spacing: 12) {
                                         Text(lang.flag)

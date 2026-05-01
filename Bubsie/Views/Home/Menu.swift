@@ -4,10 +4,10 @@ import SwiftUI
 struct Menu: View {
     @Environment(\.presentationMode) var dismiss
     @Environment(\.openURL) var openURL
+    @StateObject private var languageManager = LanguageManager.shared
 
     @AppStorage("isDarkMode")    private var isDarkMode    = true
     @AppStorage("isWatermark")   private var isWatermark   = false
-    @AppStorage("Language")      private var language      = "en"
 
     @State private var showLanguagePicker = false
     @State private var showShareSheet     = false
@@ -69,7 +69,7 @@ struct Menu: View {
                                         .font(.system(size: 15, weight: .medium))
                                         .foregroundStyle(.white)
                                     Spacer()
-                                    Text(languages.first(where: { $0.1 == language })?.0 ?? language)
+                                    Text(languages.first(where: { $0.1 == languageManager.selectedLanguage })?.0 ?? languageManager.selectedLanguage)
                                         .font(.system(size: 13, weight: .medium))
                                         .foregroundStyle(Bubsie.textSecondary)
                                     Image(systemName: "chevron.right")
@@ -182,7 +182,7 @@ struct Menu: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(languages, id: \.1) { name, code in
                         Button {
-                            language = code
+                            languageManager.setLanguage(code)
                             showLanguagePicker = false
                         } label: {
                             HStack {
@@ -190,7 +190,7 @@ struct Menu: View {
                                     .font(.system(size: 16, weight: .medium))
                                     .foregroundStyle(.white)
                                 Spacer()
-                                if language == code {
+                                if languageManager.selectedLanguage == code {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundStyle(Bubsie.accent)
                                 }
