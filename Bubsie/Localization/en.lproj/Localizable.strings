@@ -213,7 +213,7 @@
 "transform.consent_bullet1" = "The photos I upload are mine or I have parental permission to use them.";
 "transform.consent_bullet2" = "I am an adult over 18 years old using this app.";
 "transform.consent_bullet3" = "I will not upload someone else's child without their permission.";
-"transform.consent_bullet4" = "My uploaded photo \u2014 which may contain face data \u2014 will be sent to our secure servers and shared with fal.ai, a third-party AI service, solely to generate the requested transformation.";
+"transform.consent_bullet4" = "My uploaded photo — which may contain face data — will be sent to our secure servers and shared with fal.ai, a third-party AI service, solely to generate the requested transformation.";
 "transform.consent_bullet5" = "fal.ai does not use my data to train AI models without my explicit consent. See our Privacy Policy for full details.";
 "transform.consent_decline" = "Not Now";
 "transform.consent_privacy_link" = "Read our full Privacy Policy";
