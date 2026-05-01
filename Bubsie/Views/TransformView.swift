@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 // MARK: - Transform Configuration Screen
 struct TransformView: View {
@@ -433,7 +434,7 @@ struct TransformView: View {
     private var consentSheet: some View {
         ZStack {
             if showConsentSheet {
-                Color.black.opacity(0.25)
+                Color.black.opacity(0.35)
                     .ignoresSafeArea()
                     .transition(.opacity)
                     .onTapGesture {
@@ -446,11 +447,16 @@ struct TransformView: View {
                     VStack(spacing: 20) {
                         VStack(spacing: 12) {
                             Text(NSLocalizedString("transform.consent_title", comment: ""))
-                                .font(.system(size: 15, weight: .semibold))
+                                .font(.system(size: 17, weight: .bold))
                                 .foregroundStyle(primaryText)
                                 .multilineTextAlignment(.center)
 
-                            VStack(alignment: .leading, spacing: 8) {
+                            Text(NSLocalizedString("transform.consent_subtitle", comment: ""))
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundStyle(secondaryText)
+                                .multilineTextAlignment(.center)
+
+                            VStack(alignment: .leading, spacing: 10) {
                                 HStack(alignment: .top, spacing: 6) {
                                     Text("•")
                                     Text(NSLocalizedString("transform.consent_bullet1", comment: ""))
@@ -467,9 +473,25 @@ struct TransformView: View {
                                     Text("•")
                                     Text(NSLocalizedString("transform.consent_bullet4", comment: ""))
                                 }
+                                HStack(alignment: .top, spacing: 6) {
+                                    Text("•")
+                                    Text(NSLocalizedString("transform.consent_bullet5", comment: ""))
+                                }
                             }
-                            .font(.system(size: 13, weight: .regular))
+                            .font(.system(size: 12, weight: .regular))
                             .foregroundStyle(secondaryText)
+
+                            Button {
+                                if let url = URL(string: NSLocalizedString("app.privacy_url", comment: "")) {
+                                    UIApplication.shared.open(url)
+                                }
+                            } label: {
+                                Text(NSLocalizedString("transform.consent_privacy_link", comment: ""))
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundStyle(accentBrown)
+                                    .underline()
+                            }
+                            .buttonStyle(.plain)
                         }
 
                         HStack(spacing: 12) {

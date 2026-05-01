@@ -22,6 +22,7 @@
 		5A60040C2F95B6920057469C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE0003SPMDEP /* FirebaseAuth */; };
 		5A60040D2F95B6920057469C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE0004SPMDEP /* FirebaseMessaging */; };
 		5A6004102F95F0010057469C /* VariableBlur in Frameworks */ = {isa = PBXBuildFile; productRef = 5A6004112F95F0010057469C /* VariableBlur */; };
+		5A650AF22FA4D8D6000F48C3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5A650AF12FA4D8D6000F48C3 /* PrivacyInfo.xcprivacy */; };
 		773870312C489A7500477E83 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773870302C489A7500477E83 /* SubscriptionManager.swift */; };
 		773870332C489AB300477E83 /* EntitlementManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773870322C489AB300477E83 /* EntitlementManager.swift */; };
 		7738703B2C48A60700477E83 /* CoinCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7738703A2C48A60700477E83 /* CoinCounter.swift */; };
@@ -77,6 +78,7 @@
 		5A5071622F9838010012C7EF /* Icon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Icon.icon; sourceTree = "<group>"; };
 		5A56C4092F9ACE97006FC6BE /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		5A56C40B2F9ACED7006FC6BE /* generation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = generation.json; sourceTree = "<group>"; };
+		5A650AF12FA4D8D6000F48C3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		5AAA35C92F9EED6E0028B685 /* Bubsie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bubsie.entitlements; sourceTree = "<group>"; };
 		5AAA35CA2F9EED910028B685 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6A6A19C9E87ED4525D9D2FCB /* TransformView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TransformView.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				77CE36012C1464170096007C /* Assets.xcassets */,
 				77CE36032C1464170096007C /* Preview Content */,
 				7FDF2B958566EDE20F2BE00C /* Resources */,
+				5A650AF12FA4D8D6000F48C3 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Bubsie;
 			sourceTree = "<group>";
@@ -519,6 +522,7 @@
 				5A56C40C2F9ACED7006FC6BE /* generation.json in Resources */,
 				5A5071632F9838010012C7EF /* Icon.icon in Resources */,
 				5A13CDCE2F9A5ABA00DB3A3E /* cleanup.mp4 in Resources */,
+				5A650AF22FA4D8D6000F48C3 /* PrivacyInfo.xcprivacy in Resources */,
 				5A13CDCC2F9A5AB400DB3A3E /* resolation.mp4 in Resources */,
 				776B8D122C45840B000CE25E /* Localizable.strings in Resources */,
 				77CE36052C1464170096007C /* Preview Assets.xcassets in Resources */,
@@ -749,7 +753,8 @@
 				INFOPLIST_FILE = Bubsie/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bubsie;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need access of photo's library to store processed images";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Bubsie needs camera access so you can take photos to transform with AI.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Bubsie needs access to your photo library so you can select photos to transform with AI and save generated results.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -785,7 +790,8 @@
 				INFOPLIST_FILE = Bubsie/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bubsie;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Need access of photo's library to store processed images";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Bubsie needs camera access so you can take photos to transform with AI.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Bubsie needs access to your photo library so you can select photos to transform with AI and save generated results.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
