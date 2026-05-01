@@ -175,6 +175,8 @@ struct Splash: View {
             }
         }
         .onAppear {
+            LanguageManager.shared.refreshIfNeeded()
+
             withAnimation(.spring(response: 0.70, dampingFraction: 0.65)) {
                 logoScale = 1.0
                 logoOpacity = 1.0

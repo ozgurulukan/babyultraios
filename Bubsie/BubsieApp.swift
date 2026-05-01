@@ -40,8 +40,6 @@ final class LanguageManager: ObservableObject {
         }
     }
 
-    @AppStorage("didManuallySelectLanguage") var didManuallySelectLanguage: Bool = false
-
     @Published var currentLocale: Locale = Locale(identifier: "en")
 
     let supportedLanguages = [
@@ -51,23 +49,13 @@ final class LanguageManager: ObservableObject {
     ]
 
     private init() {
-        let deviceLang = deviceLanguage()
-        if selectedLanguage.isEmpty {
-            selectedLanguage = deviceLang
-        } else if !didManuallySelectLanguage {
-            selectedLanguage = deviceLang
-        }
+        // Always start with the current device language
+        selectedLanguage = deviceLanguage()
         applyLanguage()
     }
 
     func setLanguage(_ code: String) {
-        didManuallySelectLanguage = true
         selectedLanguage = code
-    }
-
-    func resetToDeviceLanguage() {
-        didManuallySelectLanguage = false
-        selectedLanguage = deviceLanguage()
     }
 
     func deviceLanguage() -> String {
@@ -77,6 +65,13 @@ final class LanguageManager: ObservableObject {
             return code
         }
         return "en"
+    }
+
+    func refreshIfNeeded() {
+        let deviceLang = deviceLanguage()
+        if selectedLanguage != deviceLang {
+            selectedLanguage = deviceLang
+        }
     }
 
     private func applyLanguage() {
