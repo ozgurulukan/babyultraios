@@ -444,8 +444,9 @@ struct TransformView: View {
                 VStack(spacing: 0) {
                     Spacer()
 
-                    VStack(spacing: 20) {
-                        VStack(spacing: 12) {
+                    VStack(spacing: 16) {
+                        // Title & Subtitle
+                        VStack(spacing: 8) {
                             Text(NSLocalizedString("transform.consent_title", comment: ""))
                                 .font(.system(size: 17, weight: .bold))
                                 .foregroundStyle(primaryText)
@@ -455,45 +456,57 @@ struct TransformView: View {
                                 .font(.system(size: 13, weight: .medium))
                                 .foregroundStyle(secondaryText)
                                 .multilineTextAlignment(.center)
-
-                            VStack(alignment: .leading, spacing: 10) {
-                                HStack(alignment: .top, spacing: 6) {
-                                    Text("•")
-                                    Text(NSLocalizedString("transform.consent_bullet1", comment: ""))
-                                }
-                                HStack(alignment: .top, spacing: 6) {
-                                    Text("•")
-                                    Text(NSLocalizedString("transform.consent_bullet2", comment: ""))
-                                }
-                                HStack(alignment: .top, spacing: 6) {
-                                    Text("•")
-                                    Text(NSLocalizedString("transform.consent_bullet3", comment: ""))
-                                }
-                                HStack(alignment: .top, spacing: 6) {
-                                    Text("•")
-                                    Text(NSLocalizedString("transform.consent_bullet4", comment: ""))
-                                }
-                                HStack(alignment: .top, spacing: 6) {
-                                    Text("•")
-                                    Text(NSLocalizedString("transform.consent_bullet5", comment: ""))
-                                }
-                            }
-                            .font(.system(size: 12, weight: .regular))
-                            .foregroundStyle(secondaryText)
-
-                            Button {
-                                if let url = URL(string: NSLocalizedString("app.privacy_url", comment: "")) {
-                                    UIApplication.shared.open(url)
-                                }
-                            } label: {
-                                Text(NSLocalizedString("transform.consent_privacy_link", comment: ""))
-                                    .font(.system(size: 12, weight: .medium))
-                                    .foregroundStyle(accentBrown)
-                                    .underline()
-                            }
-                            .buttonStyle(.plain)
                         }
 
+                        // Scrollable disclosure sections
+                        ScrollView(.vertical, showsIndicators: true) {
+                            VStack(alignment: .leading, spacing: 16) {
+                                // Section 1: What data we collect & send
+                                consentSection(
+                                    icon: "doc.text.magnifyingglass",
+                                    title: NSLocalizedString("transform.consent_section1_title", comment: ""),
+                                    body: NSLocalizedString("transform.consent_section1_body", comment: "")
+                                )
+
+                                // Section 2: Who receives your data
+                                consentSection(
+                                    icon: "building.2",
+                                    title: NSLocalizedString("transform.consent_section2_title", comment: ""),
+                                    body: NSLocalizedString("transform.consent_section2_body", comment: "")
+                                )
+
+                                // Section 3: How data is used & stored
+                                consentSection(
+                                    icon: "externaldrive.badge.checkmark",
+                                    title: NSLocalizedString("transform.consent_section3_title", comment: ""),
+                                    body: NSLocalizedString("transform.consent_section3_body", comment: "")
+                                )
+
+                                // Section 4: User confirmation
+                                consentSection(
+                                    icon: "checkmark.shield",
+                                    title: NSLocalizedString("transform.consent_section4_title", comment: ""),
+                                    body: NSLocalizedString("transform.consent_section4_body", comment: "")
+                                )
+                            }
+                            .padding(.horizontal, 4)
+                        }
+                        .frame(maxHeight: UIScreen.main.bounds.height * 0.40)
+
+                        // Privacy Policy link
+                        Button {
+                            if let url = URL(string: NSLocalizedString("app.privacy_url", comment: "")) {
+                                UIApplication.shared.open(url)
+                            }
+                        } label: {
+                            Text(NSLocalizedString("transform.consent_privacy_link", comment: ""))
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundStyle(accentBrown)
+                                .underline()
+                        }
+                        .buttonStyle(.plain)
+
+                        // Buttons
                         HStack(spacing: 12) {
                             Button {
                                 showConsentSheet = false
@@ -552,6 +565,35 @@ struct TransformView: View {
             }
         }
         .ignoresSafeArea()
+    }
+
+    // MARK: - Consent Section Helper
+    private func consentSection(icon: String, title: String, body: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(accentBrown)
+                Text(title)
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(primaryText)
+            }
+
+            Text(body)
+                .font(.system(size: 11.5, weight: .regular))
+                .foregroundStyle(secondaryText)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.white.opacity(0.35))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.white.opacity(0.50), lineWidth: 1)
+        )
     }
 }
 
