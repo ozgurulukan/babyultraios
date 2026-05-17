@@ -131,7 +131,7 @@
 "onboarding.loved_by_parents" = "Loved by Parents";
 "onboarding.next" = "Next";
 "onboarding.no_content" = "No onboarding content";
-"onboarding.no_content_message" = "Check admin panel: app_id must be \\\\\\\"bubsie\\\\\\\" and is_active must be true.";
+"onboarding.no_content_message" = "Check admin panel: app_id must be \"bubsie\" and is_active must be true.";
 "onboarding.oops" = "Oops!";
 "onboarding.try_again" = "Try Again";
 "premium.benefit_4k" = "High-Resolution 4K Downloads";
@@ -144,6 +144,7 @@
 "premium.purchase_success" = "Purchase successful! You now have access to all PRO templates and 50 weekly credits will be added every Monday.";
 "premium.restore_purchase" = "Restore Purchase";
 "premium.start_free_trial" = "Start My Free Trial";
+"premium.subscribe_now" = "SUBSCRIBE NOW";
 "premium.trial_format" = "3 days free, then %1$@/%2$@.";
 "premium.unlock_subtitle" = "Transform every giggle into a masterpiece.";
 "premium.unlock_title" = "Unlock the Magic✨";

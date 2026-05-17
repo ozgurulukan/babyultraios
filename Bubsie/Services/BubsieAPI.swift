@@ -129,7 +129,8 @@ struct BubsieAPI {
 
     // MARK: - Upload
     func uploadImage(_ image: UIImage, quality: CGFloat = 0.82) async throws -> String {
-        guard let data = image.jpegData(compressionQuality: quality) else {
+        let normalizedImage = image.normalizedOrientation()
+        guard let data = normalizedImage.jpegData(compressionQuality: quality) else {
             throw APIError.invalidInput
         }
         let result = try await client.upload(imageData: data)

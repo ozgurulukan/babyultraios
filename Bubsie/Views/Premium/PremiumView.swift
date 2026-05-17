@@ -227,12 +227,13 @@ struct PremiumView: View {
     }
 
     private var ctaFooterText: String {
+        if selectedPlan == 1 { return "" }
         if let package = packageForPlan(at: selectedPlan) {
             let unit = package.storeProduct.subscriptionPeriod?.unit
             let periodText = unit == .week ? NSLocalizedString("common.week_unit", comment: "") : NSLocalizedString("common.year_unit", comment: "")
             return String(format: NSLocalizedString("premium.trial_format", comment: ""), package.localizedPriceString, periodText)
         }
-        return selectedPlan == 0 ? NSLocalizedString("premium.yearly_fallback", comment: "") : NSLocalizedString("premium.weekly_fallback", comment: "")
+        return NSLocalizedString("premium.yearly_fallback", comment: "")
     }
 
     var ctaSection: some View {
@@ -252,7 +253,7 @@ struct PremiumView: View {
                     }
                 } else { isPurchasing = false }
             } label: {
-                Text(NSLocalizedString("premium.start_free_trial", comment: ""))
+                Text(selectedPlan == 0 ? NSLocalizedString("premium.start_free_trial", comment: "") : NSLocalizedString("premium.subscribe_now", comment: ""))
                     .font(.system(size: 18, weight: .bold))
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
