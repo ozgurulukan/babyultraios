@@ -474,10 +474,7 @@ struct AccountView: View {
                 openURL(URL(string: "https://fagore.com/terms/")!)
             }
             menuDivider
-            profileMenuRow(icon: "star.fill", title: NSLocalizedString("account.rate_us", comment: "")) {
-                openURL(URL(string: "https://apps.apple.com/app/id\(BUBSIE_APP_STORE_ID)?action=write-review")!)
-            }
-            menuDivider
+
             profileMenuRow(icon: "person.fill.viewfinder", title: NSLocalizedString("account.user_id", comment: "")) {
                 if let uid = Auth.auth().currentUser?.uid {
                     UIPasteboard.general.string = uid
