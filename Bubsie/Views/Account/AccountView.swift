@@ -684,7 +684,8 @@ struct LanguageSelectionView: View {
         ("ru", "Русский", "🇷🇺"),
         ("ja", "日本語", "🇯🇵"),
         ("ko", "한국어", "🇰🇷"),
-        ("zh", "中文", "🇨🇳"),
+        ("zh", "中文 (Simplified)", "🇨🇳"),
+        ("zh-Hant", "中文 (Traditional)", "🇹🇼"),
         ("ar", "العربية", "🇸🇦"),
         ("da", "Dansk", "🇩🇰"),
         ("fi", "Suomi", "🇫🇮"),
@@ -693,7 +694,19 @@ struct LanguageSelectionView: View {
         ("sv", "Svenska", "🇸🇪"),
         ("nb", "Norsk", "🇳🇴"),
         ("ga", "Gaeilge", "🇮🇪"),
-        ("th", "ไทย", "🇹🇭")
+        ("th", "ไทย", "🇹🇭"),
+        ("cs", "Čeština", "🇨🇿"),
+        ("fil", "Filipino", "🇵🇭"),
+        ("he", "עברית", "🇮🇱"),
+        ("hr", "Hrvatski", "🇭🇷"),
+        ("hu", "Magyar", "🇭🇺"),
+        ("id", "Bahasa Indonesia", "🇮🇩"),
+        ("ms", "Bahasa Melayu", "🇲🇾"),
+        ("pl", "Polski", "🇵🇱"),
+        ("ro", "Română", "🇷🇴"),
+        ("sk", "Slovenčina", "🇸🇰"),
+        ("uk", "Українська", "🇺🇦"),
+        ("vi", "Tiếng Việt", "🇻🇳")
     ]
 
     var body: some View {

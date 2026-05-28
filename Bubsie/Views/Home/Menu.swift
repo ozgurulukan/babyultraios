@@ -15,8 +15,11 @@ struct Menu: View {
     private let languages: [(String, String)] = [
         ("English", "en"), ("Türkçe", "tr"), ("Español", "es"), ("Français", "fr"), ("Deutsch", "de"),
         ("Italiano", "it"), ("Português", "pt"), ("Русский", "ru"), ("日本語", "ja"), ("한국어", "ko"),
-        ("中文", "zh"), ("العربية", "ar"), ("Dansk", "da"), ("Suomi", "fi"), ("Ελληνικά", "el"),
-        ("Nederlands", "nl"), ("Svenska", "sv"), ("Norsk Bokmål", "nb"), ("Gaeilge", "ga"), ("ไทย", "th"),
+        ("中文 (Simplified)", "zh"), ("中文 (Traditional)", "zh-Hant"), ("العربية", "ar"), ("Dansk", "da"), ("Suomi", "fi"),
+        ("Ελληνικά", "el"), ("Nederlands", "nl"), ("Svenska", "sv"), ("Norsk Bokmål", "nb"), ("Gaeilge", "ga"),
+        ("ไทย", "th"), ("Čeština", "cs"), ("Filipino", "fil"), ("עברית", "he"), ("Hrvatski", "hr"),
+        ("Magyar", "hu"), ("Bahasa Indonesia", "id"), ("Bahasa Melayu", "ms"), ("Polski", "pl"), ("Română", "ro"),
+        ("Slovenčina", "sk"), ("Українська", "uk"), ("Tiếng Việt", "vi"),
     ]
 
     var body: some View {
