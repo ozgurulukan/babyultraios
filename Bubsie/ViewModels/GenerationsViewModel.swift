@@ -8,6 +8,7 @@ final class GenerationsViewModel: ObservableObject {
     @Published var isLoadingMore = false
     @Published var hasMore = true
     @Published var errorMessage: String?
+    @Published var activeAudioItemID: Int? = nil
 
     private var currentPage = 1
     private let pageSize = 20

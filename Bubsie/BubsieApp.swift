@@ -7,6 +7,7 @@ import Combine
 import RevenueCat
 import ObjectiveC
 import SDWebImage
+import AVFoundation
 
 // MARK: - Runtime Language Switching via Bundle Swizzling
 private var associatedBundleKey: UInt8 = 0
@@ -117,6 +118,15 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
     private var pendingFCMToken: String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        // Configure audio session for video playback
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+            try session.setActive(true)
+        } catch {
+            print("[Audio] Failed to configure audio session: \(error)")
+        }
+
         FirebaseApp.configure()
 
         // Configure SDWebImage cache & downloader limits

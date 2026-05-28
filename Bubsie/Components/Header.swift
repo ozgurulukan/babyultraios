@@ -36,6 +36,8 @@ struct ProfileStyleHeader: View {
             Text(title)
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .foregroundStyle(Color(hex: "1E1C10"))
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
             Text(subtitle)
                 .font(.system(size: 16))
                 .foregroundStyle(Color(hex: "55433E"))

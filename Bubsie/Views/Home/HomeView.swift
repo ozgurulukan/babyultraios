@@ -4,6 +4,10 @@ import AVKit
 import WebKit
 import SDWebImageSwiftUI
 
+extension Notification.Name {
+    static let templateAudioChanged = Notification.Name("templateAudioChanged")
+}
+
 private enum HomePalette {
     static let background = Color(hex: "F6ECE6")
     static let card = Color(hex: "EFE2DC")
@@ -121,15 +125,13 @@ struct HomeView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 24)
-                    .padding(.top, 8)
-                    .padding(.bottom, 12)
                 } content: {
                     VStack(spacing: HomePalette.gridGap) {
                         heroSection
                         mediaModeSelector
                         modeSegment
                         templatesContent
-                        Color.clear.frame(height: 120)
+                        Color.clear.frame(height: 70)
                     }
                     .padding(.top, -8)
                     .padding(.bottom, 8)
@@ -158,7 +160,8 @@ struct HomeView: View {
                         ? homeVM.videoTemplates.filter { $0.categoryId == category.rawID }
                         : homeVM.photoTemplates.filter { $0.categoryId == category.rawID }),
                     categoryName: homeVM.categoryName,
-                    onTemplateTap: handleTemplateTap
+                    onTemplateTap: handleTemplateTap,
+                    viewModel: homeVM
                 )
             }
             .navigationDestination(isPresented: $showTransform) {
@@ -381,7 +384,7 @@ struct HomeView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: HomePalette.gridGap) {
                 ForEach(templates) { template in
-                    HomeTemplateCard(template: template, categoryName: homeVM.categoryName(for: template)) {
+                    HomeTemplateCard(template: template, categoryName: homeVM.categoryName(for: template), cardID: "row-\(template.id)", viewModel: homeVM) {
                         handleTemplateTap(template)
                     }
                     .frame(width: 170)
@@ -422,7 +425,7 @@ struct HomeView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHStack(spacing: HomePalette.gridGap) {
                                 ForEach(catTemplates) { template in
-                                    HomeTemplateCard(template: template, categoryName: homeVM.categoryName(for: template)) {
+                                    HomeTemplateCard(template: template, categoryName: homeVM.categoryName(for: template), cardID: "cat-\(category.rawID)-\(template.id)", viewModel: homeVM) {
                                         handleTemplateTap(template)
                                     }
                                     .frame(width: 170)
@@ -647,15 +650,23 @@ private struct HeroSliderPlaceholderCard: View {
 private struct HomeTemplateCard: View {
     let template: TemplateItem
     let categoryName: String?
+    let cardID: String
     let action: () -> Void
     private let cardHeight: CGFloat = 250
     private let previewURL: URL?
     private let shouldShowVideo: Bool
     @State private var isVisible = false
+    @ObservedObject var viewModel: HomeViewModel
 
-    init(template: TemplateItem, categoryName: String?, action: @escaping () -> Void) {
+    private var isMuted: Bool {
+        viewModel.activeAudioCardID != cardID
+    }
+
+    init(template: TemplateItem, categoryName: String?, cardID: String, viewModel: HomeViewModel, action: @escaping () -> Void) {
         self.template = template
         self.categoryName = categoryName
+        self.cardID = cardID
+        self.viewModel = viewModel
         self.action = action
         let url = template.afterMediaUrl.flatMap(URL.init) ?? template.beforeMediaUrl.flatMap(URL.init)
         self.previewURL = url
@@ -675,47 +686,26 @@ private struct HomeTemplateCard: View {
     }
 
     var body: some View {
-        Button(action: action) {
-            ZStack {
-                // Arka plan rengi
-                Color.black
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+        ZStack {
+            // Arka plan rengi
+            Color.black
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                // MEDYA KATI (Resim veya Video)
-                // Color.clear.overlay kullanarak medyanın orijinal boyutunun ZStack'i ve dolayısıyla Grid'i esnetmesini tamamen ENGELLİYORUZ.
-                Color.clear
-                    .overlay(
-                        mediaPreview
-                    )
-                    .clipped() // Overlay içindeki medyanın Color.clear (ve kartın) dışına taşmasını engeller.
+            // MEDYA KATI (Resim veya Video)
+            Color.clear
+                .overlay(mediaPreview)
+                .clipped()
 
-                // Header benzeri blur/tint alt katmanı
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .opacity(0.16)
-                    .overlay(Color(hex: "2F1E18").opacity(0.32))
-                    .mask(
-                        LinearGradient(
-                            stops: [
-                                .init(color: .clear, location: 0.56),
-                                .init(color: .black, location: 0.86),
-                                .init(color: .black, location: 1)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .allowsHitTesting(false)
-                LinearGradient(
-                    colors: [Color(hex: "4A2E25").opacity(0.46), Color(hex: "4A2E25").opacity(0.26), .clear],
-                    startPoint: .bottom,
-                    endPoint: .top
-                )
+            // Header benzeri blur/tint alt katmanı
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .opacity(0.16)
+                .overlay(Color(hex: "2F1E18").opacity(0.32))
                 .mask(
                     LinearGradient(
                         stops: [
-                            .init(color: .clear, location: 0.58),
-                            .init(color: .black, location: 0.9),
+                            .init(color: .clear, location: 0.56),
+                            .init(color: .black, location: 0.86),
                             .init(color: .black, location: 1)
                         ],
                         startPoint: .top,
@@ -723,38 +713,56 @@ private struct HomeTemplateCard: View {
                     )
                 )
                 .allowsHitTesting(false)
+            LinearGradient(
+                colors: [Color(hex: "4A2E25").opacity(0.46), Color(hex: "4A2E25").opacity(0.26), .clear],
+                startPoint: .bottom,
+                endPoint: .top
+            )
+            .mask(
+                LinearGradient(
+                    stops: [
+                        .init(color: .clear, location: 0.58),
+                        .init(color: .black, location: 0.9),
+                        .init(color: .black, location: 1)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
+            .allowsHitTesting(false)
 
-                // Üzerindeki Yazılar ve Bilgiler
-                VStack {
-                    HStack {
-                        if template.isPremium {
-                            Text(NSLocalizedString("home.pro_badge", comment: ""))
-                                .font(.system(size: 10, weight: .black))
-                                .foregroundStyle(.white)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 5)
-                                .background(Color.black.opacity(0.38))
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                        }
-
-                        Spacer()
-
-                        HStack(spacing: 4) {
-                            Image(systemName: "circle.lefthalf.filled")
-                                .font(.system(size: 10, weight: .bold))
-                            Text("\(template.creditCost)")
-                                .font(.system(size: 16 * 0.7, weight: .semibold))
-                        }
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
-                        .background(Color.black.opacity(0.45))
-                        .clipShape(Capsule())
+            // Üzerindeki Yazılar ve Bilgiler
+            VStack {
+                HStack {
+                    if template.isPremium {
+                        Text(NSLocalizedString("home.pro_badge", comment: ""))
+                            .font(.system(size: 10, weight: .black))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 5)
+                            .background(Color.black.opacity(0.38))
+                            .clipShape(RoundedRectangle(cornerRadius: 5))
                     }
-                    .padding(10)
 
                     Spacer()
 
+                    HStack(spacing: 4) {
+                        Image(systemName: "circle.lefthalf.filled")
+                            .font(.system(size: 10, weight: .bold))
+                        Text("\(template.creditCost)")
+                            .font(.system(size: 16 * 0.7, weight: .semibold))
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(Color.black.opacity(0.45))
+                    .clipShape(Capsule())
+                }
+                .padding(10)
+
+                Spacer()
+
+                HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(template.name)
                             .font(.system(size: 14, weight: .bold))
@@ -766,18 +774,38 @@ private struct HomeTemplateCard: View {
                             .lineLimit(1)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 10)
+
+                    if shouldShowVideo {
+                        Image(systemName: isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .padding(8)
+                            .background(.ultraThinMaterial)
+                            .clipShape(Circle())
+                            .contentShape(Circle())
+                            .onTapGesture {
+                                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                                    if viewModel.activeAudioCardID == cardID {
+                                        viewModel.activeAudioCardID = nil
+                                    } else {
+                                        viewModel.activeAudioCardID = cardID
+                                    }
+                                }
+                            }
+                    }
                 }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
             }
-            // Kart yüksekliğini minHeight ve maxHeight ile tamamen sabitleyip farklı boyutlara kaymasını engelliyoruz
-            .frame(maxWidth: .infinity, minHeight: cardHeight, maxHeight: cardHeight)
-            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-            .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         }
-        .buttonStyle(.plain)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, minHeight: cardHeight, maxHeight: cardHeight)
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .onTapGesture {
+            action()
+        }
+        .frame(maxWidth: .infinity)
         .onAppear { isVisible = true }
         .onDisappear { isVisible = false }
     }
@@ -785,11 +813,8 @@ private struct HomeTemplateCard: View {
     @ViewBuilder
     private var mediaPreview: some View {
         if shouldShowVideo, let previewURL {
-            if isVisible {
-                LoopingTemplateVideoView(url: previewURL, isVisible: isVisible)
-            } else {
-                placeholder
-            }
+            TemplateVideoPlayer(url: previewURL, cardID: cardID, isVisible: isVisible)
+                .id(cardID)
         } else if let previewURL {
             WebImage(url: previewURL, options: [.retryFailed]) { image in
                 image
@@ -825,68 +850,99 @@ private struct HomeTemplateCard: View {
     }
 }
 
-private struct LoopingTemplateVideoView: UIViewRepresentable {
+// MARK: - Template Video Player
+
+private struct TemplateVideoPlayer: UIViewRepresentable {
     let url: URL
+    let cardID: String
     let isVisible: Bool
 
-    func makeUIView(context: Context) -> LoopingTemplatePlayerView {
-        let view = LoopingTemplatePlayerView()
-        view.setVideoURL(url)
+    func makeUIView(context: Context) -> TemplatePlayerUIView {
+        let view = TemplatePlayerUIView(frame: .zero)
+        view.configure(url: url, cardID: cardID)
         return view
     }
 
-    func updateUIView(_ uiView: LoopingTemplatePlayerView, context: Context) {
-        uiView.setVideoURL(url)
+    func updateUIView(_ uiView: TemplatePlayerUIView, context: Context) {
         uiView.setVisible(isVisible)
+    }
+
+    static func dismantleUIView(_ uiView: TemplatePlayerUIView, coordinator: ()) {
+        uiView.destroy()
     }
 }
 
-private final class LoopingTemplatePlayerView: UIView {
-    private let player = AVQueuePlayer()
-    private let playerLayer = AVPlayerLayer()
-    private var looper: AVPlayerLooper?
-    private var currentURL: URL?
-    private var isPlayerVisible = true
+private final class TemplatePlayerUIView: UIView {
+    private var player: AVPlayer?
+    private var playerLayer: AVPlayerLayer?
+    private var loopObserver: Any?
+    private var activeAudioObserver: Any?
+    private var cardID: String = ""
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        player.isMuted = true
-        player.actionAtItemEnd = .none
-        playerLayer.player = player
+    func configure(url: URL, cardID: String) {
+        self.cardID = cardID
 
-        // Videonun boşluksuz olarak kartı tam kaplaması için resizeAspectFill
-        playerLayer.videoGravity = .resizeAspectFill
+        let item = AVPlayerItem(url: url)
+        let p = AVPlayer(playerItem: item)
+        p.automaticallyWaitsToMinimizeStalling = false
+        p.volume = 0.0
+        p.play()
 
-        layer.addSublayer(playerLayer)
-    }
+        let layer = AVPlayerLayer(player: p)
+        layer.videoGravity = .resizeAspectFill
+        self.layer.addSublayer(layer)
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+        self.player = p
+        self.playerLayer = layer
 
-    func setVideoURL(_ url: URL) {
-        guard currentURL != url else { return }
-        currentURL = url
-        player.removeAllItems()
-        looper = AVPlayerLooper(player: player, templateItem: AVPlayerItem(url: url))
-        if isPlayerVisible {
-            player.play()
+        // Loop
+        loopObserver = NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: item,
+            queue: .main
+        ) { [weak p] _ in
+            p?.seek(to: .zero)
+            p?.play()
+        }
+
+        // Listen for global audio changes
+        activeAudioObserver = NotificationCenter.default.addObserver(
+            forName: .templateAudioChanged,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            guard let self = self else { return }
+            let activeID = notification.userInfo?["cardID"] as? String
+            let shouldMute = (activeID != self.cardID)
+            self.player?.volume = shouldMute ? 0.0 : 1.0
         }
     }
 
     func setVisible(_ visible: Bool) {
-        guard isPlayerVisible != visible else { return }
-        isPlayerVisible = visible
         if visible {
-            player.play()
+            player?.play()
         } else {
-            player.pause()
+            player?.pause()
         }
+    }
+
+    func destroy() {
+        if let observer = loopObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = activeAudioObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        player?.pause()
+        player?.replaceCurrentItem(with: nil)
+        playerLayer?.removeFromSuperlayer()
+        player = nil
+        playerLayer = nil
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        playerLayer.frame = bounds
+        playerLayer?.frame = bounds
     }
 }
 
@@ -955,6 +1011,7 @@ struct CategoryDetailView: View {
     let templates: [TemplateItem]
     let categoryName: (TemplateItem) -> String?
     let onTemplateTap: (TemplateItem) -> Void
+    @ObservedObject var viewModel: HomeViewModel
     @Environment(\.dismiss) private var dismiss
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
@@ -982,7 +1039,9 @@ struct CategoryDetailView: View {
                         ForEach(templates) { template in
                             HomeTemplateCard(
                                 template: template,
-                                categoryName: categoryName(template)
+                                categoryName: categoryName(template),
+                                cardID: "detail-\(category.rawID)-\(template.id)",
+                                viewModel: viewModel
                             ) {
                                 onTemplateTap(template)
                             }

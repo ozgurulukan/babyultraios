@@ -87,7 +87,7 @@ struct GenerationsView: View {
     private var cardsContent: some View {
         VStack(spacing: 14) {
             ForEach(filteredItems) { item in
-                GenerationHistoryCard(item: item)
+                GenerationHistoryCard(item: item, viewModel: viewModel)
                     .contentShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
                     .onTapGesture {
                         if let route = historyRoute(for: item) {
@@ -194,6 +194,7 @@ struct GenerationsView: View {
 
 private struct GenerationHistoryCard: View {
     let item: HistoryItem
+    @ObservedObject var viewModel: GenerationsViewModel
 
     private var isSuccess: Bool { item.status == "success" }
     private var displayURL: String? { item.resultUrl ?? item.imageUrl }
@@ -201,6 +202,9 @@ private struct GenerationHistoryCard: View {
         guard let urlString = displayURL, let url = URL(string: urlString) else { return false }
         let videoExts = ["mp4", "mov", "m4v", "webm"]
         return videoExts.contains(url.pathExtension.lowercased())
+    }
+    private var isMuted: Bool {
+        viewModel.activeAudioItemID != item.id
     }
     private var title: String {
         if let prompt = item.prompt?.trimmingCharacters(in: .whitespacesAndNewlines), !prompt.isEmpty {
@@ -273,6 +277,32 @@ private struct GenerationHistoryCard: View {
                         .foregroundStyle(.white)
                         .shadow(color: .black.opacity(0.4), radius: 6, x: 0, y: 2)
                 }
+
+                if isSuccess && isVideo {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Button {
+                                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                                    if viewModel.activeAudioItemID == item.id {
+                                        viewModel.activeAudioItemID = nil
+                                    } else {
+                                        viewModel.activeAudioItemID = item.id
+                                    }
+                                }
+                            } label: {
+                                Image(systemName: isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundStyle(.white)
+                                    .padding(10)
+                                    .background(.ultraThinMaterial)
+                                    .clipShape(Circle())
+                            }
+                            .padding(12)
+                        }
+                    }
+                }
             }
 
             HStack(alignment: .top) {
@@ -327,7 +357,7 @@ private struct GenerationHistoryCard: View {
         Group {
             if let urlString = displayURL, let url = URL(string: urlString) {
                 if isVideo {
-                    VideoFillPlayer(player: AVPlayer(url: url))
+                    VideoPlayerContainer(url: url, isMuted: isMuted)
                 } else {
                     AsyncImage(url: url) { phase in
                         switch phase {
@@ -366,20 +396,40 @@ private struct GenerationHistoryCard: View {
     }
 }
 
-private struct VideoFillPlayer: UIViewControllerRepresentable {
-    let player: AVPlayer
+private struct VideoPlayerContainer: UIViewControllerRepresentable {
+    let url: URL
+    var isMuted: Bool
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
+        let player = AVPlayer(url: url)
+        player.isMuted = true
+        player.play()
         controller.player = player
         controller.videoGravity = .resizeAspectFill
         controller.showsPlaybackControls = false
         controller.view.isUserInteractionEnabled = false
+        context.coordinator.player = player
         return controller
     }
 
     func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
         uiViewController.view.isUserInteractionEnabled = false
+        if let player = context.coordinator.player {
+            player.isMuted = isMuted
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    class Coordinator {
+        var player: AVPlayer?
+    }
+
+    static func dismantleUIViewController(_ uiViewController: AVPlayerViewController, coordinator: Coordinator) {
+        uiViewController.player?.pause()
     }
 }
 

@@ -17,6 +17,15 @@ final class HomeViewModel: ObservableObject {
     @Published var hasLoaded = false
     @Published var debugInfo: String = ""
     @Published var selectedMode: Int = 1
+    @Published var activeAudioCardID: String? = nil {
+        didSet {
+            NotificationCenter.default.post(
+                name: .templateAudioChanged,
+                object: nil,
+                userInfo: ["cardID": activeAudioCardID as Any]
+            )
+        }
+    }
 
     /// O(1) category name lookup cache. Rebuilt whenever categories change.
     private(set) var categoryNameCache: [Int: String] = [:]
