@@ -2,8 +2,6 @@
 "App Version" = "Sovellusversio";
 "App icon" = "Sovelluskuvake";
 "Bubsie Pro" = "Bubsie Pro";
-"Bubsie v1.0.2" = "Bubsie v1.0.2";
-"Check out Bubsie · AI Magic for Your Little One! 🎬 https://apps.apple.com/app/id%@" = "Tutustu Bubsieen · AI-taikaa pienokaisellesi! 🎬 https://apps.apple.com/app/id%@";
 "Coastal Escape" = "Rannikkopako";
 "Continue" = "Jatka";
 "Cosmic Canvas" = "Kosminen kangas";
@@ -23,7 +21,6 @@
 "Metropolis Magic" = "Metropolis-taika";
 "Noir Nightlife" = "Noir-yöelämä";
 "Reimagine" = "Kuvittele uudelleen";
-"Remember, this is temporary!\nYou're doing a great job." = "Muista, tämä on väliaikaista!\nTeet hienoa työtä.";
 "Remove Background" = "Poista tausta";
 "Remove Text" = "Poista teksti";
 "Remove the background of your pictures." = "Poista kuviesi tausta.";
@@ -236,4 +233,3 @@
 "upgrade" = "päivitä";
 "upscaling.no_image_error" = "Ei kuvaa valittu";
 "upscaling.title" = "Paranna kuva";
-"🚩" = "🚩";

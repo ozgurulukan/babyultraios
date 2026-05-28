@@ -2,8 +2,6 @@
 "App Version" = "App-version";
 "App icon" = "App-ikon";
 "Bubsie Pro" = "Bubsie Pro";
-"Bubsie v1.0.2" = "Bubsie v1.0.2";
-"Check out Bubsie · AI Magic for Your Little One! 🎬 https://apps.apple.com/app/id%@" = "Kolla in Bubsie · AI-magi för din lilla! 🎬 https://apps.apple.com/app/id%@";
 "Coastal Escape" = "Kustflykt";
 "Continue" = "Fortsätt";
 "Cosmic Canvas" = "Kosmiskt kanvas";
@@ -23,7 +21,6 @@
 "Metropolis Magic" = "Metropolis-magi";
 "Noir Nightlife" = "Noir-nattliv";
 "Reimagine" = "Föreställ dig igen";
-"Remember, this is temporary!\nYou're doing a great job." = "Kom ihåg, detta är tillfälligt!\nDu gör ett jättebra jobb.";
 "Remove Background" = "Ta bort bakgrund";
 "Remove Text" = "Ta bort text";
 "Remove the background of your pictures." = "Ta bort bakgrunden på dina foton.";
@@ -236,4 +233,3 @@
 "upgrade" = "uppgradera";
 "upscaling.no_image_error" = "Ingen bild vald";
 "upscaling.title" = "Förbättra bild";
-"🚩" = "🚩";

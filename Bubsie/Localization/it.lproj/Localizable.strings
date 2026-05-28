@@ -2,8 +2,6 @@
 "App Version" = "Versione App";
 "App icon" = "Icona app";
 "Bubsie Pro" = "Bubsie Pro";
-"Bubsie v1.0.2" = "Bubsie v1.0.2";
-"Check out Bubsie · AI Magic for Your Little One! 🎬 https://apps.apple.com/app/id%@" = "Dai un'occhiata a Bubsie · Magia AI per il tuo piccolo! 🎬 https://apps.apple.com/app/id%@";
 "Coastal Escape" = "Fuga Costiera";
 "Continue" = "Continua";
 "Cosmic Canvas" = "Tela Cosmica";
@@ -23,7 +21,6 @@
 "Metropolis Magic" = "Magia Metropolis";
 "Noir Nightlife" = "Vita Notturna Noir";
 "Reimagine" = "Rinnova";
-"Remember, this is temporary!\nYou're doing a great job." = "Ricorda, è temporaneo!\nStai facendo un ottimo lavoro.";
 "Remove Background" = "Rimuovi Sfondo";
 "Remove Text" = "Rimuovi Testo";
 "Remove the background of your pictures." = "Rimuovi lo sfondo delle tue foto.";
@@ -236,4 +233,3 @@
 "upgrade" = "aggiorna";
 "upscaling.no_image_error" = "Nessuna immagine selezionata";
 "upscaling.title" = "Migliora Immagine";
-"🚩" = "🚩";

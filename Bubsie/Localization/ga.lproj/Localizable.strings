@@ -2,8 +2,6 @@
 "App Version" = "Leagan Aipe";
 "App icon" = "Deilbhín aipe";
 "Bubsie Pro" = "Bubsie Pro";
-"Bubsie v1.0.2" = "Bubsie v1.0.2";
-"Check out Bubsie · AI Magic for Your Little One! 🎬 https://apps.apple.com/app/id%@" = "Féach ar Bubsie · Draíocht AI do Do Bheagán! 🎬 https://apps.apple.com/app/id%@";
 "Coastal Escape" = "Teitheadh Chósta";
 "Continue" = "Lean Ar Aghaidh";
 "Cosmic Canvas" = "Canbhás Cosmach";
@@ -23,7 +21,6 @@
 "Metropolis Magic" = "Draíocht na Meitripole";
 "Noir Nightlife" = "Oíche Noir";
 "Reimagine" = "Athshamhlaigh";
-"Remember, this is temporary!\nYou're doing a great job." = "Cuimhnigh, tá sé seo sealadach!\nTá tú ag déanamh jab iontach.";
 "Remove Background" = "Bain Cúlra";
 "Remove Text" = "Bain Téacs";
 "Remove the background of your pictures." = "Bain cúlra do ghrianghraf.";
@@ -236,4 +233,3 @@
 "upgrade" = "uasghrádú";
 "upscaling.no_image_error" = "Níl aon íomhá roghnaithe";
 "upscaling.title" = "Íomhá a Uasghrádú";
-"🚩" = "🚩";

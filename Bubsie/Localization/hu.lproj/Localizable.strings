@@ -143,6 +143,7 @@
 "premium.purchase_success" = "Sikeres vásárlás! Mostantól hozzáférhet az összes PRO sablonhoz, és minden hétfőn 50 heti kreditet adunk hozzá.";
 "premium.restore_purchase" = "Vásárlás visszaállítása";
 "premium.start_free_trial" = "Indítsa el az ingyenes próbaverziómat";
+"premium.subscribe_now" = "ELŐFIZETÉS MOST";
 "premium.trial_format" = "3 nap ingyenes, majd %1$@/%2$@.";
 "premium.unlock_subtitle" = "Alakíts minden kuncogást remekművé.";
 "premium.unlock_title" = "Oldja fel a varázslatot✨";
