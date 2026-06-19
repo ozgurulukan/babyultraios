@@ -8,6 +8,7 @@ import RevenueCat
 import ObjectiveC
 import SDWebImage
 import AVFoundation
+import FacebookCore
 
 // MARK: - Runtime Language Switching via Bundle Swizzling
 private var associatedBundleKey: UInt8 = 0
@@ -129,6 +130,12 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
 
         FirebaseApp.configure()
 
+        // Initialize Meta (Facebook) SDK
+        FacebookCore.ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+
+        // Apply tracking status to Meta SDK
+        TrackingManager.shared.applyCurrentTrackingSettings()
+
         // Configure SDWebImage cache & downloader limits
         SDImageCache.shared.config.maxMemoryCost = 80 * 1024 * 1024
         SDImageCache.shared.config.maxDiskSize = 300 * 1024 * 1024
@@ -169,6 +176,15 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
             .store(in: &cancellables)
 
         return true
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        FacebookCore.ApplicationDelegate.shared.application(
+            app,
+            open: url,
+            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+        )
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

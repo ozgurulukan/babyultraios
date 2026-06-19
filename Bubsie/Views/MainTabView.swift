@@ -67,6 +67,11 @@ struct MainTabView: View {
                     .transition(.opacity.combined(with: .scale))
             }
         }
+        .task {
+            // Delay authorization request slightly to ensure view is active and ready
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+            _ = await TrackingManager.shared.requestTrackingPermission()
+        }
     }
 }
 

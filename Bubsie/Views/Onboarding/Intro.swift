@@ -1,6 +1,5 @@
 import SwiftUI
 import AVFoundation
-import StoreKit
 import SDWebImageSwiftUI
 
 // MARK: - ViewModel
@@ -916,9 +915,7 @@ struct Intro: View {
     @State private var currentPage = 0
     @State private var showPaywall = false
     @State private var navigateToMain = false
-    @State private var hasRequestedReview = false
 
-    @Environment(\.requestReview) private var requestReview
     @EnvironmentObject private var entitlementManager: EntitlementManager
     @EnvironmentObject private var subscriptionsManager: SubscriptionsManager
 
@@ -992,12 +989,6 @@ struct Intro: View {
             }
             .animation(.easeInOut(duration: 0.35), value: currentPage)
             .ignoresSafeArea(.container, edges: .bottom)
-            .onChange(of: currentPage) { _, newValue in
-                if newValue == 2 && !hasRequestedReview {
-                    hasRequestedReview = true
-                    requestReview()
-                }
-            }
         }
     }
 
