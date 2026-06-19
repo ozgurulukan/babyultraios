@@ -99,6 +99,10 @@
 	<key>NSPrivacyTracking</key>
 	<true/>
 	<key>NSPrivacyTrackingDomains</key>
-	<array/>
+	<array>
+		<string>facebook.com</string>
+		<string>facebook.net</string>
+		<string>oribi.io</string>
+	</array>
 </dict>
 </plist>
