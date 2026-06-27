@@ -100,8 +100,6 @@
 	<true/>
 	<key>NSPrivacyTrackingDomains</key>
 	<array>
-		<string>facebook.com</string>
-		<string>facebook.net</string>
 		<string>oribi.io</string>
 	</array>
 </dict>

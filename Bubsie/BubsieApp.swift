@@ -131,6 +131,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
         FirebaseApp.configure()
 
         // Initialize Meta (Facebook) SDK
+        FacebookCore.Settings.shared.isDomainErrorEnabled = false
         FacebookCore.ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         // Apply tracking status to Meta SDK

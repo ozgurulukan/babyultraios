@@ -1,5 +1,7 @@
 import SwiftUI
 import UIKit
+import AVKit
+import SDWebImageSwiftUI
 
 // MARK: - Transform Configuration Screen
 struct TransformView: View {
@@ -21,6 +23,28 @@ struct TransformView: View {
     @State private var showConsentSheet = false
     @State private var showTopup = false
     @State private var showPremium = false
+    @State private var is4KEnabled = false
+    @State private var showLightbox = false
+    @State private var lightboxPlayer: AVPlayer? = nil
+    @State private var videoThumbnail: UIImage? = nil
+
+    private var templatePreviewURL: URL? {
+        template.afterMediaUrl.flatMap(URL.init) ?? template.beforeMediaUrl.flatMap(URL.init)
+    }
+
+    private var isVideoTemplate: Bool {
+        if template.actionType == "video" {
+            return true
+        }
+        let videoHints = [template.afterMediaType, template.beforeMediaType].compactMap { $0?.lowercased() }
+        if videoHints.contains(where: { $0.contains("video") }) {
+            return true
+        }
+        if let ext = templatePreviewURL?.pathExtension.lowercased(), ["mp4", "mov", "m4v", "webm"].contains(ext) {
+            return true
+        }
+        return false
+    }
 
     private var isPro: Bool { auth.currentUser?.isPro ?? entitlementManager.hasPro }
 
@@ -113,6 +137,13 @@ struct TransformView: View {
                     .environmentObject(entitlementManager)
                     .environmentObject(subscriptionManager)
             }
+            .overlay(
+                Group {
+                    if showLightbox {
+                        lightboxOverlay
+                    }
+                }
+            )
     }
 
     // MARK: Background Glows
@@ -179,38 +210,94 @@ struct TransformView: View {
 
     // MARK: Header
     private var headerSection: some View {
-        VStack(spacing: 8) {
-            Text(template.name)
-                .font(.system(size: 16, weight: .bold))
-                .foregroundStyle(primaryText)
-                .multilineTextAlignment(.center)
-
-            Text(NSLocalizedString("transform.upload_prompt", comment: ""))
-                .font(.system(size: 16, weight: .regular))
-                .foregroundStyle(secondaryText)
-                .multilineTextAlignment(.center)
-                .overlay(
-                    GeometryReader { geo in
-                        LinearGradient(
-                            colors: [.clear, Color.white.opacity(0.85), .clear],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                        .frame(width: geo.size.width * 0.35)
-                        .offset(x: shimmerPhase * geo.size.width)
-                        .mask(
-                            Text(NSLocalizedString("transform.upload_prompt", comment: ""))
-                                .font(.system(size: 16, weight: .regular))
-                                .multilineTextAlignment(.center)
-                                .frame(width: geo.size.width, height: geo.size.height)
-                        )
+        HStack(spacing: 16) {
+            if let previewURL = templatePreviewURL {
+                Button {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                        showLightbox = true
                     }
-                )
-                .onAppear {
-                    withAnimation(.linear(duration: 2.5).repeatForever(autoreverses: false)) {
-                        shimmerPhase = 1.5
+                } label: {
+                    Group {
+                        if isVideoTemplate {
+                            if let thumbnail = videoThumbnail {
+                                Image(uiImage: thumbnail)
+                                    .resizable()
+                                    .scaledToFill()
+                            } else {
+                                ZStack {
+                                    Color.gray.opacity(0.1)
+                                    ProgressView()
+                                        .scaleEffect(0.8)
+                                }
+                            }
+                        } else {
+                            WebImage(url: previewURL)
+                                .resizable()
+                                .scaledToFill()
+                        }
                     }
+                    .frame(width: 60, height: 60)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Color.white.opacity(0.5), lineWidth: 1.5)
+                    )
+                    .shadow(color: Color.black.opacity(0.12), radius: 8, x: 0, y: 3)
+                    .overlay(
+                        Image(systemName: isVideoTemplate ? "play.fill" : "magnifyingglass.circle.fill")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundStyle(.white)
+                            .padding(4)
+                            .background(Color.black.opacity(0.35))
+                            .clipShape(Circle())
+                            .padding(4),
+                        alignment: .bottomTrailing
+                    )
                 }
+                .buttonStyle(.plain)
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(template.name)
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .foregroundStyle(primaryText)
+                    .multilineTextAlignment(.leading)
+
+                Text(NSLocalizedString("transform.upload_prompt", comment: ""))
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundStyle(secondaryText)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                    .overlay(
+                        GeometryReader { geo in
+                            LinearGradient(
+                                colors: [.clear, Color.white.opacity(0.85), .clear],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                            .frame(width: geo.size.width * 0.35)
+                            .offset(x: shimmerPhase * geo.size.width)
+                            .mask(
+                                Text(NSLocalizedString("transform.upload_prompt", comment: ""))
+                                    .font(.system(size: 14, weight: .regular))
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.7)
+                                    .frame(width: geo.size.width, height: geo.size.height, alignment: .leading)
+                            )
+                        }
+                    )
+                    .clipped()
+            }
+            .onAppear {
+                withAnimation(.linear(duration: 2.5).repeatForever(autoreverses: false)) {
+                    shimmerPhase = 1.5
+                }
+                loadVideoThumbnail()
+            }
+            
+            Spacer(minLength: 0)
         }
         .padding(.horizontal, 24)
     }
@@ -336,10 +423,41 @@ struct TransformView: View {
     // MARK: Aspect Ratio Selection
     private var aspectRatioSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(NSLocalizedString("transform.aspect_ratio", comment: ""))
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(primaryText)
+            HStack {
+                Text(NSLocalizedString("transform.aspect_ratio", comment: ""))
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(primaryText)
+                    .padding(.horizontal, 8)
+                
+                Spacer()
+                
+                // 4K Toggle
+                HStack(spacing: 8) {
+                    Text("4K")
+                        .font(.system(size: 11, weight: .black, design: .rounded))
+                        .foregroundStyle(is4KEnabled ? accentBrown : secondaryText)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(is4KEnabled ? accentBrown : secondaryText.opacity(0.4), lineWidth: 1.5)
+                        )
+                    
+                    Toggle("", isOn: Binding(
+                        get: { is4KEnabled },
+                        set: { newValue in
+                            if isPro {
+                                is4KEnabled = newValue
+                            } else {
+                                showPremium = true
+                            }
+                        }
+                    ))
+                    .labelsHidden()
+                    .tint(accentBrown)
+                }
                 .padding(.horizontal, 8)
+            }
 
             HStack(spacing: 12) {
                 ForEach(aspectRatios, id: \.self) { ratio in
@@ -594,6 +712,111 @@ struct TransformView: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.white.opacity(0.50), lineWidth: 1)
         )
+    }
+
+    // MARK: - Lightbox Overlay
+    private var lightboxOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.75)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    dismissLightbox()
+                }
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        dismissLightbox()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 32))
+                            .foregroundStyle(.white.opacity(0.8))
+                            .padding()
+                    }
+                }
+                
+                Spacer()
+                
+                if let previewURL = templatePreviewURL {
+                    Group {
+                        if isVideoTemplate {
+                            if let player = lightboxPlayer {
+                                VideoPlayer(player: player)
+                                    .aspectRatio(contentMode: .fit)
+                            } else {
+                                ProgressView()
+                                    .tint(.white)
+                            }
+                        } else {
+                            WebImage(url: previewURL)
+                                .resizable()
+                                .scaledToFit()
+                        }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: 500)
+                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                    .shadow(color: Color.black.opacity(0.35), radius: 24, x: 0, y: 12)
+                    .padding(.horizontal, 24)
+                }
+                
+                Spacer()
+            }
+        }
+        .transition(.opacity.combined(with: .scale(scale: 0.92)))
+        .onAppear {
+            setupLightboxPlayer()
+        }
+        .onDisappear {
+            teardownLightboxPlayer()
+        }
+    }
+
+    private func setupLightboxPlayer() {
+        guard isVideoTemplate, let previewURL = templatePreviewURL else { return }
+        let player = AVPlayer(url: previewURL)
+        player.actionAtItemEnd = .none
+        
+        // Loop observer
+        NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: player.currentItem,
+            queue: .main
+        ) { _ in
+            player.seek(to: .zero)
+            player.play()
+        }
+        
+        player.play()
+        self.lightboxPlayer = player
+    }
+    
+    private func teardownLightboxPlayer() {
+        lightboxPlayer?.pause()
+        lightboxPlayer = nil
+    }
+    
+    private func dismissLightbox() {
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+            showLightbox = false
+        }
+    }
+
+    private func loadVideoThumbnail() {
+        guard isVideoTemplate, let previewURL = templatePreviewURL, videoThumbnail == nil else { return }
+        let asset = AVAsset(url: previewURL)
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+        let time = CMTime(seconds: 0, preferredTimescale: 60)
+        
+        generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: time)]) { _, image, _, _, _ in
+            if let image = image {
+                let uiImage = UIImage(cgImage: image)
+                DispatchQueue.main.async {
+                    self.videoThumbnail = uiImage
+                }
+            }
+        }
     }
 }
 
