@@ -52,7 +52,7 @@ final class HomeViewModel: ObservableObject {
         }
 
         do {
-            photoTemplates = try await BabyUltraAPI.shared.getTemplates(type: "photo")
+            photoTemplates = try await BabyUltraAPI.shared.getTemplates(type: "photo", includeHidden: true)
             didLoadAnySection = true
         } catch APIError.rateLimited(let secs) {
             rateLimitWait = max(rateLimitWait ?? 0, secs)
@@ -118,7 +118,7 @@ final class HomeViewModel: ObservableObject {
                 filteredTemplates = allTemplates
             }
         } else if let id = selectedCategoryID, let catId = Int(id.components(separatedBy: "_").first ?? "") {
-            filteredTemplates = allTemplates.filter { $0.categoryId == catId }
+            filteredTemplates = allTemplates.filter { $0.categoryId == catId && !($0.hideFromAll ?? false) }
         } else {
             filteredTemplates = allTemplates.filter { !($0.hideFromAll ?? false) }
         }
@@ -135,6 +135,7 @@ final class HomeViewModel: ObservableObject {
         let all = currentTemplates
         var map: [Int: [TemplateItem]] = [:]
         for t in all {
+            if t.hideFromAll == true { continue }
             guard let cid = t.categoryId else { continue }
             map[cid, default: []].append(t)
         }
