@@ -52,14 +52,14 @@ struct HomeView: View {
                                 Button {
                                     isPremiumShow = true
                                 } label: {
-                                    Text(NSLocalizedString("home.pro_button", comment: ""))
-                                        .font(.system(size: 11, weight: .heavy))
-                                        .foregroundStyle(.white)
-                                        .padding(.horizontal, 14)
-                                        .padding(.vertical, 8)
-                                        .background(LinearGradient(colors: [Color(hex: "FF5E7E"), Color(hex: "FF9E80")], startPoint: .topLeading, endPoint: .bottomTrailing))
-                                        .clipShape(Capsule())
-                                        .shadow(color: Color(hex: "FF5E7E").opacity(0.3), radius: 4, x: 0, y: 2)
+                                    Image(systemName: "diamond.fill")
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundStyle(HomePalette.accent)
+                                        .padding(8)
+                                        .background(Color.white.opacity(0.5))
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(HomePalette.accent.opacity(0.3), lineWidth: 1.5))
+                                        .shadow(color: HomePalette.accent.opacity(0.2), radius: 4, x: 0, y: 2)
                                 }
                                 .buttonStyle(.plain)
                             }
@@ -76,10 +76,10 @@ struct HomeView: View {
                                 
                             Text("BabyUltra")
                                 .font(.system(size: 16, weight: .bold))
-                                .foregroundStyle(HomePalette.text)
+                                .foregroundStyle(HomePalette.accent)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
-                                .overlay(Capsule().stroke(HomePalette.text, lineWidth: 1.5))
+                                .overlay(Capsule().stroke(HomePalette.accent, lineWidth: 1.5))
                         }
                         
                         // Right Side
