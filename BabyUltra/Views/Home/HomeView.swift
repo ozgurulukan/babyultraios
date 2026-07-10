@@ -41,7 +41,7 @@ struct HomeView: View {
 
                 StickyBlurHeader(
                     maxBlurRadius: 10,
-                    fadeExtension: 84,
+                    fadeExtension: 44,
                     tintOpacityTop: 0.58,
                     tintOpacityMiddle: 0.36
                 ) {
