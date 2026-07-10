@@ -49,9 +49,7 @@ struct AccountView: View {
             VStack(alignment: .leading, spacing: 24) {
                 creditCard
                 if !isPro { premiumButton }
-                subscriptionSection
-                menuList
-                deleteAccountButton
+                combinedSection
                 Color.clear.frame(height: 96)
             }
             .padding(.horizontal, 24)
@@ -548,6 +546,109 @@ struct AccountView: View {
         }
         .buttonStyle(.plain)
         .padding(.top, 8)
+    }
+
+    private var combinedSection: some View {
+        VStack(spacing: 0) {
+            // Subscription Info
+            profileInfoRow(
+                icon: "creditcard.fill",
+                title: NSLocalizedString("account.subscription", comment: ""),
+                subtitle: memberTier,
+                trailing: AnyView(
+                    Text(NSLocalizedString("account.active", comment: ""))
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 4)
+                        .background(Capsule().fill(Color(hex: "FFF3F1")))
+                )
+            )
+            .padding(.horizontal, 24)
+
+            menuDivider
+
+            profileInfoRow(
+                icon: "calendar",
+                title: NSLocalizedString("account.weekly_allowance", comment: ""),
+                subtitle: NSLocalizedString("account.resets_monday", comment: ""),
+                trailing: AnyView(
+                    Group {
+                        if isPro {
+                            Text(NSLocalizedString("account.50_credits", comment: ""))
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundStyle(Color(hex: "2D2422"))
+                        } else {
+                            Button {
+                                isPremiumShow = true
+                            } label: {
+                                Text(NSLocalizedString("account.upgrade", comment: ""))
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundStyle(Color(hex: "8D7F7A"))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                )
+            )
+            .padding(.horizontal, 24)
+
+            menuDivider
+
+            // Menu Options
+            profileMenuRow(icon: "person.2.fill", title: NSLocalizedString("account.invite_friends", comment: "")) { showShareSheet = true }
+            menuDivider
+            profileMenuRow(icon: "globe", title: NSLocalizedString("menu.language", comment: "")) { showLanguageSheet = true }
+            menuDivider
+            profileMenuRow(icon: "questionmark.circle", title: NSLocalizedString("menu.help_center", comment: "")) {
+                openURL(URL(string: "https://fagore.com/help/")!)
+            }
+            menuDivider
+            profileMenuRow(icon: "lock.shield", title: NSLocalizedString("menu.privacy_policy", comment: "")) {
+                openURL(URL(string: "https://fagore.com/privacy/")!)
+            }
+            menuDivider
+            profileMenuRow(icon: "doc.text", title: NSLocalizedString("account.terms_conditions", comment: "")) {
+                openURL(URL(string: "https://fagore.com/terms/")!)
+            }
+            menuDivider
+            profileMenuRow(icon: "person.fill.viewfinder", title: NSLocalizedString("account.user_id", comment: "")) {
+                if let uid = Auth.auth().currentUser?.uid {
+                    UIPasteboard.general.string = uid
+                    copiedBannerText = NSLocalizedString("account.userid_copied", comment: "")
+                    withAnimation { showCopiedBanner = true }
+                }
+            }
+
+            // Delete Account (Plain Text, Beige Color)
+            menuDivider
+            Button {
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    showDeleteAccountPopup = true
+                }
+            } label: {
+                HStack {
+                    HStack(spacing: 16) {
+                        Image(systemName: "trash.fill")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(Color(hex: "8D7F7A"))
+                        Text(NSLocalizedString("account.delete_all_data", comment: ""))
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundStyle(Color(hex: "8D7F7A"))
+                    }
+                    Spacer()
+                }
+                .padding(20)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.vertical, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 40, style: .continuous)
+                .fill(.white)
+                .shadow(color: Color(hex: "2D2422").opacity(0.03), radius: 10, y: 4)
+        )
     }
 
     private var deleteAccountPopup: some View {
