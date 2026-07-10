@@ -129,7 +129,7 @@ struct HomeView: View {
                     VStack(spacing: HomePalette.gridGap) {
                         heroSection
 
-                        modeSegment
+
                         templatesContent
                         Color.clear.frame(height: 70)
                     }
@@ -208,45 +208,6 @@ struct HomeView: View {
     }
 
 
-
-    private var modeSegment: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
-                modeChip(title: NSLocalizedString("home.filter_all", comment: ""), icon: nil, isSelected: homeVM.selectedCategoryID == nil && homeVM.selectedFilter == nil) {
-                    homeVM.selectCategory(nil)
-                }
-
-                modeChip(title: NSLocalizedString("home.filter_popular", comment: ""), icon: "flame.fill", selectedColor: .blue, isSelected: homeVM.selectedFilter == "popular") {
-                    homeVM.selectFilter("popular")
-                }
-
-                modeChip(title: NSLocalizedString("home.filter_viral", comment: ""), icon: "chart.line.uptrend.xyaxis", selectedColor: .red, isSelected: homeVM.selectedFilter == "trending") {
-                    homeVM.selectFilter("trending")
-                }
-            }
-            .padding(.horizontal, HomePalette.edgePadding)
-        }
-    }
-
-    private func modeChip(title: String, icon: String? = nil, selectedColor: Color = HomePalette.accent, isSelected: Bool, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            HStack(spacing: 6) {
-                if let icon {
-                    Image(systemName: icon)
-                        .font(.system(size: 12, weight: .semibold))
-                }
-                Text(title)
-                    .font(.system(size: 13, weight: .semibold))
-            }
-            .foregroundStyle(isSelected ? .white : HomePalette.text)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 11)
-            .background(isSelected ? selectedColor : Color.white.opacity(0.45))
-            .clipShape(Capsule())
-            .overlay(Capsule().stroke(Color(hex: "E0D0C8"), lineWidth: isSelected ? 0 : 1))
-        }
-        .buttonStyle(.plain)
-    }
 
     private var templatesContent: some View {
         VStack(spacing: 24) {
