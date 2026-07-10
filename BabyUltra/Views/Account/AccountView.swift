@@ -47,7 +47,6 @@ struct AccountView: View {
                 .padding(.bottom, 12)
         } content: {
             VStack(alignment: .leading, spacing: 24) {
-                creditCard
                 if !isPro { premiumButton }
                 combinedSection
                 Color.clear.frame(height: 96)
@@ -186,12 +185,6 @@ struct AccountView: View {
             .padding(.top, 24)
             .padding(.bottom, 20)
 
-            // Horizontal divider
-            Rectangle()
-                .fill(Color.white.opacity(0.4))
-                .frame(height: 1)
-                .padding(.horizontal, 24)
-
             // Bottom half — tappable liquid-glass area
             Button {
                 showTopup = true
@@ -207,32 +200,7 @@ struct AccountView: View {
                 .padding(.vertical, 14)
                 .background(
                     RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(.ultraThinMaterial)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .fill(
-                                    LinearGradient(
-                                        colors: [Color.white.opacity(0.30), Color.white.opacity(0.06)],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .stroke(Color.white.opacity(0.55), lineWidth: 1)
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .stroke(
-                                    LinearGradient(
-                                        colors: [Color(hex: "FF88A8").opacity(0.32), Color(hex: "FF88A8").opacity(0.22)],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ),
-                                    lineWidth: 1
-                                )
-                        )
+                        .fill(Color(hex: "FFF3F1"))
                 )
                 .padding(.horizontal, 24)
                 .padding(.vertical, 12)
@@ -240,52 +208,6 @@ struct AccountView: View {
             .buttonStyle(.plain)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background {
-            RoundedRectangle(cornerRadius: 40, style: .continuous)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 40, style: .continuous)
-                        .fill(
-                            LinearGradient(
-                                colors: [Color.white.opacity(0.30), Color.white.opacity(0.06)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 40, style: .continuous)
-                        .stroke(Color.white.opacity(0.55), lineWidth: 1)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 40, style: .continuous)
-                        .stroke(
-                            LinearGradient(
-                                colors: [Color(hex: "FF88A8").opacity(0.32), Color(hex: "FF88A8").opacity(0.22)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ),
-                            lineWidth: 1
-                        )
-                )
-                .overlay(alignment: .topTrailing) {
-                    Circle()
-                        .fill(Color(hex: "FF88A8").opacity(0.35))
-                        .frame(width: 128, height: 128)
-                        .blur(radius: 24)
-                        .offset(x: 45, y: -45)
-                }
-                .overlay(alignment: .bottomLeading) {
-                    Circle()
-                        .fill(Color(hex: "FF88A8").opacity(0.35))
-                        .frame(width: 128, height: 128)
-                        .blur(radius: 24)
-                        .offset(x: -45, y: 45)
-                }
-                .compositingGroup()
-        }
-        .shadow(color: Color.white.opacity(0.30), radius: 1, y: -1)
-        .shadow(color: Color(hex: "FF4D85").opacity(0.12), radius: 20, y: 8)
     }
 
     private var subscriptionSection: some View {
@@ -550,6 +472,8 @@ struct AccountView: View {
 
     private var combinedSection: some View {
         VStack(spacing: 0) {
+            creditCard
+            menuDivider
             // Subscription Info
             profileInfoRow(
                 icon: "creditcard.fill",
