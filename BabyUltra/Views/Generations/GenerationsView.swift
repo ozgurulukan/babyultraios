@@ -1,5 +1,4 @@
 import SwiftUI
-import AVKit
 
 struct GenerationsView: View {
     @StateObject private var viewModel = GenerationsViewModel()
@@ -23,7 +22,9 @@ struct GenerationsView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(hex: "FFF9EC").ignoresSafeArea()
+                Image("bg")
+                    .resizable()
+                    .ignoresSafeArea()
 
                 StickyBlurHeader(
                     maxBlurRadius: 10,
@@ -111,7 +112,7 @@ struct GenerationsView: View {
             if viewModel.isLoadingMore {
                 HStack {
                     Spacer()
-                    ProgressView().tint(Color(hex: "97462E"))
+                    ProgressView().tint(Color(hex: "FF4D85"))
                     Spacer()
                 }
             }
@@ -120,9 +121,9 @@ struct GenerationsView: View {
 
     private var loadingState: some View {
         VStack(spacing: 14) {
-            ProgressView().tint(Color(hex: "97462E"))
+            ProgressView().tint(Color(hex: "FF4D85"))
             Text(NSLocalizedString("generations.loading", comment: ""))
-                .foregroundStyle(Color(hex: "55433E"))
+                .foregroundStyle(Color(hex: "8D7F7A"))
         }
         .frame(maxWidth: .infinity, minHeight: 280)
     }
@@ -131,14 +132,14 @@ struct GenerationsView: View {
         VStack(spacing: 12) {
             Image(systemName: selectedFilter == 2 ? "clock.badge.xmark.fill" : "photo.stack.fill")
                 .font(.system(size: 42))
-                .foregroundStyle(Color(hex: "97462E").opacity(0.8))
+                .foregroundStyle(Color(hex: "FF4D85").opacity(0.8))
             Text(selectedFilter == 2 ? NSLocalizedString("generations.no_processing_title", comment: "") : NSLocalizedString("generations.empty_title", comment: ""))
                 .font(.system(size: 22, weight: .bold))
-                .foregroundStyle(Color(hex: "1E1C10"))
+                .foregroundStyle(Color(hex: "2D2422"))
             Text(selectedFilter == 2 ? NSLocalizedString("generations.no_processing_message", comment: "") : NSLocalizedString("generations.empty_message", comment: ""))
                 .font(.system(size: 15))
                 .multilineTextAlignment(.center)
-                .foregroundStyle(Color(hex: "55433E"))
+                .foregroundStyle(Color(hex: "8D7F7A"))
                 .padding(.horizontal, 26)
         }
         .frame(maxWidth: .infinity, minHeight: 280)
@@ -153,7 +154,7 @@ struct GenerationsView: View {
                     } label: {
                         Text(filters[idx])
                             .font(.system(size: 16, weight: selectedFilter == idx ? .bold : .semibold))
-                            .foregroundStyle(selectedFilter == idx ? .white : Color(hex: "55433E"))
+                            .foregroundStyle(selectedFilter == idx ? .white : Color(hex: "8D7F7A"))
                             .padding(.horizontal, 24)
                             .padding(.vertical, 12)
                             .background(
@@ -162,12 +163,12 @@ struct GenerationsView: View {
                                         selectedFilter == idx
                                         ? AnyShapeStyle(
                                             LinearGradient(
-                                                colors: [Color(hex: "97462E"), Color(hex: "F08C6E")],
+                                                colors: [Color(hex: "FF4D85"), Color(hex: "FF88A8")],
                                                 startPoint: .leading,
                                                 endPoint: .trailing
                                             )
                                         )
-                                        : AnyShapeStyle(Color(hex: "FAF3E0"))
+                                        : AnyShapeStyle(Color(hex: "FFF3F1"))
                                     )
                             )
                     }
@@ -185,9 +186,7 @@ struct GenerationsView: View {
 
     private func historyRoute(for item: HistoryItem) -> HistoryResultRoute? {
         guard let url = item.resultUrl ?? item.imageUrl, !url.isEmpty else { return nil }
-        let ext = URL(string: url)?.pathExtension.lowercased() ?? ""
-        let videoExts = ["mp4", "mov", "m4v", "webm"]
-        let actionType = videoExts.contains(ext) ? "video" : "image"
+        let actionType = "image"
         return HistoryResultRoute(id: item.id, url: url, actionType: actionType)
     }
 }
@@ -198,14 +197,6 @@ private struct GenerationHistoryCard: View {
 
     private var isSuccess: Bool { item.status == "success" }
     private var displayURL: String? { item.resultUrl ?? item.imageUrl }
-    private var isVideo: Bool {
-        guard let urlString = displayURL, let url = URL(string: urlString) else { return false }
-        let videoExts = ["mp4", "mov", "m4v", "webm"]
-        return videoExts.contains(url.pathExtension.lowercased())
-    }
-    private var isMuted: Bool {
-        viewModel.activeAudioItemID != item.id
-    }
     private var title: String {
         if let prompt = item.prompt?.trimmingCharacters(in: .whitespacesAndNewlines), !prompt.isEmpty {
             if let explicit = prompt
@@ -263,53 +254,22 @@ private struct GenerationHistoryCard: View {
                             .overlay(
                                 Image(systemName: "sparkles")
                                     .font(.system(size: 24, weight: .bold))
-                                    .foregroundStyle(Color(hex: "97462E"))
+                                    .foregroundStyle(Color(hex: "FF4D85"))
                             )
                         Text(NSLocalizedString("card.processing", comment: ""))
                             .font(.system(size: 17, weight: .semibold))
-                            .foregroundStyle(Color(hex: "1E1C10"))
+                            .foregroundStyle(Color(hex: "2D2422"))
                     }
                 }
 
-                if isSuccess && isVideo {
-                    Image(systemName: "play.circle.fill")
-                        .font(.system(size: 44, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .shadow(color: .black.opacity(0.4), radius: 6, x: 0, y: 2)
-                }
 
-                if isSuccess && isVideo {
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            Button {
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                                    if viewModel.activeAudioItemID == item.id {
-                                        viewModel.activeAudioItemID = nil
-                                    } else {
-                                        viewModel.activeAudioItemID = item.id
-                                    }
-                                }
-                            } label: {
-                                Image(systemName: isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.white)
-                                    .padding(10)
-                                    .background(.ultraThinMaterial)
-                                    .clipShape(Circle())
-                            }
-                            .padding(12)
-                        }
-                    }
-                }
             }
 
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(isSuccess ? String(format: NSLocalizedString("card.generated", comment: ""), relativeDate(item.createdAt)) : NSLocalizedString("card.generating_now", comment: ""))
                         .font(.system(size: 13))
-                        .foregroundStyle(Color(hex: "55433E"))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
                 }
                 Spacer()
                 Text(isSuccess ? NSLocalizedString("card.success", comment: "") : NSLocalizedString("card.processing", comment: ""))
@@ -317,18 +277,18 @@ private struct GenerationHistoryCard: View {
                     .foregroundStyle(isSuccess ? Color(hex: "245A22") : Color(hex: "6F4600"))
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
-                    .background(Capsule().fill(isSuccess ? Color(hex: "DFF4DE") : Color(hex: "FEB246")))
+                    .background(Capsule().fill(isSuccess ? Color(hex: "DFF4DE") : Color(hex: "FF88A8")))
             }
 
             if !isSuccess {
                 GeometryReader { geo in
                     RoundedRectangle(cornerRadius: 999)
-                        .fill(Color(hex: "F4EEDB"))
+                        .fill(Color(hex: "FFF3F1"))
                         .overlay(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 999)
                                 .fill(
                                     LinearGradient(
-                                        colors: [Color(hex: "97462E"), Color(hex: "F08C6E"), Color(hex: "97462E")],
+                                        colors: [Color(hex: "FF4D85"), Color(hex: "FF88A8"), Color(hex: "FF4D85")],
                                         startPoint: .leading,
                                         endPoint: .trailing
                                     )
@@ -356,22 +316,18 @@ private struct GenerationHistoryCard: View {
     private var media: some View {
         Group {
             if let urlString = displayURL, let url = URL(string: urlString) {
-                if isVideo {
-                    VideoPlayerContainer(url: url, isMuted: isMuted)
-                } else {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .blur(radius: isSuccess ? 0 : 2)
-                                .saturation(isSuccess ? 1 : 0.5)
-                        case .failure:
-                            placeholder
-                        default:
-                            placeholder.overlay(ProgressView().tint(Color(hex: "97462E")))
-                        }
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .blur(radius: isSuccess ? 0 : 2)
+                            .saturation(isSuccess ? 1 : 0.5)
+                    case .failure:
+                        placeholder
+                    default:
+                        placeholder.overlay(ProgressView().tint(Color(hex: "FF4D85")))
                     }
                 }
             } else {
@@ -382,7 +338,7 @@ private struct GenerationHistoryCard: View {
 
     private var placeholder: some View {
         RoundedRectangle(cornerRadius: 32, style: .continuous)
-            .fill(Color(hex: "F4EEDB"))
+            .fill(Color(hex: "FFF3F1"))
     }
 
     private func relativeDate(_ iso: String) -> String {
@@ -395,23 +351,6 @@ private struct GenerationHistoryCard: View {
         return rel.localizedString(for: date, relativeTo: Date())
     }
 }
-
-private struct VideoPlayerContainer: UIViewControllerRepresentable {
-    let url: URL
-    var isMuted: Bool
-
-    func makeUIViewController(context: Context) -> AVPlayerViewController {
-        let controller = AVPlayerViewController()
-        let player = AVPlayer(url: url)
-        player.isMuted = true
-        player.play()
-        controller.player = player
-        controller.videoGravity = .resizeAspectFill
-        controller.showsPlaybackControls = false
-        controller.view.isUserInteractionEnabled = false
-        context.coordinator.player = player
-        return controller
-    }
 
     func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
         uiViewController.view.isUserInteractionEnabled = false

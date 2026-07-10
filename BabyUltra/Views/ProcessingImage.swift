@@ -8,7 +8,6 @@ struct ProcessingImage: View {
     var momImageURL: String? = nil
     var babyImageURL: String? = nil
     var dadImageURL: String? = nil
-    var videoURL: String? = nil
     var onBackToTemplates: (() -> Void)? = nil
 
     @Environment(\.dismiss) private var dismiss
@@ -32,7 +31,7 @@ struct ProcessingImage: View {
 
     var body: some View {
         ZStack {
-            bgColor.ignoresSafeArea()
+            Color.clear.ignoresSafeArea()
 
             backgroundGlows
 
@@ -305,7 +304,6 @@ struct ProcessingImage: View {
                 momImageURL: momImageURL,
                 babyImageURL: babyImageURL,
                 dadImageURL: dadImageURL,
-                videoURL: videoURL ?? template.referenceVideoUrl,
                 notifyWhenDone: notifyWhenDone
             )
 
@@ -350,7 +348,6 @@ struct ProcessingImage: View {
             afterMediaUrl: nil,
             afterMediaType: nil,
             referenceImageCount: nil,
-            referenceVideoUrl: nil,
             requireMomPhoto: nil,
             requireBabyPhoto: nil,
             requireDadPhoto: nil,

@@ -58,7 +58,7 @@ struct AccountView: View {
             .padding(.top, 8)
         }
         .environment(\.colorScheme, .light)
-        .background(profileBackground.ignoresSafeArea())
+        .background(Color.clear.ignoresSafeArea())
         .navigationBarHidden(true)
         .task { await auth.fetchProfile() }
         .onChange(of: entitlementManager.hasPro) { _, _ in
@@ -94,7 +94,7 @@ struct AccountView: View {
                     .padding(.vertical, 12)
                     .background(
                         Capsule()
-                            .fill(Color(hex: "97462E"))
+                            .fill(Color(hex: "FF4D85"))
                     )
                     .shadow(color: .black.opacity(0.15), radius: 12, y: 6)
                     .padding(.bottom, 32)
@@ -116,7 +116,7 @@ struct AccountView: View {
 
     private var profileBackground: some View {
         LinearGradient(
-            colors: [Color(hex: "FFF9EC"), Color(hex: "FFF9EC")],
+            colors: [Color(hex: "FFF3F1"), Color(hex: "FFF3F1")],
             startPoint: .top,
             endPoint: .bottom
         )
@@ -132,7 +132,7 @@ struct AccountView: View {
                 } label: {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .foregroundStyle(Color(hex: "2D2422"))
                         .frame(width: 36, height: 36)
                         .background(.ultraThinMaterial)
                         .clipShape(Circle())
@@ -160,19 +160,19 @@ struct AccountView: View {
                         Text(NSLocalizedString("account.current_balance", comment: ""))
                             .font(.system(size: 14, weight: .medium))
                             .tracking(0.7)
-                            .foregroundStyle(Color(hex: "55433E"))
+                            .foregroundStyle(Color(hex: "8D7F7A"))
 
                         Text("\(displayCredits)")
                             .font(.system(size: 48, weight: .heavy))
-                            .foregroundStyle(Color(hex: "97462E"))
+                            .foregroundStyle(Color(hex: "FF4D85"))
 
                         HStack(spacing: 8) {
                             Image(systemName: "sparkles")
                                 .font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(Color(hex: "55433E"))
+                                .foregroundStyle(Color(hex: "8D7F7A"))
                             Text(NSLocalizedString("account.credits_ready", comment: ""))
                                 .font(.system(size: 14, weight: .medium))
-                                .foregroundStyle(Color(hex: "55433E"))
+                                .foregroundStyle(Color(hex: "8D7F7A"))
                         }
                         .padding(.top, 4)
                     }
@@ -181,7 +181,7 @@ struct AccountView: View {
 
                     Image(systemName: "star.circle.fill")
                         .font(.system(size: 30))
-                        .foregroundStyle(Color(hex: "97462E").opacity(0.85))
+                        .foregroundStyle(Color(hex: "FF4D85").opacity(0.85))
                 }
             }
             .padding(.horizontal, 32)
@@ -204,7 +204,7 @@ struct AccountView: View {
                     Text(NSLocalizedString("account.top_up_credits", comment: ""))
                         .font(.system(size: 16, weight: .semibold))
                 }
-                .foregroundStyle(Color(hex: "97462E"))
+                .foregroundStyle(Color(hex: "FF4D85"))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
                 .background(
@@ -228,7 +228,7 @@ struct AccountView: View {
                             RoundedRectangle(cornerRadius: 24, style: .continuous)
                                 .stroke(
                                     LinearGradient(
-                                        colors: [Color(hex: "F08C6E").opacity(0.32), Color(hex: "FEB246").opacity(0.22)],
+                                        colors: [Color(hex: "FF88A8").opacity(0.32), Color(hex: "FF88A8").opacity(0.22)],
                                         startPoint: .topLeading,
                                         endPoint: .bottomTrailing
                                     ),
@@ -263,7 +263,7 @@ struct AccountView: View {
                     RoundedRectangle(cornerRadius: 40, style: .continuous)
                         .stroke(
                             LinearGradient(
-                                colors: [Color(hex: "F08C6E").opacity(0.32), Color(hex: "FEB246").opacity(0.22)],
+                                colors: [Color(hex: "FF88A8").opacity(0.32), Color(hex: "FF88A8").opacity(0.22)],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             ),
@@ -272,14 +272,14 @@ struct AccountView: View {
                 )
                 .overlay(alignment: .topTrailing) {
                     Circle()
-                        .fill(Color(hex: "F08C6E").opacity(0.35))
+                        .fill(Color(hex: "FF88A8").opacity(0.35))
                         .frame(width: 128, height: 128)
                         .blur(radius: 24)
                         .offset(x: 45, y: -45)
                 }
                 .overlay(alignment: .bottomLeading) {
                     Circle()
-                        .fill(Color(hex: "FEB246").opacity(0.35))
+                        .fill(Color(hex: "FF88A8").opacity(0.35))
                         .frame(width: 128, height: 128)
                         .blur(radius: 24)
                         .offset(x: -45, y: 45)
@@ -287,7 +287,7 @@ struct AccountView: View {
                 .compositingGroup()
         }
         .shadow(color: Color.white.opacity(0.30), radius: 1, y: -1)
-        .shadow(color: Color(hex: "97462E").opacity(0.12), radius: 20, y: 8)
+        .shadow(color: Color(hex: "FF4D85").opacity(0.12), radius: 20, y: 8)
     }
 
     private var subscriptionSection: some View {
@@ -299,14 +299,14 @@ struct AccountView: View {
                 trailing: AnyView(
                     Text(NSLocalizedString("account.active", comment: ""))
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(Color(hex: "55433E"))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
                         .padding(.horizontal, 12)
                         .padding(.vertical, 4)
-                        .background(Capsule().fill(Color(hex: "FFF9EC")))
+                        .background(Capsule().fill(Color(hex: "FFF3F1")))
                 )
             )
 
-            Divider().overlay(Color(hex: "F4EEDB"))
+            Divider().overlay(Color(hex: "FFF3F1"))
 
             profileInfoRow(
                 icon: "calendar",
@@ -317,14 +317,14 @@ struct AccountView: View {
                         if isPro {
                             Text(NSLocalizedString("account.50_credits", comment: ""))
                                 .font(.system(size: 16, weight: .bold))
-                                .foregroundStyle(Color(hex: "1E1C10"))
+                                .foregroundStyle(Color(hex: "2D2422"))
                         } else {
                             Button {
                                 isPremiumShow = true
                             } label: {
                                 Text(NSLocalizedString("account.upgrade", comment: ""))
                                     .font(.system(size: 14, weight: .medium))
-                                    .foregroundStyle(Color(hex: "88726C"))
+                                    .foregroundStyle(Color(hex: "8D7F7A"))
                             }
                             .buttonStyle(.plain)
                         }
@@ -336,7 +336,7 @@ struct AccountView: View {
         .padding(.vertical, 12)
         .background(
             RoundedRectangle(cornerRadius: 32, style: .continuous)
-                .fill(Color(hex: "FAF3E0"))
+                .fill(Color(hex: "FFF3F1"))
         )
     }
 
@@ -349,20 +349,20 @@ struct AccountView: View {
         HStack(spacing: 12) {
             ZStack {
                 Circle()
-                    .fill(Color(hex: "F4EEDB"))
+                    .fill(Color(hex: "FFF3F1"))
                     .frame(width: 40, height: 40)
                 Image(systemName: icon)
                     .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(Color(hex: "97462E"))
+                    .foregroundStyle(Color(hex: "FF4D85"))
             }
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(Color(hex: "1E1C10"))
+                    .foregroundStyle(Color(hex: "2D2422"))
                 Text(subtitle)
                     .font(.system(size: 12))
-                    .foregroundStyle(Color(hex: "55433E"))
+                    .foregroundStyle(Color(hex: "8D7F7A"))
             }
 
             Spacer()
@@ -387,7 +387,7 @@ struct AccountView: View {
 
                 Image(systemName: "sparkles")
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(Color(hex: "FFD56A"))
+                    .foregroundStyle(Color(hex: "FF88A8"))
             }
             .padding(.vertical, 18)
             .frame(maxWidth: .infinity)
@@ -396,11 +396,11 @@ struct AccountView: View {
                     .fill(
                         LinearGradient(
                             colors: [
-                                Color(hex: "97462E"),
-                                Color(hex: "B75D3F"),
-                                Color(hex: "F08C6E"),
-                                Color(hex: "B75D3F"),
-                                Color(hex: "97462E")
+                                Color(hex: "FF4D85"),
+                                Color(hex: "FF4D85"),
+                                Color(hex: "FF88A8"),
+                                Color(hex: "FF4D85"),
+                                Color(hex: "FF4D85")
                             ],
                             startPoint: .leading,
                             endPoint: .trailing
@@ -432,7 +432,7 @@ struct AccountView: View {
                         lineWidth: 1.5
                     )
             )
-            .shadow(color: Color(hex: "97462E").opacity(glowPulse ? 0.35 : 0.18), radius: glowPulse ? 24 : 14, y: 8)
+            .shadow(color: Color(hex: "FF4D85").opacity(glowPulse ? 0.35 : 0.18), radius: glowPulse ? 24 : 14, y: 8)
         }
         .buttonStyle(.plain)
         .scaleEffect(scalePulse ? 1.02 : 1.0)
@@ -486,14 +486,14 @@ struct AccountView: View {
         .background(
             RoundedRectangle(cornerRadius: 40, style: .continuous)
                 .fill(.white)
-                .shadow(color: Color(hex: "1E1C10").opacity(0.03), radius: 10, y: 4)
+                .shadow(color: Color(hex: "2D2422").opacity(0.03), radius: 10, y: 4)
         )
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
     }
 
     private var menuDivider: some View {
         Rectangle()
-            .fill(Color(hex: "F4EEDB").opacity(0.6))
+            .fill(Color(hex: "FFF3F1").opacity(0.6))
             .frame(height: 1)
             .padding(.leading, 60)
     }
@@ -504,15 +504,15 @@ struct AccountView: View {
                 HStack(spacing: 16) {
                     Image(systemName: icon)
                         .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(Color(hex: "97462E"))
+                        .foregroundStyle(Color(hex: "FF4D85"))
                     Text(title)
                         .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .foregroundStyle(Color(hex: "2D2422"))
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
                     .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(Color(hex: "88726C"))
+                    .foregroundStyle(Color(hex: "8D7F7A"))
             }
             .padding(20)
             .contentShape(Rectangle())
@@ -529,21 +529,21 @@ struct AccountView: View {
             HStack(spacing: 16) {
                 Image(systemName: "trash.fill")
                     .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(Color(hex: "C0392B"))
+                    .foregroundStyle(Color(hex: "FF4D85"))
                 Text(NSLocalizedString("account.delete_all_data", comment: ""))
                     .font(.system(size: 16, weight: .medium))
-                    .foregroundStyle(Color(hex: "C0392B"))
+                    .foregroundStyle(Color(hex: "FF4D85"))
                 Spacer()
                 Image(systemName: "chevron.right")
                     .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(Color(hex: "C0392B").opacity(0.5))
+                    .foregroundStyle(Color(hex: "FF4D85").opacity(0.5))
             }
             .padding(20)
             .contentShape(Rectangle())
             .background(
                 RoundedRectangle(cornerRadius: 40, style: .continuous)
                     .fill(.white)
-                    .shadow(color: Color(hex: "1E1C10").opacity(0.03), radius: 10, y: 4)
+                    .shadow(color: Color(hex: "2D2422").opacity(0.03), radius: 10, y: 4)
             )
         }
         .buttonStyle(.plain)
@@ -566,22 +566,22 @@ struct AccountView: View {
             VStack(spacing: 20) {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .font(.system(size: 40))
-                    .foregroundStyle(Color(hex: "E04A2E"))
+                    .foregroundStyle(Color(hex: "FF4D85"))
 
                 Text(NSLocalizedString("account.delete_alert_title", comment: ""))
                     .font(.system(size: 20, weight: .bold))
-                    .foregroundStyle(Color(hex: "1E1C10"))
+                    .foregroundStyle(Color(hex: "2D2422"))
 
                 Text(NSLocalizedString("account.delete_alert_message", comment: ""))
                     .font(.system(size: 14))
-                    .foregroundStyle(Color(hex: "55433E"))
+                    .foregroundStyle(Color(hex: "8D7F7A"))
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
 
                 if let error = deleteAccountError {
                     Text(error)
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(Color(hex: "E04A2E"))
+                        .foregroundStyle(Color(hex: "FF4D85"))
                         .multilineTextAlignment(.center)
                 }
 
@@ -594,7 +594,7 @@ struct AccountView: View {
                     } label: {
                         Text(NSLocalizedString("common.cancel", comment: ""))
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundStyle(Color(hex: "1E1C10"))
+                            .foregroundStyle(Color(hex: "2D2422"))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
                             .background(
@@ -622,7 +622,7 @@ struct AccountView: View {
                             .padding(.vertical, 14)
                             .background(
                                 RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                    .fill(Color(hex: "C0392B"))
+                                    .fill(Color(hex: "FF4D85"))
                             )
                     }
                     .buttonStyle(.plain)
@@ -712,12 +712,12 @@ struct LanguageSelectionView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(hex: "FFF9EC").ignoresSafeArea()
+                Color.clear.ignoresSafeArea()
 
                 VStack(spacing: 0) {
                     Text(NSLocalizedString("language.choose", comment: ""))
                         .font(.system(size: 15))
-                        .foregroundStyle(Color(hex: "55433E"))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                         .padding(.top, 16)
@@ -734,23 +734,23 @@ struct LanguageSelectionView: View {
                                             .font(.system(size: 22))
                                         Text(lang.name)
                                             .font(.system(size: 16, weight: .medium))
-                                            .foregroundStyle(Color(hex: "1E1C10"))
+                                            .foregroundStyle(Color(hex: "2D2422"))
                                         Spacer()
                                         if languageManager.selectedLanguage == lang.code {
                                             Image(systemName: "checkmark.circle.fill")
                                                 .font(.system(size: 20))
-                                                .foregroundStyle(Color(hex: "97462E"))
+                                                .foregroundStyle(Color(hex: "FF4D85"))
                                         }
                                     }
                                     .padding(.horizontal, 20)
                                     .padding(.vertical, 16)
-                                    .background(languageManager.selectedLanguage == lang.code ? Color(hex: "FAF3E0") : Color.clear)
+                                    .background(languageManager.selectedLanguage == lang.code ? Color(hex: "FFF3F1") : Color.clear)
                                 }
                                 .buttonStyle(.plain)
 
                                 if lang.code != languages.last?.code {
                                     Divider()
-                                        .overlay(Color(hex: "F4EEDB"))
+                                        .overlay(Color(hex: "FFF3F1"))
                                         .padding(.leading, 20)
                                 }
                             }
@@ -758,7 +758,7 @@ struct LanguageSelectionView: View {
                         .background(
                             RoundedRectangle(cornerRadius: 24, style: .continuous)
                                 .fill(.white)
-                                .shadow(color: Color(hex: "1E1C10").opacity(0.03), radius: 10, y: 4)
+                                .shadow(color: Color(hex: "2D2422").opacity(0.03), radius: 10, y: 4)
                         )
                         .padding(.horizontal, 16)
                         .padding(.bottom, 16)
@@ -773,7 +773,7 @@ struct LanguageSelectionView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
-                            .foregroundStyle(Color(hex: "97462E"))
+                            .foregroundStyle(Color(hex: "FF4D85"))
                     }
                 }
             }

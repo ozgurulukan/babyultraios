@@ -1,12 +1,12 @@
 import SwiftUI
 
 private enum SplashPalette {
-    static let background = Color(hex: "F6ECE6")
-    static let card = Color(hex: "EFE2DC")
-    static let tile = Color(hex: "F4ECE8")
-    static let text = Color(hex: "3F2D28")
-    static let subtleText = Color(hex: "796B64")
-    static let accent = Color(hex: "A66A54")
+    static let background = BabyUltra.bg
+    static let card = Color.white.opacity(0.85)
+    static let tile = Color.white.opacity(0.7)
+    static let text = BabyUltra.textPrimary
+    static let subtleText = BabyUltra.textSecondary
+    static let accent = BabyUltra.accent
 }
 
 struct DeviceBannedView: View {
@@ -18,22 +18,22 @@ struct DeviceBannedView: View {
             VStack(spacing: 28) {
                 Image(systemName: "shield.slash.fill")
                     .font(.system(size: 56, weight: .bold))
-                    .foregroundStyle(Color(hex: "E04A2E"))
+                    .foregroundStyle(Color(hex: "FF4D85"))
 
                 VStack(spacing: 12) {
                     Text(NSLocalizedString("splash.access_restricted", comment: ""))
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .foregroundStyle(Color(hex: "2D2422"))
 
                     Text(NSLocalizedString("splash.device_banned_message", comment: ""))
                         .font(.system(size: 15))
-                        .foregroundStyle(Color(hex: "55433E"))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
                         .multilineTextAlignment(.center)
                         .lineSpacing(4)
 
                     Text(NSLocalizedString("splash.contact_support_message", comment: ""))
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(Color(hex: "55433E"))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
                         .multilineTextAlignment(.center)
                         .lineSpacing(4)
                         .padding(.top, 8)
@@ -56,7 +56,7 @@ struct DeviceBannedView: View {
                     .padding(.vertical, 16)
                     .background(
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            .fill(Color(hex: "97462E"))
+                            .fill(Color(hex: "FF4D85"))
                     )
                 }
                 .buttonStyle(.plain)
@@ -120,7 +120,9 @@ struct Splash: View {
 
     private var splashContent: some View {
         ZStack {
-            SplashPalette.background.ignoresSafeArea()
+            Image("bg")
+                .resizable()
+                .ignoresSafeArea()
 
             // Subtle ambient glow behind logo
             SplashPalette.accent

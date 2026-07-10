@@ -1,6 +1,5 @@
 import SwiftUI
 import UIKit
-import AVKit
 import SDWebImageSwiftUI
 
 // MARK: - Transform Configuration Screen
@@ -25,25 +24,9 @@ struct TransformView: View {
     @State private var showPremium = false
     @State private var is4KEnabled = false
     @State private var showLightbox = false
-    @State private var lightboxPlayer: AVPlayer? = nil
-    @State private var videoThumbnail: UIImage? = nil
 
     private var templatePreviewURL: URL? {
         template.afterMediaUrl.flatMap(URL.init) ?? template.beforeMediaUrl.flatMap(URL.init)
-    }
-
-    private var isVideoTemplate: Bool {
-        if template.actionType == "video" {
-            return true
-        }
-        let videoHints = [template.afterMediaType, template.beforeMediaType].compactMap { $0?.lowercased() }
-        if videoHints.contains(where: { $0.contains("video") }) {
-            return true
-        }
-        if let ext = templatePreviewURL?.pathExtension.lowercased(), ["mp4", "mov", "m4v", "webm"].contains(ext) {
-            return true
-        }
-        return false
     }
 
     private var isPro: Bool { auth.currentUser?.isPro ?? entitlementManager.hasPro }
@@ -67,7 +50,7 @@ struct TransformView: View {
 
     var body: some View {
         ZStack {
-            bgColor.ignoresSafeArea()
+            Color.clear.ignoresSafeArea()
             backgroundGlows
 
             VStack(spacing: 0) {
@@ -102,7 +85,6 @@ struct TransformView: View {
                     image: img,
                     template: template,
                     aspectRatio: selectedAspectRatio,
-                    videoURL: template.referenceVideoUrl,
                     onBackToTemplates: {
                         isProcessing = false
                         dismiss()
@@ -217,25 +199,9 @@ struct TransformView: View {
                         showLightbox = true
                     }
                 } label: {
-                    Group {
-                        if isVideoTemplate {
-                            if let thumbnail = videoThumbnail {
-                                Image(uiImage: thumbnail)
-                                    .resizable()
-                                    .scaledToFill()
-                            } else {
-                                ZStack {
-                                    Color.gray.opacity(0.1)
-                                    ProgressView()
-                                        .scaleEffect(0.8)
-                                }
-                            }
-                        } else {
-                            WebImage(url: previewURL)
-                                .resizable()
-                                .scaledToFill()
-                        }
-                    }
+                    WebImage(url: previewURL)
+                        .resizable()
+                        .scaledToFill()
                     .frame(width: 60, height: 60)
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                     .overlay(
@@ -244,7 +210,7 @@ struct TransformView: View {
                     )
                     .shadow(color: Color.black.opacity(0.12), radius: 8, x: 0, y: 3)
                     .overlay(
-                        Image(systemName: isVideoTemplate ? "play.fill" : "magnifyingglass.circle.fill")
+                        Image(systemName: "magnifyingglass.circle.fill")
                             .font(.system(size: 10, weight: .bold))
                             .foregroundStyle(.white)
                             .padding(4)
@@ -294,7 +260,6 @@ struct TransformView: View {
                 withAnimation(.linear(duration: 2.5).repeatForever(autoreverses: false)) {
                     shimmerPhase = 1.5
                 }
-                loadVideoThumbnail()
             }
             
             Spacer(minLength: 0)
@@ -739,21 +704,9 @@ struct TransformView: View {
                 Spacer()
                 
                 if let previewURL = templatePreviewURL {
-                    Group {
-                        if isVideoTemplate {
-                            if let player = lightboxPlayer {
-                                VideoPlayer(player: player)
-                                    .aspectRatio(contentMode: .fit)
-                            } else {
-                                ProgressView()
-                                    .tint(.white)
-                            }
-                        } else {
-                            WebImage(url: previewURL)
-                                .resizable()
-                                .scaledToFit()
-                        }
-                    }
+                    WebImage(url: previewURL)
+                        .resizable()
+                        .scaledToFit()
                     .frame(maxWidth: .infinity, maxHeight: 500)
                     .clipShape(RoundedRectangle(cornerRadius: 24))
                     .shadow(color: Color.black.opacity(0.35), radius: 24, x: 0, y: 12)
@@ -764,37 +717,10 @@ struct TransformView: View {
             }
         }
         .transition(.opacity.combined(with: .scale(scale: 0.92)))
-        .onAppear {
-            setupLightboxPlayer()
-        }
-        .onDisappear {
-            teardownLightboxPlayer()
-        }
+
     }
 
-    private func setupLightboxPlayer() {
-        guard isVideoTemplate, let previewURL = templatePreviewURL else { return }
-        let player = AVPlayer(url: previewURL)
-        player.actionAtItemEnd = .none
-        
-        // Loop observer
-        NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemDidPlayToEndTime,
-            object: player.currentItem,
-            queue: .main
-        ) { _ in
-            player.seek(to: .zero)
-            player.play()
-        }
-        
-        player.play()
-        self.lightboxPlayer = player
-    }
-    
-    private func teardownLightboxPlayer() {
-        lightboxPlayer?.pause()
-        lightboxPlayer = nil
-    }
+
     
     private func dismissLightbox() {
         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {

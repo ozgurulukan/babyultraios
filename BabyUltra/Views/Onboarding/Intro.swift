@@ -44,8 +44,8 @@ private struct LiquidGlassButton: View {
     let title: String
     let action: () -> Void
 
-    private let accentBrown = Color(hex: "A66A54")
-    private let accentCoral = Color(hex: "F08C6E")
+    private let accentBrown = Color(hex: "FF4D85")
+    private let accentCoral = Color(hex: "FF88A8")
 
     var body: some View {
         Button(action: action) {
@@ -87,13 +87,13 @@ private struct OnboardingBeforeAfterView: View {
     @State private var dragStartPosition: CGFloat = 0.5
     @State private var isAutoAnimating = true
 
-    private let bgColor = Color(hex: "F6ECE6")
-    private let accent = Color(hex: "A66A54")
+    private let bgColor = Color(hex: "FFF3F1")
+    private let accent = Color(hex: "FF4D85")
 
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                bgColor.ignoresSafeArea()
+                Color.clear.ignoresSafeArea()
                 VStack(spacing: 0) {
                     sliderSection
                     bottomBar
@@ -316,13 +316,13 @@ private struct OnboardingBeforeAfterVideoView: View {
     @State private var dragStartPosition: CGFloat = 0.5
     @State private var isAutoAnimating = true
 
-    private let bgColor = Color(hex: "F6ECE6")
-    private let accent = Color(hex: "A66A54")
+    private let bgColor = Color(hex: "FFF3F1")
+    private let accent = Color(hex: "FF4D85")
 
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                bgColor.ignoresSafeArea()
+                Color.clear.ignoresSafeArea()
                 VStack(spacing: 0) {
                     sliderSection
                     bottomBar
@@ -642,13 +642,13 @@ private struct OnboardingReviewsView: View {
     @State private var singleSetHeight: CGFloat = 0
     @State private var scrollTimer: Timer? = nil
 
-    private let bgColor = Color(hex: "F6ECE6")
-    private let textColor = Color(hex: "3F2D28")
-    private let subtleText = Color(hex: "796B64")
+    private let bgColor = Color(hex: "FFF3F1")
+    private let textColor = Color(hex: "2D2422")
+    private let subtleText = Color(hex: "8D7F7A")
 
     var body: some View {
         ZStack {
-            bgColor.ignoresSafeArea()
+            Color.clear.ignoresSafeArea()
 
             VStack(spacing: 0) {
                 VStack(spacing: 8) {
@@ -806,9 +806,9 @@ private struct ReviewBubble: View {
     let review: UserReview
     let isVisible: Bool
 
-    private let textColor = Color(hex: "3F2D28")
-    private let subtleText = Color(hex: "796B64")
-    private let accent = Color(hex: "A66A54")
+    private let textColor = Color(hex: "2D2422")
+    private let subtleText = Color(hex: "8D7F7A")
+    private let accent = Color(hex: "FF4D85")
 
     var body: some View {
         HStack(alignment: .top, spacing: 14) {
@@ -869,7 +869,7 @@ private struct ReviewBubble: View {
                         .stroke(Color.white.opacity(0.5), lineWidth: 1)
                 )
         )
-        .shadow(color: Color(hex: "3F2D28").opacity(0.06), radius: 12, x: 0, y: 4)
+        .shadow(color: Color(hex: "2D2422").opacity(0.06), radius: 12, x: 0, y: 4)
     }
 
     private var initialsView: some View {
@@ -919,12 +919,12 @@ struct Intro: View {
     @EnvironmentObject private var entitlementManager: EntitlementManager
     @EnvironmentObject private var subscriptionsManager: SubscriptionsManager
 
-    private let bgColor = Color(hex: "F6ECE6")
+    private let bgColor = Color(hex: "FFF3F1")
 
     var body: some View {
         NavigationStack {
             ZStack {
-                bgColor.ignoresSafeArea()
+                Color.clear.ignoresSafeArea()
 
                 if viewModel.isLoading {
                     loadingView
@@ -1006,11 +1006,11 @@ struct Intro: View {
         VStack(spacing: 20) {
             ProgressView()
                 .scaleEffect(1.4)
-                .tint(Color(hex: "A66A54"))
+                .tint(Color(hex: "FF4D85"))
 
             Text(NSLocalizedString("onboarding.loading_magic", comment: ""))
                 .font(.system(size: 16, weight: .medium))
-                .foregroundStyle(Color(hex: "796B64"))
+                .foregroundStyle(Color(hex: "8D7F7A"))
         }
     }
 
@@ -1018,15 +1018,15 @@ struct Intro: View {
         VStack(spacing: 20) {
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: 48, weight: .semibold))
-                .foregroundStyle(Color(hex: "A66A54"))
+                .foregroundStyle(Color(hex: "FF4D85"))
 
             Text(NSLocalizedString("onboarding.oops", comment: ""))
                 .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(Color(hex: "3F2D28"))
+                .foregroundStyle(Color(hex: "2D2422"))
 
             Text(message)
                 .font(.system(size: 15, weight: .medium))
-                .foregroundStyle(Color(hex: "796B64"))
+                .foregroundStyle(Color(hex: "8D7F7A"))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
 
@@ -1038,7 +1038,7 @@ struct Intro: View {
                     .foregroundStyle(.white)
                     .padding(.horizontal, 32)
                     .padding(.vertical, 14)
-                    .background(Color(hex: "A66A54"))
+                    .background(Color(hex: "FF4D85"))
                     .clipShape(Capsule())
             }
             .buttonStyle(.plain)
@@ -1050,13 +1050,13 @@ struct Intro: View {
             Spacer()
             Image(systemName: "photo.on.rectangle.angled")
                 .font(.system(size: 48, weight: .light))
-                .foregroundStyle(Color(hex: "A66A54").opacity(0.6))
+                .foregroundStyle(Color(hex: "FF4D85").opacity(0.6))
             Text(NSLocalizedString("onboarding.no_content", comment: ""))
                 .font(.system(size: 20, weight: .bold))
-                .foregroundStyle(Color(hex: "3F2D28"))
+                .foregroundStyle(Color(hex: "2D2422"))
             Text(NSLocalizedString("onboarding.no_content_message", comment: ""))
                 .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(Color(hex: "796B64"))
+                .foregroundStyle(Color(hex: "8D7F7A"))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
             Spacer()

@@ -28,17 +28,19 @@ struct PremiumView: View {
     ]
 
     // Design colors
-    private let creamBg = Color(hex: "FFF9EC")
+    private let creamBg = Color(hex: "FFF3F1")
     private let cardBg = Color.white
-    private let primaryText = Color(hex: "1E1C10")
-    private let secondaryText = Color(hex: "55433E")
-    private let accentBrown = Color(hex: "97462E")
-    private let accentCoral = Color(hex: "F08C6E")
+    private let primaryText = Color(hex: "2D2422")
+    private let secondaryText = Color(hex: "8D7F7A")
+    private let accentBrown = Color(hex: "FF4D85")
+    private let accentCoral = Color(hex: "FF88A8")
     private let starYellow = Color(hex: "845400")
 
     var body: some View {
         ZStack {
-            creamBg.ignoresSafeArea()
+            Image("bg")
+                .resizable()
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 closeButton
@@ -97,7 +99,7 @@ struct PremiumView: View {
         }
         .background(cardBg)
         .clipShape(RoundedRectangle(cornerRadius: 40))
-        .shadow(color: Color(hex: "1E1C10").opacity(0.06), radius: 24, x: 0, y: 8)
+        .shadow(color: Color(hex: "2D2422").opacity(0.06), radius: 24, x: 0, y: 8)
     }
 
     var heroSection: some View {
@@ -160,26 +162,26 @@ struct PremiumView: View {
             BenefitRow(
                 icon: "sparkles",
                 text: NSLocalizedString("premium.benefit_pro_templates", comment: ""),
-                iconBg: Color(hex: "F08C6E").opacity(0.20),
-                iconColor: Color(hex: "97462E")
+                iconBg: Color(hex: "FF88A8").opacity(0.20),
+                iconColor: Color(hex: "FF4D85")
             )
             BenefitRow(
                 icon: "tag.fill",
                 text: NSLocalizedString("premium.benefit_credits", comment: ""),
-                iconBg: Color(hex: "F08C6E").opacity(0.20),
-                iconColor: Color(hex: "97462E")
+                iconBg: Color(hex: "FF88A8").opacity(0.20),
+                iconColor: Color(hex: "FF4D85")
             )
             BenefitRow(
                 icon: "drop.fill",
                 text: NSLocalizedString("premium.benefit_no_watermark", comment: ""),
-                iconBg: Color(hex: "FB856D").opacity(0.20),
-                iconColor: Color(hex: "97462E")
+                iconBg: Color(hex: "FF88A8").opacity(0.20),
+                iconColor: Color(hex: "FF4D85")
             )
             BenefitRow(
                 icon: "arrow.down.circle.fill",
                 text: NSLocalizedString("premium.benefit_4k", comment: ""),
-                iconBg: Color(hex: "F08C6E").opacity(0.20),
-                iconColor: Color(hex: "97462E")
+                iconBg: Color(hex: "FF88A8").opacity(0.20),
+                iconColor: Color(hex: "FF4D85")
             )
         }
     }
@@ -385,7 +387,7 @@ struct BenefitRow: View {
 
             Text(text)
                 .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(Color(hex: "1E1C10"))
+                .foregroundStyle(Color(hex: "2D2422"))
 
             Spacer()
         }
@@ -411,25 +413,25 @@ struct PlanCardNew: View {
 
                     Text(plan.title)
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(Color(hex: "55433E"))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
 
                     Text(package?.localizedPriceString ?? (plan.title == "Yearly" ? "$49.99" : "$14.99"))
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .foregroundStyle(Color(hex: "2D2422"))
 
                     Spacer()
 
                     Text(plan.subtitle)
                         .font(.system(size: 12, weight: .regular))
-                        .foregroundStyle(Color(hex: "55433E"))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .padding(12)
-                .background(isSelected ? Color(hex: "E9E2D0") : Color(hex: "FAF3E0"))
+                .background(isSelected ? Color(hex: "E9E2D0") : Color(hex: "FFF3F1"))
                 .clipShape(RoundedRectangle(cornerRadius: 24))
                 .overlay(
                     RoundedRectangle(cornerRadius: 24)
-                        .stroke(isSelected ? Color(hex: "97462E") : Color.clear, lineWidth: 2)
+                        .stroke(isSelected ? Color(hex: "FF4D85") : Color.clear, lineWidth: 2)
                 )
 
                 if let tag = plan.tag {
@@ -440,7 +442,7 @@ struct PlanCardNew: View {
                         .textCase(.uppercase)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 3)
-                        .background(Color(hex: "97462E"))
+                        .background(Color(hex: "FF4D85"))
                         .overlay(
                             GeometryReader { geo in
                                 LinearGradient(
@@ -511,17 +513,19 @@ struct TopupView: View {
     }
 
     // Design colors
-    private let creamBg = Color(hex: "FFF9EC")
+    private let creamBg = Color(hex: "FFF3F1")
     private let cardBg = Color.white
-    private let primaryText = Color(hex: "1E1C10")
-    private let secondaryText = Color(hex: "55433E")
-    private let accentBrown = Color(hex: "97462E")
-    private let accentCoral = Color(hex: "F08C6E")
+    private let primaryText = Color(hex: "2D2422")
+    private let secondaryText = Color(hex: "8D7F7A")
+    private let accentBrown = Color(hex: "FF4D85")
+    private let accentCoral = Color(hex: "FF88A8")
     private let starYellow = Color(hex: "845400")
 
     var body: some View {
         ZStack {
-            creamBg.ignoresSafeArea()
+            Image("bg")
+                .resizable()
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 closeButton
@@ -578,7 +582,7 @@ struct TopupView: View {
         }
         .background(cardBg)
         .clipShape(RoundedRectangle(cornerRadius: 40))
-        .shadow(color: Color(hex: "1E1C10").opacity(0.06), radius: 24, x: 0, y: 8)
+        .shadow(color: Color(hex: "2D2422").opacity(0.06), radius: 24, x: 0, y: 8)
     }
 
     var heroSection: some View {
@@ -641,19 +645,19 @@ struct TopupView: View {
             BenefitRow(
                 icon: "bolt.fill",
                 text: NSLocalizedString("topup.benefit_instant", comment: ""),
-                iconBg: Color(hex: "F08C6E").opacity(0.20),
-                iconColor: Color(hex: "97462E")
+                iconBg: Color(hex: "FF88A8").opacity(0.20),
+                iconColor: Color(hex: "FF4D85")
             )
             BenefitRow(
                 icon: "clock.fill",
                 text: NSLocalizedString("topup.benefit_no_expiration", comment: ""),
-                iconBg: Color(hex: "F08C6E").opacity(0.20),
-                iconColor: Color(hex: "97462E")
+                iconBg: Color(hex: "FF88A8").opacity(0.20),
+                iconColor: Color(hex: "FF4D85")
             )
             BenefitRow(
                 icon: "sparkles",
                 text: NSLocalizedString("topup.benefit_all_templates", comment: ""),
-                iconBg: Color(hex: "FB856D").opacity(0.20),
+                iconBg: Color(hex: "FF88A8").opacity(0.20),
                 iconColor: Color(hex: "9F402D")
             )
         }
@@ -808,13 +812,13 @@ struct CreditPlanCard: View {
 
                     Text(plan.title)
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(Color(hex: "55433E"))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
 
                     Text(plan.subtitle)
                         .font(.system(size: 17, weight: .bold))
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .foregroundStyle(Color(hex: "2D2422"))
                         .lineLimit(1)
                         .minimumScaleFactor(0.75)
 
@@ -822,15 +826,15 @@ struct CreditPlanCard: View {
 
                     Text(bundleName)
                         .font(.system(size: 11, weight: .regular))
-                        .foregroundStyle(Color(hex: "55433E"))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .padding(10)
-                .background(isSelected ? Color(hex: "E9E2D0") : Color(hex: "FAF3E0"))
+                .background(isSelected ? Color(hex: "E9E2D0") : Color(hex: "FFF3F1"))
                 .clipShape(RoundedRectangle(cornerRadius: 24))
                 .overlay(
                     RoundedRectangle(cornerRadius: 24)
-                        .stroke(isSelected ? Color(hex: "97462E") : Color.clear, lineWidth: 2)
+                        .stroke(isSelected ? Color(hex: "FF4D85") : Color.clear, lineWidth: 2)
                 )
 
                 if let tag = plan.tag {
@@ -841,7 +845,7 @@ struct CreditPlanCard: View {
                         .textCase(.uppercase)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 3)
-                        .background(Color(hex: "97462E"))
+                        .background(Color(hex: "FF4D85"))
                         .overlay(
                             GeometryReader { geo in
                                 LinearGradient(

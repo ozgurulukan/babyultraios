@@ -84,7 +84,7 @@ struct Menu: View {
                             }
                             .buttonStyle(.plain)
 
-                            Rectangle().fill(Color(hex: "1C1C2E")).frame(height: 0.5).padding(.leading, 60)
+                            Rectangle().fill(Color(hex: "FFF3F1")).frame(height: 0.5).padding(.leading, 60)
 
                             // Watermark
                             HStack(spacing: 12) {
@@ -117,7 +117,7 @@ struct Menu: View {
                             }
                             .buttonStyle(.plain)
 
-                            Rectangle().fill(Color(hex: "1C1C2E")).frame(height: 0.5).padding(.leading, 60)
+                            Rectangle().fill(Color(hex: "FFF3F1")).frame(height: 0.5).padding(.leading, 60)
 
                             Button {
                                 openURL(URL(string: "https://fagore.com/terms/")!)
@@ -126,7 +126,7 @@ struct Menu: View {
                             }
                             .buttonStyle(.plain)
 
-                            Rectangle().fill(Color(hex: "1C1C2E")).frame(height: 0.5).padding(.leading, 60)
+                            Rectangle().fill(Color(hex: "FFF3F1")).frame(height: 0.5).padding(.leading, 60)
 
                             Button {
                                 openURL(URL(string: "https://fagore.com/help/")!)
@@ -202,7 +202,7 @@ struct Menu: View {
                             .frame(height: 52)
                         }
                         .buttonStyle(.plain)
-                        Rectangle().fill(Color(hex: "1C1C2E")).frame(height: 0.5).padding(.leading, 20)
+                        Rectangle().fill(Color(hex: "FFF3F1")).frame(height: 0.5).padding(.leading, 20)
                     }
                     Spacer()
                 }

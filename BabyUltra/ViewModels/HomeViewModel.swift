@@ -3,29 +3,16 @@ import SwiftUI
 @MainActor
 final class HomeViewModel: ObservableObject {
     @Published var photoCategories: [CategoryItem] = []
-    @Published var videoCategories: [CategoryItem] = []
     @Published var virtualFilters: [CategoryItem] = []
     @Published var photoTemplates: [TemplateItem] = []
-    @Published var videoTemplates: [TemplateItem] = []
     @Published var filteredTemplates: [TemplateItem] = []
     @Published var sliderItems: [SliderItem] = []
-    @Published var quickButtons: [QuickButtonItem] = []
     @Published var selectedCategoryID: String? = nil
     @Published var selectedFilter: String? = nil
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var hasLoaded = false
     @Published var debugInfo: String = ""
-    @Published var selectedMode: Int = 1
-    @Published var activeAudioCardID: String? = nil {
-        didSet {
-            NotificationCenter.default.post(
-                name: .templateAudioChanged,
-                object: nil,
-                userInfo: ["cardID": activeAudioCardID as Any]
-            )
-        }
-    }
 
     /// O(1) category name lookup cache. Rebuilt whenever categories change.
     private(set) var categoryNameCache: [Int: String] = [:]
@@ -35,7 +22,7 @@ final class HomeViewModel: ObservableObject {
     @Published var templatesByCategory: [Int: [TemplateItem]] = [:]
 
     private var currentTemplates: [TemplateItem] {
-        selectedMode == 0 ? videoTemplates : photoTemplates
+        photoTemplates
     }
 
     func loadData() async {
@@ -52,7 +39,6 @@ final class HomeViewModel: ObservableObject {
             let c = try await BabyUltraAPI.shared.getCategories()
             virtualFilters = c.filter { $0.isVirtual == true }
             photoCategories = c.filter { $0.isVirtual != true && $0.type == "photo" }
-            videoCategories = c.filter { $0.isVirtual != true && $0.type == "video" }
             rebuildCategoryNameCache()
             didLoadAnySection = true
         } catch APIError.rateLimited(let secs) {
@@ -67,10 +53,7 @@ final class HomeViewModel: ObservableObject {
         }
 
         do {
-            async let photosTask = BabyUltraAPI.shared.getTemplates(type: "photo")
-            async let videosTask = BabyUltraAPI.shared.getTemplates(type: "video")
-            photoTemplates = try await photosTask
-            videoTemplates = try await videosTask
+            photoTemplates = try await BabyUltraAPI.shared.getTemplates(type: "photo")
             didLoadAnySection = true
         } catch APIError.rateLimited(let secs) {
             rateLimitWait = max(rateLimitWait ?? 0, secs)
@@ -84,9 +67,7 @@ final class HomeViewModel: ObservableObject {
         }
 
         do {
-            let sliderType = selectedMode == 0 ? "video" : "photo"
-            let s = try await BabyUltraAPI.shared.getSlider(type: sliderType)
-            sliderItems = s
+            sliderItems = try await BabyUltraAPI.shared.getSlider(type: "photo")
             didLoadAnySection = true
         } catch APIError.rateLimited(let secs) {
             rateLimitWait = max(rateLimitWait ?? 0, secs)
@@ -97,7 +78,7 @@ final class HomeViewModel: ObservableObject {
         }
 
         applyFilter()
-        hasLoaded = hasLoaded || didLoadAnySection || !photoTemplates.isEmpty || !videoTemplates.isEmpty
+        hasLoaded = hasLoaded || didLoadAnySection || !photoTemplates.isEmpty
 
         if let wait = rateLimitWait, !hasLoaded {
             errorMessage = "Rate limit reached. Try again in \(wait)s."
@@ -124,8 +105,7 @@ final class HomeViewModel: ObservableObject {
 
     func loadSlider() async {
         do {
-            let sliderType = selectedMode == 0 ? "video" : "photo"
-            sliderItems = try await BabyUltraAPI.shared.getSlider(type: sliderType)
+            sliderItems = try await BabyUltraAPI.shared.getSlider(type: "photo")
         } catch {
             debugInfo = "Slider load failed: \(error.localizedDescription)"
         }
@@ -140,19 +120,6 @@ final class HomeViewModel: ObservableObject {
     func selectFilter(_ filter: String?) {
         selectedFilter = filter
         selectedCategoryID = nil
-        applyFilter()
-    }
-
-    func switchMode(_ mode: Int) {
-        guard selectedMode != mode || selectedCategoryID != nil || selectedFilter != nil else { return }
-        selectedMode = mode
-        selectedCategoryID = nil
-        selectedFilter = nil
-        applyFilter()
-    }
-
-    func applyFilterForMode(_ mode: Int) {
-        selectedMode = mode
         applyFilter()
     }
 
@@ -178,7 +145,6 @@ final class HomeViewModel: ObservableObject {
     private func rebuildCategoryNameCache() {
         var map: [Int: String] = [:]
         for cat in photoCategories { map[cat.rawID] = cat.name }
-        for cat in videoCategories { map[cat.rawID] = cat.name }
         categoryNameCache = map
     }
 
@@ -201,13 +167,8 @@ final class HomeViewModel: ObservableObject {
         return categoryNameCache[catId]
     }
 
-    func templateForQuickButton(_ button: QuickButtonItem) -> TemplateItem? {
-        guard let tid = button.templateId else { return nil }
-        return photoTemplates.first { $0.id == tid }
-    }
-
     func templateForSlider(_ item: SliderItem) -> TemplateItem? {
         guard let templateId = item.templateId else { return nil }
-        return (photoTemplates + videoTemplates).first { $0.id == templateId }
+        return photoTemplates.first { $0.id == templateId }
     }
 }

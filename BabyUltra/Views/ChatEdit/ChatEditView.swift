@@ -11,7 +11,7 @@ struct ChatEditView: View {
 
     var body: some View {
         ZStack {
-            chatBackground.ignoresSafeArea()
+            Color.clear.ignoresSafeArea()
 
             StickyBlurHeader(
                 maxBlurRadius: 10,
@@ -55,7 +55,7 @@ struct ChatEditView: View {
                 .padding(.bottom, 16)
                 .background(
                     LinearGradient(
-                        colors: [Color(hex: "FFF9EC").opacity(0.0), Color(hex: "FFF9EC").opacity(0.92), Color(hex: "FFF9EC")],
+                        colors: [Color(hex: "FFF3F1").opacity(0.0), Color(hex: "FFF3F1").opacity(0.92), Color(hex: "FFF3F1")],
                         startPoint: .top,
                         endPoint: .bottom
                     )
@@ -69,11 +69,11 @@ struct ChatEditView: View {
 
     private var chatBackground: some View {
         ZStack {
-            Color(hex: "FFF9EC")
-            RadialGradient(colors: [Color(hex: "F08C6E").opacity(0.12), .clear], center: .topLeading, startRadius: 10, endRadius: 260)
-            RadialGradient(colors: [Color(hex: "FEB246").opacity(0.12), .clear], center: .topTrailing, startRadius: 10, endRadius: 260)
-            RadialGradient(colors: [Color(hex: "97462E").opacity(0.08), .clear], center: .bottomTrailing, startRadius: 10, endRadius: 260)
-            RadialGradient(colors: [Color(hex: "FB856D").opacity(0.10), .clear], center: .bottomLeading, startRadius: 10, endRadius: 260)
+            Color(hex: "FFF3F1")
+            RadialGradient(colors: [Color(hex: "FF88A8").opacity(0.12), .clear], center: .topLeading, startRadius: 10, endRadius: 260)
+            RadialGradient(colors: [Color(hex: "FF88A8").opacity(0.12), .clear], center: .topTrailing, startRadius: 10, endRadius: 260)
+            RadialGradient(colors: [Color(hex: "FF4D85").opacity(0.08), .clear], center: .bottomTrailing, startRadius: 10, endRadius: 260)
+            RadialGradient(colors: [Color(hex: "FF88A8").opacity(0.10), .clear], center: .bottomLeading, startRadius: 10, endRadius: 260)
         }
     }
 
@@ -82,10 +82,10 @@ struct ChatEditView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(NSLocalizedString("chat.title", comment: ""))
                     .font(.system(size: 30, weight: .bold, design: .rounded))
-                    .foregroundStyle(Color(hex: "1E1C10"))
+                    .foregroundStyle(Color(hex: "2D2422"))
                 Text(NSLocalizedString("chat.subtitle", comment: ""))
                     .font(.system(size: 14))
-                    .foregroundStyle(Color(hex: "55433E"))
+                    .foregroundStyle(Color(hex: "8D7F7A"))
             }
             Spacer()
             Button {
@@ -93,10 +93,10 @@ struct ChatEditView: View {
             } label: {
                 Text(NSLocalizedString("chat.clear_chat", comment: ""))
                     .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(Color(hex: "97462E"))
+                    .foregroundStyle(Color(hex: "FF4D85"))
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
-                    .background(Capsule().fill(Color(hex: "FAF3E0")))
+                    .background(Capsule().fill(Color(hex: "FFF3F1")))
                     .overlay(Capsule().stroke(Color(hex: "E9E2D0").opacity(0.4), lineWidth: 1))
             }
             .buttonStyle(.plain)
@@ -111,16 +111,16 @@ struct ChatEditView: View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: "lightbulb.max.fill")
                 .font(.system(size: 20))
-                .foregroundStyle(Color(hex: "FEB246"))
+                .foregroundStyle(Color(hex: "FF88A8"))
                 .frame(width: 24, height: 24)
 
             Text(NSLocalizedString("chat.tip", comment: ""))
                 .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(Color(hex: "55433E"))
+                .foregroundStyle(Color(hex: "8D7F7A"))
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(RoundedRectangle(cornerRadius: 20, style: .continuous).fill(Color(hex: "FAF3E0")))
+        .background(RoundedRectangle(cornerRadius: 20, style: .continuous).fill(Color(hex: "FFF3F1")))
     }
 
     private var suggestionChips: some View {
@@ -139,10 +139,10 @@ struct ChatEditView: View {
         } label: {
             Text(text)
                 .font(.system(size: 12, weight: .semibold))
-                .foregroundStyle(Color(hex: "55433E"))
+                .foregroundStyle(Color(hex: "8D7F7A"))
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                .background(Capsule().fill(Color(hex: "FAF3E0")))
+                .background(Capsule().fill(Color(hex: "FFF3F1")))
                 .overlay(Capsule().stroke(Color(hex: "E9E2D0").opacity(0.3), lineWidth: 1))
                 .shadow(color: .black.opacity(0.05), radius: 2, y: 1)
         }
@@ -155,13 +155,13 @@ struct ChatEditView: View {
                 if viewModel.inputText.isEmpty {
                     Text(NSLocalizedString("chat.input_placeholder", comment: ""))
                         .font(.system(size: 14))
-                        .foregroundStyle(Color(hex: "88726C"))
+                        .foregroundStyle(Color(hex: "8D7F7A"))
                         .shimmer()
                 }
                 TextField("", text: $viewModel.inputText)
                     .font(.system(size: 14))
-                    .foregroundStyle(Color(hex: "1E1C10"))
-                    .tint(Color(hex: "97462E"))
+                    .foregroundStyle(Color(hex: "2D2422"))
+                    .tint(Color(hex: "FF4D85"))
             }
 
             Button {
@@ -174,7 +174,7 @@ struct ChatEditView: View {
                 Circle()
                     .fill(
                         LinearGradient(
-                            colors: [Color(hex: "97462E"), Color(hex: "F08C6E")],
+                            colors: [Color(hex: "FF4D85"), Color(hex: "FF88A8")],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -203,7 +203,7 @@ struct ChatEditView: View {
         Circle()
             .fill(
                 LinearGradient(
-                    colors: [Color(hex: "97462E"), Color(hex: "F08C6E")],
+                    colors: [Color(hex: "FF4D85"), Color(hex: "FF88A8")],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -214,7 +214,7 @@ struct ChatEditView: View {
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(.white)
             )
-            .shadow(color: Color(hex: "97462E").opacity(0.25), radius: 8, y: 4)
+            .shadow(color: Color(hex: "FF4D85").opacity(0.25), radius: 8, y: 4)
     }
 }
 
@@ -296,7 +296,7 @@ private struct ChatRow: View {
         Circle()
             .fill(
                 LinearGradient(
-                    colors: [Color(hex: "97462E"), Color(hex: "F08C6E")],
+                    colors: [Color(hex: "FF4D85"), Color(hex: "FF88A8")],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -307,7 +307,7 @@ private struct ChatRow: View {
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(.white)
             )
-            .shadow(color: Color(hex: "97462E").opacity(0.25), radius: 8, y: 4)
+            .shadow(color: Color(hex: "FF4D85").opacity(0.25), radius: 8, y: 4)
     }
 
     private var bubble: some View {
@@ -317,14 +317,14 @@ private struct ChatRow: View {
             } else {
                 Text(item.text)
                     .font(.system(size: 14))
-                    .foregroundStyle(Color(hex: "1E1C10"))
+                    .foregroundStyle(Color(hex: "2D2422"))
                     .lineSpacing(4)
             }
 
             if let title = item.title {
                 Text(title)
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(Color(hex: "97462E"))
+                    .foregroundStyle(Color(hex: "FF4D85"))
             }
 
             if !item.bullets.isEmpty {
@@ -337,7 +337,7 @@ private struct ChatRow: View {
                                 .padding(.top, 2)
                             Text(bullet)
                                 .font(.system(size: 14))
-                                .foregroundStyle(Color(hex: "1E1C10"))
+                                .foregroundStyle(Color(hex: "2D2422"))
                         }
                     }
                 }
@@ -345,7 +345,7 @@ private struct ChatRow: View {
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 16)
-        .background(item.sender == .ai ? AnyShapeStyle(Color.white) : AnyShapeStyle(Color(hex: "97462E").opacity(0.10)))
+        .background(item.sender == .ai ? AnyShapeStyle(Color.white) : AnyShapeStyle(Color(hex: "FF4D85").opacity(0.10)))
         .clipShape(
             UnevenRoundedRectangle(
                 topLeadingRadius: item.sender == .ai ? 2 : 48,
@@ -410,7 +410,7 @@ private struct FormattedMessageView: View {
                 if !before.isEmpty {
                     result = result + Text(before)
                         .font(.system(size: 14))
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .foregroundStyle(Color(hex: "2D2422"))
                 }
 
                 let afterBoldStart = String(remaining[boldRange.upperBound...])
@@ -418,12 +418,12 @@ private struct FormattedMessageView: View {
                     let boldContent = String(afterBoldStart[..<endBoldRange.lowerBound])
                     result = result + Text(boldContent)
                         .font(.system(size: 14, weight: .bold))
-                        .foregroundStyle(Color(hex: "97462E"))
+                        .foregroundStyle(Color(hex: "FF4D85"))
                     remaining = String(afterBoldStart[endBoldRange.upperBound...])
                 } else {
                     result = result + Text(remaining)
                         .font(.system(size: 14))
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .foregroundStyle(Color(hex: "2D2422"))
                     remaining = ""
                 }
             } else if let underlineRange = remaining.range(of: "*") {
@@ -431,7 +431,7 @@ private struct FormattedMessageView: View {
                 if !before.isEmpty {
                     result = result + Text(before)
                         .font(.system(size: 14))
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .foregroundStyle(Color(hex: "2D2422"))
                 }
 
                 let afterUnderlineStart = String(remaining[underlineRange.upperBound...])
@@ -440,18 +440,18 @@ private struct FormattedMessageView: View {
                     result = result + Text(underlineContent)
                         .font(.system(size: 14))
                         .underline()
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .foregroundStyle(Color(hex: "2D2422"))
                     remaining = String(afterUnderlineStart[endUnderlineRange.upperBound...])
                 } else {
                     result = result + Text(remaining)
                         .font(.system(size: 14))
-                        .foregroundStyle(Color(hex: "1E1C10"))
+                        .foregroundStyle(Color(hex: "2D2422"))
                     remaining = ""
                 }
             } else {
                 result = result + Text(remaining)
                     .font(.system(size: 14))
-                    .foregroundStyle(Color(hex: "1E1C10"))
+                    .foregroundStyle(Color(hex: "2D2422"))
                 remaining = ""
             }
         }

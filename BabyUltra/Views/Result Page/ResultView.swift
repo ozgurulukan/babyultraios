@@ -1,6 +1,5 @@
 import SwiftUI
 import Photos
-import AVKit
 
 // MARK: - Result Screen (Liquid Glass Edition)
 struct ResultView: View {
@@ -33,18 +32,10 @@ struct ResultView: View {
     private var resultExtension: String {
         URL(string: resultURL)?.pathExtension.lowercased() ?? ""
     }
-    private var isVideoResult: Bool {
-        let videoExts = ["mp4", "mov", "m4v", "webm"]
-        return actionType == "video" || videoExts.contains(resultExtension)
-    }
-    private var isSupportedResultFormat: Bool {
-        let supported = ["jpg", "jpeg", "png", "mp4"]
-        return supported.contains(resultExtension) || (actionType == "video" && resultExtension.isEmpty)
-    }
 
     var body: some View {
         ZStack {
-            bgColor.ignoresSafeArea()
+            Color.clear.ignoresSafeArea()
 
             backgroundGlows
 
@@ -146,25 +137,18 @@ struct ResultView: View {
             VStack(spacing: 16) {
                 // Media
                 Group {
-                    if !isSupportedResultFormat {
-                        errorPlaceholder(message: NSLocalizedString("result.error_unsupported_format", comment: ""))
-                    } else if isVideoResult, let videoURL = URL(string: resultURL) {
-                        VideoPlayer(player: AVPlayer(url: videoURL))
-                            .aspectRatio(1, contentMode: .fit)
-                    } else {
-                        AsyncImage(url: URL(string: resultURL)) { phase in
-                            switch phase {
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .aspectRatio(1, contentMode: .fit)
-                            case .failure:
-                                errorPlaceholder(message: NSLocalizedString("result.error_failed_load", comment: ""))
-                            default:
-                                ProgressView()
-                                    .tint(accentBrown)
-                                    .frame(maxWidth: .infinity, minHeight: 200)
-                            }
+                    AsyncImage(url: URL(string: resultURL)) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(1, contentMode: .fit)
+                        case .failure:
+                            errorPlaceholder(message: NSLocalizedString("result.error_failed_load", comment: ""))
+                        default:
+                            ProgressView()
+                                .tint(accentBrown)
+                                .frame(maxWidth: .infinity, minHeight: 200)
                         }
                     }
                 }
@@ -382,18 +366,9 @@ struct ResultView: View {
         Task {
             do {
                 let (data, _) = try await URLSession.shared.data(from: url)
-                if isVideoResult {
-                    let ext = resultExtension.isEmpty ? "mp4" : resultExtension
-                    let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("babyultra-result-\(UUID().uuidString).\(ext)")
-                    try data.write(to: tempURL, options: .atomic)
-                    try await PHPhotoLibrary.shared().performChanges {
-                        PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: tempURL)
-                    }
-                } else {
-                    guard let image = UIImage(data: data) else { return }
-                    let finalImage = applyBackgroundIfNeeded(to: image)
-                    UIImageWriteToSavedPhotosAlbum(finalImage, nil, nil, nil)
-                }
+                guard let image = UIImage(data: data) else { return }
+                let finalImage = applyBackgroundIfNeeded(to: image)
+                UIImageWriteToSavedPhotosAlbum(finalImage, nil, nil, nil)
 
                 await MainActor.run {
                     withAnimation(.spring(response: 0.4)) {
@@ -414,14 +389,6 @@ struct ResultView: View {
     private func prepareShare() {
         guard let url = URL(string: resultURL) else { return }
         Task {
-            if isVideoResult {
-                await MainActor.run {
-                    shareItems = [url]
-                    showShareSheet = true
-                }
-                return
-            }
-
             do {
                 let (data, _) = try await URLSession.shared.data(from: url)
                 if let image = UIImage(data: data) {
@@ -583,7 +550,7 @@ struct ResultView: View {
             .padding(.bottom, 24)
             .padding(.top, 8)
         }
-        .background(bgColor.ignoresSafeArea())
+        .background(Color.clear.ignoresSafeArea())
     }
 
     private func sendReport() {

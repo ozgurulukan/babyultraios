@@ -7,7 +7,7 @@ final class APIClient {
     private let logger = Logger(subsystem: "com.babyultra", category: "API")
     private init() {}
 
-    let baseURL = "https://babyultraapi.kepa.app"
+    let baseURL = "https://babyultra.kepa.app"
 
     private var decoder: JSONDecoder {
         let d = JSONDecoder()

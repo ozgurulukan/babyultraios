@@ -6,9 +6,26 @@
       "blur-material" : 0.5,
       "layers" : [
         {
+          "fill" : {
+            "solid" : "extended-gray:1.00000,1.00000"
+          },
+          "glass" : true,
+          "hidden" : false,
+          "image-name" : "22.png",
+          "name" : "22",
+          "opacity" : 1,
+          "position" : {
+            "scale" : 0.79,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
           "blend-mode" : "normal",
           "glass" : false,
-          "hidden" : false,
+          "hidden" : true,
           "image-name" : "lgg 2.png",
           "name" : "lgg 2",
           "opacity" : 1,
@@ -21,10 +38,34 @@
           }
         },
         {
+          "fill" : {
+            "linear-gradient" : [
+              "extended-srgb:0.79608,0.18824,0.87843,1.00000",
+              "display-p3:0.96242,0.41719,0.96783,1.00000"
+            ],
+            "orientation" : {
+              "start" : {
+                "x" : 0.5,
+                "y" : 0
+              },
+              "stop" : {
+                "x" : 0.5,
+                "y" : 0.7
+              }
+            }
+          },
           "glass" : false,
+          "hidden" : false,
           "image-name" : "arka.png",
           "name" : "arka",
-          "opacity" : 0.6
+          "opacity" : 0.2,
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
         }
       ],
       "lighting" : "combined",
@@ -33,6 +74,30 @@
         "opacity" : 1
       },
       "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "layers" : [
+        {
+          "image-name" : "bg.png",
+          "name" : "bg",
+          "opacity" : 1,
+          "position" : {
+            "scale" : 2,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
       "translucency" : {
         "enabled" : true,
         "value" : 0.5

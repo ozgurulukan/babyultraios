@@ -9,12 +9,12 @@ extension Notification.Name {
 }
 
 private enum HomePalette {
-    static let background = Color(hex: "F6ECE6")
-    static let card = Color(hex: "EFE2DC")
-    static let tile = Color(hex: "F4ECE8")
-    static let text = Color(hex: "3F2D28")
-    static let subtleText = Color(hex: "796B64")
-    static let accent = Color(hex: "A66A54")
+    static let background = Color.clear // Let MainTabView's mesh show through
+    static let card = Color.white.opacity(0.85)
+    static let tile = Color.white.opacity(0.7)
+    static let text = BabyUltra.textPrimary
+    static let subtleText = BabyUltra.textSecondary
+    static let accent = BabyUltra.accent
     static let gridGap: CGFloat = 12
     static let edgePadding: CGFloat = 16
 }
@@ -37,7 +37,9 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                HomePalette.background.ignoresSafeArea()
+                Image("bg")
+                    .resizable()
+                    .ignoresSafeArea()
 
                 StickyBlurHeader(
                     maxBlurRadius: 10,
@@ -128,7 +130,7 @@ struct HomeView: View {
                 } content: {
                     VStack(spacing: HomePalette.gridGap) {
                         heroSection
-                        mediaModeSelector
+
                         modeSegment
                         templatesContent
                         Color.clear.frame(height: 70)
@@ -147,7 +149,7 @@ struct HomeView: View {
             }
             .navigationBarHidden(true)
             .task { await homeVM.loadData() }
-            .task(id: homeVM.selectedMode) {
+            .task {
                 if homeVM.hasLoaded {
                     await homeVM.loadSlider()
                 }
@@ -156,9 +158,7 @@ struct HomeView: View {
             .sheet(item: $selectedCategoryForDetail) { category in
                 CategoryDetailView(
                     category: category,
-                    templates: (homeVM.selectedMode == 0
-                        ? homeVM.videoTemplates.filter { $0.categoryId == category.rawID }
-                        : homeVM.photoTemplates.filter { $0.categoryId == category.rawID }),
+                    templates: homeVM.photoTemplates.filter { $0.categoryId == category.rawID },
                     categoryName: homeVM.categoryName,
                     onTemplateTap: handleTemplateTap,
                     viewModel: homeVM
@@ -252,84 +252,7 @@ struct HomeView: View {
         }
     }
 
-    private var mediaModeSelector: some View {
-        HStack(spacing: 12) {
-            Button {
-                homeVM.switchMode(1)
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: "photo")
-                        .font(.system(size: 18, weight: .medium))
-                    Text(NSLocalizedString("home.photo", comment: ""))
-                        .font(.system(size: 15, weight: .semibold))
-                }
-                .foregroundStyle(homeVM.selectedMode == 1 ? .white : HomePalette.text)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 18)
-                .background(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(homeVM.selectedMode == 1 ? HomePalette.accent : Color.white.opacity(0.22))
-                        .overlay {
-                            if homeVM.selectedMode != 1 {
-                                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                    .fill(.ultraThinMaterial)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                            .fill(Color.black.opacity(0.10))
-                                    )
-                            }
-                        }
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .stroke(homeVM.selectedMode == 1 ? Color.white.opacity(0.72) : Color.white.opacity(0.35), lineWidth: 1)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .stroke(homeVM.selectedMode == 1 ? Color(hex: "FCECE5").opacity(0.55) : Color.black.opacity(0.10), lineWidth: 1)
-                )
-            }
-            .buttonStyle(.plain)
 
-            Button {
-                 homeVM.switchMode(0)
-             } label: {
-                 HStack(spacing: 8) {
-                     Image(systemName: "video")
-                         .font(.system(size: 18, weight: .medium))
-                     Text(NSLocalizedString("home.video", comment: ""))
-                         .font(.system(size: 15, weight: .semibold))
-                 }
-                .foregroundStyle(homeVM.selectedMode == 0 ? .white : HomePalette.text)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 18)
-                .background(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(homeVM.selectedMode == 0 ? HomePalette.accent : Color.white.opacity(0.22))
-                        .overlay {
-                            if homeVM.selectedMode != 0 {
-                                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                    .fill(.ultraThinMaterial)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                            .fill(Color.black.opacity(0.10))
-                                    )
-                            }
-                        }
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .stroke(homeVM.selectedMode == 0 ? Color.white.opacity(0.72) : Color.white.opacity(0.35), lineWidth: 1)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .stroke(homeVM.selectedMode == 0 ? Color(hex: "FCECE5").opacity(0.55) : Color.black.opacity(0.10), lineWidth: 1)
-                )
-            }
-            .buttonStyle(.plain)
-        }
-        .padding(.horizontal, HomePalette.edgePadding)
-    }
 
     private var modeSegment: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -395,7 +318,7 @@ struct HomeView: View {
     }
 
     private var categoryRows: some View {
-        let categories = homeVM.selectedMode == 1 ? homeVM.photoCategories : homeVM.videoCategories
+        let categories = homeVM.photoCategories
 
         return VStack(spacing: 24) {
             ForEach(categories) { category in
@@ -510,7 +433,7 @@ private struct HeroSliderCard: View {
                 Rectangle()
                     .fill(.ultraThinMaterial)
                     .opacity(0.18)
-                    .overlay(Color(hex: "2F1E18").opacity(0.34))
+                    .overlay(Color(hex: "2D2422").opacity(0.34))
                     .frame(width: cardWidth, height: cardHeight)
                     .mask(
                         LinearGradient(
@@ -654,13 +577,7 @@ private struct HomeTemplateCard: View {
     let action: () -> Void
     private let cardHeight: CGFloat = 250
     private let previewURL: URL?
-    private let shouldShowVideo: Bool
-    @State private var isVisible = false
     @ObservedObject var viewModel: HomeViewModel
-
-    private var isMuted: Bool {
-        viewModel.activeAudioCardID != cardID
-    }
 
     init(template: TemplateItem, categoryName: String?, cardID: String, viewModel: HomeViewModel, action: @escaping () -> Void) {
         self.template = template
@@ -670,19 +587,6 @@ private struct HomeTemplateCard: View {
         self.action = action
         let url = template.afterMediaUrl.flatMap(URL.init) ?? template.beforeMediaUrl.flatMap(URL.init)
         self.previewURL = url
-
-        if template.actionType == "video" {
-            self.shouldShowVideo = true
-        } else {
-            let videoHints = [template.afterMediaType, template.beforeMediaType].compactMap { $0?.lowercased() }
-            if videoHints.contains(where: { $0.contains("video") }) {
-                self.shouldShowVideo = true
-            } else if let ext = url?.pathExtension.lowercased(), ["mp4", "mov", "m4v", "webm"].contains(ext) {
-                self.shouldShowVideo = true
-            } else {
-                self.shouldShowVideo = false
-            }
-        }
     }
 
     var body: some View {
@@ -700,7 +604,7 @@ private struct HomeTemplateCard: View {
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .opacity(0.16)
-                .overlay(Color(hex: "2F1E18").opacity(0.32))
+                .overlay(Color(hex: "2D2422").opacity(0.32))
                 .mask(
                     LinearGradient(
                         stops: [
@@ -775,24 +679,7 @@ private struct HomeTemplateCard: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                    if shouldShowVideo {
-                        Image(systemName: isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .padding(8)
-                            .background(.ultraThinMaterial)
-                            .clipShape(Circle())
-                            .contentShape(Circle())
-                            .onTapGesture {
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                                    if viewModel.activeAudioCardID == cardID {
-                                        viewModel.activeAudioCardID = nil
-                                    } else {
-                                        viewModel.activeAudioCardID = cardID
-                                    }
-                                }
-                            }
-                    }
+
                 }
                 .padding(.horizontal, 12)
                 .padding(.vertical, 10)
@@ -830,7 +717,7 @@ private struct HomeTemplateCard: View {
 
     private var placeholder: some View {
         LinearGradient(
-            colors:[Color(hex: "2A1F1A"), Color(hex: "49382F")],
+            colors:[Color(hex: "2D2422"), Color(hex: "8D7F7A")],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -1032,7 +919,9 @@ struct CategoryDetailView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                HomePalette.background.ignoresSafeArea()
+                Image("bg")
+                    .resizable()
+                    .ignoresSafeArea()
 
                 ScrollView(showsIndicators: false) {
                     LazyVGrid(columns: columns, spacing: 16) {
