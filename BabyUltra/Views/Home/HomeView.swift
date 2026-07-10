@@ -402,16 +402,7 @@ private struct HeroSliderCard: View {
 
     var body: some View {
         ZStack {
-            // Frame URL — slider'ın arkasındaki çerçeve katmanı
-            // Karttan büyük, kenarları sarar, clipShape'e maruz kalmaz
-            if let frameURL = item.frameUrl.flatMap(URL.init) {
-                WebImage(url: frameURL, options: [.retryFailed]) { image in
-                    image.resizable().scaledToFill()
-                } placeholder: {
-                    EmptyView()
-                }
-                .frame(width: cardWidth + framePadding * 2, height: cardHeight + framePadding * 2)
-            }
+
 
             // Kart içeriği — yuvarlak köşeli ve kırpılmış
             ZStack(alignment: .bottomLeading) {
