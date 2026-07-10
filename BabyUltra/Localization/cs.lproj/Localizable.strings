@@ -71,11 +71,11 @@
 "card.processing" = "Zpracování";
 "card.success" = "Úspěch";
 "chat.clear_chat" = "Vymazat chat";
-"chat.input_placeholder" = "Zeptejte se BabyUltraAI na cokoli…";
-"chat.subtitle" = "Zeptejte se BabyUltraAI na cokoli.";
-"chat.tip" = "Pamatujte, že toto je dočasné!\nDěláte skvělou práci.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Dobrý den! Jsem BabyUltraAI, váš rodičovský asistent. Jak se dnes daří vašemu malému? Jsem tu, abych vám pomohl s plánem spánku, otázkami ohledně krmení nebo vám jen nabídl poslech.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Zrušit";
 "common.copied" = "Zkopírováno do schránky";
 "common.delete" = "Smazat";
@@ -231,3 +231,6 @@
 "upgrade" = "upgradovat";
 "upscaling.no_image_error" = "Není vybrán žádný obrázek";
 "upscaling.title" = "Upscale obrázek";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

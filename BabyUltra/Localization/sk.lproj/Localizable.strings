@@ -71,11 +71,11 @@
 "card.processing" = "Spracúva sa";
 "card.success" = "Úspech";
 "chat.clear_chat" = "Vymazať rozhovor";
-"chat.input_placeholder" = "Opýtajte sa BabyUltraAI na čokoľvek…";
-"chat.subtitle" = "Opýtajte sa svojho drobca na čokoľvek.";
-"chat.tip" = "Pamätajte, že toto je dočasné!\nRobíš skvelú prácu.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Dobrý deň! Som BabyUltraAI, váš rodičovský asistent. Ako sa dnes darí vášmu drobčekovi? Som tu, aby som vám pomohol s plánom spánku, otázkami kŕmenia alebo len aby som vám ponúkol počúvanie.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Zrušiť";
 "common.copied" = "Skopírované do schránky";
 "common.delete" = "Odstrániť";
@@ -231,3 +231,6 @@
 "upgrade" = "upgradovať";
 "upscaling.no_image_error" = "Nie je vybratý žiadny obrázok";
 "upscaling.title" = "Zväčšiť obrázok";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

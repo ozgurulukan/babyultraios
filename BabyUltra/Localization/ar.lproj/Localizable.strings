@@ -72,11 +72,11 @@
 "card.processing" = "معالجة";
 "card.success" = "نجاح";
 "chat.clear_chat" = "مسح الدردشة";
-"chat.input_placeholder" = "اسأل BabyUltraAI أي شيء…";
-"chat.subtitle" = "اسأل BabyUltraAI أي شيء عن صغيرك.";
-"chat.tip" = "تذكر، هذا مؤقت!\nأنت تقوم بعمل رائع.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "مرحبًا! أنا BabyUltraAI، مساعدك الأبوي. كيف حال صغيرك اليوم؟ أنا هنا للمساعدة في جداول النوم، أسئلة التغذية، أو فقط لتقديم أذن صاغية.";
+"chat.input_placeholder" = "أخبرني عن نوع الاسم الذي تبحث عنه...";
+"chat.subtitle" = "اطلب من BabyUltra اقتراحات لأسماء الأطفال.";
+"chat.tip" = "العثور على الاسم المثالي يستغرق وقتاً! أنا هنا للمساعدة.";
+"chat.title" = "مستشار أسماء BabyUltra";
+"chat.welcome_message" = "مرحباً! أنا مستشار أسماء BabyUltra. ما نوع الاسم الذي تبحث عنه؟ (مثال: ولد، بنت، حديث، كلاسيكي)";
 "common.cancel" = "إلغاء";
 "common.copied" = "تم النسخ إلى الحافظة";
 "common.delete" = "حذف";
@@ -232,3 +232,6 @@
 "upgrade" = "ترقية";
 "upscaling.no_image_error" = "لم يتم اختيار صورة";
 "upscaling.title" = "تحسين الصورة";
+"chat.suggestion1" = "اقترح أسماء أولاد حديثة";
+"chat.suggestion2" = "أسماء بنات كلاسيكية";
+"chat.suggestion3" = "أسماء محايدة للجنسين";

@@ -71,11 +71,11 @@
 "card.processing" = "Obrada";
 "card.success" = "Uspjeh";
 "chat.clear_chat" = "Obriši razgovor";
-"chat.input_placeholder" = "Pitajte BabyUltraAI bilo što…";
-"chat.subtitle" = "Pitajte BabyUltraAI bilo što o svom mališanu.";
-"chat.tip" = "Zapamtite, ovo je privremeno!\nRadiš sjajan posao.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Pozdrav! Ja sam BabyUltraAI, tvoj pomoćnik za roditelje. Kako je tvoj mališan danas? Ovdje sam da vam pomognem s rasporedom spavanja, pitanjima o hranjenju ili samo da vas saslušam.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Odustani";
 "common.copied" = "Kopirano u međuspremnik";
 "common.delete" = "Izbriši";
@@ -231,3 +231,6 @@
 "upgrade" = "nadogradnja";
 "upscaling.no_image_error" = "Nije odabrana slika";
 "upscaling.title" = "Visoka slika";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

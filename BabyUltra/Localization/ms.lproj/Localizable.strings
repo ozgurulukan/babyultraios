@@ -72,11 +72,11 @@
 "card.processing" = "Memproses";
 "card.success" = "Berjaya";
 "chat.clear_chat" = "Kosongkan Sembang";
-"chat.input_placeholder" = "Tanya apa-apa kepada BabyUltraAI…";
-"chat.subtitle" = "Tanya apa-apa kepada BabyUltraAI tentang si kecil anda.";
-"chat.tip" = "Ingat, ini adalah sementara!\nAnda melakukan kerja yang hebat.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Hai! Saya BabyUltraAI, Pembantu Ibu Bapa anda. Bagaimana keadaan si kecil anda hari ini? Saya di sini untuk membantu dengan jadual tidur, soalan berkaitan makan, atau hanya untuk mendengar.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Batal";
 "common.copied" = "Disalin ke papan keratan";
 "common.delete" = "Padam";
@@ -232,3 +232,6 @@
 "upgrade" = "upgrade";
 "upscaling.no_image_error" = "Tiada imej dipilih";
 "upscaling.title" = "Upscale Imej";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

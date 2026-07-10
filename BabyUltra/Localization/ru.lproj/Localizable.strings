@@ -71,11 +71,11 @@
 "card.processing" = "Обработка";
 "card.success" = "Успешно";
 "chat.clear_chat" = "Очистить чат";
-"chat.input_placeholder" = "Спросите BabyUltraAI о чем угодно…";
-"chat.subtitle" = "Спросите BabyUltraAI о вашем малыше что угодно.";
-"chat.tip" = "Помните, это временно!\nВы делаете отличную работу.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Привет! Я BabyUltraAI, ваш помощник для родителей. Как сегодня поживает ваш малыш? Я здесь, чтобы помочь с графиком сна, вопросами о кормлении или просто выслушать.";
+"chat.input_placeholder" = "Расскажите, какое имя вы ищете...";
+"chat.subtitle" = "Попросите BabyUltra предложить имена для малыша.";
+"chat.tip" = "Найти идеальное имя требует времени! Я здесь, чтобы помочь.";
+"chat.title" = "BabyUltra Советник по именам";
+"chat.welcome_message" = "Привет! Я BabyUltra Советник по именам. Какое имя вы ищете? (например, мальчик, девочка, современное, классическое)";
 "common.cancel" = "Отмена";
 "common.copied" = "Скопировано в буфер обмена";
 "common.delete" = "Удалить";
@@ -231,3 +231,6 @@
 "upgrade" = "обновить";
 "upscaling.no_image_error" = "Изображение не выбрано";
 "upscaling.title" = "Высокомасштабное изображение";
+"chat.suggestion1" = "Современные имена для мальчиков";
+"chat.suggestion2" = "Классические имена для девочек";
+"chat.suggestion3" = "Унисекс имена";

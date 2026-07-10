@@ -72,11 +72,11 @@
 "card.processing" = "Verwerken";
 "card.success" = "Succes";
 "chat.clear_chat" = "Chat wissen";
-"chat.input_placeholder" = "Vraag BabyUltraAI wat dan ook…";
-"chat.subtitle" = "Vraag BabyUltraAI alles over jouw kleintje.";
-"chat.tip" = "Onthoud, dit is tijdelijk!\nJe doet het geweldig.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Hoi! Ik ben BabyUltraAI, je Ouderassistent. Hoe gaat het met je kleintje vandaag? Ik ben hier om te helpen met slaapschema's, vragen over voeding, of gewoon om te luisteren.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Annuleren";
 "common.copied" = "Gekopieerd naar klembord";
 "common.delete" = "Verwijderen";
@@ -232,3 +232,6 @@
 "upgrade" = "upgraden";
 "upscaling.no_image_error" = "Geen afbeelding geselecteerd";
 "upscaling.title" = "Afbeelding Verbeteren";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

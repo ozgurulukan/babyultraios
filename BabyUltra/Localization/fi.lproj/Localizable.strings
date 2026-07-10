@@ -72,11 +72,11 @@
 "card.processing" = "Käsitellään";
 "card.success" = "Onnistui";
 "chat.clear_chat" = "Tyhjennä keskustelu";
-"chat.input_placeholder" = "Kysy BabyUltraAI:lta mitä tahansa…";
-"chat.subtitle" = "Kysy BabyUltraAI:lta mitä tahansa pienokaisestasi.";
-"chat.tip" = "Muista, tämä on väliaikaista!\nTeet hienoa työtä.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Hei! Olen BabyUltraAI, vanhempien avustajasi. Kuinka pienokaisellasi menee tänään? Olen täällä auttamassa uniaikataulujen, ruokintakysymysten kanssa tai vain kuuntelemassa.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Peruuta";
 "common.copied" = "Kopioitu leikepöydälle";
 "common.delete" = "Poista";
@@ -232,3 +232,6 @@
 "upgrade" = "päivitä";
 "upscaling.no_image_error" = "Ei kuvaa valittu";
 "upscaling.title" = "Paranna kuva";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

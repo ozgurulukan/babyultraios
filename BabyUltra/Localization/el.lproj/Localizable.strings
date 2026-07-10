@@ -72,11 +72,11 @@
 "card.processing" = "Επεξεργασία";
 "card.success" = "Επιτυχία";
 "chat.clear_chat" = "Καθαρισμός Συνομιλίας";
-"chat.input_placeholder" = "Ρωτήστε το BabyUltraAI οτιδήποτε…";
-"chat.subtitle" = "Ρωτήστε το BabyUltraAI οτιδήποτε για το μικρό σας.";
-"chat.tip" = "Θυμηθείτε, αυτό είναι προσωρινό!\nΚάνετε εξαιρετική δουλειά.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Γεια σας! Είμαι το BabyUltraAI, ο Γονεϊκός σας Βοηθός. Πώς είναι το μικρό σας σήμερα; Είμαι εδώ για να βοηθήσω με προγράμματα ύπνου, ερωτήσεις σχετικά με τη διατροφή, ή απλώς για να σας ακούσω.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Ακύρωση";
 "common.copied" = "Αντιγράφηκε στο πρόχειρο";
 "common.delete" = "Διαγραφή";
@@ -232,3 +232,6 @@
 "upgrade" = "αναβάθμιση";
 "upscaling.no_image_error" = "Δεν επιλέχθηκε εικόνα";
 "upscaling.title" = "Βελτίωση Εικόνας";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

@@ -71,11 +71,11 @@
 "card.processing" = "Se procesează";
 "card.success" = "Succes";
 "chat.clear_chat" = "Șterge chatul";
-"chat.input_placeholder" = "Întrebați-o pe BabyUltraAI orice...";
-"chat.subtitle" = "Întreabă-ți orice pe BabyUltraAI.";
-"chat.tip" = "Amintiți-vă, acest lucru este temporar!\nFaci o treabă grozavă.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Bună ziua! Eu sunt BabyUltraAI, asistentul tău pentru părinți. Ce mai face micuțul tău astăzi? Sunt aici pentru a vă ajuta cu programele de somn, cu întrebările despre hrănire sau doar pentru a oferi o ureche care ascultă.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Anulează";
 "common.copied" = "Copiat în clipboard";
 "common.delete" = "Ștergeți";
@@ -231,3 +231,6 @@
 "upgrade" = "upgradare";
 "upscaling.no_image_error" = "Nicio imagine selectată";
 "upscaling.title" = "Imagine de lux";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

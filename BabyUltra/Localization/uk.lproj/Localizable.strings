@@ -71,11 +71,11 @@
 "card.processing" = "Обробка";
 "card.success" = "Успіх";
 "chat.clear_chat" = "Очистити чат";
-"chat.input_placeholder" = "Запитайте BabyUltraAI будь-що...";
-"chat.subtitle" = "Запитайте BabyUltraAI будь-що про свого малюка.";
-"chat.tip" = "Пам'ятайте, це тимчасово!\nВи робите чудову роботу.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Привіт! Я BabyUltraAI, ваш помічник батьків. Як ваш малюк сьогодні? Я тут, щоб допомогти з розкладом сну, запитати про годування або просто запропонувати вислухати.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Скасувати";
 "common.copied" = "Скопійовано в буфер обміну";
 "common.delete" = "Видалити";
@@ -231,3 +231,6 @@
 "upgrade" = "оновлення";
 "upscaling.no_image_error" = "Зображення не вибрано";
 "upscaling.title" = "Високоякісне зображення";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

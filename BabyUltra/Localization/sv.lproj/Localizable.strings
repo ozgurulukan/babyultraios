@@ -72,11 +72,11 @@
 "card.processing" = "Bearbetar";
 "card.success" = "Klart";
 "chat.clear_chat" = "Rensa chatt";
-"chat.input_placeholder" = "Fråga BabyUltraAI vad som helst…";
-"chat.subtitle" = "Fråga BabyUltraAI vad som helst om din lilla.";
-"chat.tip" = "Kom ihåg, detta är tillfälligt!\nDu gör ett jättebra jobb.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Hej! Jag är BabyUltraAI, din Förälderassistent. Hur mår din lilla idag? Jag är här för att hjälpa till med sovscheman, frågor om matning, eller bara för att lyssna.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Avbryt";
 "common.copied" = "Kopierat till urklipp";
 "common.delete" = "Ta bort";
@@ -232,3 +232,6 @@
 "upgrade" = "uppgradera";
 "upscaling.no_image_error" = "Ingen bild vald";
 "upscaling.title" = "Förbättra bild";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

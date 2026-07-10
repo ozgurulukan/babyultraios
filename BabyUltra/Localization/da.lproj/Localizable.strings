@@ -72,11 +72,11 @@
 "card.processing" = "Behandler";
 "card.success" = "Succes";
 "chat.clear_chat" = "Ryd chat";
-"chat.input_placeholder" = "Spørg BabyUltraAI om hvad som helst…";
-"chat.subtitle" = "Spørg BabyUltraAI om noget vedrørende din lille.";
-"chat.tip" = "Husk, dette er midlertidigt!\nDu gør et fantastisk stykke arbejde.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Hej! Jeg er BabyUltraAI, din Forælderassistent. Hvordan har din lille det i dag? Jeg er her for at hjælpe med soveskemaer, spørgsmål om fodring, eller bare for at lytte.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Annuller";
 "common.copied" = "Kopieret til udklipsholder";
 "common.delete" = "Slet";
@@ -232,3 +232,6 @@
 "upgrade" = "opgrader";
 "upscaling.no_image_error" = "Intet billede valgt";
 "upscaling.title" = "Forbedr billede";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

@@ -72,11 +72,11 @@
 "card.processing" = "Processing";
 "card.success" = "Success";
 "chat.clear_chat" = "Clear Chat";
-"chat.input_placeholder" = "Ask BabyUltraAI anything…";
-"chat.subtitle" = "Ask BabyUltraAI anything about your little one.";
-"chat.tip" = "Remember, this is temporary!\nYou're doing a great job.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Hi there! I'm BabyUltraAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Cancel";
 "common.copied" = "Copied to clipboard";
 "common.delete" = "Delete";
@@ -232,3 +232,6 @@
 "upgrade" = "upgrade";
 "upscaling.no_image_error" = "No image selected";
 "upscaling.title" = "Upscale Image";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

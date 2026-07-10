@@ -72,11 +72,11 @@
 "card.processing" = "Elaborazione";
 "card.success" = "Successo";
 "chat.clear_chat" = "Cancella Chat";
-"chat.input_placeholder" = "Chiedi qualsiasi cosa a BabyUltraAI…";
-"chat.subtitle" = "Chiedi a BabyUltraAI qualsiasi cosa sul tuo piccolo.";
-"chat.tip" = "Ricorda, è temporaneo!\nStai facendo un ottimo lavoro.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Ciao! Sono BabyUltraAI, il tuo Assistente Genitore. Come sta il tuo piccolo oggi? Sono qui per aiutarti con gli orari di sonno, le domande sull'alimentazione o semplicemente per ascoltarti.";
+"chat.input_placeholder" = "Dimmi che tipo di nome stai cercando...";
+"chat.subtitle" = "Chiedi a BabyUltra suggerimenti per i nomi.";
+"chat.tip" = "Trovare il nome perfetto richiede tempo! Sono qui per aiutarti.";
+"chat.title" = "BabyUltra Consulente Nomi";
+"chat.welcome_message" = "Ciao! Sono BabyUltra Consulente Nomi. Che tipo di nome cerchi? (es. maschio, femmina, moderno, classico)";
 "common.cancel" = "Annulla";
 "common.copied" = "Copiato negli appunti";
 "common.delete" = "Elimina";
@@ -232,3 +232,6 @@
 "upgrade" = "aggiorna";
 "upscaling.no_image_error" = "Nessuna immagine selezionata";
 "upscaling.title" = "Migliora Immagine";
+"chat.suggestion1" = "Nomi moderni per bambini";
+"chat.suggestion2" = "Nomi classici per bambine";
+"chat.suggestion3" = "Nomi unisex";

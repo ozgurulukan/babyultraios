@@ -72,11 +72,11 @@
 "card.processing" = "Ag próiseáil";
 "card.success" = "Rath";
 "chat.clear_chat" = "Glan Comhrá";
-"chat.input_placeholder" = "Fiafraigh rud ar bith de BabyUltraAI…";
-"chat.subtitle" = "Fiafraigh de BabyUltraAI rud ar bith faoi do bheagán.";
-"chat.tip" = "Cuimhnigh, tá sé seo sealadach!\nTá tú ag déanamh jab iontach.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Dia dhuit! Is mise BabyUltraAI, d'Assistant Tuismitheora. Conas atá do bheagán inniu? Tá mé anseo chun cabhrú le sceidilí codlata, ceisteanna bia, nó díreach chun éisteacht.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Cealaigh";
 "common.copied" = "Cóipeáilte chuig an ngearráin";
 "common.delete" = "Scrios";
@@ -232,3 +232,6 @@
 "upgrade" = "uasghrádú";
 "upscaling.no_image_error" = "Níl aon íomhá roghnaithe";
 "upscaling.title" = "Íomhá a Uasghrádú";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

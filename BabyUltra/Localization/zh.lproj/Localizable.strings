@@ -72,11 +72,11 @@
 "card.processing" = "处理中";
 "card.success" = "成功";
 "chat.clear_chat" = "清空聊天";
-"chat.input_placeholder" = "向BabyUltraAI提问任何问题…";
-"chat.subtitle" = "向BabyUltraAI询问关于您小宝贝的任何事情。";
-"chat.tip" = "请记住，这只是暂时的！\n您做得很好。";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "您好！我是BabyUltraAI，您的育儿助手。今天您的小宝贝怎么样？我可以帮您解答睡眠安排、喂养问题，或者只是陪您聊聊天。";
+"chat.input_placeholder" = "告诉我你在找什么样的名字...";
+"chat.subtitle" = "向 BabyUltra 名字顾问寻求宝宝名字建议。";
+"chat.tip" = "找到完美的名字需要时间！我来帮忙。";
+"chat.title" = "BabyUltra 名字顾问";
+"chat.welcome_message" = "你好！我是 BabyUltra 名字顾问。你在找什么样的名字？（例如：男孩，女孩，现代，经典）";
 "common.cancel" = "取消";
 "common.copied" = "已复制到剪贴板";
 "common.delete" = "删除";
@@ -232,3 +232,6 @@
 "upgrade" = "升级";
 "upscaling.no_image_error" = "未选择图像";
 "upscaling.title" = "放大图像";
+"chat.suggestion1" = "推荐现代男孩名字";
+"chat.suggestion2" = "经典女孩名字";
+"chat.suggestion3" = "中性名字";

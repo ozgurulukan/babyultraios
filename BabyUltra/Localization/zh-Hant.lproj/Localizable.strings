@@ -72,11 +72,11 @@
 "card.processing" = "處理中";
 "card.success" = "成功";
 "chat.clear_chat" = "清空聊天";
-"chat.input_placeholder" = "向BabyUltraAI提問任何問題…";
-"chat.subtitle" = "向BabyUltraAI詢問關於您小寶貝的任何事情。";
-"chat.tip" = "請記住，這只是暫時的！\n您做得很好。";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "您好！我是BabyUltraAI，您的育兒助手。今天您的小寶貝怎麼樣？我可以幫助您解答睡眠安排、餵食問題，或者只是陪您聊聊天。";
+"chat.input_placeholder" = "告訴我你在找什麼樣的名字...";
+"chat.subtitle" = "向 BabyUltra 名字顧問尋求寶寶名字建議。";
+"chat.tip" = "找到完美的名字需要時間！我來幫忙。";
+"chat.title" = "BabyUltra 名字顧問";
+"chat.welcome_message" = "你好！我是 BabyUltra 名字顧問。你在找什麼樣的名字？（例如：男孩，女孩，現代，經典）";
 "common.cancel" = "取消";
 "common.copied" = "已複製到剪貼簿";
 "common.delete" = "刪除";
@@ -232,3 +232,6 @@
 "upgrade" = "升級";
 "upscaling.no_image_error" = "未選擇圖像";
 "upscaling.title" = "放大圖像";
+"chat.suggestion1" = "推薦現代男孩名字";
+"chat.suggestion2" = "經典女孩名字";
+"chat.suggestion3" = "中性名字";

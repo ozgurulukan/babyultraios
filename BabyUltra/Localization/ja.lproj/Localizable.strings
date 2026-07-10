@@ -72,11 +72,11 @@
 "card.processing" = "処理中";
 "card.success" = "成功";
 "chat.clear_chat" = "チャットをクリア";
-"chat.input_placeholder" = "BabyUltraAIになんでも尋ねて…";
-"chat.subtitle" = "BabyUltraAIにお子様について何でもお尋ねください。";
-"chat.tip" = "これは一時的なものです！\nあなたは素晴らしい仕事をしています。";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "こんにちは！BabyUltraAI、あなたの育児アシスタントです。今日のお子様はいかがですか？睡眠スケジュール、授乳に関する質問、またはただの相談相手としてお手伝いします。";
+"chat.input_placeholder" = "どんな名前を探しているか教えてください...";
+"chat.subtitle" = "BabyUltraに赤ちゃんの名前の提案を頼む";
+"chat.tip" = "完璧な名前を見つけるには時間がかかります！私がお手伝いします。";
+"chat.title" = "BabyUltra 名前アドバイザー";
+"chat.welcome_message" = "こんにちは！BabyUltra名前アドバイザーです。どんな名前をお探しですか？（例：男の子、女の子、モダン、クラシック）";
 "common.cancel" = "キャンセル";
 "common.copied" = "クリップボードにコピーしました";
 "common.delete" = "削除";
@@ -232,3 +232,6 @@
 "upgrade" = "アップグレード";
 "upscaling.no_image_error" = "画像が選択されていません";
 "upscaling.title" = "画像をアップスケール";
+"chat.suggestion1" = "モダンな男の子の名前を提案して";
+"chat.suggestion2" = "クラシックな女の子の名前";
+"chat.suggestion3" = "中性的な名前";

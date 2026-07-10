@@ -72,11 +72,11 @@
 "card.processing" = "מעבד";
 "card.success" = "הצלחה";
 "chat.clear_chat" = "נקה צ'אט";
-"chat.input_placeholder" = "שאל את BabyUltraAI כל דבר…";
-"chat.subtitle" = "שאל את BabyUltraAI כל דבר על הקטן שלך.";
-"chat.tip" = "זכור, זה זמני!\nאתה עושה עבודה נהדרת.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "היי שם! אני BabyUltraAI, העוזר ההורי שלך. איך הקטן שלך היום? אני כאן לעזור עם לוחות זמני שינה, שאלות האכלה, או פשוט להציע אוזן קשבת.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "ביטול";
 "common.copied" = "הועתק ללוח";
 "common.delete" = "מחק";
@@ -232,3 +232,6 @@
 "upgrade" = "שדרג";
 "upscaling.no_image_error" = "לא נבחרה תמונה";
 "upscaling.title" = "שדרג תמונה";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

@@ -72,11 +72,11 @@
 "card.processing" = "처리 중";
 "card.success" = "성공";
 "chat.clear_chat" = "채팅 지우기";
-"chat.input_placeholder" = "BabyUltraAI에게 무엇이든 물어보세요…";
-"chat.subtitle" = "BabyUltraAI에게 소중한 아이에 대해 무엇이든 물어보세요.";
-"chat.tip" = "이것은 임시적인 것입니다!\n잘하고 계십니다.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "안녕하세요! BabyUltraAI, 당신의 육아 도우미입니다. 오늘 소중한 아이는 어떤가요? 수면 일정, 수유 관련 질문, 또는 그냥 대화 상대가 되어 드리겠습니다.";
+"chat.input_placeholder" = "어떤 종류의 이름을 찾고 있는지 알려주세요...";
+"chat.subtitle" = "BabyUltra에 아기 이름 추천을 요청하세요.";
+"chat.tip" = "완벽한 이름을 찾는 데는 시간이 걸립니다! 제가 도와드릴게요.";
+"chat.title" = "BabyUltra 이름 어드바이저";
+"chat.welcome_message" = "안녕하세요! 저는 BabyUltra 이름 어드바이저입니다. 어떤 이름을 찾으시나요? (예: 남자아이, 여자아이, 현대적인, 고전적인)";
 "common.cancel" = "취소";
 "common.copied" = "클립보드에 복사됨";
 "common.delete" = "삭제";
@@ -232,3 +232,6 @@
 "upgrade" = "업그레이드";
 "upscaling.no_image_error" = "이미지가 선택되지 않았습니다";
 "upscaling.title" = "이미지 업스케일";
+"chat.suggestion1" = "현대적인 남자아이 이름 추천";
+"chat.suggestion2" = "고전적인 여자아이 이름";
+"chat.suggestion3" = "중성적인 이름";

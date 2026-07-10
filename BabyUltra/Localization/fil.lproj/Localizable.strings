@@ -72,11 +72,11 @@
 "card.processing" = "Nagpo-process";
 "card.success" = "Tagumpay";
 "chat.clear_chat" = "I-clear ang Chat";
-"chat.input_placeholder" = "Magtanong ng kahit ano kay BabyUltraAI…";
-"chat.subtitle" = "Magtanong ng kahit ano kay BabyUltraAI tungkol sa iyong little one.";
-"chat.tip" = "Tandaan, ito ay pansamantala!\nGinagawa mo ang isang mahusay na trabaho.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Kamusta! Ako si BabyUltraAI, ang iyong Parent Assistant. Kamusta ang iyong little one ngayon? Nandito ako para tumulong sa mga iskedyul ng tulog, mga tanong tungkol sa pagpapakain, o para lamang makinig.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Kanselahin";
 "common.copied" = "Nakopya sa clipboard";
 "common.delete" = "Tanggalin";
@@ -232,3 +232,6 @@
 "upgrade" = "upgrade";
 "upscaling.no_image_error" = "Walang napiling larawan";
 "upscaling.title" = "I-upscale ang Larawan";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

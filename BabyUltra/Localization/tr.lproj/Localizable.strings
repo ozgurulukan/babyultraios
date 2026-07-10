@@ -72,11 +72,11 @@
 "card.processing" = "İşleniyor";
 "card.success" = "Tamamlandı";
 "chat.clear_chat" = "Sohbeti Temizle";
-"chat.input_placeholder" = "BabyUltraAI'ye her şeyi sor…";
-"chat.subtitle" = "BabyUltraAI'ye küçüğünüz hakkında her şeyi sorun.";
-"chat.tip" = "Unutmayın, bu geçici!\\nHarika bir iş çıkarıyorsunuz.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Merhaba! Ben BabyUltraAI, Ebeveyn Asistanınız. Küçüğünüz bugün nasıl? Uyku programları, beslenme soruları veya sadece dinleyici kulak olmak için buradayım.";
+"chat.input_placeholder" = "Nasıl bir isim aradığınızı söyleyin...";
+"chat.subtitle" = "BabyUltra İsim Danışmanından bebek ismi önerileri isteyin.";
+"chat.tip" = "Mükemmel ismi bulmak zaman alır! Yardım etmek için buradayım.";
+"chat.title" = "BabyUltra İsim Danışmanı";
+"chat.welcome_message" = "Merhaba! Ben BabyUltra İsim Danışmanı. Ne tür bir isim arıyorsunuz? (ör. erkek, kız, modern, klasik)";
 "common.cancel" = "İptal";
 "common.copied" = "Panoya kopyalandı";
 "common.delete" = "Sil";
@@ -232,3 +232,6 @@
 "upgrade" = "yükselt";
 "upscaling.no_image_error" = "Fotoğraf seçilmedi";
 "upscaling.title" = "Görseli Yükselt";
+"chat.suggestion1" = "Modern erkek bebek isimleri öner";
+"chat.suggestion2" = "Klasik kız bebek isimleri";
+"chat.suggestion3" = "Cinsiyetsiz (unisex) isimler";

@@ -72,11 +72,11 @@
 "card.processing" = "Đang xử lý";
 "card.success" = "Thành công";
 "chat.clear_chat" = "Xóa Trò Chuyện";
-"chat.input_placeholder" = "Hỏi BabyUltraAI bất cứ điều gì…";
-"chat.subtitle" = "Hỏi BabyUltraAI bất cứ điều gì về bé yêu của bạn.";
-"chat.tip" = "Hãy nhớ, điều này là tạm thời!\nBạn đang làm rất tốt.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Xin chào! Tôi là BabyUltraAI, trợ lý phụ huynh của bạn. Hôm nay bé yêu của bạn thế nào? Tôi ở đây để giúp lịch trình ngủ, câu hỏi về cho ăn, hoặc chỉ để lắng nghe.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Hủy";
 "common.copied" = "Đã sao chép vào bảng nhớ tạm";
 "common.delete" = "Xóa";
@@ -232,3 +232,6 @@
 "upgrade" = "nâng cấp";
 "upscaling.no_image_error" = "Chưa chọn hình ảnh";
 "upscaling.title" = "Nâng Cấp Hình Ảnh";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

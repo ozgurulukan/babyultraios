@@ -72,11 +72,11 @@
 "card.processing" = "Traitement";
 "card.success" = "Succès";
 "chat.clear_chat" = "Effacer le chat";
-"chat.input_placeholder" = "Demandez à BabyUltraAI ce que vous voulez…";
-"chat.subtitle" = "Demandez à BabyUltraAI tout ce que vous voulez sur votre petit.";
-"chat.tip" = "N'oubliez pas, c'est temporaire !\nVous faites du bon travail.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Bonjour ! Je suis BabyUltraAI, votre assistant parental. Comment va votre petit aujourd'hui ? Je suis là pour vous aider avec les horaires de sommeil, les questions d'alimentation, ou simplement pour vous écouter.";
+"chat.input_placeholder" = "Dites-moi quel genre de prénom vous cherchez...";
+"chat.subtitle" = "Demandez des suggestions de prénoms à BabyUltra.";
+"chat.tip" = "Trouver le prénom parfait prend du temps ! Je suis là pour vous aider.";
+"chat.title" = "BabyUltra Conseiller en Prénoms";
+"chat.welcome_message" = "Bonjour ! Je suis BabyUltra Conseiller en Prénoms. Quel type de prénom recherchez-vous ? (ex. garçon, fille, moderne, classique)";
 "common.cancel" = "Annuler";
 "common.copied" = "Copié dans le presse-papiers";
 "common.delete" = "Supprimer";
@@ -232,3 +232,6 @@
 "upgrade" = "mettre à niveau";
 "upscaling.no_image_error" = "Aucune image sélectionnée";
 "upscaling.title" = "Améliorer l'image";
+"chat.suggestion1" = "Prénoms modernes pour garçons";
+"chat.suggestion2" = "Prénoms classiques pour filles";
+"chat.suggestion3" = "Prénoms mixtes";

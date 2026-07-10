@@ -9,9 +9,9 @@ final class ChatEditViewModel: ObservableObject {
     @Published var isLoading = false
 
     let suggestions = [
-        "How do I start sleep training?",
-        "What should my 6-month-old eat?",
-        "Tips for toddler tantrums?"
+        NSLocalizedString("chat.suggestion1", comment: ""),
+        NSLocalizedString("chat.suggestion2", comment: ""),
+        NSLocalizedString("chat.suggestion3", comment: "")
     ]
 
     func selectSuggestion(_ text: String) {
@@ -46,7 +46,7 @@ final class ChatEditViewModel: ObservableObject {
     func clearChat() {
         chatItems = [
             ChatItem(
-                text: "Hi there! I'm BabyUltraAI, your Parent Assistant. How is your little one doing today? I'm here to help with sleep schedules, feeding questions, or just to offer a listening ear.",
+                text: NSLocalizedString("chat.welcome_message", comment: ""),
                 sender: .ai,
                 title: nil,
                 bullets: []

@@ -72,11 +72,11 @@
 "card.processing" = "กำลังประมวลผล";
 "card.success" = "สำเร็จ";
 "chat.clear_chat" = "ล้างแชท";
-"chat.input_placeholder" = "ถาม BabyUltraAI อะไรก็ได้…";
-"chat.subtitle" = "ถาม BabyUltraAI ได้ทุกเรื่องเกี่ยวกับลูกน้อยของคุณ";
-"chat.tip" = "จำไว้ว่านี่เป็นเพียงชั่วคราว!\nคุณทำได้ดีมาก";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "สวัสดี! ฉันคือ BabyUltraAI ผู้ช่วยเลี้ยงดูของคุณ ลูกน้อยของคุณวันนี้เป็นอย่างไรบ้าง? ฉันอยู่ที่นี่เพื่อช่วยเรื่องตารางการนอน คำถามเรื่องการให้อาหาร หรือแค่เป็นที่ปรึกษา";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "ยกเลิก";
 "common.copied" = "คัดลอกไปยังคลิปบอร์ด";
 "common.delete" = "ลบ";
@@ -232,3 +232,6 @@
 "upgrade" = "อัปเกรด";
 "upscaling.no_image_error" = "ยังไม่ได้เลือกรูปภาพ";
 "upscaling.title" = "เพิ่มความละเอียดรูปภาพ";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";

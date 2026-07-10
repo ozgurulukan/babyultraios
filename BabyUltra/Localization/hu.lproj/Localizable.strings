@@ -71,11 +71,11 @@
 "card.processing" = "Feldolgozás";
 "card.success" = "Siker";
 "chat.clear_chat" = "Csevegés törlése";
-"chat.input_placeholder" = "Kérdezz bármit a BabyUltraAI-tól…";
-"chat.subtitle" = "Kérdezzen BabyUltraAI-tól bármit.";
-"chat.tip" = "Ne feledje, ez átmeneti!\nRemek munkát végzel.";
-"chat.title" = "BabyUltraAI";
-"chat.welcome_message" = "Sziasztok! BabyUltraAI vagyok, a szülői asszisztensed. Hogy van ma a kicsid? Azért vagyok itt, hogy segítsek az alvási ütemezésben, az etetési kérdésekben, vagy csak azért, hogy meghallgathassam.";
+"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.tip" = "Finding the perfect name takes time! I'm here to help.";
+"chat.title" = "BabyUltra Name Advisor";
+"chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Mégse";
 "common.copied" = "Vágólapra másolva";
 "common.delete" = "Törlés";
@@ -231,3 +231,6 @@
 "upgrade" = "frissíteni";
 "upscaling.no_image_error" = "Nincs kép kiválasztva";
 "upscaling.title" = "Előkelő kép";
+"chat.suggestion1" = "Suggest modern baby boy names";
+"chat.suggestion2" = "Classic baby girl names";
+"chat.suggestion3" = "Gender neutral names";
