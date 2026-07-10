@@ -524,10 +524,6 @@ struct AccountView: View {
             menuDivider
             profileMenuRow(icon: "globe", title: NSLocalizedString("menu.language", comment: "")) { showLanguageSheet = true }
             menuDivider
-            profileMenuRow(icon: "questionmark.circle", title: NSLocalizedString("menu.help_center", comment: "")) {
-                openURL(URL(string: "https://fagore.com/help/")!)
-            }
-            menuDivider
             profileMenuRow(icon: "lock.shield", title: NSLocalizedString("menu.privacy_policy", comment: "")) {
                 openURL(URL(string: "https://fagore.com/privacy/")!)
             }
