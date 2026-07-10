@@ -93,7 +93,6 @@ final class HomeViewModel: ObservableObject {
         await loadData()
     }
 
-        }
 
     func selectCategory(_ id: String?) {
         selectedCategoryID = id
@@ -151,4 +150,4 @@ final class HomeViewModel: ObservableObject {
         return categoryNameCache[catId]
     }
 
-    }
+}
