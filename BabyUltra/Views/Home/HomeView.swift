@@ -211,25 +211,9 @@ struct HomeView: View {
 
     private var templatesContent: some View {
         VStack(spacing: 24) {
-            horizontalTemplatesRow(templates: homeVM.filteredTemplates)
-
             if homeVM.selectedCategoryID == nil && homeVM.selectedFilter == nil {
                 categoryRows
             }
-        }
-    }
-
-    private func horizontalTemplatesRow(templates: [TemplateItem]) -> some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack(spacing: HomePalette.gridGap) {
-                ForEach(templates) { template in
-                    HomeTemplateCard(template: template, categoryName: homeVM.categoryName(for: template), cardID: "row-\(template.id)", viewModel: homeVM) {
-                        handleTemplateTap(template)
-                    }
-                    .frame(width: 170)
-                }
-            }
-            .padding(.horizontal, HomePalette.edgePadding)
         }
     }
 
