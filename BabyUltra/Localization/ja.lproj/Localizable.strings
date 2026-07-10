@@ -73,9 +73,9 @@
 "card.success" = "成功";
 "chat.clear_chat" = "チャットをクリア";
 "chat.input_placeholder" = "どんな名前をお探しですか？";
-"chat.subtitle" = "BabyUltraに赤ちゃんの名前の提案を頼む";
+"chat.subtitle" = "完璧な名前を見つけよう。";
 "chat.tip" = "完璧な名前を見つけるには時間がかかります！私がお手伝いします。";
-"chat.title" = "BabyUltra 名前アドバイザー";
+"chat.title" = "名前アドバイザー";
 "chat.welcome_message" = "こんにちは！BabyUltra名前アドバイザーです。どんな名前をお探しですか？（例：男の子、女の子、モダン、クラシック）";
 "common.cancel" = "キャンセル";
 "common.copied" = "クリップボードにコピーしました";

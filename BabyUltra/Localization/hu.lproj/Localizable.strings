@@ -72,9 +72,9 @@
 "card.success" = "Siker";
 "chat.clear_chat" = "Csevegés törlése";
 "chat.input_placeholder" = "Any name preferences?";
-"chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
+"chat.subtitle" = "Find the perfect baby name.";
 "chat.tip" = "Finding the perfect name takes time! I'm here to help.";
-"chat.title" = "BabyUltra Name Advisor";
+"chat.title" = "Name Advisor";
 "chat.welcome_message" = "Hi there! I'm BabyUltra Name Advisor. What kind of name are you looking for? (e.g. boy, girl, modern, classic)";
 "common.cancel" = "Mégse";
 "common.copied" = "Vágólapra másolva";

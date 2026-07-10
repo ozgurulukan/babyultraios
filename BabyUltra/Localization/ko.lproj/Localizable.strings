@@ -73,9 +73,9 @@
 "card.success" = "성공";
 "chat.clear_chat" = "채팅 지우기";
 "chat.input_placeholder" = "어떤 이름을 찾으시나요?";
-"chat.subtitle" = "BabyUltra에 아기 이름 추천을 요청하세요.";
+"chat.subtitle" = "완벽한 이름을 찾아보세요.";
 "chat.tip" = "완벽한 이름을 찾는 데는 시간이 걸립니다! 제가 도와드릴게요.";
-"chat.title" = "BabyUltra 이름 어드바이저";
+"chat.title" = "이름 어드바이저";
 "chat.welcome_message" = "안녕하세요! 저는 BabyUltra 이름 어드바이저입니다. 어떤 이름을 찾으시나요? (예: 남자아이, 여자아이, 현대적인, 고전적인)";
 "common.cancel" = "취소";
 "common.copied" = "클립보드에 복사됨";

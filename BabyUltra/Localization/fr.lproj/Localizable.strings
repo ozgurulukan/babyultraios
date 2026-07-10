@@ -73,9 +73,9 @@
 "card.success" = "Succès";
 "chat.clear_chat" = "Effacer le chat";
 "chat.input_placeholder" = "Quel type de prénom ?";
-"chat.subtitle" = "Demandez des suggestions de prénoms à BabyUltra.";
+"chat.subtitle" = "Trouvez le prénom parfait.";
 "chat.tip" = "Trouver le prénom parfait prend du temps ! Je suis là pour vous aider.";
-"chat.title" = "BabyUltra Conseiller en Prénoms";
+"chat.title" = "Conseiller en Prénoms";
 "chat.welcome_message" = "Bonjour ! Je suis BabyUltra Conseiller en Prénoms. Quel type de prénom recherchez-vous ? (ex. garçon, fille, moderne, classique)";
 "common.cancel" = "Annuler";
 "common.copied" = "Copié dans le presse-papiers";

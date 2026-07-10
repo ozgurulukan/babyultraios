@@ -73,9 +73,9 @@
 "card.success" = "Successo";
 "chat.clear_chat" = "Cancella Chat";
 "chat.input_placeholder" = "Che tipo di nome cerchi?";
-"chat.subtitle" = "Chiedi a BabyUltra suggerimenti per i nomi.";
+"chat.subtitle" = "Trova il nome perfetto.";
 "chat.tip" = "Trovare il nome perfetto richiede tempo! Sono qui per aiutarti.";
-"chat.title" = "BabyUltra Consulente Nomi";
+"chat.title" = "Consulente Nomi";
 "chat.welcome_message" = "Ciao! Sono BabyUltra Consulente Nomi. Che tipo di nome cerchi? (es. maschio, femmina, moderno, classico)";
 "common.cancel" = "Annulla";
 "common.copied" = "Copiato negli appunti";

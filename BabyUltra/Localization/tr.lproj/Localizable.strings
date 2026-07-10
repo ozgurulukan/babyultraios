@@ -73,9 +73,9 @@
 "card.success" = "Tamamlandı";
 "chat.clear_chat" = "Sohbeti Temizle";
 "chat.input_placeholder" = "Nasıl bir isim arıyorsunuz?";
-"chat.subtitle" = "BabyUltra İsim Danışmanından bebek ismi önerileri isteyin.";
+"chat.subtitle" = "Mükemmel bebek ismini bulun.";
 "chat.tip" = "Mükemmel ismi bulmak zaman alır! Yardım etmek için buradayım.";
-"chat.title" = "BabyUltra İsim Danışmanı";
+"chat.title" = "İsim Danışmanı";
 "chat.welcome_message" = "Merhaba! Ben BabyUltra İsim Danışmanı. Ne tür bir isim arıyorsunuz? (ör. erkek, kız, modern, klasik)";
 "common.cancel" = "İptal";
 "common.copied" = "Panoya kopyalandı";

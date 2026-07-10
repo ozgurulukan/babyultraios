@@ -73,9 +73,9 @@
 "card.success" = "نجاح";
 "chat.clear_chat" = "مسح الدردشة";
 "chat.input_placeholder" = "أي نوع من الأسماء تبحث عنه؟";
-"chat.subtitle" = "اطلب من BabyUltra اقتراحات لأسماء الأطفال.";
+"chat.subtitle" = "ابحث عن الاسم المثالي.";
 "chat.tip" = "العثور على الاسم المثالي يستغرق وقتاً! أنا هنا للمساعدة.";
-"chat.title" = "مستشار أسماء BabyUltra";
+"chat.title" = "مستشار الأسماء";
 "chat.welcome_message" = "مرحباً! أنا مستشار أسماء BabyUltra. ما نوع الاسم الذي تبحث عنه؟ (مثال: ولد، بنت، حديث، كلاسيكي)";
 "common.cancel" = "إلغاء";
 "common.copied" = "تم النسخ إلى الحافظة";

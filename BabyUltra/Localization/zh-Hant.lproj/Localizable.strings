@@ -73,9 +73,9 @@
 "card.success" = "成功";
 "chat.clear_chat" = "清空聊天";
 "chat.input_placeholder" = "想要什麼樣的名字？";
-"chat.subtitle" = "向 BabyUltra 名字顧問尋求寶寶名字建議。";
+"chat.subtitle" = "找到完美的寶寶名字。";
 "chat.tip" = "找到完美的名字需要時間！我來幫忙。";
-"chat.title" = "BabyUltra 名字顧問";
+"chat.title" = "名字顧問";
 "chat.welcome_message" = "你好！我是 BabyUltra 名字顧問。你在找什麼樣的名字？（例如：男孩，女孩，現代，經典）";
 "common.cancel" = "取消";
 "common.copied" = "已複製到剪貼簿";
