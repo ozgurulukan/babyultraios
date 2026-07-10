@@ -124,51 +124,27 @@ struct Splash: View {
                 .resizable()
                 .ignoresSafeArea()
 
-            // Subtle ambient glow behind logo
-            SplashPalette.accent
-                .opacity(0.12)
-                .blur(radius: 90)
-                .frame(width: 280, height: 280)
-                .offset(y: -40)
-
             VStack(spacing: 24) {
                 Spacer()
 
                 Image("babyultralogo")
+                    .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 120, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-                    .shadow(color: SplashPalette.accent.opacity(0.35), radius: 36, x: 0, y: 12)
+                    .foregroundStyle(.white)
+                    .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
                     .scaleEffect(logoScale)
                     .opacity(logoOpacity)
 
-                VStack(spacing: 8) {
-                    Text(NSLocalizedString("app.name", comment: ""))
-                        .font(.system(size: 40, weight: .black, design: .rounded))
-                        .foregroundStyle(SplashPalette.text)
-
-                    Text(NSLocalizedString("splash.tagline", comment: ""))
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundStyle(SplashPalette.subtleText)
-                        .offset(y: taglineOffset)
-                }
-                .opacity(textOpacity)
-
                 if auth.isAuthenticating {
                     ProgressView()
-                        .tint(SplashPalette.accent)
+                        .tint(.white)
                         .scaleEffect(1.1)
-                    .padding(.top, 16)
+                        .padding(.top, 16)
                 }
 
                 Spacer()
-
-                Image("splashkid")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: 280)
-                    .padding(.bottom, 20)
             }
 
             if auth.isDeviceBanned {
