@@ -96,12 +96,12 @@ struct HomeView: View {
                                     Text("\(displayCredits)")
                                         .font(.system(size: 14, weight: .bold))
                                 }
-                                .foregroundStyle(HomePalette.text)
+                                .foregroundStyle(HomePalette.accent)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 8)
                                 .background(Color.white.opacity(0.5))
                                 .clipShape(Capsule())
-                                .overlay(Capsule().stroke(HomePalette.text.opacity(0.2), lineWidth: 1))
+                                .overlay(Capsule().stroke(HomePalette.accent.opacity(0.3), lineWidth: 1))
                             }
                             .buttonStyle(.plain)
                         }
