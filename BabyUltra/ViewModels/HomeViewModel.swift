@@ -6,8 +6,7 @@ final class HomeViewModel: ObservableObject {
     @Published var virtualFilters: [CategoryItem] = []
     @Published var photoTemplates: [TemplateItem] = []
     @Published var filteredTemplates: [TemplateItem] = []
-    @Published var sliderItems: [SliderItem] = []
-    @Published var selectedCategoryID: String? = nil
+        @Published var selectedCategoryID: String? = nil
     @Published var selectedFilter: String? = nil
     @Published var isLoading = false
     @Published var errorMessage: String?
@@ -66,16 +65,7 @@ final class HomeViewModel: ObservableObject {
             firstErrorMessage = error.localizedDescription
         }
 
-        do {
-            sliderItems = try await BabyUltraAPI.shared.getSlider(type: "photo")
-            didLoadAnySection = true
-        } catch APIError.rateLimited(let secs) {
-            rateLimitWait = max(rateLimitWait ?? 0, secs)
-        } catch {
-            if firstErrorMessage == nil {
-                firstErrorMessage = error.localizedDescription
-            }
-        }
+        
 
         applyFilter()
         hasLoaded = hasLoaded || didLoadAnySection || !photoTemplates.isEmpty
@@ -103,13 +93,7 @@ final class HomeViewModel: ObservableObject {
         await loadData()
     }
 
-    func loadSlider() async {
-        do {
-            sliderItems = try await BabyUltraAPI.shared.getSlider(type: "photo")
-        } catch {
-            debugInfo = "Slider load failed: \(error.localizedDescription)"
         }
-    }
 
     func selectCategory(_ id: String?) {
         selectedCategoryID = id
@@ -167,8 +151,4 @@ final class HomeViewModel: ObservableObject {
         return categoryNameCache[catId]
     }
 
-    func templateForSlider(_ item: SliderItem) -> TemplateItem? {
-        guard let templateId = item.templateId else { return nil }
-        return photoTemplates.first { $0.id == templateId }
     }
-}
