@@ -352,25 +352,6 @@ private struct GenerationHistoryCard: View {
     }
 }
 
-    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
-        uiViewController.view.isUserInteractionEnabled = false
-        if let player = context.coordinator.player {
-            player.isMuted = isMuted
-        }
-    }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator()
-    }
-
-    class Coordinator {
-        var player: AVPlayer?
-    }
-
-    static func dismantleUIViewController(_ uiViewController: AVPlayerViewController, coordinator: Coordinator) {
-        uiViewController.player?.pause()
-    }
-}
 
 private struct HistoryResultRoute: Identifiable, Hashable {
     let id: Int
