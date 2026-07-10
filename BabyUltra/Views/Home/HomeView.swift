@@ -67,20 +67,20 @@ struct HomeView: View {
                         }
                         
                         // Center
-                        HStack(spacing: 8) {
+                        HStack(spacing: 6) {
                             Image("logo")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 32, height: 32)
-                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                .frame(width: 24, height: 24)
+                                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                                 
                             Text("BabyUltra")
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundStyle(HomePalette.accent)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .overlay(Capsule().stroke(HomePalette.accent, lineWidth: 1.5))
                         }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .overlay(Capsule().stroke(HomePalette.accent, lineWidth: 1.5))
                         
                         // Right Side
                         HStack {
