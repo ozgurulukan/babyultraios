@@ -45,22 +45,9 @@ struct HomeView: View {
                     tintOpacityTop: 0.58,
                     tintOpacityMiddle: 0.36
                 ) {
-                    HStack(alignment: .center, spacing: 20) {
-                        Image("logo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 54, height: 54)
-                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                        
-                        ProfileStyleHeader(
-                            title: NSLocalizedString("app.name", comment: ""),
-                            subtitle: NSLocalizedString("home.ai_studio", comment: ""),
-                            spacing: 1
-                        )
-                        
-                        Spacer()
-
-                        HStack(spacing: 6) {
+                    ZStack {
+                        // Left Side
+                        HStack {
                             if !hasProAccess {
                                 Button {
                                     isPremiumShow = true
@@ -68,33 +55,36 @@ struct HomeView: View {
                                     Text(NSLocalizedString("home.pro_button", comment: ""))
                                         .font(.system(size: 11, weight: .heavy))
                                         .foregroundStyle(.white)
-                                        .lineLimit(1)
-                                        .fixedSize(horizontal: true, vertical: false)
-                                        .padding(.horizontal, 10)
+                                        .padding(.horizontal, 14)
                                         .padding(.vertical, 8)
-                                        .background(
-                                            ZStack {
-                                                Capsule()
-                                                    .fill(HomePalette.accent.opacity(0.88))
-                                                Capsule()
-                                                    .fill(.ultraThinMaterial)
-                                                LinearGradient(
-                                                    colors: [Color.white.opacity(0.35), Color.white.opacity(0.05)],
-                                                    startPoint: .top,
-                                                    endPoint: .bottom
-                                                )
-                                            }
-                                            .clipShape(Capsule())
-                                        )
-                                        .overlay(
-                                            Capsule()
-                                                .stroke(Color.white.opacity(0.55), lineWidth: 1)
-                                        )
-                                        .shadow(color: HomePalette.accent.opacity(0.35), radius: 6, x: 0, y: 3)
+                                        .background(LinearGradient(colors: [Color(hex: "FF5E7E"), Color(hex: "FF9E80")], startPoint: .topLeading, endPoint: .bottomTrailing))
+                                        .clipShape(Capsule())
+                                        .shadow(color: Color(hex: "FF5E7E").opacity(0.3), radius: 4, x: 0, y: 2)
                                 }
                                 .buttonStyle(.plain)
                             }
-
+                            Spacer()
+                        }
+                        
+                        // Center
+                        HStack(spacing: 8) {
+                            Image("logo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 32, height: 32)
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                
+                            Text("BabyUltra")
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundStyle(HomePalette.text)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .overlay(Capsule().stroke(HomePalette.text, lineWidth: 1.5))
+                        }
+                        
+                        // Right Side
+                        HStack {
+                            Spacer()
                             Button {
                                 withAnimation(.easeInOut(duration: 0.3)) {
                                     showAccount = true
@@ -105,20 +95,13 @@ struct HomeView: View {
                                         .font(.system(size: 13, weight: .bold))
                                     Text("\(displayCredits)")
                                         .font(.system(size: 14, weight: .bold))
-                                        .lineLimit(1)
-                                        .minimumScaleFactor(0.8)
                                 }
-                                .foregroundStyle(Color(hex: "f9f5f2"))
-                                .padding(.horizontal, 10)
+                                .foregroundStyle(HomePalette.text)
+                                .padding(.horizontal, 12)
                                 .padding(.vertical, 8)
-                                .background(
-                                    Capsule()
-                                        .fill(.ultraThinMaterial)
-                                        .overlay(Color.black.opacity(0.18))
-                                )
+                                .background(Color.white.opacity(0.5))
                                 .clipShape(Capsule())
-                                .overlay(Capsule().stroke(Color.white.opacity(0.4), lineWidth: 1))
-                                .fixedSize(horizontal: true, vertical: false)
+                                .overlay(Capsule().stroke(HomePalette.text.opacity(0.2), lineWidth: 1))
                             }
                             .buttonStyle(.plain)
                         }
@@ -300,7 +283,7 @@ private struct PopularTemplateCard: View {
     private let cardHeight: CGFloat = 210
 
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack(alignment: .bottom) {
             // Arka plan resmi veya gradient
             if let imageURL = (template.afterMediaUrl.flatMap(URL.init) ?? template.beforeMediaUrl.flatMap(URL.init)) {
                 WebImage(url: imageURL, options: [.retryFailed]) { image in
@@ -315,18 +298,18 @@ private struct PopularTemplateCard: View {
                     .frame(width: cardWidth, height: cardHeight)
             }
 
-            // Üstteki liquid glass başlık bölmesi
+            // Üstteki liquid glass başlık bölmesi (şimdi alt kısımda)
             HStack {
                 Text(template.name)
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundStyle(HomePalette.text)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
             }
             .frame(maxWidth: .infinity)
             .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-            .padding(12)
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .padding(10)
         }
         .frame(width: cardWidth, height: cardHeight)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
