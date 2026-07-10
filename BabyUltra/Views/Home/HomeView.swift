@@ -177,7 +177,7 @@ struct HomeView: View {
 
     private var heroSection: some View {
         GeometryReader { geo in
-            let cardWidth = min(geo.size.width * 0.86, 420)
+            let cardWidth = min(geo.size.width * 0.92, 450)
             ScrollViewReader { proxy in
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack(spacing: 0) {
@@ -397,7 +397,7 @@ private struct AvatarBadge: View {
 private struct HeroSliderCard: View {
     let item: SliderItem
     let cardWidth: CGFloat
-    private let cardHeight: CGFloat = 240
+    private let cardHeight: CGFloat = 210
     private let framePadding: CGFloat = 20
 
     var body: some View {
@@ -515,7 +515,7 @@ private struct HeroSliderCard: View {
 
 private struct HeroSliderPlaceholderCard: View {
     let cardWidth: CGFloat
-    private let cardHeight: CGFloat = 240
+    private let cardHeight: CGFloat = 210
 
     var body: some View {
         ZStack {
