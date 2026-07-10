@@ -72,7 +72,7 @@
 "card.processing" = "Processando";
 "card.success" = "Sucesso";
 "chat.clear_chat" = "Limpar Chat";
-"chat.input_placeholder" = "Diga-me que tipo de nome você está procurando...";
+"chat.input_placeholder" = "Que tipo de nome você procura?";
 "chat.subtitle" = "Peça sugestões de nomes de bebê ao BabyUltra.";
 "chat.tip" = "Encontrar o nome perfeito leva tempo! Estou aqui para ajudar.";
 "chat.title" = "BabyUltra Conselheiro de Nomes";

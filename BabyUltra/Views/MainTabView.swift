@@ -11,7 +11,7 @@ enum BabyUltraTab: String, CaseIterable {
         switch self {
         case .home:        return "house.fill"
         case .generations: return "square.grid.2x2.fill"
-        case .chatEdit:    return "message.fill"
+        case .chatEdit:    return "textformat.abc"
         case .account:     return "person.fill"
         }
     }

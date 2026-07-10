@@ -71,7 +71,7 @@
 "card.processing" = "Zpracování";
 "card.success" = "Úspěch";
 "chat.clear_chat" = "Vymazat chat";
-"chat.input_placeholder" = "Tell me what kind of name you are looking for...";
+"chat.input_placeholder" = "Any name preferences?";
 "chat.subtitle" = "Ask BabyUltra Name Advisor for baby name suggestions.";
 "chat.tip" = "Finding the perfect name takes time! I'm here to help.";
 "chat.title" = "BabyUltra Name Advisor";

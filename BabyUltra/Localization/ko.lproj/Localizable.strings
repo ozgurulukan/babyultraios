@@ -72,7 +72,7 @@
 "card.processing" = "처리 중";
 "card.success" = "성공";
 "chat.clear_chat" = "채팅 지우기";
-"chat.input_placeholder" = "어떤 종류의 이름을 찾고 있는지 알려주세요...";
+"chat.input_placeholder" = "어떤 이름을 찾으시나요?";
 "chat.subtitle" = "BabyUltra에 아기 이름 추천을 요청하세요.";
 "chat.tip" = "완벽한 이름을 찾는 데는 시간이 걸립니다! 제가 도와드릴게요.";
 "chat.title" = "BabyUltra 이름 어드바이저";

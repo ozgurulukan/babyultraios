@@ -71,7 +71,7 @@
 "card.processing" = "Обработка";
 "card.success" = "Успешно";
 "chat.clear_chat" = "Очистить чат";
-"chat.input_placeholder" = "Расскажите, какое имя вы ищете...";
+"chat.input_placeholder" = "Какое имя вы ищете?";
 "chat.subtitle" = "Попросите BabyUltra предложить имена для малыша.";
 "chat.tip" = "Найти идеальное имя требует времени! Я здесь, чтобы помочь.";
 "chat.title" = "BabyUltra Советник по именам";

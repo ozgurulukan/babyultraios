@@ -72,7 +72,7 @@
 "card.processing" = "处理中";
 "card.success" = "成功";
 "chat.clear_chat" = "清空聊天";
-"chat.input_placeholder" = "告诉我你在找什么样的名字...";
+"chat.input_placeholder" = "想要什么样的名字？";
 "chat.subtitle" = "向 BabyUltra 名字顾问寻求宝宝名字建议。";
 "chat.tip" = "找到完美的名字需要时间！我来帮忙。";
 "chat.title" = "BabyUltra 名字顾问";

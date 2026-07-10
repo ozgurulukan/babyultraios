@@ -72,7 +72,7 @@
 "card.processing" = "İşleniyor";
 "card.success" = "Tamamlandı";
 "chat.clear_chat" = "Sohbeti Temizle";
-"chat.input_placeholder" = "Nasıl bir isim aradığınızı söyleyin...";
+"chat.input_placeholder" = "Nasıl bir isim arıyorsunuz?";
 "chat.subtitle" = "BabyUltra İsim Danışmanından bebek ismi önerileri isteyin.";
 "chat.tip" = "Mükemmel ismi bulmak zaman alır! Yardım etmek için buradayım.";
 "chat.title" = "BabyUltra İsim Danışmanı";

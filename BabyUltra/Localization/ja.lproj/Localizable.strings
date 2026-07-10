@@ -72,7 +72,7 @@
 "card.processing" = "処理中";
 "card.success" = "成功";
 "chat.clear_chat" = "チャットをクリア";
-"chat.input_placeholder" = "どんな名前を探しているか教えてください...";
+"chat.input_placeholder" = "どんな名前をお探しですか？";
 "chat.subtitle" = "BabyUltraに赤ちゃんの名前の提案を頼む";
 "chat.tip" = "完璧な名前を見つけるには時間がかかります！私がお手伝いします。";
 "chat.title" = "BabyUltra 名前アドバイザー";

@@ -83,9 +83,13 @@ struct ChatEditView: View {
                 Text(NSLocalizedString("chat.title", comment: ""))
                     .font(.system(size: 30, weight: .bold, design: .rounded))
                     .foregroundStyle(Color(hex: "2D2422"))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
                 Text(NSLocalizedString("chat.subtitle", comment: ""))
                     .font(.system(size: 14))
                     .foregroundStyle(Color(hex: "8D7F7A"))
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.7)
             }
             Spacer()
             Button {
