@@ -728,22 +728,6 @@ struct TransformView: View {
         }
     }
 
-    private func loadVideoThumbnail() {
-        guard isVideoTemplate, let previewURL = templatePreviewURL, videoThumbnail == nil else { return }
-        let asset = AVAsset(url: previewURL)
-        let generator = AVAssetImageGenerator(asset: asset)
-        generator.appliesPreferredTrackTransform = true
-        let time = CMTime(seconds: 0, preferredTimescale: 60)
-        
-        generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: time)]) { _, image, _, _, _ in
-            if let image = image {
-                let uiImage = UIImage(cgImage: image)
-                DispatchQueue.main.async {
-                    self.videoThumbnail = uiImage
-                }
-            }
-        }
-    }
 }
 
 // MARK: - Aspect Ratio Button
@@ -828,7 +812,6 @@ private struct AspectRatioButton: View {
         afterMediaUrl: nil,
         afterMediaType: nil,
         referenceImageCount: nil,
-        referenceVideoUrl: nil,
         requireMomPhoto: nil,
         requireBabyPhoto: nil,
         requireDadPhoto: nil,

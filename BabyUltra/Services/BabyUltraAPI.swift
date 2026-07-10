@@ -149,7 +149,6 @@ struct BabyUltraAPI {
             model: template.model,
             imageUrl: imageURL,
             imageUrls: imageUrls,
-            videoUrl: videoURL ?? template.referenceVideoUrl,
             momImageUrl: momImageURL,
             babyImageUrl: babyImageURL,
             dadImageUrl: dadImageURL,

@@ -120,7 +120,6 @@ struct TemplateItem: Decodable, Identifiable {
     let afterMediaUrl: String?
     let afterMediaType: String?
     let referenceImageCount: Int?
-    let referenceVideoUrl: String?
     let requireMomPhoto: Bool?
     let requireBabyPhoto: Bool?
     let requireDadPhoto: Bool?
@@ -148,7 +147,6 @@ struct TemplateItem: Decodable, Identifiable {
         case afterMediaUrl = "after_media_url"
         case afterMediaType = "after_media_type"
         case referenceImageCount = "reference_image_count"
-        case referenceVideoUrl = "reference_video_url"
         case requireMomPhoto = "require_mom_photo"
         case requireBabyPhoto = "require_baby_photo"
         case requireDadPhoto = "require_dad_photo"
@@ -314,7 +312,7 @@ struct TransformRequest: Encodable {
     let model: String?
     let imageUrl: String?
     let imageUrls: [String]?
-    let videoUrl: String?
+
     let momImageUrl: String?
     let babyImageUrl: String?
     let dadImageUrl: String?
@@ -328,7 +326,7 @@ struct TransformRequest: Encodable {
         case provider, model, prompt, params
         case imageUrl = "image_url"
         case imageUrls = "image_urls"
-        case videoUrl = "video_url"
+
         case momImageUrl = "mom_image_url"
         case babyImageUrl = "baby_image_url"
         case dadImageUrl = "dad_image_url"

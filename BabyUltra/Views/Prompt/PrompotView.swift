@@ -95,8 +95,7 @@ struct PrompotView: View {
             do {
                 let result = try await BabyUltraAPI.shared.uploadAndTransform(
                     image: image,
-                    template: template,
-                    videoURL: template.referenceVideoUrl
+                    template: template
                 )
                 await MainActor.run {
                     resultURL = result.resultUrl
