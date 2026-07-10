@@ -693,16 +693,11 @@ private struct HomeTemplateCard: View {
             action()
         }
         .frame(maxWidth: .infinity)
-        .onAppear { isVisible = true }
-        .onDisappear { isVisible = false }
     }
 
     @ViewBuilder
     private var mediaPreview: some View {
-        if shouldShowVideo, let previewURL {
-            TemplateVideoPlayer(url: previewURL, cardID: cardID, isVisible: isVisible)
-                .id(cardID)
-        } else if let previewURL {
+        if let previewURL {
             WebImage(url: previewURL, options: [.retryFailed]) { image in
                 image
                     .resizable()
@@ -739,101 +734,7 @@ private struct HomeTemplateCard: View {
 
 // MARK: - Template Video Player
 
-private struct TemplateVideoPlayer: UIViewRepresentable {
-    let url: URL
-    let cardID: String
-    let isVisible: Bool
 
-    func makeUIView(context: Context) -> TemplatePlayerUIView {
-        let view = TemplatePlayerUIView(frame: .zero)
-        view.configure(url: url, cardID: cardID)
-        return view
-    }
-
-    func updateUIView(_ uiView: TemplatePlayerUIView, context: Context) {
-        uiView.setVisible(isVisible)
-    }
-
-    static func dismantleUIView(_ uiView: TemplatePlayerUIView, coordinator: ()) {
-        uiView.destroy()
-    }
-}
-
-private final class TemplatePlayerUIView: UIView {
-    private var player: AVPlayer?
-    private var playerLayer: AVPlayerLayer?
-    private var loopObserver: Any?
-    private var activeAudioObserver: Any?
-    private var cardID: String = ""
-
-    func configure(url: URL, cardID: String) {
-        self.cardID = cardID
-
-        let item = AVPlayerItem(url: url)
-        let p = AVPlayer(playerItem: item)
-        p.automaticallyWaitsToMinimizeStalling = false
-        p.volume = 0.0
-        p.play()
-
-        let layer = AVPlayerLayer(player: p)
-        layer.videoGravity = .resizeAspectFill
-        self.layer.addSublayer(layer)
-
-        self.player = p
-        self.playerLayer = layer
-
-        // Loop
-        loopObserver = NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemDidPlayToEndTime,
-            object: item,
-            queue: .main
-        ) { [weak p] _ in
-            p?.seek(to: .zero)
-            p?.play()
-        }
-
-        // Listen for global audio changes
-        activeAudioObserver = NotificationCenter.default.addObserver(
-            forName: .templateAudioChanged,
-            object: nil,
-            queue: .main
-        ) { [weak self] notification in
-            guard let self = self else { return }
-            let activeID = notification.userInfo?["cardID"] as? String
-            let shouldMute = (activeID != self.cardID)
-            self.player?.volume = shouldMute ? 0.0 : 1.0
-        }
-    }
-
-    func setVisible(_ visible: Bool) {
-        if visible {
-            player?.play()
-        } else {
-            player?.pause()
-        }
-    }
-
-    func destroy() {
-        if let observer = loopObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        if let observer = activeAudioObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        player?.pause()
-        player?.replaceCurrentItem(with: nil)
-        playerLayer?.removeFromSuperlayer()
-        player = nil
-        playerLayer = nil
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        playerLayer?.frame = bounds
-    }
-}
-
-// MARK: - SVG Support
 
 struct SVGAsyncImage: View {
     let url: URL
