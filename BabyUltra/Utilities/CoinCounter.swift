@@ -1,7 +1,7 @@
 import SwiftUI
 
 class CoinCounter: ObservableObject {
-    @AppStorage("coins") private var _coins = 5
+    @AppStorage("coins") private var _coins = 0
     public var coins: Int {
         get { _coins }
         set {
