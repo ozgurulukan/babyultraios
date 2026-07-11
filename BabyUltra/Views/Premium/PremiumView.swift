@@ -125,7 +125,8 @@ struct PremiumView: View {
                     .font(.system(size: 16, weight: .regular))
                     .foregroundStyle(Color(hex: "8D7F7A"))
                     .multilineTextAlignment(.center)
-                    .lineSpacing(4)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
                     .padding(.horizontal, 32)
             }
         }
@@ -142,12 +143,6 @@ struct PremiumView: View {
             BenefitRow(
                 icon: "tag.fill",
                 text: NSLocalizedString("premium.benefit_credits", comment: ""),
-                iconBg: .white,
-                iconColor: Color(hex: "FF4D85")
-            )
-            BenefitRow(
-                icon: "drop.fill",
-                text: NSLocalizedString("premium.benefit_no_watermark", comment: ""),
                 iconBg: .white,
                 iconColor: Color(hex: "FF4D85")
             )
@@ -341,6 +336,7 @@ struct BenefitRow: View {
             Text(text)
                 .font(.system(size: 15, weight: .semibold))
                 .foregroundStyle(.white)
+                .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
 
             Spacer()
         }
@@ -538,16 +534,16 @@ struct TopupView: View {
             VStack(spacing: 8) {
                 Text(NSLocalizedString("topup.title", comment: ""))
                     .font(.system(size: 32, weight: .heavy))
-                    .foregroundStyle(Color(hex: "FFF5EC"))
+                    .foregroundStyle(Color(hex: "4A2E25"))
                     .multilineTextAlignment(.center)
                     .tracking(-0.5)
 
                 Text(NSLocalizedString("topup.subtitle", comment: ""))
                     .font(.system(size: 16, weight: .regular))
-                    .foregroundStyle(.white)
-                    .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
+                    .foregroundStyle(Color(hex: "8D7F7A"))
                     .multilineTextAlignment(.center)
-                    .lineSpacing(4)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
                     .padding(.horizontal, 32)
             }
         }
