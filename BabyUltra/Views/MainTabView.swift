@@ -53,11 +53,7 @@ struct MainTabView: View {
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
             if !appState.hideTabBar {
-                if #available(iOS 26.0, *) {
-                    LiquidTabBar(selectedTab: $selectedTab)
-                } else {
-                    PillNavigationBar(selectedTab: $selectedTab)
-                }
+                PillNavigationBar(selectedTab: $selectedTab)
             }
         }
         .ignoresSafeArea(.keyboard)
@@ -72,51 +68,6 @@ struct MainTabView: View {
             try? await Task.sleep(nanoseconds: 1_000_000_000)
             _ = await TrackingManager.shared.requestTrackingPermission()
         }
-    }
-}
-
-
-@available(iOS 26.0, *)
-struct LiquidTabBar: View {
-    @Binding var selectedTab: BabyUltraTab
-    private let tabs = BabyUltraTab.allCases
-    @Namespace private var tabNamespace
-
-    var body: some View {
-        // Use GlassEffectContainer with spacing: 40.0 to enable the liquid merge
-        GlassEffectContainer(spacing: 40.0) {
-            HStack(spacing: 20.0) {
-                ForEach(tabs, id: \.self) { tab in
-                    Button {
-                        withAnimation(.spring(response: 0.6, dampingFraction: 0.65, blendDuration: 0.5)) {
-                            selectedTab = tab
-                        }
-                    } label: {
-                        ZStack {
-                            // The liquid blob for each tab.
-                            // Because they are spaced by 20 and the container spacing is 40,
-                            // they will organically melt together into a continuous tab bar shape!
-                            Capsule()
-                                .fill(selectedTab == tab ? BabyUltra.accent : Color.white.opacity(0.8))
-                                .frame(width: selectedTab == tab ? 80 : 64, height: 64)
-                                .glassEffect()
-                            
-                            // The icon also gets the glassEffect to merge smoothly
-                            Image(systemName: tab.icon)
-                                .font(.system(size: 24, weight: .bold))
-                                .foregroundStyle(selectedTab == tab ? .white : BabyUltra.textSecondary.opacity(0.8))
-                                .glassEffect()
-                        }
-                        .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(tab.label)
-                }
-            }
-            .padding(.horizontal, 16)
-        }
-        .shadow(color: Color.black.opacity(0.12), radius: 16, y: 8)
-        .padding(.bottom, 24)
     }
 }
 
