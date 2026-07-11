@@ -9,9 +9,9 @@
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>FacebookAppID</key>
-	<string>975480925105629</string>
+	<string>998848209655000</string>
 	<key>FacebookClientToken</key>
-	<string>8f6e6647f42cf5e29ace7acd1c0cccfa</string>
+	<string>374d38aefed2952a29697b86c8e53f02</string>
 	<key>FacebookDisplayName</key>
 	<string>BabyUltra</string>
 	<key>CFBundleURLTypes</key>
@@ -19,7 +19,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb975480925105629</string>
+				<string>fb998848209655000</string>
 			</array>
 		</dict>
 	</array>
