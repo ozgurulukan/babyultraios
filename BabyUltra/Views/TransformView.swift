@@ -38,11 +38,11 @@ struct TransformView: View {
     private let aspectRatios = ["1:1", "4:5", "9:16", "16:9"]
 
     // Design colors
-    private let bgColor = Color(hex: "FFF8F6")
-    private let primaryText = Color(hex: "231917")
-    private let secondaryText = Color(hex: "53433F")
-    private let accentBrown = Color(hex: "8F4C38")
-    private let accentGold = Color(hex: "755A2F")
+    private let bgColor = Color(hex: "FFF3F1")
+    private let primaryText = Color(hex: "2D2422")
+    private let secondaryText = Color(hex: "8D7F7A")
+    private let accentBrown = Color(hex: "FF4D85")
+    private let accentGold = Color(hex: "FF88A8")
     private let cardBg = Color.white.opacity(0.30)
     private let cardBorder = Color.white.opacity(0.60)
 
@@ -50,7 +50,9 @@ struct TransformView: View {
 
     var body: some View {
         ZStack {
-            Color.clear.ignoresSafeArea()
+            Image("bg")
+                .resizable()
+                .ignoresSafeArea()
             backgroundGlows
 
             VStack(spacing: 0) {
@@ -131,7 +133,7 @@ struct TransformView: View {
     // MARK: Background Glows
     private var backgroundGlows: some View {
         LinearGradient(
-            colors: [Color(hex: "FFF8F6"), Color(hex: "F7ECE7")],
+            colors: [Color(hex: "FFF3F1"), Color(hex: "FFF3F1")],
             startPoint: .top,
             endPoint: .bottom
         )
@@ -284,7 +286,7 @@ struct TransformView: View {
                         RoundedRectangle(cornerRadius: 40)
                             .stroke(cardBorder, lineWidth: 1)
                     )
-                    .shadow(color: Color(hex: "8F4C38").opacity(0.15), radius: 32, x: 0, y: 8)
+                    .shadow(color: Color(hex: "FF4D85").opacity(0.15), radius: 32, x: 0, y: 8)
 
                 // Liquid glass reflection gradient
                 RoundedRectangle(cornerRadius: 40)
@@ -330,7 +332,7 @@ struct TransformView: View {
                                     Circle()
                                         .stroke(Color.white.opacity(0.60), lineWidth: 1)
                                 )
-                                .shadow(color: Color(hex: "8F4C38").opacity(0.10), radius: 16, x: 0, y: 4)
+                                .shadow(color: Color(hex: "FF4D85").opacity(0.10), radius: 16, x: 0, y: 4)
 
                             Image(systemName: "camera.fill")
                                 .font(.system(size: 28, weight: .medium))
@@ -741,7 +743,7 @@ private struct AspectRatioButton: View {
             VStack(spacing: 8) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 2)
-                        .stroke(isSelected ? Color(hex: "231917") : Color(hex: "53433F"), lineWidth: 2)
+                        .stroke(isSelected ? Color(hex: "2D2422") : Color(hex: "8D7F7A"), lineWidth: 2)
                         .frame(width: shapeWidth, height: shapeHeight)
                         .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
                 }
@@ -749,7 +751,7 @@ private struct AspectRatioButton: View {
 
                 Text(ratio)
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(isSelected ? Color(hex: "231917") : Color(hex: "53433F"))
+                    .foregroundStyle(isSelected ? Color(hex: "2D2422") : Color(hex: "8D7F7A"))
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
@@ -765,7 +767,7 @@ private struct AspectRatioButton: View {
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .shadow(
                 color: isSelected
-                    ? Color(hex: "8F4C38").opacity(0.08)
+                    ? Color(hex: "FF4D85").opacity(0.08)
                     : Color.black.opacity(0.03),
                 radius: 16, x: 0, y: 4
             )

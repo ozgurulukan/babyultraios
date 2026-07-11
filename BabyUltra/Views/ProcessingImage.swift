@@ -26,12 +26,14 @@ struct ProcessingImage: View {
         NSLocalizedString("processing.status_debut", comment: "")
     ]
 
-    private let bgColor = Color(hex: "FFF8F6")
-    private let accentBrown = Color(hex: "8E4C3A")
+    private let bgColor = Color(hex: "FFF3F1")
+    private let accentBrown = Color(hex: "FF4D85")
 
     var body: some View {
         ZStack {
-            Color.clear.ignoresSafeArea()
+            Image("bg")
+                .resizable()
+                .ignoresSafeArea()
 
             backgroundGlows
 
@@ -49,7 +51,7 @@ struct ProcessingImage: View {
                         } label: {
                             Image(systemName: "xmark")
                                 .font(.system(size: 14, weight: .bold))
-                                .foregroundStyle(Color(hex: "231917"))
+                                .foregroundStyle(Color(hex: "2D2422"))
                                 .frame(width: 32, height: 32)
                                 .background(
                                     Circle()
@@ -107,13 +109,13 @@ struct ProcessingImage: View {
     private var backgroundGlows: some View {
         ZStack {
             Circle()
-                .fill(Color(hex: "FFB5A0").opacity(0.30))
+                .fill(Color(hex: "FF88A8").opacity(0.30))
                 .frame(width: 300, height: 300)
                 .blur(radius: 60)
                 .offset(x: -100, y: -200)
 
             Circle()
-                .fill(Color(hex: "FFDF8E").opacity(0.20))
+                .fill(Color(hex: "FF88A8").opacity(0.20))
                 .frame(width: 350, height: 350)
                 .blur(radius: 70)
                 .offset(x: 80, y: 50)
@@ -141,10 +143,10 @@ struct ProcessingImage: View {
                             .scaledToFill()
                     } else {
                         ZStack {
-                            Color(hex: "F3E7E2")
+                            Color(hex: "FFF3F1")
                             Image(systemName: "photo")
                                 .font(.system(size: 40, weight: .medium))
-                                .foregroundStyle(Color(hex: "8F4C38").opacity(0.7))
+                                .foregroundStyle(Color(hex: "FF4D85").opacity(0.7))
                         }
                         .frame(maxWidth: .infinity, minHeight: 200)
                     }
@@ -173,7 +175,7 @@ struct ProcessingImage: View {
                         .fill(Color.white.opacity(0.70))
                         .overlay(Capsule().stroke(Color.white.opacity(0.9), lineWidth: 1))
                 )
-                .shadow(color: Color(hex: "8E4C3A").opacity(0.12), radius: 8, x: 0, y: 4)
+                .shadow(color: Color(hex: "FF4D85").opacity(0.12), radius: 8, x: 0, y: 4)
             }
             .padding(12)
         }
@@ -185,7 +187,7 @@ struct ProcessingImage: View {
             HStack(spacing: 12) {
                 Text(statusText)
                     .font(.system(size: 15, weight: .semibold))
-                    .foregroundStyle(Color(hex: "3A2A26"))
+                    .foregroundStyle(Color(hex: "2D2422"))
 
                 Spacer()
 
@@ -198,11 +200,11 @@ struct ProcessingImage: View {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Capsule()
-                        .fill(Color(hex: "E8D8D2"))
+                        .fill(Color(hex: "FFF3F1"))
                     Capsule()
                         .fill(
                             LinearGradient(
-                                colors: [Color(hex: "8F4C38"), Color(hex: "C07B64")],
+                                colors: [Color(hex: "FF4D85"), Color(hex: "FF88A8")],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
@@ -266,7 +268,7 @@ struct ProcessingImage: View {
                     Text(NSLocalizedString("processing.back_to_templates", comment: ""))
                         .font(.system(size: 15, weight: .bold))
                 }
-                .foregroundStyle(Color(hex: "221A18"))
+                .foregroundStyle(Color(hex: "2D2422"))
                 .frame(maxWidth: .infinity, minHeight: 48)
                 .background(
                     Capsule()

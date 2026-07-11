@@ -34,7 +34,7 @@ struct PremiumView: View {
     private let secondaryText = Color(hex: "8D7F7A")
     private let accentBrown = Color(hex: "FF4D85")
     private let accentCoral = Color(hex: "FF88A8")
-    private let starYellow = Color(hex: "845400")
+    private let starYellow = Color(hex: "FF4D85")
 
     var body: some View {
         ZStack {
@@ -70,7 +70,7 @@ struct PremiumView: View {
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(primaryText)
                     .frame(width: 40, height: 40)
-                    .background(Color(hex: "E9E2D0").opacity(0.5))
+                    .background(Color(hex: "FFF3F1").opacity(0.5))
                     .background(.ultraThinMaterial.opacity(0.3))
                     .clipShape(Circle())
             }
@@ -427,7 +427,7 @@ struct PlanCardNew: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .padding(12)
-                .background(isSelected ? Color(hex: "E9E2D0") : Color(hex: "FFF3F1"))
+                .background(isSelected ? Color(hex: "FFF3F1") : Color(hex: "FFF3F1"))
                 .clipShape(RoundedRectangle(cornerRadius: 24))
                 .overlay(
                     RoundedRectangle(cornerRadius: 24)
@@ -519,7 +519,7 @@ struct TopupView: View {
     private let secondaryText = Color(hex: "8D7F7A")
     private let accentBrown = Color(hex: "FF4D85")
     private let accentCoral = Color(hex: "FF88A8")
-    private let starYellow = Color(hex: "845400")
+    private let starYellow = Color(hex: "FF4D85")
 
     var body: some View {
         ZStack {
@@ -553,7 +553,7 @@ struct TopupView: View {
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(primaryText)
                     .frame(width: 40, height: 40)
-                    .background(Color(hex: "E9E2D0").opacity(0.5))
+                    .background(Color(hex: "FFF3F1").opacity(0.5))
                     .background(.ultraThinMaterial.opacity(0.3))
                     .clipShape(Circle())
             }
@@ -658,7 +658,7 @@ struct TopupView: View {
                 icon: "sparkles",
                 text: NSLocalizedString("topup.benefit_all_templates", comment: ""),
                 iconBg: Color(hex: "FF88A8").opacity(0.20),
-                iconColor: Color(hex: "9F402D")
+                iconColor: Color(hex: "FF4D85")
             )
         }
     }
@@ -830,7 +830,7 @@ struct CreditPlanCard: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .padding(10)
-                .background(isSelected ? Color(hex: "E9E2D0") : Color(hex: "FFF3F1"))
+                .background(isSelected ? Color(hex: "FFF3F1") : Color(hex: "FFF3F1"))
                 .clipShape(RoundedRectangle(cornerRadius: 24))
                 .overlay(
                     RoundedRectangle(cornerRadius: 24)

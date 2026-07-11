@@ -23,11 +23,11 @@ struct ResultView: View {
     @State private var showReportSent = false
 
     // Colors
-    private let bgColor = Color(hex: "FFF8F6")
-    private let secondaryText = Color(hex: "53433F")
-    private let accentBrown = Color(hex: "8E4C3A")
+    private let bgColor = Color(hex: "FFF3F1")
+    private let secondaryText = Color(hex: "8D7F7A")
+    private let accentBrown = Color(hex: "FF4D85")
     private let successGreen = Color(hex: "7ADDBD")
-    private let darkText = Color(hex: "221A18")
+    private let darkText = Color(hex: "2D2422")
 
     private var resultExtension: String {
         URL(string: resultURL)?.pathExtension.lowercased() ?? ""
@@ -35,7 +35,9 @@ struct ResultView: View {
 
     var body: some View {
         ZStack {
-            Color.clear.ignoresSafeArea()
+            Image("bg")
+                .resizable()
+                .ignoresSafeArea()
 
             backgroundGlows
 
@@ -53,7 +55,7 @@ struct ResultView: View {
                         } label: {
                             Image(systemName: "xmark")
                                 .font(.system(size: 14, weight: .bold))
-                                .foregroundStyle(Color(hex: "231917"))
+                                .foregroundStyle(Color(hex: "2D2422"))
                                 .frame(width: 32, height: 32)
                                 .background(
                                     Circle()
@@ -108,13 +110,13 @@ struct ResultView: View {
     private var backgroundGlows: some View {
         ZStack {
             Circle()
-                .fill(Color(hex: "FFB5A0").opacity(0.30))
+                .fill(Color(hex: "FF88A8").opacity(0.30))
                 .frame(width: 300, height: 300)
                 .blur(radius: 60)
                 .offset(x: -100, y: -200)
 
             Circle()
-                .fill(Color(hex: "FFDF8E").opacity(0.20))
+                .fill(Color(hex: "FF88A8").opacity(0.20))
                 .frame(width: 350, height: 350)
                 .blur(radius: 70)
                 .offset(x: 80, y: 50)
@@ -177,7 +179,7 @@ struct ResultView: View {
                             .fill(Color.white.opacity(0.70))
                             .overlay(Capsule().stroke(Color.white.opacity(0.9), lineWidth: 1))
                     )
-                    .shadow(color: Color(hex: "8E4C3A").opacity(0.12), radius: 8, x: 0, y: 4)
+                    .shadow(color: Color(hex: "FF4D85").opacity(0.12), radius: 8, x: 0, y: 4)
 
                     Button {
                         showReportSheet = true
@@ -193,7 +195,7 @@ struct ResultView: View {
                             .fill(Color.white.opacity(0.70))
                             .overlay(Capsule().stroke(Color.white.opacity(0.9), lineWidth: 1))
                     )
-                    .shadow(color: Color(hex: "8E4C3A").opacity(0.12), radius: 8, x: 0, y: 4)
+                    .shadow(color: Color(hex: "FF4D85").opacity(0.12), radius: 8, x: 0, y: 4)
                 }
             }
             .padding(12)
@@ -226,7 +228,7 @@ struct ResultView: View {
                 bgButton(color: .clear, label: NSLocalizedString("result.bg_transparent", comment: ""))
                 bgButton(color: .white, label: NSLocalizedString("result.bg_white", comment: ""))
                 bgButton(color: .black, label: NSLocalizedString("result.bg_black", comment: ""))
-                bgButton(color: Color(hex: "FFB5A0"), label: NSLocalizedString("result.bg_peach", comment: ""))
+                bgButton(color: Color(hex: "FF88A8"), label: NSLocalizedString("result.bg_peach", comment: ""))
             }
 
             Spacer()
@@ -274,15 +276,15 @@ struct ResultView: View {
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color(hex: "8E4C3A").opacity(0.90),
-                                    Color(hex: "FFB5A0").opacity(0.90),
+                                    Color(hex: "FF4D85").opacity(0.90),
+                                    Color(hex: "FF88A8").opacity(0.90),
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
                         )
                 )
-                .shadow(color: Color(hex: "8E4C3A").opacity(0.25), radius: 12, x: 0, y: 6)
+                .shadow(color: Color(hex: "FF4D85").opacity(0.25), radius: 12, x: 0, y: 6)
             }
             .buttonStyle(.plain)
 
@@ -324,7 +326,7 @@ struct ResultView: View {
                     .frame(maxWidth: .infinity, minHeight: 48)
                     .background(
                         Capsule()
-                            .fill(Color(hex: "FFDF8E").opacity(0.45))
+                            .fill(Color(hex: "FF88A8").opacity(0.45))
                             .overlay(Capsule().stroke(Color.white.opacity(0.60), lineWidth: 1))
                     )
                     .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
@@ -472,7 +474,7 @@ struct ResultView: View {
                             .padding(.vertical, 14)
                             .background(
                                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                    .fill(selectedReportReason == key ? Color(hex: "8E4C3A").opacity(0.08) : Color.clear)
+                                    .fill(selectedReportReason == key ? Color(hex: "FF4D85").opacity(0.08) : Color.clear)
                             )
                         }
                         .buttonStyle(.plain)
@@ -534,15 +536,15 @@ struct ResultView: View {
                                 ? AnyShapeStyle(Color.gray.opacity(0.35))
                                 : AnyShapeStyle(LinearGradient(
                                     colors: [
-                                        Color(hex: "8E4C3A").opacity(0.90),
-                                        Color(hex: "FFB5A0").opacity(0.90),
+                                        Color(hex: "FF4D85").opacity(0.90),
+                                        Color(hex: "FF88A8").opacity(0.90),
                                     ],
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 ))
                         )
                 )
-                .shadow(color: selectedReportReason == nil ? Color.clear : Color(hex: "8E4C3A").opacity(0.25), radius: 12, x: 0, y: 6)
+                .shadow(color: selectedReportReason == nil ? Color.clear : Color(hex: "FF4D85").opacity(0.25), radius: 12, x: 0, y: 6)
             }
             .buttonStyle(.plain)
             .disabled(selectedReportReason == nil || reportSending)
