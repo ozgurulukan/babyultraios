@@ -9,9 +9,9 @@ enum BabyUltraTab: String, CaseIterable {
 
     var icon: String {
         switch self {
-        case .home:        return "house.fill"
+        case .home:        return "wand.and.stars"
         case .generations: return "square.grid.2x2.fill"
-        case .chatEdit:    return "sparkles"
+        case .chatEdit:    return "stroller.fill"
         case .account:     return "person.fill"
         }
     }
