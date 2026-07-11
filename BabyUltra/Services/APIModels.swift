@@ -103,7 +103,7 @@ struct CategoriesResponse: Decodable {
     let categories: [CategoryItem]
 }
 
-struct TemplateItem: Decodable, Identifiable {
+struct TemplateItem: Decodable, Identifiable, Hashable {
     let id: Int
     let appId: String
     let slug: String
