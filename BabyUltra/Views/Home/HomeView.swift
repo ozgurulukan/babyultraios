@@ -285,7 +285,8 @@ private struct PopularTemplateCard: View {
             HStack {
                 Text(template.name)
                     .font(.system(size: 14, weight: .bold))
-                    .foregroundStyle(HomePalette.text)
+                    .foregroundStyle(HomePalette.categoryTint)
+                    .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
             }
