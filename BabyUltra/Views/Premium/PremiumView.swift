@@ -55,6 +55,7 @@ struct PremiumView: View {
 
                         benefitsSection
                             .padding(.horizontal, 24)
+                            .padding(.bottom, 24)
 
                         pricingSection
                             .padding(.horizontal, 24)
@@ -143,6 +144,12 @@ struct PremiumView: View {
             BenefitRow(
                 icon: "tag.fill",
                 text: NSLocalizedString("premium.benefit_credits", comment: ""),
+                iconBg: .white,
+                iconColor: Color(hex: "FF4D85")
+            )
+            BenefitRow(
+                icon: "drop.fill",
+                text: NSLocalizedString("premium.benefit_no_watermark", comment: ""),
                 iconBg: .white,
                 iconColor: Color(hex: "FF4D85")
             )
@@ -474,6 +481,7 @@ struct TopupView: View {
 
                         benefitsSection
                             .padding(.horizontal, 24)
+                            .padding(.bottom, 24)
 
                         pricingSection
                             .padding(.horizontal, 24)
