@@ -273,25 +273,12 @@ private struct OnboardingBeforeAfterView: View {
 
     private var bottomBar: some View {
         VStack(spacing: 0) {
-            Divider()
-                .background(Color.white.opacity(0.5))
             LiquidGlassButton(title: buttonText) {
                 onNext()
             }
             .padding(.horizontal, 24)
             .padding(.top, 20)
             .padding(.bottom, 36)
-            .background(
-                Color.white.opacity(0.25)
-                    .overlay(
-                        LinearGradient(
-                            colors: [Color.white.opacity(0.35), Color.white.opacity(0.0)],
-                            startPoint: .bottom,
-                            endPoint: .top
-                        )
-                    )
-            )
-            .background(.ultraThinMaterial.opacity(0.35))
         }
     }
 
