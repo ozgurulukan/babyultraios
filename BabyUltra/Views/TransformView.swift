@@ -97,13 +97,9 @@ struct TransformView: View {
         }
         .navigationDestination(isPresented: $showAccountView) {
             AccountView(isPresented: $showAccountView, showBackButton: true)
-                .environmentObject(entitlementManager)
-                .environmentObject(subscriptionManager)
         }
         .navigationDestination(isPresented: $goToMainTab) {
             MainTabView()
-                .environmentObject(entitlementManager)
-                .environmentObject(subscriptionManager)
                 .navigationBarHidden(true)
         }
             .preferredColorScheme(.light)
@@ -114,13 +110,9 @@ struct TransformView: View {
             )
             .sheet(isPresented: $showTopup) {
                 TopupView()
-                    .environmentObject(entitlementManager)
-                    .environmentObject(subscriptionManager)
             }
             .sheet(isPresented: $showPremium) {
                 PremiumView()
-                    .environmentObject(entitlementManager)
-                    .environmentObject(subscriptionManager)
             }
             .overlay(
                 Group {
