@@ -149,70 +149,53 @@ struct AccountView: View {
     }
 
     private var creditCard: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            // Top half
-            VStack(alignment: .leading, spacing: 20) {
-                HStack(alignment: .center) {
-                    Image(systemName: "diamond.fill")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(Color(hex: "FF4D85"))
-                        .padding(12)
-                        .background(Color(hex: "FFF3F1"))
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color(hex: "FF4D85").opacity(0.3), lineWidth: 1.5))
-                        .shadow(color: Color(hex: "FF4D85").opacity(0.2), radius: 4, x: 0, y: 2)
-
-                    Spacer()
-
-                    VStack(alignment: .trailing, spacing: 4) {
-                        Text(NSLocalizedString("account.current_balance", comment: ""))
-                            .font(.system(size: 14, weight: .medium))
-                            .tracking(0.7)
-                            .foregroundStyle(Color(hex: "8D7F7A"))
-
-                        Text("\(displayCredits)")
-                            .font(.system(size: 48, weight: .heavy))
+        Button {
+            showTopup = true
+        } label: {
+            VStack(alignment: .leading, spacing: 0) {
+                // Top half
+                VStack(alignment: .leading, spacing: 20) {
+                    HStack(alignment: .center) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 24, weight: .bold))
                             .foregroundStyle(Color(hex: "FF4D85"))
+                            .padding(12)
+                            .background(Color(hex: "FFF3F1"))
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color(hex: "FF4D85").opacity(0.3), lineWidth: 1.5))
+                            .shadow(color: Color(hex: "FF4D85").opacity(0.2), radius: 4, x: 0, y: 2)
 
-                        HStack(spacing: 8) {
-                            Text(NSLocalizedString("account.credits_ready", comment: ""))
+                        Spacer()
+
+                        VStack(alignment: .trailing, spacing: 4) {
+                            Text(NSLocalizedString("account.current_balance", comment: ""))
                                 .font(.system(size: 14, weight: .medium))
+                                .tracking(0.7)
                                 .foregroundStyle(Color(hex: "8D7F7A"))
-                            Image(systemName: "sparkles")
-                                .font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(Color(hex: "8D7F7A"))
+
+                            Text("\(displayCredits)")
+                                .font(.system(size: 48, weight: .heavy))
+                                .foregroundStyle(Color(hex: "FF4D85"))
+
+                            HStack(spacing: 8) {
+                                Text(NSLocalizedString("account.credits_ready", comment: ""))
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundStyle(Color(hex: "8D7F7A"))
+                                Image(systemName: "sparkles")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundStyle(Color(hex: "8D7F7A"))
+                            }
+                            .padding(.top, 4)
                         }
-                        .padding(.top, 4)
                     }
                 }
+                .padding(.horizontal, 32)
+                .padding(.top, 24)
+                .padding(.bottom, 20)
             }
-            .padding(.horizontal, 32)
-            .padding(.top, 24)
-            .padding(.bottom, 20)
-
-            // Bottom half — tappable liquid-glass area
-            Button {
-                showTopup = true
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: "plus")
-                        .font(.system(size: 16, weight: .semibold))
-                    Text(NSLocalizedString("account.top_up_credits", comment: ""))
-                        .font(.system(size: 16, weight: .semibold))
-                }
-                .foregroundStyle(Color(hex: "FF4D85"))
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(Color(hex: "FFF3F1"))
-                )
-                .padding(.horizontal, 24)
-                .padding(.vertical, 12)
-            }
-            .buttonStyle(.plain)
+            .contentShape(Rectangle())
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .buttonStyle(.plain)
     }
 
     private var subscriptionSection: some View {
@@ -269,31 +252,33 @@ struct AccountView: View {
         icon: String,
         title: String,
         subtitle: String,
-        trailing: AnyView
+        trailing: AnyView,
+        isPremiumStyle: Bool = false
     ) -> some View {
         HStack(spacing: 12) {
             ZStack {
                 Circle()
-                    .fill(Color(hex: "FFF3F1"))
+                    .fill(isPremiumStyle ? Color.white.opacity(0.25) : Color(hex: "FFF3F1"))
                     .frame(width: 40, height: 40)
                 Image(systemName: icon)
                     .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(Color(hex: "FF4D85"))
+                    .foregroundStyle(isPremiumStyle ? .white : Color(hex: "FF4D85"))
             }
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(Color(hex: "2D2422"))
+                    .foregroundStyle(isPremiumStyle ? .white : Color(hex: "2D2422"))
                 Text(subtitle)
                     .font(.system(size: 12))
-                    .foregroundStyle(Color(hex: "8D7F7A"))
+                    .foregroundStyle(isPremiumStyle ? Color.white.opacity(0.8) : Color(hex: "8D7F7A"))
             }
 
             Spacer()
             trailing
         }
         .padding(.vertical, 16)
+        .padding(.horizontal, isPremiumStyle ? 16 : 0)
     }
 
     @State private var glowPulse = false
@@ -475,54 +460,105 @@ struct AccountView: View {
         .padding(.top, 8)
     }
 
+    private var subscriptionInfoBlock: some View {
+        Group {
+            if isPro {
+                VStack(spacing: 0) {
+                    profileInfoRow(
+                        icon: "creditcard.fill",
+                        title: NSLocalizedString("account.subscription", comment: ""),
+                        subtitle: memberTier,
+                        trailing: AnyView(
+                            Text(NSLocalizedString("account.active", comment: ""))
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundStyle(Color(hex: "FF4D85"))
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 4)
+                                .background(Capsule().fill(.white))
+                        ),
+                        isPremiumStyle: true
+                    )
+
+                    Rectangle()
+                        .fill(Color.white.opacity(0.3))
+                        .frame(height: 1)
+                        .padding(.leading, 68)
+
+                    profileInfoRow(
+                        icon: "calendar",
+                        title: NSLocalizedString("account.weekly_allowance", comment: ""),
+                        subtitle: NSLocalizedString("account.resets_monday", comment: ""),
+                        trailing: AnyView(
+                            Text(NSLocalizedString("account.50_credits", comment: ""))
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundStyle(.white)
+                        ),
+                        isPremiumStyle: true
+                    )
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(
+                            LinearGradient(
+                                colors: [Color(hex: "FF4D85"), Color(hex: "FF88A8")],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .shadow(color: Color(hex: "FF4D85").opacity(0.3), radius: 10, y: 4)
+                )
+                .padding(.horizontal, 16)
+                .padding(.vertical, 16)
+            } else {
+                profileInfoRow(
+                    icon: "creditcard.fill",
+                    title: NSLocalizedString("account.subscription", comment: ""),
+                    subtitle: memberTier,
+                    trailing: AnyView(
+                        Text(NSLocalizedString("account.active", comment: ""))
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(Color(hex: "8D7F7A"))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 4)
+                            .background(Capsule().fill(Color(hex: "FFF3F1")))
+                    ),
+                    isPremiumStyle: false
+                )
+                .padding(.horizontal, 24)
+
+                menuDivider
+
+                profileInfoRow(
+                    icon: "calendar",
+                    title: NSLocalizedString("account.weekly_allowance", comment: ""),
+                    subtitle: NSLocalizedString("account.resets_monday", comment: ""),
+                    trailing: AnyView(
+                        Button {
+                            isPremiumShow = true
+                        } label: {
+                            Text(NSLocalizedString("account.upgrade", comment: ""))
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundStyle(Color(hex: "8D7F7A"))
+                        }
+                        .buttonStyle(.plain)
+                    ),
+                    isPremiumStyle: false
+                )
+                .padding(.horizontal, 24)
+
+                menuDivider
+            }
+        }
+    }
+
     private var combinedSection: some View {
         VStack(spacing: 0) {
             creditCard
             menuDivider
-            // Subscription Info
-            profileInfoRow(
-                icon: "creditcard.fill",
-                title: NSLocalizedString("account.subscription", comment: ""),
-                subtitle: memberTier,
-                trailing: AnyView(
-                    Text(NSLocalizedString("account.active", comment: ""))
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(Color(hex: "8D7F7A"))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 4)
-                        .background(Capsule().fill(Color(hex: "FFF3F1")))
-                )
-            )
-            .padding(.horizontal, 24)
-
-            menuDivider
-
-            profileInfoRow(
-                icon: "calendar",
-                title: NSLocalizedString("account.weekly_allowance", comment: ""),
-                subtitle: NSLocalizedString("account.resets_monday", comment: ""),
-                trailing: AnyView(
-                    Group {
-                        if isPro {
-                            Text(NSLocalizedString("account.50_credits", comment: ""))
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundStyle(Color(hex: "2D2422"))
-                        } else {
-                            Button {
-                                isPremiumShow = true
-                            } label: {
-                                Text(NSLocalizedString("account.upgrade", comment: ""))
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundStyle(Color(hex: "8D7F7A"))
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                )
-            )
-            .padding(.horizontal, 24)
-
-            menuDivider
+            
+            subscriptionInfoBlock
 
             // Menu Options
             profileMenuRow(icon: "person.2.fill", title: NSLocalizedString("account.invite_friends", comment: "")) { showShareSheet = true }
