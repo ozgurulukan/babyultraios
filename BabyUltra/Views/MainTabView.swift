@@ -83,59 +83,40 @@ struct LiquidTabBar: View {
     @Namespace private var tabNamespace
 
     var body: some View {
-        GlassEffectContainer(spacing: 20.0) {
-            HStack(spacing: 20) {
+        // Use GlassEffectContainer with spacing: 40.0 to enable the liquid merge
+        GlassEffectContainer(spacing: 40.0) {
+            HStack(spacing: 20.0) {
                 ForEach(tabs, id: \.self) { tab in
                     Button {
-                        withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                        withAnimation(.spring(response: 0.6, dampingFraction: 0.65, blendDuration: 0.5)) {
                             selectedTab = tab
                         }
                     } label: {
                         ZStack {
-                            if selectedTab == tab {
-                                Circle()
-                                    .fill(BabyUltra.accent)
-                                    .frame(width: 44, height: 44)
-                                    .matchedGeometryEffect(id: "liquidCircle", in: tabNamespace)
-                                    .glassEffect()
-                            }
+                            // The liquid blob for each tab.
+                            // Because they are spaced by 20 and the container spacing is 40,
+                            // they will organically melt together into a continuous tab bar shape!
+                            Capsule()
+                                .fill(selectedTab == tab ? BabyUltra.accent : Color.white.opacity(0.8))
+                                .frame(width: selectedTab == tab ? 80 : 64, height: 64)
+                                .glassEffect()
                             
+                            // The icon also gets the glassEffect to merge smoothly
                             Image(systemName: tab.icon)
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundStyle(selectedTab == tab ? .white : BabyUltra.textSecondary.opacity(0.6))
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundStyle(selectedTab == tab ? .white : BabyUltra.textSecondary.opacity(0.8))
                                 .glassEffect()
                         }
-                        .frame(width: 44, height: 44)
                         .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel(tab.label)
                 }
             }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 12)
-            .background {
-                Capsule()
-                    .fill(.ultraThinMaterial)
-                    .overlay(
-                        Capsule()
-                            .fill(
-                                LinearGradient(
-                                    colors: [Color.white.opacity(0.30), Color.white.opacity(0.05)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                    )
-                    .overlay(
-                        Capsule()
-                            .stroke(Color.white.opacity(0.6), lineWidth: 1.2)
-                    )
-                    .shadow(color: Color.black.opacity(0.08), radius: 16, y: 8)
-                    .glassEffect()
-            }
-            .padding(.bottom, 16)
+            .padding(.horizontal, 16)
         }
+        .shadow(color: Color.black.opacity(0.12), radius: 16, y: 8)
+        .padding(.bottom, 24)
     }
 }
 
