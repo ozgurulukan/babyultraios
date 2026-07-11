@@ -144,9 +144,13 @@ struct ProcessingImage: View {
             VStack(spacing: 12) {
                 Group {
                     if let image {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
+                        GeometryReader { geo in
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: geo.size.width, height: geo.size.height)
+                                .clipped()
+                        }
                     } else {
                         ZStack {
                             Color(hex: "FFF3F1")

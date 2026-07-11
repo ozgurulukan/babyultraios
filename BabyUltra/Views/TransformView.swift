@@ -90,7 +90,10 @@ struct TransformView: View {
                     template: template,
                     aspectRatio: selectedAspectRatio,
                     onBackToTemplates: {
-                        dismiss()
+                        isProcessing = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                            dismiss()
+                        }
                     }
                 )
             }
