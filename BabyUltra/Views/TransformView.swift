@@ -175,7 +175,7 @@ struct TransformView: View {
                 showAccountView = true
             } label: {
                 HStack(spacing: 6) {
-                    Image(systemName: "circle.lefthalf.filled")
+                    Image(systemName: "sparkles")
                         .font(.system(size: 13, weight: .bold))
                     Text("\(displayCredits)")
                         .font(.system(size: 14, weight: .bold))

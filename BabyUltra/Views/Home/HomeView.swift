@@ -72,7 +72,7 @@ struct HomeView: View {
                                 }
                             } label: {
                                 HStack(spacing: 5) {
-                                    Image(systemName: "circle.lefthalf.filled")
+                                    Image(systemName: "sparkles")
                                         .font(.system(size: 13, weight: .bold))
                                     Text("\(displayCredits)")
                                         .font(.system(size: 14, weight: .bold))
@@ -383,7 +383,7 @@ private struct HomeTemplateCard: View {
                     Spacer()
 
                     HStack(spacing: 4) {
-                        Image(systemName: "circle.lefthalf.filled")
+                        Image(systemName: "sparkles")
                             .font(.system(size: 10, weight: .bold))
                         Text("\(template.creditCost)")
                             .font(.system(size: 16 * 0.7, weight: .semibold))
