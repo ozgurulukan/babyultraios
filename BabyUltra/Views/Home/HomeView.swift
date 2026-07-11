@@ -17,6 +17,8 @@ private enum HomePalette {
     static let accent = BabyUltra.accent
     static let gridGap: CGFloat = 12
     static let edgePadding: CGFloat = 16
+    static let categoryTintHex = "FFF5EC"
+    static let categoryTint = Color(hex: "FFF5EC")
 }
 
 struct HomeView: View {
@@ -192,17 +194,16 @@ struct HomeView: View {
                         } label: {
                             HStack(spacing: 8) {
                                 if let iconUrl = category.iconUrl, let url = URL(string: iconUrl) {
-                                    SVGAsyncImage(url: url, size: CGSize(width: 22, height: 22))
-                                        .colorMultiply(HomePalette.accent)
+                                    SVGAsyncImage(url: url, size: CGSize(width: 22, height: 22), tintColorHex: "#" + HomePalette.categoryTintHex)
                                 }
 
                                 Text(category.name)
                                     .font(.system(size: 18, weight: .bold))
-                                    .foregroundStyle(HomePalette.accent)
+                                    .foregroundStyle(HomePalette.categoryTint)
 
                                 Image(systemName: "chevron.right")
                                     .font(.system(size: 14, weight: .semibold))
-                                    .foregroundStyle(HomePalette.accent.opacity(0.8))
+                                    .foregroundStyle(HomePalette.categoryTint.opacity(0.8))
                             }
                             .padding(.horizontal, HomePalette.edgePadding)
                         }
@@ -466,18 +467,27 @@ private struct HomeTemplateCard: View {
 struct SVGAsyncImage: View {
     let url: URL
     var size: CGSize = CGSize(width: 22, height: 22)
+    var tintColorHex: String? = nil
 
     var body: some View {
         if url.pathExtension.lowercased() == "svg" {
-            SVGWebImage(url: url)
+            SVGWebImage(url: url, tintColorHex: tintColorHex)
                 .frame(width: size.width, height: size.height)
         } else {
             AsyncImage(url: url) { phase in
                 switch phase {
                 case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFit()
+                    if let tint = tintColorHex {
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .renderingMode(.template)
+                            .foregroundStyle(Color(hex: tint.replacingOccurrences(of: "#", with: "")))
+                    } else {
+                        image
+                            .resizable()
+                            .scaledToFit()
+                    }
                 default:
                     EmptyView()
                 }
@@ -489,6 +499,7 @@ struct SVGAsyncImage: View {
 
 struct SVGWebImage: UIViewRepresentable {
     let url: URL
+    var tintColorHex: String? = nil
 
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
@@ -502,6 +513,9 @@ struct SVGWebImage: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
+        let tintHex = tintColorHex ?? "transparent"
+        let isTinted = tintColorHex != nil
+        
         let html = """
         <!DOCTYPE html>
         <html>
@@ -509,11 +523,20 @@ struct SVGWebImage: UIViewRepresentable {
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
             <style>
                 body { margin: 0; padding: 0; overflow: hidden; background: transparent; }
+                .tinted {
+                    background-color: \(tintHex);
+                    width: 100vw;
+                    height: 100vh;
+                    -webkit-mask: url('\(url.absoluteString)') no-repeat center;
+                    -webkit-mask-size: contain;
+                    mask: url('\(url.absoluteString)') no-repeat center;
+                    mask-size: contain;
+                }
                 img { width: 100%; height: 100%; object-fit: contain; display: block; }
             </style>
         </head>
         <body>
-            <img src="\(url.absoluteString)" />
+            \(isTinted ? "<div class=\"tinted\"></div>" : "<img src=\"\(url.absoluteString)\" />")
         </body>
         </html>
         """
@@ -573,12 +596,11 @@ struct CategoryDetailView: View {
                 ToolbarItem(placement: .principal) {
                     HStack(spacing: 8) {
                         if let iconUrl = category.iconUrl, let url = URL(string: iconUrl) {
-                            SVGAsyncImage(url: url, size: CGSize(width: 20, height: 20))
+                            SVGAsyncImage(url: url, size: CGSize(width: 24, height: 24), tintColorHex: "#" + HomePalette.categoryTintHex)
                         }
-
                         Text(category.name)
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundStyle(HomePalette.text)
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundStyle(HomePalette.categoryTint)
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
