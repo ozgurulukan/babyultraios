@@ -371,7 +371,8 @@ private struct HomeTemplateCard: View {
                     if template.isPremium {
                         Text(NSLocalizedString("home.pro_badge", comment: ""))
                             .font(.system(size: 10, weight: .black))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(HomePalette.categoryTint)
+                            .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 5)
                             .background(Color.black.opacity(0.38))
@@ -386,7 +387,8 @@ private struct HomeTemplateCard: View {
                         Text("\(template.creditCost)")
                             .font(.system(size: 16 * 0.7, weight: .semibold))
                     }
-                    .foregroundStyle(.white)
+                    .foregroundStyle(HomePalette.categoryTint)
+                    .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 6)
                     .background(Color.black.opacity(0.45))
