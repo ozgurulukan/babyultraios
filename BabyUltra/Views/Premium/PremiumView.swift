@@ -160,14 +160,7 @@ struct PremiumView: View {
                 iconColor: Color(hex: "FF4D85")
             )
         }
-        .padding(20)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 32))
-        .overlay(
-            RoundedRectangle(cornerRadius: 32)
-                .stroke(Color.white.opacity(0.5), lineWidth: 1)
-        )
-        .shadow(color: Color(hex: "2D2422").opacity(0.04), radius: 16, x: 0, y: 8)
+        // Card background removed as requested
     }
 
     private var dynamicPlanDisplays: [PlanDisplay] {
@@ -593,14 +586,7 @@ struct TopupView: View {
                 iconColor: Color(hex: "FF4D85")
             )
         }
-        .padding(20)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 32))
-        .overlay(
-            RoundedRectangle(cornerRadius: 32)
-                .stroke(Color.white.opacity(0.5), lineWidth: 1)
-        )
-        .shadow(color: Color(hex: "2D2422").opacity(0.04), radius: 16, x: 0, y: 8)
+        // Card background removed as requested
     }
 
     var pricingSection: some View {
