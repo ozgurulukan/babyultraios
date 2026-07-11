@@ -177,15 +177,7 @@ struct AccountView: View {
                                 .font(.system(size: 48, weight: .heavy))
                                 .foregroundStyle(Color(hex: "FF4D85"))
 
-                            HStack(spacing: 8) {
-                                Text(NSLocalizedString("account.credits_ready", comment: ""))
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundStyle(Color(hex: "8D7F7A"))
-                                Image(systemName: "sparkles")
-                                    .font(.system(size: 13, weight: .semibold))
-                                    .foregroundStyle(Color(hex: "8D7F7A"))
-                            }
-                            .padding(.top, 4)
+                            // Removed credits ready text
                         }
                     }
                 }
