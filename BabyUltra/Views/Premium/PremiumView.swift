@@ -84,7 +84,7 @@ struct PremiumView: View {
             Button { dismiss.wrappedValue.dismiss() } label: {
                 Image(systemName: "xmark")
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(Color.gray)
+                    .foregroundStyle(Color.gray.opacity(0.6))
                     .frame(width: 40, height: 40)
             }
         }
@@ -123,8 +123,7 @@ struct PremiumView: View {
 
                 Text(NSLocalizedString("premium.unlock_subtitle", comment: ""))
                     .font(.system(size: 16, weight: .regular))
-                    .foregroundStyle(.white)
-                    .shadow(color: .white.opacity(0.8), radius: 4, x: 0, y: 0)
+                    .foregroundStyle(Color(hex: "8D7F7A"))
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
                     .padding(.horizontal, 32)
@@ -366,19 +365,19 @@ struct PlanCardNew: View {
                     Spacer()
 
                     Text(plan.title)
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(Color(hex: "8D7F7A"))
                         .multilineTextAlignment(.center)
 
                     Text(package?.localizedPriceString ?? (plan.title == "Yearly" ? "$49.99" : "$14.99"))
-                        .font(.system(size: 26, weight: .heavy))
+                        .font(.system(size: 22, weight: .heavy))
                         .foregroundStyle(Color(hex: "8D7F7A"))
                         .multilineTextAlignment(.center)
 
                     Spacer()
 
                     Text(plan.subtitle)
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(Color(hex: "8D7F7A"))
                         .multilineTextAlignment(.center)
                     Spacer()
@@ -409,7 +408,7 @@ struct PlanCardNew: View {
                 }
             }
         }
-        .frame(height: 105)
+        .frame(height: 85)
         .frame(maxWidth: .infinity)
         .buttonStyle(.plain)
         .scaleEffect(isSelected ? 1.02 : 1.0)
@@ -506,7 +505,7 @@ struct TopupView: View {
             Button { dismiss() } label: {
                 Image(systemName: "xmark")
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(Color.gray)
+                    .foregroundStyle(Color.gray.opacity(0.6))
                     .frame(width: 40, height: 40)
             }
         }
