@@ -26,12 +26,23 @@ enum BabyUltraTab: String, CaseIterable {
     }
 }
 
+// MARK: - Device Banned Wrapper
+struct DeviceBannedWrapper: View {
+    @ObservedObject private var auth = AuthManager.shared
+    
+    var body: some View {
+        if auth.isDeviceBanned {
+            DeviceBannedView()
+                .transition(.opacity.combined(with: .scale))
+        }
+    }
+}
+
 // MARK: - Main Tab View
 struct MainTabView: View {
     @State private var selectedTab: BabyUltraTab = .home
     @EnvironmentObject private var entitlementManager: EntitlementManager
     @EnvironmentObject private var subscriptionManager: SubscriptionsManager
-    @ObservedObject private var auth = AuthManager.shared
     @ObservedObject private var appState = AppState.shared
 
     var body: some View {
@@ -58,10 +69,7 @@ struct MainTabView: View {
         }
         .ignoresSafeArea(.keyboard)
         .overlay {
-            if auth.isDeviceBanned {
-                DeviceBannedView()
-                    .transition(.opacity.combined(with: .scale))
-            }
+            DeviceBannedWrapper()
         }
         .task {
             // Delay authorization request slightly to ensure view is active and ready

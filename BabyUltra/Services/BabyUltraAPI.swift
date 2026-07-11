@@ -177,11 +177,16 @@ struct BabyUltraAPI {
         var finalMomImageURL = momImageURL
         var finalDadImageURL = dadImageURL
         var finalImageURL = imageURL
+        var finalImageUrls = imageUrls
         
         if template.requireMomPhoto == true && template.requireDadPhoto == true {
             finalMomImageURL = imageURL
             finalDadImageURL = secondImageURL
             finalImageURL = "" // Ensure backend logic correctly parses Mom & Dad
+            
+            if let secondImg = secondImageURL {
+                finalImageUrls = [imageURL, secondImg]
+            }
         }
         
         return try await transform(
@@ -191,7 +196,7 @@ struct BabyUltraAPI {
             momImageURL: finalMomImageURL,
             babyImageURL: babyImageURL,
             dadImageURL: finalDadImageURL,
-            imageUrls: imageUrls,
+            imageUrls: finalImageUrls,
             videoURL: videoURL,
             notifyWhenDone: notifyWhenDone
         )
