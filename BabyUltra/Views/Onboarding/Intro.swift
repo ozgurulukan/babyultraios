@@ -971,7 +971,7 @@ struct Intro: View {
                 }
 
                 if let second = viewModel.secondItem {
-                    OnboardingBeforeAfterVideoView(item: second, isActivePage: currentPage == 1) {
+                    OnboardingBeforeAfterView(item: second, isActivePage: currentPage == 1) {
                         withAnimation(.easeInOut(duration: 0.35)) {
                             currentPage = 2
                         }
