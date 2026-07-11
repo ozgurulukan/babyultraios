@@ -24,6 +24,7 @@ private enum HomePalette {
 struct HomeView: View {
     @State private var selectedTemplate: TemplateItem?
     @State private var showTransform = false
+    @State private var transformId = UUID()
     @State private var isPremiumShow = false
     @State private var showTopup = false
     @State private var selectedCategoryForDetail: CategoryItem?
@@ -122,6 +123,7 @@ struct HomeView: View {
             .navigationDestination(isPresented: $showTransform) {
                 if let template = selectedTemplate {
                     TransformView(template: template)
+                        .id(transformId)
                 }
             }
         }
@@ -159,6 +161,7 @@ struct HomeView: View {
 
         if hasProAccess || displayCredits >= template.creditCost {
             selectedTemplate = template
+            transformId = UUID()
             showTransform = true
         } else {
             isPremiumShow = true

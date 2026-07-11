@@ -91,7 +91,6 @@ struct TransformView: View {
                     template: template,
                     aspectRatio: selectedAspectRatio,
                     onBackToTemplates: {
-                        isProcessing = false
                         dismiss()
                     }
                 )
@@ -337,7 +336,7 @@ struct TransformView: View {
                     Image(uiImage: img)
                         .resizable()
                         .scaledToFill()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                         .clipShape(RoundedRectangle(cornerRadius: 40))
                 } else {
                     // Placeholder content
