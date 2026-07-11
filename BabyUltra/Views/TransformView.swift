@@ -277,12 +277,12 @@ struct TransformView: View {
         Group {
             if template.requireMomPhoto == true && template.requireDadPhoto == true {
                 HStack(spacing: 12) {
-                    uploadBox(title: NSLocalizedString("transform.photo_1", comment: ""), image: selectedImage, pickerIndex: 1, showTips: false)
-                    uploadBox(title: NSLocalizedString("transform.photo_2", comment: ""), image: selectedImage2, pickerIndex: 2, showTips: false)
+                    uploadBox(title: NSLocalizedString("transform.photo_1", comment: ""), image: selectedImage, pickerIndex: 1, showTips: true, isCompact: true)
+                    uploadBox(title: NSLocalizedString("transform.photo_2", comment: ""), image: selectedImage2, pickerIndex: 2, showTips: true, isCompact: true)
                 }
-                .frame(height: 240)
+                .frame(height: 320)
             } else {
-                uploadBox(title: NSLocalizedString("transform.tap_upload", comment: ""), image: selectedImage, pickerIndex: 1, showTips: true)
+                uploadBox(title: NSLocalizedString("transform.tap_upload", comment: ""), image: selectedImage, pickerIndex: 1, showTips: true, isCompact: false)
                     .frame(height: 340)
             }
         }
@@ -345,20 +345,20 @@ struct TransformView: View {
                         ZStack {
                             Circle()
                                 .fill(Color.white.opacity(0.50))
-                                .frame(width: showTips ? 96 : 64, height: showTips ? 96 : 64)
+                                .frame(width: showTips ? (isCompact ? 64 : 96) : 64, height: showTips ? (isCompact ? 64 : 96) : 64)
                                 .overlay(
                                     Circle()
                                         .stroke(Color.white.opacity(0.60), lineWidth: 1)
                                 )
                                 .shadow(color: Color(hex: "FF4D85").opacity(0.10), radius: 16, x: 0, y: 4)
 
-                            Image(systemName: showTips ? "camera.fill" : "plus")
-                                .font(.system(size: showTips ? 28 : 24, weight: .medium))
+                            Image(systemName: showTips ? (isCompact ? "plus" : "camera.fill") : "plus")
+                                .font(.system(size: showTips ? (isCompact ? 24 : 28) : 24, weight: .medium))
                                 .foregroundStyle(accentBrown)
                         }
 
                         Text(title)
-                            .font(.system(size: showTips ? 18 : 16, weight: .semibold))
+                            .font(.system(size: showTips ? (isCompact ? 16 : 18) : 16, weight: .semibold))
                             .foregroundStyle(primaryText)
 
                         if showTips {
@@ -370,28 +370,28 @@ struct TransformView: View {
                                             .font(.system(size: 12, weight: .medium))
                                             .frame(width: 20, alignment: .center)
                                         Text(NSLocalizedString("transform.tip_clear_faces", comment: ""))
-                                            .font(.system(size: 13, weight: .medium))
+                                            .font(.system(size: isCompact ? 10 : 13, weight: .medium))
                                     }
                                     HStack(spacing: 6) {
                                         Image(systemName: "sun.max.fill")
                                             .font(.system(size: 12, weight: .medium))
                                             .frame(width: 20, alignment: .center)
                                         Text(NSLocalizedString("transform.tip_good_lighting", comment: ""))
-                                            .font(.system(size: 13, weight: .medium))
+                                            .font(.system(size: isCompact ? 10 : 13, weight: .medium))
                                     }
                                     HStack(spacing: 6) {
                                         Image(systemName: "person.fill.viewfinder")
                                             .font(.system(size: 12, weight: .medium))
                                             .frame(width: 20, alignment: .center)
                                         Text(NSLocalizedString("transform.tip_face_front", comment: ""))
-                                            .font(.system(size: 13, weight: .medium))
+                                            .font(.system(size: isCompact ? 10 : 13, weight: .medium))
                                     }
                                     HStack(spacing: 6) {
                                         Image(systemName: "eye.slash")
                                             .font(.system(size: 12, weight: .medium))
                                             .frame(width: 20, alignment: .center)
                                         Text(NSLocalizedString("transform.tip_no_accessories", comment: ""))
-                                            .font(.system(size: 13, weight: .medium))
+                                            .font(.system(size: isCompact ? 10 : 13, weight: .medium))
                                     }
                                 }
                                 .foregroundStyle(secondaryText)
@@ -399,7 +399,7 @@ struct TransformView: View {
                             }
                         }
                     }
-                    .padding(.vertical, showTips ? 56 : 24)
+                    .padding(.vertical, showTips ? (isCompact ? 24 : 56) : 24)
                 }
             }
         }
@@ -559,7 +559,7 @@ struct TransformView: View {
                                 .multilineTextAlignment(.center)
 
                             Text(NSLocalizedString("transform.consent_subtitle", comment: ""))
-                                .font(.system(size: 13, weight: .medium))
+                                .font(.system(size: isCompact ? 10 : 13, weight: .medium))
                                 .foregroundStyle(secondaryText)
                                 .multilineTextAlignment(.center)
                         }
