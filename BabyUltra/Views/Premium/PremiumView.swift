@@ -343,7 +343,7 @@ struct BenefitRow: View {
             Text(text)
                 .font(.system(size: 15, weight: .semibold))
                 .foregroundStyle(.white)
-                .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
+                .shadow(color: .black.opacity(0.6), radius: 1.5, x: 0, y: 1)
 
             Spacer()
         }
@@ -742,10 +742,14 @@ struct CreditPlanCard: View {
 
                     Spacer()
 
-                    Text(bundleName)
-                        .font(.system(size: 12, weight: .medium))
+                    Text(bundleName.replacingOccurrences(of: " ", with: "\n"))
+                        .font(.system(size: 11, weight: .bold))
                         .foregroundStyle(Color(hex: "8D7F7A"))
                         .multilineTextAlignment(.center)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 10)
+                        .background(Color(hex: "FFF5EC"))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
