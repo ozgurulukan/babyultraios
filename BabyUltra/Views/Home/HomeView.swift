@@ -47,40 +47,36 @@ struct HomeView: View {
                 ) {
                     ZStack {
                         // Left Side
-                        HStack {
+                        HStack(spacing: 8) {
+                            Image("logo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 26, height: 26)
+                                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                                
+                            Text("BabyUltra")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundStyle(HomePalette.accent)
+
                             if !hasProAccess {
                                 Button {
                                     isPremiumShow = true
                                 } label: {
                                     Image(systemName: "diamond.fill")
-                                        .font(.system(size: 16, weight: .bold))
+                                        .font(.system(size: 14, weight: .bold))
                                         .foregroundStyle(HomePalette.accent)
-                                        .padding(8)
+                                        .padding(6)
                                         .background(Color.white.opacity(0.5))
                                         .clipShape(Circle())
                                         .overlay(Circle().stroke(HomePalette.accent.opacity(0.3), lineWidth: 1.5))
                                         .shadow(color: HomePalette.accent.opacity(0.2), radius: 4, x: 0, y: 2)
                                 }
                                 .buttonStyle(.plain)
+                                .padding(.leading, 4)
                             }
+                            
                             Spacer()
                         }
-                        
-                        // Center
-                        HStack(spacing: 6) {
-                            Image("logo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 24, height: 24)
-                                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-                                
-                            Text("BabyUltra")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundStyle(HomePalette.accent)
-                        }
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
-                        .overlay(Capsule().stroke(HomePalette.accent, lineWidth: 1.5))
                         
                         // Right Side
                         HStack {
