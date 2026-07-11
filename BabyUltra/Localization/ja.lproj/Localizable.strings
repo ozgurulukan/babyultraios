@@ -235,3 +235,6 @@
 "chat.suggestion1" = "モダンな男の子の名前を提案して";
 "chat.suggestion2" = "クラシックな女の子の名前";
 "chat.suggestion3" = "中性的な名前";
+
+"transform.photo_1" = "写真 1";
+"transform.photo_2" = "写真 2";

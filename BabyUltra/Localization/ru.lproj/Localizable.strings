@@ -234,3 +234,6 @@
 "chat.suggestion1" = "Современные имена для мальчиков";
 "chat.suggestion2" = "Классические имена для девочек";
 "chat.suggestion3" = "Унисекс имена";
+
+"transform.photo_1" = "Фото 1";
+"transform.photo_2" = "Фото 2";

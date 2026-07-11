@@ -235,3 +235,6 @@
 "chat.suggestion1" = "현대적인 남자아이 이름 추천";
 "chat.suggestion2" = "고전적인 여자아이 이름";
 "chat.suggestion3" = "중성적인 이름";
+
+"transform.photo_1" = "사진 1";
+"transform.photo_2" = "사진 2";

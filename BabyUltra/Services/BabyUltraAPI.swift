@@ -167,15 +167,30 @@ struct BabyUltraAPI {
     }
 
     // MARK: - Upload + Transform Pipeline
-    func uploadAndTransform(image: UIImage, template: TemplateItem, aspectRatio: String? = nil, momImageURL: String? = nil, babyImageURL: String? = nil, dadImageURL: String? = nil, imageUrls: [String]? = nil, videoURL: String? = nil, notifyWhenDone: Bool = false) async throws -> TransformResult {
+    func uploadAndTransform(image: UIImage, template: TemplateItem, aspectRatio: String? = nil, momImageURL: String? = nil, babyImageURL: String? = nil, dadImageURL: String? = nil, imageUrls: [String]? = nil, videoURL: String? = nil, notifyWhenDone: Bool = false, image2: UIImage? = nil) async throws -> TransformResult {
         let imageURL = try await uploadImage(image)
+        var secondImageURL: String? = nil
+        if let img2 = image2 {
+            secondImageURL = try await uploadImage(img2)
+        }
+        
+        var finalMomImageURL = momImageURL
+        var finalDadImageURL = dadImageURL
+        var finalImageURL = imageURL
+        
+        if template.requireMomPhoto == true && template.requireDadPhoto == true {
+            finalMomImageURL = imageURL
+            finalDadImageURL = secondImageURL
+            finalImageURL = "" // Ensure backend logic correctly parses Mom & Dad
+        }
+        
         return try await transform(
-            imageURL: imageURL,
+            imageURL: finalImageURL,
             template: template,
             aspectRatio: aspectRatio,
-            momImageURL: momImageURL,
+            momImageURL: finalMomImageURL,
             babyImageURL: babyImageURL,
-            dadImageURL: dadImageURL,
+            dadImageURL: finalDadImageURL,
             imageUrls: imageUrls,
             videoURL: videoURL,
             notifyWhenDone: notifyWhenDone

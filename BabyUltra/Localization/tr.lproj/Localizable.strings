@@ -235,3 +235,6 @@
 "chat.suggestion1" = "Modern erkek bebek isimleri öner";
 "chat.suggestion2" = "Klasik kız bebek isimleri";
 "chat.suggestion3" = "Cinsiyetsiz (unisex) isimler";
+
+"transform.photo_1" = "Fotoğraf 1";
+"transform.photo_2" = "Fotoğraf 2";

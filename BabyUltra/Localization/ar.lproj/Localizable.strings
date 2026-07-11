@@ -235,3 +235,6 @@
 "chat.suggestion1" = "اقترح أسماء أولاد حديثة";
 "chat.suggestion2" = "أسماء بنات كلاسيكية";
 "chat.suggestion3" = "أسماء محايدة للجنسين";
+
+"transform.photo_1" = "صورة 1";
+"transform.photo_2" = "صورة 2";

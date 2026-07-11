@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProcessingImage: View {
     let image: UIImage?
+    var image2: UIImage? = nil
     let template: TemplateItem
     var aspectRatio: String? = nil
     var promptText: String = ""
@@ -306,7 +307,8 @@ struct ProcessingImage: View {
                 momImageURL: momImageURL,
                 babyImageURL: babyImageURL,
                 dadImageURL: dadImageURL,
-                notifyWhenDone: notifyWhenDone
+                notifyWhenDone: notifyWhenDone,
+                image2: image2
             )
 
             await AuthManager.shared.fetchProfile()

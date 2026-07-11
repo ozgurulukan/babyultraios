@@ -13,6 +13,8 @@ struct TransformView: View {
     @StateObject private var counter = CoinCounter()
 
     @State private var selectedImage: UIImage?
+    @State private var selectedImage2: UIImage?
+    @State private var activePicker: Int = 1
     @State private var selectedAspectRatio: String = "1:1"
     @State private var showImagePicker = false
     @State private var isProcessing = false
@@ -79,12 +81,13 @@ struct TransformView: View {
             bottomCTA
         }
         .sheet(isPresented: $showImagePicker) {
-            ImagePicker(image: $selectedImage)
+            ImagePicker(image: activePicker == 1 ? $selectedImage : $selectedImage2)
         }
         .navigationDestination(isPresented: $isProcessing) {
             if let img = selectedImage {
                 ProcessingImage(
                     image: img,
+                    image2: selectedImage2,
                     template: template,
                     aspectRatio: selectedAspectRatio,
                     onBackToTemplates: {
@@ -271,7 +274,23 @@ struct TransformView: View {
 
     // MARK: Photo Upload
     private var photoUploadSection: some View {
+        Group {
+            if template.requireMomPhoto == true && template.requireDadPhoto == true {
+                HStack(spacing: 12) {
+                    uploadBox(title: NSLocalizedString("transform.photo_1", comment: ""), image: selectedImage, pickerIndex: 1, showTips: false)
+                    uploadBox(title: NSLocalizedString("transform.photo_2", comment: ""), image: selectedImage2, pickerIndex: 2, showTips: false)
+                }
+                .frame(height: 240)
+            } else {
+                uploadBox(title: NSLocalizedString("transform.tap_upload", comment: ""), image: selectedImage, pickerIndex: 1, showTips: true)
+                    .frame(height: 340)
+            }
+        }
+    }
+
+    private func uploadBox(title: String, image: UIImage?, pickerIndex: Int, showTips: Bool) -> some View {
         Button {
+            activePicker = pickerIndex
             if !hasAcceptedPhotoConsent {
                 showConsentSheet = true
             } else {
@@ -309,17 +328,16 @@ struct TransformView: View {
                         startPoint: .top,
                         endPoint: .bottom
                     )
-                    .frame(height: 92)
+                    .frame(height: showTips ? 92 : 64)
                     Spacer()
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 40))
 
-                if let img = selectedImage {
+                if let img = image {
                     Image(uiImage: img)
                         .resizable()
                         .scaledToFill()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 340)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .clipShape(RoundedRectangle(cornerRadius: 40))
                 } else {
                     // Placeholder content
@@ -327,62 +345,63 @@ struct TransformView: View {
                         ZStack {
                             Circle()
                                 .fill(Color.white.opacity(0.50))
-                                .frame(width: 96, height: 96)
+                                .frame(width: showTips ? 96 : 64, height: showTips ? 96 : 64)
                                 .overlay(
                                     Circle()
                                         .stroke(Color.white.opacity(0.60), lineWidth: 1)
                                 )
                                 .shadow(color: Color(hex: "FF4D85").opacity(0.10), radius: 16, x: 0, y: 4)
 
-                            Image(systemName: "camera.fill")
-                                .font(.system(size: 28, weight: .medium))
+                            Image(systemName: showTips ? "camera.fill" : "plus")
+                                .font(.system(size: showTips ? 28 : 24, weight: .medium))
                                 .foregroundStyle(accentBrown)
                         }
 
-                        Text(NSLocalizedString("transform.tap_upload", comment: ""))
-                            .font(.system(size: 18, weight: .semibold))
+                        Text(title)
+                            .font(.system(size: showTips ? 18 : 16, weight: .semibold))
                             .foregroundStyle(primaryText)
 
-                        HStack {
-                            Spacer()
-                            VStack(alignment: .leading, spacing: 8) {
-                                HStack(spacing: 6) {
-                                    Image(systemName: "face.smiling")
-                                        .font(.system(size: 12, weight: .medium))
-                                        .frame(width: 20, alignment: .center)
-                                    Text(NSLocalizedString("transform.tip_clear_faces", comment: ""))
-                                        .font(.system(size: 13, weight: .medium))
+                        if showTips {
+                            HStack {
+                                Spacer()
+                                VStack(alignment: .leading, spacing: 8) {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "face.smiling")
+                                            .font(.system(size: 12, weight: .medium))
+                                            .frame(width: 20, alignment: .center)
+                                        Text(NSLocalizedString("transform.tip_clear_faces", comment: ""))
+                                            .font(.system(size: 13, weight: .medium))
+                                    }
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "sun.max.fill")
+                                            .font(.system(size: 12, weight: .medium))
+                                            .frame(width: 20, alignment: .center)
+                                        Text(NSLocalizedString("transform.tip_good_lighting", comment: ""))
+                                            .font(.system(size: 13, weight: .medium))
+                                    }
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "person.fill.viewfinder")
+                                            .font(.system(size: 12, weight: .medium))
+                                            .frame(width: 20, alignment: .center)
+                                        Text(NSLocalizedString("transform.tip_face_front", comment: ""))
+                                            .font(.system(size: 13, weight: .medium))
+                                    }
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "eye.slash")
+                                            .font(.system(size: 12, weight: .medium))
+                                            .frame(width: 20, alignment: .center)
+                                        Text(NSLocalizedString("transform.tip_no_accessories", comment: ""))
+                                            .font(.system(size: 13, weight: .medium))
+                                    }
                                 }
-                                HStack(spacing: 6) {
-                                    Image(systemName: "sun.max.fill")
-                                        .font(.system(size: 12, weight: .medium))
-                                        .frame(width: 20, alignment: .center)
-                                    Text(NSLocalizedString("transform.tip_good_lighting", comment: ""))
-                                        .font(.system(size: 13, weight: .medium))
-                                }
-                                HStack(spacing: 6) {
-                                    Image(systemName: "person.fill.viewfinder")
-                                        .font(.system(size: 12, weight: .medium))
-                                        .frame(width: 20, alignment: .center)
-                                    Text(NSLocalizedString("transform.tip_face_front", comment: ""))
-                                        .font(.system(size: 13, weight: .medium))
-                                }
-                                HStack(spacing: 6) {
-                                    Image(systemName: "eye.slash")
-                                        .font(.system(size: 12, weight: .medium))
-                                        .frame(width: 20, alignment: .center)
-                                    Text(NSLocalizedString("transform.tip_no_accessories", comment: ""))
-                                        .font(.system(size: 13, weight: .medium))
-                                }
+                                .foregroundStyle(secondaryText)
+                                Spacer()
                             }
-                            .foregroundStyle(secondaryText)
-                            Spacer()
                         }
                     }
-                    .padding(.vertical, 56)
+                    .padding(.vertical, showTips ? 56 : 24)
                 }
             }
-            .frame(height: 340)
         }
         .buttonStyle(.plain)
     }
@@ -451,7 +470,9 @@ struct TransformView: View {
                 Spacer()
 
                 Button {
-                    guard selectedImage != nil else {
+                    let requiresDual = (template.requireMomPhoto == true && template.requireDadPhoto == true)
+                    let isValid = requiresDual ? (selectedImage != nil && selectedImage2 != nil) : (selectedImage != nil)
+                    guard isValid else {
                         if !hasAcceptedPhotoConsent {
                             showConsentSheet = true
                         } else {

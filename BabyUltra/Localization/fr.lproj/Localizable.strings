@@ -235,3 +235,6 @@
 "chat.suggestion1" = "Prénoms modernes pour garçons";
 "chat.suggestion2" = "Prénoms classiques pour filles";
 "chat.suggestion3" = "Prénoms mixtes";
+
+"transform.photo_1" = "Photo 1";
+"transform.photo_2" = "Photo 2";
