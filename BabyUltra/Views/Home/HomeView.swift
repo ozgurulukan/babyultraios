@@ -67,9 +67,7 @@ struct HomeView: View {
                         HStack {
                             Spacer()
                             Button {
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    showAccount = true
-                                }
+                                isPremiumShow = true
                             } label: {
                                 HStack(spacing: 5) {
                                     Image(systemName: "sparkles")
