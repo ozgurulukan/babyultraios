@@ -47,12 +47,12 @@ struct HomeView: View {
                 ) {
                     ZStack {
                         // Left Side
-                        HStack(spacing: 8) {
+                        HStack(spacing: 4) {
                             Image("logo")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 44, height: 44)
-                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                .frame(width: 56, height: 56)
+                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                                 
                             Text("BabyUltra")
                                 .font(.system(size: 24, weight: .bold))
