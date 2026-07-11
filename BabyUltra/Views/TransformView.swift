@@ -288,7 +288,7 @@ struct TransformView: View {
         }
     }
 
-    private func uploadBox(title: String, image: UIImage?, pickerIndex: Int, showTips: Bool) -> some View {
+    private func uploadBox(title: String, image: UIImage?, pickerIndex: Int, showTips: Bool, isCompact: Bool = false) -> some View {
         Button {
             activePicker = pickerIndex
             if !hasAcceptedPhotoConsent {
