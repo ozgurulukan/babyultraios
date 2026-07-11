@@ -51,29 +51,12 @@ struct HomeView: View {
                             Image("logo")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 26, height: 26)
-                                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                                .frame(width: 32, height: 32)
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                                 
                             Text("BabyUltra")
-                                .font(.system(size: 20, weight: .bold))
+                                .font(.system(size: 24, weight: .bold))
                                 .foregroundStyle(HomePalette.accent)
-
-                            if !hasProAccess {
-                                Button {
-                                    isPremiumShow = true
-                                } label: {
-                                    Image(systemName: "diamond.fill")
-                                        .font(.system(size: 14, weight: .bold))
-                                        .foregroundStyle(HomePalette.accent)
-                                        .padding(6)
-                                        .background(Color.white.opacity(0.5))
-                                        .clipShape(Circle())
-                                        .overlay(Circle().stroke(HomePalette.accent.opacity(0.3), lineWidth: 1.5))
-                                        .shadow(color: HomePalette.accent.opacity(0.2), radius: 4, x: 0, y: 2)
-                                }
-                                .buttonStyle(.plain)
-                                .padding(.leading, 4)
-                            }
                             
                             Spacer()
                         }

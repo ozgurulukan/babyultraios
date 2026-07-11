@@ -82,6 +82,7 @@
     {
       "layers" : [
         {
+          "hidden" : false,
           "image-name" : "bg.png",
           "name" : "bg",
           "opacity" : 1,
