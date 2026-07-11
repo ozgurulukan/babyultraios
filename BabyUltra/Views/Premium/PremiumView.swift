@@ -31,7 +31,7 @@ struct PremiumView: View {
     private let creamBg = Color(hex: "FFF3F1")
     private let cardBg = Color.white.opacity(0.4)
     private let primaryText = Color(hex: "2D2422")
-    private let secondaryText = Color(hex: "8D7F7A")
+    private let secondaryText = Color.white
     private let accentBrown = Color(hex: "FF4D85")
     private let accentCoral = Color(hex: "FF88A8")
     private let starYellow = Color(hex: "FF4D85")
@@ -385,17 +385,20 @@ struct PlanCardNew: View {
 
                     Text(plan.title)
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(isSelected ? Color(hex: "FF4D85") : Color(hex: "8D7F7A"))
+                        .foregroundStyle(Color(hex: "FFF5EC"))
+                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
 
                     Text(package?.localizedPriceString ?? (plan.title == "Yearly" ? "$49.99" : "$14.99"))
                         .font(.system(size: 26, weight: .heavy))
-                        .foregroundStyle(Color(hex: "2D2422"))
+                        .foregroundStyle(Color(hex: "FFF5EC"))
+                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
 
                     Spacer()
 
                     Text(plan.subtitle)
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(Color(hex: "8D7F7A"))
+                        .foregroundStyle(.white)
+                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .padding(16)
@@ -470,7 +473,7 @@ struct TopupView: View {
     private let creamBg = Color(hex: "FFF3F1")
     private let cardBg = Color.white.opacity(0.4)
     private let primaryText = Color(hex: "2D2422")
-    private let secondaryText = Color(hex: "8D7F7A")
+    private let secondaryText = Color.white
     private let accentBrown = Color(hex: "FF4D85")
     private let accentCoral = Color(hex: "FF88A8")
 
@@ -746,13 +749,15 @@ struct CreditPlanCard: View {
 
                     Text(plan.title)
                         .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(isSelected ? Color(hex: "FF4D85") : Color(hex: "8D7F7A"))
+                        .foregroundStyle(Color(hex: "FFF5EC"))
+                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
 
                     Text(plan.subtitle)
                         .font(.system(size: 20, weight: .heavy))
-                        .foregroundStyle(Color(hex: "2D2422"))
+                        .foregroundStyle(Color(hex: "FFF5EC"))
+                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
                         .lineLimit(1)
                         .minimumScaleFactor(0.75)
 
@@ -760,7 +765,8 @@ struct CreditPlanCard: View {
 
                     Text(bundleName)
                         .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(Color(hex: "8D7F7A"))
+                        .foregroundStyle(.white)
+                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .padding(14)
