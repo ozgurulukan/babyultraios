@@ -193,15 +193,16 @@ struct HomeView: View {
                             HStack(spacing: 8) {
                                 if let iconUrl = category.iconUrl, let url = URL(string: iconUrl) {
                                     SVGAsyncImage(url: url, size: CGSize(width: 22, height: 22))
+                                        .colorMultiply(HomePalette.accent)
                                 }
 
                                 Text(category.name)
                                     .font(.system(size: 18, weight: .bold))
-                                    .foregroundStyle(HomePalette.text)
+                                    .foregroundStyle(HomePalette.accent)
 
                                 Image(systemName: "chevron.right")
                                     .font(.system(size: 14, weight: .semibold))
-                                    .foregroundStyle(HomePalette.subtleText)
+                                    .foregroundStyle(HomePalette.accent.opacity(0.8))
                             }
                             .padding(.horizontal, HomePalette.edgePadding)
                         }
