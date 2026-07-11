@@ -152,8 +152,19 @@ struct AccountView: View {
         VStack(alignment: .leading, spacing: 0) {
             // Top half
             VStack(alignment: .leading, spacing: 20) {
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 4) {
+                HStack(alignment: .center) {
+                    Image(systemName: "diamond.fill")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundStyle(Color(hex: "FF4D85"))
+                        .padding(12)
+                        .background(Color(hex: "FFF3F1"))
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color(hex: "FF4D85").opacity(0.3), lineWidth: 1.5))
+                        .shadow(color: Color(hex: "FF4D85").opacity(0.2), radius: 4, x: 0, y: 2)
+
+                    Spacer()
+
+                    VStack(alignment: .trailing, spacing: 4) {
                         Text(NSLocalizedString("account.current_balance", comment: ""))
                             .font(.system(size: 14, weight: .medium))
                             .tracking(0.7)
@@ -164,21 +175,15 @@ struct AccountView: View {
                             .foregroundStyle(Color(hex: "FF4D85"))
 
                         HStack(spacing: 8) {
-                            Image(systemName: "sparkles")
-                                .font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(Color(hex: "8D7F7A"))
                             Text(NSLocalizedString("account.credits_ready", comment: ""))
                                 .font(.system(size: 14, weight: .medium))
+                                .foregroundStyle(Color(hex: "8D7F7A"))
+                            Image(systemName: "sparkles")
+                                .font(.system(size: 13, weight: .semibold))
                                 .foregroundStyle(Color(hex: "8D7F7A"))
                         }
                         .padding(.top, 4)
                     }
-
-                    Spacer()
-
-                    Image(systemName: "star.circle.fill")
-                        .font(.system(size: 30))
-                        .foregroundStyle(Color(hex: "FF4D85").opacity(0.85))
                 }
             }
             .padding(.horizontal, 32)
