@@ -105,7 +105,7 @@ private struct OnboardingBeforeAfterView: View {
                         Image("logo")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: 32)
+                            .frame(height: 52)
                             .padding(.top, 16)
                     }
                     
@@ -324,7 +324,7 @@ private struct OnboardingBeforeAfterVideoView: View {
                         Image("logo")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: 32)
+                            .frame(height: 52)
                             .padding(.top, 16)
                     }
                     
