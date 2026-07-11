@@ -61,6 +61,7 @@ struct PremiumView: View {
 
                         ctaSection
                             .padding(.horizontal, 24)
+                            .padding(.top, 16)
 
                         footerLinks
                             .padding(.top, 8)
@@ -82,12 +83,9 @@ struct PremiumView: View {
             Spacer()
             Button { dismiss.wrappedValue.dismiss() } label: {
                 Image(systemName: "xmark")
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundStyle(primaryText)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(Color.gray)
                     .frame(width: 40, height: 40)
-                    .background(Color(hex: "FFF3F1").opacity(0.5))
-                    .background(.ultraThinMaterial.opacity(0.8))
-                    .clipShape(Circle())
             }
         }
     }
@@ -119,14 +117,14 @@ struct PremiumView: View {
             VStack(spacing: 8) {
                 Text(NSLocalizedString("premium.unlock_title", comment: ""))
                     .font(.system(size: 32, weight: .heavy))
-                    .foregroundStyle(Color(hex: "FFF5EC"))
+                    .foregroundStyle(Color(hex: "4A2E25"))
                     .multilineTextAlignment(.center)
                     .tracking(-0.5)
 
                 Text(NSLocalizedString("premium.unlock_subtitle", comment: ""))
                     .font(.system(size: 16, weight: .regular))
                     .foregroundStyle(.white)
-                    .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
+                    .shadow(color: .white.opacity(0.8), radius: 4, x: 0, y: 0)
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
                     .padding(.horizontal, 32)
@@ -206,15 +204,6 @@ struct PremiumView: View {
         return subscriptionsManager.packages[productIdx]
     }
 
-    private var ctaFooterText: String {
-        if selectedPlan == 1 { return "" }
-        if let package = packageForPlan(at: selectedPlan) {
-            let unit = package.storeProduct.subscriptionPeriod?.unit
-            let periodText = unit == .week ? NSLocalizedString("common.week_unit", comment: "") : NSLocalizedString("common.year_unit", comment: "")
-            return String(format: NSLocalizedString("premium.trial_format", comment: ""), package.localizedPriceString, periodText)
-        }
-        return NSLocalizedString("premium.yearly_fallback", comment: "")
-    }
 
     var ctaSection: some View {
         VStack(spacing: 12) {
@@ -233,7 +222,7 @@ struct PremiumView: View {
                     }
                 } else { isPurchasing = false }
             } label: {
-                Text(selectedPlan == 0 ? NSLocalizedString("premium.start_free_trial", comment: "") : NSLocalizedString("premium.subscribe_now", comment: ""))
+                Text(NSLocalizedString("premium.subscribe_now", comment: ""))
                     .font(.system(size: 18, weight: .bold))
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
@@ -251,9 +240,7 @@ struct PremiumView: View {
             .disabled(isPurchasing)
             .buttonStyle(.plain)
 
-            Text(ctaFooterText)
-                .font(.system(size: 13, weight: .medium))
-                .foregroundStyle(secondaryText)
+
         }
     }
 
@@ -354,7 +341,7 @@ struct BenefitRow: View {
 
             Text(text)
                 .font(.system(size: 15, weight: .semibold))
-                .foregroundStyle(Color(hex: "2D2422"))
+                .foregroundStyle(.white)
 
             Spacer()
         }
@@ -422,7 +409,7 @@ struct PlanCardNew: View {
                 }
             }
         }
-        .frame(height: 120)
+        .frame(height: 105)
         .frame(maxWidth: .infinity)
         .buttonStyle(.plain)
         .scaleEffect(isSelected ? 1.02 : 1.0)
@@ -498,6 +485,7 @@ struct TopupView: View {
 
                         ctaSection
                             .padding(.horizontal, 24)
+                            .padding(.top, 16)
 
                         footerLinks
                             .padding(.top, 8)
@@ -517,12 +505,9 @@ struct TopupView: View {
             Spacer()
             Button { dismiss() } label: {
                 Image(systemName: "xmark")
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundStyle(primaryText)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(Color.gray)
                     .frame(width: 40, height: 40)
-                    .background(Color(hex: "FFF3F1").opacity(0.5))
-                    .background(.ultraThinMaterial.opacity(0.8))
-                    .clipShape(Circle())
             }
         }
     }
@@ -786,7 +771,7 @@ struct CreditPlanCard: View {
                 }
             }
         }
-        .frame(height: 110)
+        .frame(height: 100)
         .frame(maxWidth: .infinity)
         .buttonStyle(.plain)
         .scaleEffect(isSelected ? 1.03 : 1.0)
