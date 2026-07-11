@@ -286,7 +286,7 @@ private struct PopularTemplateCard: View {
                 Text(template.name)
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(HomePalette.categoryTint)
-                    .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
+                    .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
             }
@@ -373,7 +373,7 @@ private struct HomeTemplateCard: View {
                         Text(NSLocalizedString("home.pro_badge", comment: ""))
                             .font(.system(size: 10, weight: .black))
                             .foregroundStyle(HomePalette.categoryTint)
-                            .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
+                            .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 5)
                             .background(Color.black.opacity(0.38))
@@ -389,7 +389,7 @@ private struct HomeTemplateCard: View {
                             .font(.system(size: 16 * 0.7, weight: .semibold))
                     }
                     .foregroundStyle(HomePalette.categoryTint)
-                    .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
+                    .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 6)
                     .background(Color.black.opacity(0.45))
