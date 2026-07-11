@@ -97,6 +97,7 @@ struct Splash: View {
     @State private var taglineOffset: CGFloat = 16
     @State private var minimumDisplayTimeReached = false
     @ObservedObject private var auth = AuthManager.shared
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     private func continueIfReady() {
         guard minimumDisplayTimeReached, auth.idToken != nil, !isContinue else { return }
@@ -106,7 +107,7 @@ struct Splash: View {
     var body: some View {
         Group {
             if isContinue {
-                if UserDefaults.standard.bool(forKey: "hasSeenOnboarding") {
+                if hasSeenOnboarding {
                     MainTabView()
                 } else {
                     Intro()
