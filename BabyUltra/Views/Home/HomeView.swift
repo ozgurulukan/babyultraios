@@ -479,9 +479,9 @@ struct SVGAsyncImage: View {
                 case .success(let image):
                     if let tint = tintColorHex {
                         image
+                            .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
-                            .renderingMode(.template)
                             .foregroundStyle(Color(hex: tint.replacingOccurrences(of: "#", with: "")))
                     } else {
                         image
