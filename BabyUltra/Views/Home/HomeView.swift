@@ -467,27 +467,18 @@ private struct HomeTemplateCard: View {
 struct SVGAsyncImage: View {
     let url: URL
     var size: CGSize = CGSize(width: 22, height: 22)
-    var tintColorHex: String? = nil
 
     var body: some View {
         if url.pathExtension.lowercased() == "svg" {
-            SVGWebImage(url: url, tintColorHex: tintColorHex)
+            SVGWebImage(url: url)
                 .frame(width: size.width, height: size.height)
         } else {
             AsyncImage(url: url) { phase in
                 switch phase {
                 case .success(let image):
-                    if let tint = tintColorHex {
-                        image
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundStyle(Color(hex: tint.replacingOccurrences(of: "#", with: "")))
-                    } else {
-                        image
-                            .resizable()
-                            .scaledToFit()
-                    }
+                    image
+                        .resizable()
+                        .scaledToFit()
                 default:
                     EmptyView()
                 }
@@ -499,7 +490,6 @@ struct SVGAsyncImage: View {
 
 struct SVGWebImage: UIViewRepresentable {
     let url: URL
-    var tintColorHex: String? = nil
 
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
@@ -513,9 +503,6 @@ struct SVGWebImage: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
-        let tintHex = tintColorHex ?? "transparent"
-        let isTinted = tintColorHex != nil
-        
         let html = """
         <!DOCTYPE html>
         <html>
@@ -523,20 +510,11 @@ struct SVGWebImage: UIViewRepresentable {
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
             <style>
                 body { margin: 0; padding: 0; overflow: hidden; background: transparent; }
-                .tinted {
-                    background-color: \(tintHex);
-                    width: 100vw;
-                    height: 100vh;
-                    -webkit-mask: url('\(url.absoluteString)') no-repeat center;
-                    -webkit-mask-size: contain;
-                    mask: url('\(url.absoluteString)') no-repeat center;
-                    mask-size: contain;
-                }
                 img { width: 100%; height: 100%; object-fit: contain; display: block; }
             </style>
         </head>
         <body>
-            \(isTinted ? "<div class=\"tinted\"></div>" : "<img src=\"\(url.absoluteString)\" />")
+            <img src="\(url.absoluteString)" />
         </body>
         </html>
         """
