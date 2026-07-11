@@ -94,14 +94,17 @@ private struct OnboardingBeforeAfterView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                Color.clear.ignoresSafeArea()
+                sliderSection
+                    .ignoresSafeArea()
+
                 VStack(spacing: 0) {
-                    sliderSection
+                    topBlurOverlay(height: geo.size.height * 0.25)
+                        .ignoresSafeArea(edges: .top)
+                    
+                    Spacer()
+                    
                     bottomBar
                 }
-
-                topBlurOverlay(height: geo.size.height * 0.25)
-                    .ignoresSafeArea(edges: .top)
             }
         }
         .onAppear { startAutoAnimation() }
@@ -236,37 +239,24 @@ private struct OnboardingBeforeAfterView: View {
         VStack(spacing: 10) {
             if let title = item.title, !title.isEmpty {
                 Text(title)
-                    .font(.system(size: 22, weight: .bold))
+                    .font(.system(size: 24, weight: .bold))
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
-                    .shadow(color: Color.black.opacity(0.4), radius: 6, x: 0, y: 2)
+                    .shadow(color: Color.black.opacity(0.8), radius: 8, x: 0, y: 2)
             }
             if let desc = item.description, !desc.isEmpty {
                 Text(desc)
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.92))
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.95))
                     .multilineTextAlignment(.center)
                     .lineSpacing(3)
-                    .shadow(color: Color.black.opacity(0.35), radius: 5, x: 0, y: 2)
+                    .shadow(color: Color.black.opacity(0.8), radius: 6, x: 0, y: 2)
             }
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 16)
-        .background(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(accent.opacity(0.12))
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .stroke(Color.white.opacity(0.45), lineWidth: 1)
-                )
-        )
-        .padding(.horizontal, 20)
         .frame(maxHeight: .infinity, alignment: .bottom)
-        .padding(.bottom, 24)
+        .padding(.bottom, 170)
     }
 
     private func dragGesture(width: CGFloat) -> some Gesture {
@@ -323,14 +313,17 @@ private struct OnboardingBeforeAfterVideoView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                Color.clear.ignoresSafeArea()
+                sliderSection
+                    .ignoresSafeArea()
+
                 VStack(spacing: 0) {
-                    sliderSection
+                    topBlurOverlay(height: geo.size.height * 0.25)
+                        .ignoresSafeArea(edges: .top)
+                    
+                    Spacer()
+                    
                     bottomBar
                 }
-
-                topBlurOverlay(height: geo.size.height * 0.25)
-                    .ignoresSafeArea(edges: .top)
             }
         }
         .onAppear { startAutoAnimation() }
@@ -467,37 +460,24 @@ private struct OnboardingBeforeAfterVideoView: View {
         VStack(spacing: 10) {
             if let title = item.title, !title.isEmpty {
                 Text(title)
-                    .font(.system(size: 22, weight: .bold))
+                    .font(.system(size: 24, weight: .bold))
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
-                    .shadow(color: Color.black.opacity(0.4), radius: 6, x: 0, y: 2)
+                    .shadow(color: Color.black.opacity(0.8), radius: 8, x: 0, y: 2)
             }
             if let desc = item.description, !desc.isEmpty {
                 Text(desc)
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.92))
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.95))
                     .multilineTextAlignment(.center)
                     .lineSpacing(3)
-                    .shadow(color: Color.black.opacity(0.35), radius: 5, x: 0, y: 2)
+                    .shadow(color: Color.black.opacity(0.8), radius: 6, x: 0, y: 2)
             }
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 16)
-        .background(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(accent.opacity(0.12))
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .stroke(Color.white.opacity(0.45), lineWidth: 1)
-                )
-        )
-        .padding(.horizontal, 20)
         .frame(maxHeight: .infinity, alignment: .bottom)
-        .padding(.bottom, 24)
+        .padding(.bottom, 170)
     }
 
     private func dragGesture(width: CGFloat) -> some Gesture {
