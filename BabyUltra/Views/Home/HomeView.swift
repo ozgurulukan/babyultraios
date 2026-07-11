@@ -51,8 +51,8 @@ struct HomeView: View {
                             Image("logo")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 32, height: 32)
-                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                .frame(width: 44, height: 44)
+                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                                 
                             Text("BabyUltra")
                                 .font(.system(size: 24, weight: .bold))
