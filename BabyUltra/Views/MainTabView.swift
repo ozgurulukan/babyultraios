@@ -53,7 +53,11 @@ struct MainTabView: View {
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
             if !appState.hideTabBar {
-                PillNavigationBar(selectedTab: $selectedTab)
+                if #available(iOS 26.0, *) {
+                    LiquidTabBar(selectedTab: $selectedTab)
+                } else {
+                    PillNavigationBar(selectedTab: $selectedTab)
+                }
             }
         }
         .ignoresSafeArea(.keyboard)
@@ -67,6 +71,70 @@ struct MainTabView: View {
             // Delay authorization request slightly to ensure view is active and ready
             try? await Task.sleep(nanoseconds: 1_000_000_000)
             _ = await TrackingManager.shared.requestTrackingPermission()
+        }
+    }
+}
+
+
+@available(iOS 26.0, *)
+struct LiquidTabBar: View {
+    @Binding var selectedTab: BabyUltraTab
+    private let tabs = BabyUltraTab.allCases
+    @Namespace private var tabNamespace
+
+    var body: some View {
+        GlassEffectContainer(spacing: 20.0) {
+            HStack(spacing: 20) {
+                ForEach(tabs, id: \.self) { tab in
+                    Button {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                            selectedTab = tab
+                        }
+                    } label: {
+                        ZStack {
+                            if selectedTab == tab {
+                                Circle()
+                                    .fill(BabyUltra.accent)
+                                    .frame(width: 44, height: 44)
+                                    .matchedGeometryEffect(id: "liquidCircle", in: tabNamespace)
+                                    .glassEffect()
+                            }
+                            
+                            Image(systemName: tab.icon)
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundStyle(selectedTab == tab ? .white : BabyUltra.textSecondary.opacity(0.6))
+                                .glassEffect()
+                        }
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(tab.label)
+                }
+            }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 12)
+            .background {
+                Capsule()
+                    .fill(.ultraThinMaterial)
+                    .overlay(
+                        Capsule()
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.white.opacity(0.30), Color.white.opacity(0.05)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                    )
+                    .overlay(
+                        Capsule()
+                            .stroke(Color.white.opacity(0.6), lineWidth: 1.2)
+                    )
+                    .shadow(color: Color.black.opacity(0.08), radius: 16, y: 8)
+                    .glassEffect()
+            }
+            .padding(.bottom, 16)
         }
     }
 }
