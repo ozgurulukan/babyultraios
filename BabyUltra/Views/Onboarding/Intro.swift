@@ -81,6 +81,7 @@ private struct LiquidGlassButton: View {
 private struct OnboardingBeforeAfterView: View {
     let item: OnboardingMedia
     let isActivePage: Bool
+    let buttonText: String
     let onNext: () -> Void
 
     @State private var sliderPosition: CGFloat = 0.5
@@ -284,7 +285,7 @@ private struct OnboardingBeforeAfterView: View {
         VStack(spacing: 0) {
             Divider()
                 .background(Color.white.opacity(0.5))
-            LiquidGlassButton(title: NSLocalizedString("onboarding.next", comment: "")) {
+            LiquidGlassButton(title: buttonText) {
                 onNext()
             }
             .padding(.horizontal, 24)
@@ -515,7 +516,7 @@ private struct OnboardingBeforeAfterVideoView: View {
         VStack(spacing: 0) {
             Divider()
                 .background(Color.white.opacity(0.5))
-            LiquidGlassButton(title: NSLocalizedString("onboarding.next", comment: "")) {
+            LiquidGlassButton(title: buttonText) {
                 onNext()
             }
             .padding(.horizontal, 24)
@@ -959,7 +960,7 @@ struct Intro: View {
 
             ZStack {
                 if let first = viewModel.firstItem {
-                    OnboardingBeforeAfterView(item: first, isActivePage: currentPage == 0) {
+                    OnboardingBeforeAfterView(item: first, isActivePage: currentPage == 0, buttonText: NSLocalizedString("onboarding.next", comment: "")) {
                         withAnimation(.easeInOut(duration: 0.35)) {
                             currentPage = 1
                         }
@@ -971,21 +972,14 @@ struct Intro: View {
                 }
 
                 if let second = viewModel.secondItem {
-                    OnboardingBeforeAfterView(item: second, isActivePage: currentPage == 1) {
-                        withAnimation(.easeInOut(duration: 0.35)) {
-                            currentPage = 2
-                        }
+                    OnboardingBeforeAfterView(item: second, isActivePage: currentPage == 1, buttonText: NSLocalizedString("onboarding.get_started", comment: "")) {
+                        showPaywall = true
                     }
                     .offset(x: offsetForPage(1, screenWidth: screenWidth))
                 } else {
                     emptyPlaceholder
                         .offset(x: offsetForPage(1, screenWidth: screenWidth))
                 }
-
-                OnboardingReviewsView(reviews: viewModel.reviews, isActivePage: currentPage == 2) {
-                    showPaywall = true
-                }
-                .offset(x: currentPage == 2 ? 0 : screenWidth)
             }
             .animation(.easeInOut(duration: 0.35), value: currentPage)
             .ignoresSafeArea(.container, edges: .bottom)
