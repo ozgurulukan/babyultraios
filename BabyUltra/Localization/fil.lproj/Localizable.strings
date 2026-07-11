@@ -44,7 +44,7 @@
 "account.active" = "Aktibo";
 "account.contact_support" = "Makipag-ugnayan sa Suporta";
 "account.credits_ready" = "Mga credits na handang gamitin";
-"account.current_balance" = "KASALUKUYANG BALANSE";
+"account.current_balance" = "KASALUKUYANG\nBALANSE";
 "account.delete_alert_message" = "Lahat ng iyong data, kasama ang iyong mga generations, ay permanenteng matatanggal. Hindi maibabalik ang aksyong ito. Ang kumpletong pagtanggal sa server ay matatapos sa loob ng 48 oras.";
 "account.delete_alert_title" = "Tanggalin Lahat ng Data?";
 "account.delete_all_data" = "Tanggalin Lahat ng Data";

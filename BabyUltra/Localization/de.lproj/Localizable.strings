@@ -44,7 +44,7 @@
 "account.active" = "Aktiv";
 "account.contact_support" = "Support kontaktieren";
 "account.credits_ready" = "Credits bereit zur Verwendung";
-"account.current_balance" = "AKTUELLER SALDO";
+"account.current_balance" = "AKTUELLER\nSALDO";
 "account.delete_alert_message" = "Alle Ihre Daten, einschließlich Ihrer Generierungen, werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden. Die vollständige serverseitige Löschung wird innerhalb von 48 Stunden abgeschlossen.";
 "account.delete_alert_title" = "Alle Daten löschen?";
 "account.delete_all_data" = "Alle Daten löschen";

@@ -43,7 +43,7 @@
 "account.active" = "Aktywny";
 "account.contact_support" = "Skontaktuj się z pomocą techniczną";
 "account.credits_ready" = "Kredyty gotowe do wykorzystania";
-"account.current_balance" = "AKTUALNE SALDO";
+"account.current_balance" = "AKTUALNE\nSALDO";
 "account.delete_alert_message" = "Wszystkie Twoje dane, łącznie z Twoimi pokoleniami, zostaną trwale usunięte. Tej akcji nie można cofnąć. Całkowite usunięcie po stronie serwera zostanie zakończone w ciągu 48 godzin.";
 "account.delete_alert_title" = "Usunąć wszystkie dane?";
 "account.delete_all_data" = "Usuń wszystkie dane";

@@ -44,7 +44,7 @@
 "account.active" = "Gníomhach";
 "account.contact_support" = "Déan Teagmháil le Tacaíocht";
 "account.credits_ready" = "Creidmheasanna réidh le húsáid";
-"account.current_balance" = "IARMHÉID REATHA";
+"account.current_balance" = "IARMHÉID\nREATHA";
 "account.delete_alert_message" = "Scriosfar go buan do shonraí go léir, lena n-áirítear do ghiniúintí. Ní féidir an gníomh seo a chealú. Críochnófar scriosadh iomlán taobh freastalaí laistigh de 48 uair an chloig.";
 "account.delete_alert_title" = "Scrios Gach Sonra?";
 "account.delete_all_data" = "Scrios Gach Sonra";

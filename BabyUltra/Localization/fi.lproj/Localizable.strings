@@ -44,7 +44,7 @@
 "account.active" = "Aktiivinen";
 "account.contact_support" = "Ota yhteyttä tukeen";
 "account.credits_ready" = "Käyttövalmiit krediitit";
-"account.current_balance" = "NYKYINEN SALDO";
+"account.current_balance" = "NYKYINEN\nSALDO";
 "account.delete_alert_message" = "Kaikki tietosi, mukaan lukien generointisi, poistetaan pysyvästi. Tätä toimintoa ei voi peruuttaa. Täydellinen palvelinpuolen poisto saatetaan loppuun 48 tunnin kuluessa.";
 "account.delete_alert_title" = "Poista kaikki tiedot?";
 "account.delete_all_data" = "Poista kaikki tiedot";

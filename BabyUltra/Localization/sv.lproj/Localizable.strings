@@ -44,7 +44,7 @@
 "account.active" = "Aktiv";
 "account.contact_support" = "Kontakta Support";
 "account.credits_ready" = "Krediter redo att användas";
-"account.current_balance" = "NUVARANDE SALDO";
+"account.current_balance" = "NUVARANDE\nSALDO";
 "account.delete_alert_message" = "All din data, inklusive dina genereringar, kommer att raderas permanent. Denna åtgärd kan inte ångras. Fullständig borttagning på serversidan slutförs inom 48 timmar.";
 "account.delete_alert_title" = "Radera all data?";
 "account.delete_all_data" = "Radera all data";

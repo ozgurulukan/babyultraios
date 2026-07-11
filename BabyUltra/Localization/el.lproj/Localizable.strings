@@ -44,7 +44,7 @@
 "account.active" = "Ενεργό";
 "account.contact_support" = "Επικοινωνία με Υποστήριξη";
 "account.credits_ready" = "Credits έτοιμα για χρήση";
-"account.current_balance" = "ΤΡΕΧΟΝ ΥΠΟΛΟΙΠΟ";
+"account.current_balance" = "ΤΡΕΧΟΝ\nΥΠΟΛΟΙΠΟ";
 "account.delete_alert_message" = "Όλα τα δεδομένα σας, συμπεριλαμβανομένων των δημιουργιών σας, θα διαγραφούν μόνιμα. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Η πλήρης διαγραφή από τον διακομιστή θα ολοκληρωθεί εντός 48 ωρών.";
 "account.delete_alert_title" = "Διαγραφή Όλων των Δεδομένων;";
 "account.delete_all_data" = "Διαγραφή Όλων των Δεδομένων";

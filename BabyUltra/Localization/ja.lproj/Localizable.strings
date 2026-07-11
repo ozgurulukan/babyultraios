@@ -44,7 +44,7 @@
 "account.active" = "アクティブ";
 "account.contact_support" = "サポートに連絡";
 "account.credits_ready" = "使用可能なクレジット";
-"account.current_balance" = "現在の残高";
+"account.current_balance" = "現在の\n残高";
 "account.delete_alert_message" = "すべてのデータ（生成物を含む）は完全に削除されます。この操作は元に戻せません。サーバー側の完全な削除は48時間以内に完了します。";
 "account.delete_alert_title" = "すべてのデータを削除しますか？";
 "account.delete_all_data" = "すべてのデータを削除";

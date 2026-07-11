@@ -44,7 +44,7 @@
 "account.active" = "Aktiv";
 "account.contact_support" = "Kontakt Support";
 "account.credits_ready" = "Kreditter klare til bruk";
-"account.current_balance" = "GJELDENDE SALDO";
+"account.current_balance" = "GJELDENDE\nSALDO";
 "account.delete_alert_message" = "Alle dine data, inkludert genereringene dine, vil bli slettet permanent. Denne handlingen kan ikke angres. Fullstendig server-side sletting vil bli fullført innen 48 timer.";
 "account.delete_alert_title" = "Slette alle data?";
 "account.delete_all_data" = "Slett alle data";

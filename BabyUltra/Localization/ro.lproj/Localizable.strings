@@ -43,7 +43,7 @@
 "account.active" = "Activ";
 "account.contact_support" = "Contactați asistența";
 "account.credits_ready" = "Credite gata de utilizare";
-"account.current_balance" = "SOLDANT ACTUAL";
+"account.current_balance" = "SOLDANT\nACTUAL";
 "account.delete_alert_message" = "Toate datele dvs., inclusiv generațiile dvs. vor fi eliminate permanent. Această acțiune nu poate fi anulată. Ștergerea completă de pe partea serverului va fi finalizată în 48 de ore.";
 "account.delete_alert_title" = "Ștergeți toate datele?";
 "account.delete_all_data" = "Ștergeți toate datele";

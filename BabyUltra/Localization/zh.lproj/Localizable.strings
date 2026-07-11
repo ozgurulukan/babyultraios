@@ -44,7 +44,7 @@
 "account.active" = "活跃";
 "account.contact_support" = "联系支持";
 "account.credits_ready" = "可用积分";
-"account.current_balance" = "当前余额";
+"account.current_balance" = "当前\n余额";
 "account.delete_alert_message" = "您的所有数据，包括生成内容，将被永久删除。此操作无法撤销。服务器端完全删除将在48小时内完成。";
 "account.delete_alert_title" = "删除所有数据？";
 "account.delete_all_data" = "删除所有数据";

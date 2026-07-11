@@ -44,7 +44,7 @@
 "account.active" = "Aktif";
 "account.contact_support" = "Destekle İletişime Geç";
 "account.credits_ready" = "Kullanıma hazır krediler";
-"account.current_balance" = "MEVCUT BAKİYE";
+"account.current_balance" = "MEVCUT\nBAKİYE";
 "account.delete_alert_message" = "Tüm verileriniz, oluşturduklarınız dahil, kalıcı olarak silinecektir. Bu işlem geri alınamaz. Sunucu tarafı tam silme 48 saat içinde tamamlanacaktır.";
 "account.delete_alert_title" = "Tüm Verileri Sil?";
 "account.delete_all_data" = "Tüm Verileri Sil";

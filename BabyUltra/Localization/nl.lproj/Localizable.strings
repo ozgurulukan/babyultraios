@@ -44,7 +44,7 @@
 "account.active" = "Actief";
 "account.contact_support" = "Contact opnemen met Support";
 "account.credits_ready" = "Credits klaar voor gebruik";
-"account.current_balance" = "HUIDIG SALDO";
+"account.current_balance" = "HUIDIG\nSALDO";
 "account.delete_alert_message" = "Al je gegevens, inclusief je generaties, worden permanent verwijderd. Deze actie kan niet ongedaan worden gemaakt. Volledige server-side verwijdering wordt binnen 48 uur afgerond.";
 "account.delete_alert_title" = "Alle gegevens verwijderen?";
 "account.delete_all_data" = "Alle gegevens verwijderen";

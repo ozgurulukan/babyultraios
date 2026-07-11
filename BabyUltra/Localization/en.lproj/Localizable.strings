@@ -44,7 +44,7 @@
 "account.active" = "Active";
 "account.contact_support" = "Contact Support";
 "account.credits_ready" = "Credits ready to use";
-"account.current_balance" = "CURRENT BALANCE";
+"account.current_balance" = "CURRENT\nBALANCE";
 "account.delete_alert_message" = "All your data, including your generations, will be permanently deleted. This action cannot be undone. Complete server-side deletion will be finalized within 48 hours.";
 "account.delete_alert_title" = "Delete All Data?";
 "account.delete_all_data" = "Delete All Data";

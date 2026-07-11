@@ -44,7 +44,7 @@
 "account.active" = "Aktif";
 "account.contact_support" = "Hubungi Dukungan";
 "account.credits_ready" = "Kredit siap digunakan";
-"account.current_balance" = "SALDO SAAT INI";
+"account.current_balance" = "SALDO\nSAAT INI";
 "account.delete_alert_message" = "Semua data Anda, termasuk generasi Anda, akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan. Penghapusan sisi server yang lengkap akan diselesaikan dalam 48 jam.";
 "account.delete_alert_title" = "Hapus Semua Data?";
 "account.delete_all_data" = "Hapus Semua Data";

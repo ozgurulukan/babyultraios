@@ -44,7 +44,7 @@
 "account.active" = "Activo";
 "account.contact_support" = "Contactar Soporte";
 "account.credits_ready" = "Créditos listos para usar";
-"account.current_balance" = "SALDO ACTUAL";
+"account.current_balance" = "SALDO\nACTUAL";
 "account.delete_alert_message" = "Todos tus datos, incluidas tus generaciones, se eliminarán permanentemente. Esta acción no se puede deshacer. La eliminación completa en el servidor se finalizará en un plazo de 48 horas.";
 "account.delete_alert_title" = "¿Eliminar todos los datos?";
 "account.delete_all_data" = "Eliminar todos los datos";

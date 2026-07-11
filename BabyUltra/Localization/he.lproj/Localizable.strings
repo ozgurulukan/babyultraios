@@ -44,7 +44,7 @@
 "account.active" = "פעיל";
 "account.contact_support" = "צור קשר עם תמיכה";
 "account.credits_ready" = "נקודות זיכוי מוכנות לשימוש";
-"account.current_balance" = "יתרה נוכחית";
+"account.current_balance" = "יתרה\nנוכחית";
 "account.delete_alert_message" = "כל הנתונים שלך, כולל היוצרויות שלך, יימחקו לצמיתות. לא ניתן לבטל פעולה זו. מחיקה מלאה בצד השרת תושלם תוך 48 שעות.";
 "account.delete_alert_title" = "למחוק את כל הנתונים?";
 "account.delete_all_data" = "מחק את כל הנתונים";

@@ -44,7 +44,7 @@
 "account.active" = "活躍";
 "account.contact_support" = "聯絡支援";
 "account.credits_ready" = "可用積分";
-"account.current_balance" = "目前餘額";
+"account.current_balance" = "目前\n餘額";
 "account.delete_alert_message" = "您的所有資料，包括生成內容，將被永久刪除。此操作無法撤銷。伺服器端完全刪除將在48小時內完成。";
 "account.delete_alert_title" = "刪除所有資料？";
 "account.delete_all_data" = "刪除所有資料";

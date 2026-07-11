@@ -43,7 +43,7 @@
 "account.active" = "Aktív";
 "account.contact_support" = "Kapcsolatfelvétel az ügyfélszolgálattal";
 "account.credits_ready" = "Felhasználásra kész kredit";
-"account.current_balance" = "AKTUÁLIS EGYENLEG";
+"account.current_balance" = "AKTUÁLIS\nEGYENLEG";
 "account.delete_alert_message" = "Minden adata véglegesen törlődik, beleértve az Ön generációit is. Ez a művelet nem vonható vissza. A teljes szerveroldali törlés 48 órán belül megtörténik.";
 "account.delete_alert_title" = "Törli az összes adatot?";
 "account.delete_all_data" = "Minden adat törlése";

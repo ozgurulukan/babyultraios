@@ -44,7 +44,7 @@
 "account.active" = "Đang hoạt động";
 "account.contact_support" = "Liên Hệ Hỗ Trợ";
 "account.credits_ready" = "Tín dụng sẵn sàng sử dụng";
-"account.current_balance" = "SỐ DƯ HIỆN TẠI";
+"account.current_balance" = "SỐ\nDƯ HIỆN TẠI";
 "account.delete_alert_message" = "Tất cả dữ liệu của bạn, bao gồm cả các tác phẩm đã tạo, sẽ bị xóa vĩnh viễn. Hành động này không thể hoàn tác. Việc xóa hoàn toàn trên máy chủ sẽ được hoàn tất trong vòng 48 giờ.";
 "account.delete_alert_title" = "Xóa Tất Cả Dữ Liệu?";
 "account.delete_all_data" = "Xóa Tất Cả Dữ Liệu";

@@ -44,7 +44,7 @@
 "account.active" = "Actif";
 "account.contact_support" = "Contacter le Support";
 "account.credits_ready" = "Crédits prêts à l'emploi";
-"account.current_balance" = "SOLDE ACTUEL";
+"account.current_balance" = "SOLDE\nACTUEL";
 "account.delete_alert_message" = "Toutes vos données, y compris vos générations, seront définitivement supprimées. Cette action est irréversible. La suppression complète côté serveur sera finalisée dans un délai de 48 heures.";
 "account.delete_alert_title" = "Supprimer toutes les données ?";
 "account.delete_all_data" = "Supprimer toutes les données";

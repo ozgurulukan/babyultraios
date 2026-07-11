@@ -43,7 +43,7 @@
 "account.active" = "Aktivní";
 "account.contact_support" = "Kontaktovat podporu";
 "account.credits_ready" = "Kredity připravené k použití";
-"account.current_balance" = "AKTUÁLNÍ ZŮSTATEK";
+"account.current_balance" = "AKTUÁLNÍ\nZŮSTATEK";
 "account.delete_alert_message" = "Všechna vaše data, včetně vašich generací, budou trvale smazána Tuto akci nelze vrátit zpět. Úplné smazání na straně serveru bude dokončeno do 48 hodin.";
 "account.delete_alert_title" = "Smazat všechna data?";
 "account.delete_all_data" = "Smazat všechna data";

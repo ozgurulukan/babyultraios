@@ -44,7 +44,7 @@
 "account.active" = "Aktif";
 "account.contact_support" = "Hubungi Sokongan";
 "account.credits_ready" = "Kredit sedia untuk digunakan";
-"account.current_balance" = "BAKI SEMASA";
+"account.current_balance" = "BAKI\nSEMASA";
 "account.delete_alert_message" = "Semua data anda, termasuk generasi anda, akan dipadamkan secara kekal. Tindakan ini tidak boleh dibatalkan. Penghapusan pelayan sepenuhnya akan disiapkan dalam masa 48 jam.";
 "account.delete_alert_title" = "Padamkan Semua Data?";
 "account.delete_all_data" = "Padamkan Semua Data";

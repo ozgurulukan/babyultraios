@@ -167,17 +167,22 @@ struct AccountView: View {
 
                         Spacer()
 
-                        VStack(alignment: .trailing, spacing: 4) {
+                        HStack(alignment: .center, spacing: 14) {
                             Text(NSLocalizedString("account.current_balance", comment: ""))
-                                .font(.system(size: 14, weight: .medium))
-                                .tracking(0.7)
+                                .font(.system(size: 12, weight: .bold))
+                                .tracking(1.0)
                                 .foregroundStyle(Color(hex: "8D7F7A"))
+                                .multilineTextAlignment(.trailing)
+                                .lineSpacing(4)
+
+                            Rectangle()
+                                .fill(Color(hex: "FF4D85").opacity(0.15))
+                                .frame(width: 2, height: 32)
+                                .cornerRadius(1)
 
                             Text("\(displayCredits)")
                                 .font(.system(size: 48, weight: .heavy))
                                 .foregroundStyle(Color(hex: "FF4D85"))
-
-                            // Removed credits ready text
                         }
                     }
                 }

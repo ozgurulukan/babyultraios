@@ -44,7 +44,7 @@
 "account.active" = "활성";
 "account.contact_support" = "지원팀에 문의";
 "account.credits_ready" = "사용 가능한 크레딧";
-"account.current_balance" = "현재 잔액";
+"account.current_balance" = "현재\n잔액";
 "account.delete_alert_message" = "생성물을 포함한 모든 데이터가 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다. 서버 측 완전 삭제는 48시간 이내에 완료됩니다.";
 "account.delete_alert_title" = "모든 데이터를 삭제하시겠습니까?";
 "account.delete_all_data" = "모든 데이터 삭제";

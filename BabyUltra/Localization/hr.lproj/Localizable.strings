@@ -43,7 +43,7 @@
 "account.active" = "Aktivno";
 "account.contact_support" = "Kontaktirajte podršku";
 "account.credits_ready" = "Krediti spremni za korištenje";
-"account.current_balance" = "TRENUTNO STANJE";
+"account.current_balance" = "TRENUTNO\nSTANJE";
 "account.delete_alert_message" = "Svi vaši podaci, uključujući vaše generacije, bit će trajno izbrisani. Ova se radnja ne može poništiti. Potpuno brisanje na strani poslužitelja bit će dovršeno u roku od 48 sati.";
 "account.delete_alert_title" = "Izbrisati sve podatke?";
 "account.delete_all_data" = "Izbriši sve podatke";

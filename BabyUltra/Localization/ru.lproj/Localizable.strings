@@ -43,7 +43,7 @@
 "account.active" = "Активно";
 "account.contact_support" = "Связаться с Поддержкой";
 "account.credits_ready" = "Кредиты готовы к использованию";
-"account.current_balance" = "ТЕКУЩИЙ БАЛАНС";
+"account.current_balance" = "ТЕКУЩИЙ\nБАЛАНС";
 "account.delete_alert_message" = "Все ваши данные, включая ваши генерации, будут удалены навсегда. Это действие нельзя отменить. Полное удаление на стороне сервера будет завершено в течение 48 часов.";
 "account.delete_alert_title" = "Удалить все данные?";
 "account.delete_all_data" = "Удалить все данные";

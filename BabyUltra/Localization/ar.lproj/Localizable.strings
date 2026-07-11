@@ -44,7 +44,7 @@
 "account.active" = "نشط";
 "account.contact_support" = "الاتصال بالدعم";
 "account.credits_ready" = "رصيد جاهز للاستخدام";
-"account.current_balance" = "الرصيد الحالي";
+"account.current_balance" = "الرصيد\nالحالي";
 "account.delete_alert_message" = "سيتم حذف جميع بياناتك، بما في ذلك إنشاءاتك، بشكل دائم. لا يمكن التراجع عن هذا الإجراء. سيتم الانتهاء من الحذف الكامل على الخادم خلال 48 ساعة.";
 "account.delete_alert_title" = "حذف جميع البيانات؟";
 "account.delete_all_data" = "حذف جميع البيانات";
