@@ -7,10 +7,9 @@ struct TransformView: View {
     let template: TemplateItem
 
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var entitlementManager: EntitlementManager
     @EnvironmentObject private var subscriptionManager: SubscriptionsManager
-    @StateObject private var auth = AuthManager.shared
     @StateObject private var counter = CoinCounter()
+    @AppStorage("hasPro") private var hasPro: Bool = false
 
     @State private var selectedImage: UIImage?
     @State private var selectedImage2: UIImage?
@@ -31,7 +30,7 @@ struct TransformView: View {
         template.afterMediaUrl.flatMap(URL.init) ?? template.beforeMediaUrl.flatMap(URL.init)
     }
 
-    private var isPro: Bool { auth.currentUser?.isPro ?? entitlementManager.hasPro }
+    private var isPro: Bool { AuthManager.shared.currentUser?.isPro ?? hasPro }
 
     private var hasAcceptedPhotoConsent: Bool {
         UserDefaults.standard.bool(forKey: "photoConsentAccepted")
@@ -48,7 +47,7 @@ struct TransformView: View {
     private let cardBg = Color.white.opacity(0.30)
     private let cardBorder = Color.white.opacity(0.60)
 
-    var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
+    var displayCredits: Int { AuthManager.shared.currentUser?.credits ?? counter.coins }
 
     var body: some View {
         ZStack {
@@ -176,8 +175,7 @@ struct TransformView: View {
                 HStack(spacing: 6) {
                     Image(systemName: "sparkles")
                         .font(.system(size: 13, weight: .bold))
-                    Text("\(displayCredits)")
-                        .font(.system(size: 14, weight: .bold))
+                    UserCreditsBadge(counter: counter, fontSize: 13)
                 }
                 .foregroundStyle(Color(hex: "f9f5f2"))
                 .padding(.horizontal, 12)

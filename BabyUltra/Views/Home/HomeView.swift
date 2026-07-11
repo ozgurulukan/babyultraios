@@ -23,20 +23,19 @@ private enum HomePalette {
 
 struct HomeView: View {
     @State private var selectedTemplate: TemplateItem?
-    @State private var showTransform = false
+    @State private var navigationPath: [TemplateItem] = []
     @State private var transformId = UUID()
     @State private var isPremiumShow = false
     @State private var showTopup = false
     @State private var selectedCategoryForDetail: CategoryItem?
-            @StateObject private var counter = CoinCounter()
+    @StateObject private var counter = CoinCounter()
     @StateObject private var homeVM = HomeViewModel()
-    @StateObject private var auth = AuthManager.shared
     @EnvironmentObject private var entitlementManager: EntitlementManager
 
-    var displayCredits: Int { auth.currentUser?.credits ?? counter.coins }
+    var displayCredits: Int { AuthManager.shared.currentUser?.credits ?? counter.coins }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             ZStack {
                 Image("bg")
                     .resizable()
@@ -73,8 +72,7 @@ struct HomeView: View {
                                 HStack(spacing: 5) {
                                     Image(systemName: "sparkles")
                                         .font(.system(size: 13, weight: .bold))
-                                    Text("\(displayCredits)")
-                                        .font(.system(size: 14, weight: .bold))
+                                    UserCreditsBadge(counter: counter, fontSize: 14)
                                 }
                                 .foregroundStyle(HomePalette.accent)
                                 .padding(.horizontal, 12)
@@ -120,11 +118,9 @@ struct HomeView: View {
                     viewModel: homeVM
                 )
             }
-            .navigationDestination(isPresented: $showTransform) {
-                if let template = selectedTemplate {
-                    TransformView(template: template)
-                        .id(transformId)
-                }
+            .navigationDestination(for: TemplateItem.self) { template in
+                TransformView(template: template)
+                    .id(transformId)
             }
         }
         .onAppear {
@@ -150,7 +146,7 @@ struct HomeView: View {
 
 
     private var hasProAccess: Bool {
-        entitlementManager.hasPro || (auth.currentUser?.isPro == true)
+        entitlementManager.hasPro || (AuthManager.shared.currentUser?.isPro == true)
     }
 
     private func handleTemplateTap(_ template: TemplateItem) {
@@ -162,7 +158,7 @@ struct HomeView: View {
         if hasProAccess || displayCredits >= template.creditCost {
             selectedTemplate = template
             transformId = UUID()
-            showTransform = true
+            navigationPath.append(template)
         } else {
             isPremiumShow = true
         }
@@ -602,4 +598,16 @@ struct CategoryDetailView: View {
 #Preview {
     HomeView()
         .environmentObject(EntitlementManager())
+}
+
+struct UserCreditsBadge: View {
+    @ObservedObject private var auth = AuthManager.shared
+    @ObservedObject var counter: CoinCounter
+    var fontSize: CGFloat
+    
+    var body: some View {
+        let displayCredits = auth.currentUser?.credits ?? counter.coins
+        Text("\(displayCredits)")
+            .font(.system(size: fontSize, weight: .bold))
+    }
 }
