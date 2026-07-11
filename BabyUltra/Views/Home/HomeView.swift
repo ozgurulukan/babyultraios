@@ -194,7 +194,9 @@ struct HomeView: View {
                         } label: {
                             HStack(spacing: 8) {
                                 if let iconUrl = category.iconUrl, let url = URL(string: iconUrl) {
-                                    SVGAsyncImage(url: url, size: CGSize(width: 22, height: 22), tintColorHex: "#" + HomePalette.categoryTintHex)
+                                    SVGAsyncImage(url: url, size: CGSize(width: 22, height: 22))
+                                        .colorInvert()
+                                        .colorMultiply(HomePalette.categoryTint)
                                 }
 
                                 Text(category.name)
@@ -574,7 +576,9 @@ struct CategoryDetailView: View {
                 ToolbarItem(placement: .principal) {
                     HStack(spacing: 8) {
                         if let iconUrl = category.iconUrl, let url = URL(string: iconUrl) {
-                            SVGAsyncImage(url: url, size: CGSize(width: 24, height: 24), tintColorHex: "#" + HomePalette.categoryTintHex)
+                            SVGAsyncImage(url: url, size: CGSize(width: 24, height: 24))
+                                .colorInvert()
+                                .colorMultiply(HomePalette.categoryTint)
                         }
                         Text(category.name)
                             .font(.system(size: 20, weight: .bold))
