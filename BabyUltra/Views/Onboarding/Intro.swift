@@ -98,8 +98,16 @@ private struct OnboardingBeforeAfterView: View {
                     .ignoresSafeArea()
 
                 VStack(spacing: 0) {
-                    topBlurOverlay(height: geo.size.height * 0.25)
-                        .ignoresSafeArea(edges: .top)
+                    ZStack(alignment: .top) {
+                        topBlurOverlay(height: geo.size.height * 0.25)
+                            .ignoresSafeArea(edges: .top)
+                        
+                        Image("logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 32)
+                            .padding(.top, 16)
+                    }
                     
                     Spacer()
                     
@@ -253,8 +261,13 @@ private struct OnboardingBeforeAfterView: View {
                     .shadow(color: Color.black.opacity(0.8), radius: 6, x: 0, y: 2)
             }
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 20)
         .padding(.vertical, 16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.white.opacity(0.8), lineWidth: 1.5)
+        )
+        .padding(.horizontal, 24)
         .frame(maxHeight: .infinity, alignment: .bottom)
         .padding(.bottom, 170)
     }
@@ -304,8 +317,16 @@ private struct OnboardingBeforeAfterVideoView: View {
                     .ignoresSafeArea()
 
                 VStack(spacing: 0) {
-                    topBlurOverlay(height: geo.size.height * 0.25)
-                        .ignoresSafeArea(edges: .top)
+                    ZStack(alignment: .top) {
+                        topBlurOverlay(height: geo.size.height * 0.25)
+                            .ignoresSafeArea(edges: .top)
+                        
+                        Image("logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 32)
+                            .padding(.top, 16)
+                    }
                     
                     Spacer()
                     
@@ -461,8 +482,13 @@ private struct OnboardingBeforeAfterVideoView: View {
                     .shadow(color: Color.black.opacity(0.8), radius: 6, x: 0, y: 2)
             }
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 20)
         .padding(.vertical, 16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.white.opacity(0.8), lineWidth: 1.5)
+        )
+        .padding(.horizontal, 24)
         .frame(maxHeight: .infinity, alignment: .bottom)
         .padding(.bottom, 170)
     }
