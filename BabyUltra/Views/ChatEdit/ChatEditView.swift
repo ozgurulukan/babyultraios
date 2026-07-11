@@ -53,14 +53,6 @@ struct ChatEditView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 10)
                 .padding(.bottom, 16)
-                .background(
-                    LinearGradient(
-                        colors: [Color(hex: "FFF3F1").opacity(0.0), Color(hex: "FFF3F1").opacity(0.92), Color(hex: "FFF3F1")],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .ignoresSafeArea()
-                )
         }
         .sheet(isPresented: $showPaywall) {
             PremiumView()
