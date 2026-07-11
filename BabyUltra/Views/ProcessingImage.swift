@@ -86,7 +86,12 @@ struct ProcessingImage: View {
                 ResultView(
                     resultURL: url,
                     actionType: template.actionType,
-                    onGoHome: { onBackToTemplates?() }
+                    onGoHome: { 
+                        isResult = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            onBackToTemplates?() 
+                        }
+                    }
                 )
                 .presentationDetents([.large])
                 .presentationDragIndicator(.hidden)
@@ -153,7 +158,8 @@ struct ProcessingImage: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .aspectRatio(1, contentMode: .fit)
+                .frame(height: 280)
+                .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
