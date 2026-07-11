@@ -31,8 +31,8 @@ struct MainTabView: View {
     @State private var selectedTab: BabyUltraTab = .home
     @EnvironmentObject private var entitlementManager: EntitlementManager
     @EnvironmentObject private var subscriptionManager: SubscriptionsManager
-    @StateObject private var auth = AuthManager.shared
-    @StateObject private var appState = AppState.shared
+    @ObservedObject private var auth = AuthManager.shared
+    @ObservedObject private var appState = AppState.shared
 
     var body: some View {
         ZStack {

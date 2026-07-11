@@ -6,7 +6,7 @@ struct AccountView: View {
     @EnvironmentObject private var entitlementManager: EntitlementManager
     @EnvironmentObject private var subscriptionManager: SubscriptionsManager
     @StateObject private var counter = CoinCounter()
-    @StateObject private var auth = AuthManager.shared
+    @ObservedObject private var auth = AuthManager.shared
     @State private var isPremiumShow = false
     @State private var showShareSheet = false
     @State private var showLanguageSheet = false
@@ -730,7 +730,7 @@ struct AccountView: View {
 
 struct LanguageSelectionView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var languageManager = LanguageManager.shared
+    @ObservedObject private var languageManager = LanguageManager.shared
 
     private let languages: [(code: String, name: String, flag: String)] = [
         ("en", "English", "🇺🇸"),

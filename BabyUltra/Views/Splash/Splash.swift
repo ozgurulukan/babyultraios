@@ -96,7 +96,7 @@ struct Splash: View {
     @State private var textOpacity: Double = 0
     @State private var taglineOffset: CGFloat = 16
     @State private var minimumDisplayTimeReached = false
-    @StateObject private var auth = AuthManager.shared
+    @ObservedObject private var auth = AuthManager.shared
 
     private func continueIfReady() {
         guard minimumDisplayTimeReached, auth.idToken != nil, !isContinue else { return }
