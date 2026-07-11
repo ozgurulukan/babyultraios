@@ -25,7 +25,7 @@ struct HomeView: View {
     @State private var selectedTemplate: TemplateItem?
     @State private var showTransform = false
     @State private var isPremiumShow = false
-    @State private var showAccount = false
+    @State private var showTopup = false
     @State private var selectedCategoryForDetail: CategoryItem?
             @StateObject private var counter = CoinCounter()
     @StateObject private var homeVM = HomeViewModel()
@@ -67,7 +67,7 @@ struct HomeView: View {
                         HStack {
                             Spacer()
                             Button {
-                                isPremiumShow = true
+                                showTopup = true
                             } label: {
                                 HStack(spacing: 5) {
                                     Image(systemName: "sparkles")
@@ -100,12 +100,7 @@ struct HomeView: View {
                 }
                 .environment(\.colorScheme, .light)
 
-                if showAccount {
-                    AccountView(isPresented: $showAccount, showBackButton: true)
-                        .transition(.move(edge: .trailing))
-                        .zIndex(1)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
+                // AccountView removed from here as it's not triggered from HomeView anymore
             }
             .navigationBarHidden(true)
             .task { await homeVM.loadData() }
@@ -114,6 +109,7 @@ struct HomeView: View {
                                     }
             }
             .sheet(isPresented: $isPremiumShow) { PremiumView() }
+            .sheet(isPresented: $showTopup) { TopupView() }
             .sheet(item: $selectedCategoryForDetail) { category in
                 CategoryDetailView(
                     category: category,

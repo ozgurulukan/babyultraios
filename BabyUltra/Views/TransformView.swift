@@ -172,7 +172,7 @@ struct TransformView: View {
             Spacer()
 
             Button {
-                showPremium = true
+                showTopup = true
             } label: {
                 HStack(spacing: 6) {
                     Image(systemName: "sparkles")
