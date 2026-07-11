@@ -516,7 +516,7 @@ private struct OnboardingBeforeAfterVideoView: View {
         VStack(spacing: 0) {
             Divider()
                 .background(Color.white.opacity(0.5))
-            LiquidGlassButton(title: buttonText) {
+            LiquidGlassButton(title: NSLocalizedString("onboarding.next", comment: "")) {
                 onNext()
             }
             .padding(.horizontal, 24)
