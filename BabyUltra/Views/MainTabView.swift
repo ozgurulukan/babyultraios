@@ -77,7 +77,7 @@ struct PillNavigationBar: View {
     private let tabs = BabyUltraTab.allCases
 
     var body: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 20) {
             ForEach(tabs, id: \.self) { tab in
                 Button {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
@@ -97,32 +97,35 @@ struct PillNavigationBar: View {
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundStyle(selectedTab == tab ? .white : BabyUltra.textSecondary.opacity(0.6))
                         }
-                        .frame(height: 44)
+                        .frame(width: 44, height: 44)
                     }
-                    .frame(maxWidth: .infinity)
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(tab.label)
             }
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 8)
-        .background {
-            ZStack {
-                Capsule()
-                    .fill(Color.white.opacity(0.5))
-                Capsule()
-                    .fill(.regularMaterial)
-            }
-            .overlay(
-                Capsule()
-                    .stroke(Color.white.opacity(0.9), lineWidth: 1.5)
-            )
-            .shadow(color: BabyUltra.accentRose.opacity(0.15), radius: 20, y: 10)
-        }
-        .frame(height: 72)
         .padding(.horizontal, 24)
+        .padding(.vertical, 12)
+        .background {
+            Capsule()
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.white.opacity(0.30), Color.white.opacity(0.05)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                )
+                .overlay(
+                    Capsule()
+                        .stroke(Color.white.opacity(0.6), lineWidth: 1.2)
+                )
+                .shadow(color: Color.black.opacity(0.08), radius: 16, y: 8)
+        }
         .padding(.bottom, 16)
     }
 }
