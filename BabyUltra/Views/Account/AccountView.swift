@@ -34,25 +34,22 @@ struct AccountView: View {
     private var memberTier: String { isPro ? NSLocalizedString("account.premium_plan", comment: "") : NSLocalizedString("account.free_plan", comment: "") }
 
     var body: some View {
-        StickyBlurHeader(
-            maxBlurRadius: 10,
-            fadeExtension: 84,
-            tintOpacityTop: 0.58,
-            tintOpacityMiddle: 0.36
-        ) {
+        VStack(spacing: 0) {
             headerSection
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 24)
                 .padding(.top, 8)
                 .padding(.bottom, 12)
-        } content: {
-            VStack(alignment: .leading, spacing: 24) {
+            
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 24) {
                 if !isPro { premiumButton }
                 combinedSection
                 Color.clear.frame(height: 96)
             }
             .padding(.horizontal, 24)
             .padding(.top, 8)
+            }
         }
         .environment(\.colorScheme, .light)
         .background(Color.clear.ignoresSafeArea())

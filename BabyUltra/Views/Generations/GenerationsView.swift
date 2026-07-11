@@ -26,12 +26,7 @@ struct GenerationsView: View {
                     .resizable()
                     .ignoresSafeArea()
 
-                StickyBlurHeader(
-                    maxBlurRadius: 10,
-                    fadeExtension: 84,
-                    tintOpacityTop: 0.58,
-                    tintOpacityMiddle: 0.36
-                ) {
+                VStack(spacing: 0) {
                     ProfileStyleHeader(
                         title: NSLocalizedString("generations.title", comment: ""),
                         subtitle: NSLocalizedString("generations.subtitle", comment: "")
@@ -40,8 +35,9 @@ struct GenerationsView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 8)
                     .padding(.bottom, 12)
-                } content: {
-                    VStack(alignment: .leading, spacing: 20) {
+                    
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 20) {
                         filterBar
 
                         if viewModel.isLoading && viewModel.history.isEmpty {
@@ -56,6 +52,7 @@ struct GenerationsView: View {
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 8)
+                    }
                 }
                 .environment(\.colorScheme, .light)
             }

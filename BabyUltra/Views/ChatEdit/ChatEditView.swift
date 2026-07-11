@@ -13,16 +13,12 @@ struct ChatEditView: View {
         ZStack {
             Color.clear.ignoresSafeArea()
 
-            StickyBlurHeader(
-                maxBlurRadius: 10,
-                fadeExtension: 84,
-                tintOpacityTop: 0.58,
-                tintOpacityMiddle: 0.36
-            ) {
+            VStack(spacing: 0) {
                 headerBar
                     .padding(.bottom, 8)
-            } content: {
-                VStack(alignment: .leading, spacing: 18) {
+                
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 18) {
                     ForEach(viewModel.chatItems) { item in
                         ChatRow(item: item)
                     }
@@ -45,6 +41,7 @@ struct ChatEditView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
+                }
             }
             .environment(\.colorScheme, .light)
         }
