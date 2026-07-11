@@ -119,13 +119,14 @@ struct PremiumView: View {
             VStack(spacing: 8) {
                 Text(NSLocalizedString("premium.unlock_title", comment: ""))
                     .font(.system(size: 32, weight: .heavy))
-                    .foregroundStyle(primaryText)
+                    .foregroundStyle(Color(hex: "FFF5EC"))
                     .multilineTextAlignment(.center)
                     .tracking(-0.5)
 
                 Text(NSLocalizedString("premium.unlock_subtitle", comment: ""))
                     .font(.system(size: 16, weight: .regular))
-                    .foregroundStyle(secondaryText)
+                    .foregroundStyle(.white)
+                    .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
                     .padding(.horizontal, 32)
@@ -138,25 +139,25 @@ struct PremiumView: View {
             BenefitRow(
                 icon: "sparkles",
                 text: NSLocalizedString("premium.benefit_pro_templates", comment: ""),
-                iconBg: Color(hex: "FF88A8").opacity(0.15),
+                iconBg: .white,
                 iconColor: Color(hex: "FF4D85")
             )
             BenefitRow(
                 icon: "tag.fill",
                 text: NSLocalizedString("premium.benefit_credits", comment: ""),
-                iconBg: Color(hex: "FF88A8").opacity(0.15),
+                iconBg: .white,
                 iconColor: Color(hex: "FF4D85")
             )
             BenefitRow(
                 icon: "drop.fill",
                 text: NSLocalizedString("premium.benefit_no_watermark", comment: ""),
-                iconBg: Color(hex: "FF88A8").opacity(0.15),
+                iconBg: .white,
                 iconColor: Color(hex: "FF4D85")
             )
             BenefitRow(
                 icon: "arrow.down.circle.fill",
                 text: NSLocalizedString("premium.benefit_4k", comment: ""),
-                iconBg: Color(hex: "FF88A8").opacity(0.15),
+                iconBg: .white,
                 iconColor: Color(hex: "FF4D85")
             )
         }
@@ -371,29 +372,31 @@ struct PlanCardNew: View {
     var body: some View {
         Button(action: action) {
             ZStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .center, spacing: 4) {
                     if plan.tag != nil {
                         Color.clear.frame(height: 12)
                     }
+                    Spacer()
 
                     Text(plan.title)
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(Color(hex: "FFF5EC"))
-                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
+                        .foregroundStyle(Color(hex: "8D7F7A"))
+                        .multilineTextAlignment(.center)
 
                     Text(package?.localizedPriceString ?? (plan.title == "Yearly" ? "$49.99" : "$14.99"))
                         .font(.system(size: 26, weight: .heavy))
-                        .foregroundStyle(Color(hex: "FFF5EC"))
-                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
+                        .foregroundStyle(Color(hex: "8D7F7A"))
+                        .multilineTextAlignment(.center)
 
                     Spacer()
 
                     Text(plan.subtitle)
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(.white)
-                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
+                        .foregroundStyle(Color(hex: "8D7F7A"))
+                        .multilineTextAlignment(.center)
+                    Spacer()
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .padding(16)
                 .background(isSelected ? Color.white : Color.white.opacity(0.5))
                 .background(.ultraThinMaterial)
@@ -551,13 +554,14 @@ struct TopupView: View {
             VStack(spacing: 8) {
                 Text(NSLocalizedString("topup.title", comment: ""))
                     .font(.system(size: 32, weight: .heavy))
-                    .foregroundStyle(primaryText)
+                    .foregroundStyle(Color(hex: "FFF5EC"))
                     .multilineTextAlignment(.center)
                     .tracking(-0.5)
 
                 Text(NSLocalizedString("topup.subtitle", comment: ""))
                     .font(.system(size: 16, weight: .regular))
-                    .foregroundStyle(secondaryText)
+                    .foregroundStyle(.white)
+                    .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
                     .padding(.horizontal, 32)
@@ -570,19 +574,19 @@ struct TopupView: View {
             BenefitRow(
                 icon: "bolt.fill",
                 text: NSLocalizedString("topup.benefit_instant", comment: ""),
-                iconBg: Color(hex: "FF88A8").opacity(0.15),
+                iconBg: .white,
                 iconColor: Color(hex: "FF4D85")
             )
             BenefitRow(
                 icon: "clock.fill",
                 text: NSLocalizedString("topup.benefit_no_expiration", comment: ""),
-                iconBg: Color(hex: "FF88A8").opacity(0.15),
+                iconBg: .white,
                 iconColor: Color(hex: "FF4D85")
             )
             BenefitRow(
                 icon: "sparkles",
                 text: NSLocalizedString("topup.benefit_all_templates", comment: ""),
-                iconBg: Color(hex: "FF88A8").opacity(0.15),
+                iconBg: .white,
                 iconColor: Color(hex: "FF4D85")
             )
         }
@@ -728,22 +732,23 @@ struct CreditPlanCard: View {
     var body: some View {
         Button(action: action) {
             ZStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .center, spacing: 4) {
                     if plan.tag != nil {
                         Color.clear.frame(height: 12)
                     }
+                    Spacer()
 
                     Text(plan.title)
                         .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(Color(hex: "FFF5EC"))
-                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
+                        .foregroundStyle(Color(hex: "8D7F7A"))
+                        .multilineTextAlignment(.center)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
 
                     Text(plan.subtitle)
                         .font(.system(size: 20, weight: .heavy))
-                        .foregroundStyle(Color(hex: "FFF5EC"))
-                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
+                        .foregroundStyle(Color(hex: "8D7F7A"))
+                        .multilineTextAlignment(.center)
                         .lineLimit(1)
                         .minimumScaleFactor(0.75)
 
@@ -751,10 +756,11 @@ struct CreditPlanCard: View {
 
                     Text(bundleName)
                         .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(.white)
-                        .shadow(color: .black.opacity(0.35), radius: 1, x: 0, y: 1)
+                        .foregroundStyle(Color(hex: "8D7F7A"))
+                        .multilineTextAlignment(.center)
+                    Spacer()
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .padding(14)
                 .background(isSelected ? Color.white : Color.white.opacity(0.5))
                 .background(.ultraThinMaterial)
