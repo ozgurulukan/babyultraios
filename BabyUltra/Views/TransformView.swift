@@ -559,7 +559,7 @@ struct TransformView: View {
                                 .multilineTextAlignment(.center)
 
                             Text(NSLocalizedString("transform.consent_subtitle", comment: ""))
-                                .font(.system(size: isCompact ? 10 : 13, weight: .medium))
+                                .font(.system(size: 13, weight: .medium))
                                 .foregroundStyle(secondaryText)
                                 .multilineTextAlignment(.center)
                         }
